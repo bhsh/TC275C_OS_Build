@@ -1,0 +1,79 @@
+################################################################################
+# Automatically-generated file. Do not edit!
+################################################################################
+
+PROJ 	= TC275C_OS
+PRODDIR = C:\Program Files (x86)\TASKING\TriCore v4.3r3\ctc
+
+-include "..\makefile.init"
+
+all :
+
+-include "subdir.mk"
+-include "0_Src\0_AppSw\Config\Tricore\subdir.mk"
+-include "0_Src\0_AppSw\Tricore\DemoApp\subdir.mk"
+-include "0_Src\0_AppSw\Tricore\Main\subdir.mk"
+-include "0_Src\1_SrvSw\If\subdir.mk"
+-include "0_Src\1_SrvSw\StdIf\subdir.mk"
+-include "0_Src\1_SrvSw\SysSe\Bsp\subdir.mk"
+-include "0_Src\1_SrvSw\SysSe\Comm\subdir.mk"
+-include "0_Src\1_SrvSw\SysSe\General\subdir.mk"
+-include "0_Src\1_SrvSw\SysSe\Math\subdir.mk"
+-include "0_Src\1_SrvSw\SysSe\Time\subdir.mk"
+-include "0_Src\1_SrvSw\Tricore\Compilers\subdir.mk"
+-include "0_Src\4_McHal\Tricore\_Impl\subdir.mk"
+-include "0_Src\4_McHal\Tricore\_Lib\DataHandling\subdir.mk"
+-include "0_Src\4_McHal\Tricore\_PinMap\subdir.mk"
+-include "0_Src\4_McHal\Tricore\Cpu\CStart\subdir.mk"
+-include "0_Src\4_McHal\Tricore\Cpu\Irq\subdir.mk"
+-include "0_Src\4_McHal\Tricore\Cpu\Std\subdir.mk"
+-include "0_Src\4_McHal\Tricore\Cpu\Trap\subdir.mk"
+-include "0_Src\4_McHal\Tricore\Dma\Dma\subdir.mk"
+-include "0_Src\4_McHal\Tricore\Dma\Std\subdir.mk"
+-include "0_Src\4_McHal\Tricore\Dsadc\Dsadc\subdir.mk"
+-include "0_Src\4_McHal\Tricore\Dsadc\Std\subdir.mk"
+-include "0_Src\4_McHal\Tricore\Gtm\Atom\PwmHl\subdir.mk"
+-include "0_Src\4_McHal\Tricore\Gtm\Atom\Timer\subdir.mk"
+-include "0_Src\4_McHal\Tricore\Gtm\Std\subdir.mk"
+-include "0_Src\4_McHal\Tricore\Gtm\Tom\PwmHl\subdir.mk"
+-include "0_Src\4_McHal\Tricore\Gtm\Tom\Timer\subdir.mk"
+-include "0_Src\4_McHal\Tricore\Gtm\Trig\subdir.mk"
+-include "0_Src\4_McHal\Tricore\Port\Io\subdir.mk"
+-include "0_Src\4_McHal\Tricore\Port\Std\subdir.mk"
+-include "0_Src\4_McHal\Tricore\Scu\Std\subdir.mk"
+-include "0_Src\4_McHal\Tricore\Src\Std\subdir.mk"
+-include "0_Src\4_McHal\Tricore\Stm\Std\subdir.mk"
+-include "..\makefile.defs"
+
+PCP_FILES :=
+EXT_LIBRARIES =
+
+all : "TC275C_OS.elf"
+
+"TC275C_OS.elf" : $(OBJ_FILES) $(EXT_LIBRARIES) ".TC275C_OS.elf.opt"
+	@echo Linking to ${@F}
+	@"${PRODDIR}\bin\cctc" -f ".TC275C_OS.elf.opt"
+
+".TC275C_OS.elf.opt" : .refresh
+	@argfile ".TC275C_OS.elf.opt" -o "TC275C_OS.elf" $(OBJ_FILES) $(EXT_LIBRARIES) $(PCP_FILES)  -Ctc27xc --lsl-core=vtc -t -I"E:\OS\TASKING_TC275C_OS\TC275C_OS" -Wl-o"${PROJ}.hex":IHEX:4 --hex-format=s "..\1_ToolEnv\0_Build\1_Config\Lcf_Tasking.lsl" -Wl-OtxycL -Wl--map-file="${PROJ}.mapxml":XML -Wl-mcrfiklSmNOduQ -Wl--error-limit=42 -g -Wl--dep-file=".TC275C_OS.elf.d" -Wl--make-target="TC275C_OS.elf"
+DEPENDENCY_FILES += ".TC275C_OS.elf.d"
+-include $(DEPENDENCY_FILES)
+
+$(EXT_LIBRARIES) : .dummy
+
+GENERATED_FILES += "TC275C_OS.elf" "TC275C_OS*.sre" "TC275C_OS*.hex" "TC275C_OS.map*" "TC275C_OS.mdf" ".TC275C_OS.elf.opt" ".TC275C_OS.elf.d"
+-include "..\makefile.targets"
+
+
+clean : ".clean.opt"
+	@echo Cleaning
+	@"${PRODDIR}\bin\rm" -f -m ".clean.opt"
+
+".clean.opt" : .refresh
+	@argfile ".clean.opt" $(GENERATED_FILES) $(OPTIONAL_FILES)
+
+GENERATED_FILES += ".clean.opt"
+OPTIONAL_FILES +=  "*.pre" "*.lst" "*.p.o" "*.p.a"
+
+
+.PHONY : .dummy .refresh

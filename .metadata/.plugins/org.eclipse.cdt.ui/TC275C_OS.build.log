@@ -2,13 +2,47 @@
 **** Build of configuration Debug for project TC275C_OS ****
 
 "C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling DemoApp.c
 Compiling Cpu0_Main.c
 Compiling Cpu1_Main.c
-ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu1_Main.c" 65/5] unreachable code
+Compiling Cpu2_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu2_Main.c" 37/5] unreachable code
 0 errors, 1 warnings
-ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 290/5] unreachable code
+Compiling Bsp.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu1_Main.c" 52/5] unreachable code
 0 errors, 1 warnings
+Compiling Ifx_DateTime.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 237/5] unreachable code
+0 errors, 1 warnings
+Compiling IfxMtu_cfg.c
+ctc W510: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 27/6] unexpected text after preprocessing directive
+ctc W535: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 152/2] no type specifiers - assumed 'int'
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 17/23] unused variable "dsadc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 34/6] unused variable "chn"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 164/7] unused variable "str_adc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 165/6] unused variable "chn"
+0 errors, 6 warnings
+Compiling Ifx_Fifo.c
+Compiling IfxCpu_CStart0.c
+Compiling IfxCpu_CStart1.c
+Compiling IfxCpu_CStart2.c
+ctc W549: ["..\0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_Fifo.c" 82/9] condition is always true
+0 errors, 1 warnings
+Compiling IfxCpu_Irq.c
+Compiling IfxCpu.c
+Compiling IfxCpu_Trap.c
+Compiling IfxDma_Dma.c
+Compiling IfxDma.c
+Compiling IfxDsadc_Dsadc.c
+Compiling IfxDsadc.c
+Compiling IfxGtm_Cmu.c
+Compiling IfxScuCcu.c
+ctc W560: ["..\0_Src\4_McHal\Tricore\Dsadc\Std\IfxDsadc.c" 83/107] possible truncation at implicit conversion to type "float"
+0 errors, 1 warnings
+Compiling IfxScuEru.c
+Compiling IfxScuWdt.c
+Compiling IfxStm.c
 Linking to TC275C_OS.elf
 
-Time consumed: 7498 ms
+Time consumed: 26170 ms
 **** End of build ****

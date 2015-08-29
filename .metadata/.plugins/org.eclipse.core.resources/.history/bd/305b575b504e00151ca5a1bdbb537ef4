@@ -1,0 +1,16 @@
+################################################################################
+# Automatically-generated file. Do not edit!
+################################################################################
+
+C_FILES += "..\0_Src\4_McHal\Tricore\Gtm\Atom\PwmHl\IfxGtm_Atom_PwmHl.c"
+OBJ_FILES += "0_Src\4_McHal\Tricore\Gtm\Atom\PwmHl\IfxGtm_Atom_PwmHl.o"
+"0_Src\4_McHal\Tricore\Gtm\Atom\PwmHl\IfxGtm_Atom_PwmHl.o" : "..\0_Src\4_McHal\Tricore\Gtm\Atom\PwmHl\IfxGtm_Atom_PwmHl.c" "0_Src\4_McHal\Tricore\Gtm\Atom\PwmHl\.IfxGtm_Atom_PwmHl.o.opt"
+	@echo Compiling ${<F}
+	@"${PRODDIR}\bin\cctc" -f "0_Src\4_McHal\Tricore\Gtm\Atom\PwmHl\.IfxGtm_Atom_PwmHl.o.opt"
+
+"0_Src\4_McHal\Tricore\Gtm\Atom\PwmHl\.IfxGtm_Atom_PwmHl.o.opt" : .refresh
+	@argfile "0_Src\4_McHal\Tricore\Gtm\Atom\PwmHl\.IfxGtm_Atom_PwmHl.o.opt" -o "0_Src\4_McHal\Tricore\Gtm\Atom\PwmHl\IfxGtm_Atom_PwmHl.o" "..\0_Src\4_McHal\Tricore\Gtm\Atom\PwmHl\IfxGtm_Atom_PwmHl.c" -Ctc27xc --lsl-core=vtc -t -I"E:\OS\TASKING_TC275C_OS\TC275C_OS" -Wa-H"sfr/regtc27xc.def" -Wa-gAHLs --emit-locals=-equ,-symbols -Wa-Ogs -Wa--error-limit=42 -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Config\Common" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Tricore\DemoApp" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\StdIf" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\Tricore\Compilers" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_Reg" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_PinMap" --iso=99 --language=-gcc,-volatile,+strings --switch=auto --align=0 --default-near-size=8 --default-a0-size=0 --default-a1-size=0 -O2 --tradeoff=4 --compact-max-size=200 -g --source -c --dep-file="0_Src\4_McHal\Tricore\Gtm\Atom\PwmHl\.IfxGtm_Atom_PwmHl.o.d" -Wc--make-target="0_Src\4_McHal\Tricore\Gtm\Atom\PwmHl\IfxGtm_Atom_PwmHl.o"
+DEPENDENCY_FILES += "0_Src\4_McHal\Tricore\Gtm\Atom\PwmHl\.IfxGtm_Atom_PwmHl.o.d"
+
+
+GENERATED_FILES += "0_Src\4_McHal\Tricore\Gtm\Atom\PwmHl\IfxGtm_Atom_PwmHl.o" "0_Src\4_McHal\Tricore\Gtm\Atom\PwmHl\.IfxGtm_Atom_PwmHl.o.opt" "0_Src\4_McHal\Tricore\Gtm\Atom\PwmHl\.IfxGtm_Atom_PwmHl.o.d" "0_Src\4_McHal\Tricore\Gtm\Atom\PwmHl\IfxGtm_Atom_PwmHl.src" "0_Src\4_McHal\Tricore\Gtm\Atom\PwmHl\IfxGtm_Atom_PwmHl.lst"

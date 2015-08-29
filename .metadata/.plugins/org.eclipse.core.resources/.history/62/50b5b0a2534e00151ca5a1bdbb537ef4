@@ -1,0 +1,196 @@
+################################################################################
+# Automatically-generated file. Do not edit!
+################################################################################
+
+C_FILES += "..\0_Src\4_McHal\Tricore\_PinMap\IfxAsclin_PinMap.c"
+OBJ_FILES += "0_Src\4_McHal\Tricore\_PinMap\IfxAsclin_PinMap.o"
+"0_Src\4_McHal\Tricore\_PinMap\IfxAsclin_PinMap.o" : "..\0_Src\4_McHal\Tricore\_PinMap\IfxAsclin_PinMap.c" "0_Src\4_McHal\Tricore\_PinMap\.IfxAsclin_PinMap.o.opt"
+	@echo Compiling ${<F}
+	@"${PRODDIR}\bin\cctc" -f "0_Src\4_McHal\Tricore\_PinMap\.IfxAsclin_PinMap.o.opt"
+
+"0_Src\4_McHal\Tricore\_PinMap\.IfxAsclin_PinMap.o.opt" : .refresh
+	@argfile "0_Src\4_McHal\Tricore\_PinMap\.IfxAsclin_PinMap.o.opt" -o "0_Src\4_McHal\Tricore\_PinMap\IfxAsclin_PinMap.o" "..\0_Src\4_McHal\Tricore\_PinMap\IfxAsclin_PinMap.c" -Ctc27xc --lsl-core=vtc -t -I"E:\OS\TASKING_TC275C_OS\TC275C_OS" -Wa-H"sfr/regtc27xc.def" -Wa-gAHLs --emit-locals=-equ,-symbols -Wa-Ogs -Wa--error-limit=42 -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Config\Common" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Tricore\DemoApp" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\StdIf" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\Tricore\Compilers" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_Reg" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_PinMap" --iso=99 --language=-gcc,-volatile,+strings --switch=auto --align=0 --default-near-size=8 --default-a0-size=0 --default-a1-size=0 -O2 --tradeoff=4 --compact-max-size=200 -g --source -c --dep-file="0_Src\4_McHal\Tricore\_PinMap\.IfxAsclin_PinMap.o.d" -Wc--make-target="0_Src\4_McHal\Tricore\_PinMap\IfxAsclin_PinMap.o"
+DEPENDENCY_FILES += "0_Src\4_McHal\Tricore\_PinMap\.IfxAsclin_PinMap.o.d"
+
+C_FILES += "..\0_Src\4_McHal\Tricore\_PinMap\IfxCcu6_PinMap.c"
+OBJ_FILES += "0_Src\4_McHal\Tricore\_PinMap\IfxCcu6_PinMap.o"
+"0_Src\4_McHal\Tricore\_PinMap\IfxCcu6_PinMap.o" : "..\0_Src\4_McHal\Tricore\_PinMap\IfxCcu6_PinMap.c" "0_Src\4_McHal\Tricore\_PinMap\.IfxCcu6_PinMap.o.opt"
+	@echo Compiling ${<F}
+	@"${PRODDIR}\bin\cctc" -f "0_Src\4_McHal\Tricore\_PinMap\.IfxCcu6_PinMap.o.opt"
+
+"0_Src\4_McHal\Tricore\_PinMap\.IfxCcu6_PinMap.o.opt" : .refresh
+	@argfile "0_Src\4_McHal\Tricore\_PinMap\.IfxCcu6_PinMap.o.opt" -o "0_Src\4_McHal\Tricore\_PinMap\IfxCcu6_PinMap.o" "..\0_Src\4_McHal\Tricore\_PinMap\IfxCcu6_PinMap.c" -Ctc27xc --lsl-core=vtc -t -I"E:\OS\TASKING_TC275C_OS\TC275C_OS" -Wa-H"sfr/regtc27xc.def" -Wa-gAHLs --emit-locals=-equ,-symbols -Wa-Ogs -Wa--error-limit=42 -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Config\Common" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Tricore\DemoApp" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\StdIf" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\Tricore\Compilers" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_Reg" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_PinMap" --iso=99 --language=-gcc,-volatile,+strings --switch=auto --align=0 --default-near-size=8 --default-a0-size=0 --default-a1-size=0 -O2 --tradeoff=4 --compact-max-size=200 -g --source -c --dep-file="0_Src\4_McHal\Tricore\_PinMap\.IfxCcu6_PinMap.o.d" -Wc--make-target="0_Src\4_McHal\Tricore\_PinMap\IfxCcu6_PinMap.o"
+DEPENDENCY_FILES += "0_Src\4_McHal\Tricore\_PinMap\.IfxCcu6_PinMap.o.d"
+
+C_FILES += "..\0_Src\4_McHal\Tricore\_PinMap\IfxCif_PinMap.c"
+OBJ_FILES += "0_Src\4_McHal\Tricore\_PinMap\IfxCif_PinMap.o"
+"0_Src\4_McHal\Tricore\_PinMap\IfxCif_PinMap.o" : "..\0_Src\4_McHal\Tricore\_PinMap\IfxCif_PinMap.c" "0_Src\4_McHal\Tricore\_PinMap\.IfxCif_PinMap.o.opt"
+	@echo Compiling ${<F}
+	@"${PRODDIR}\bin\cctc" -f "0_Src\4_McHal\Tricore\_PinMap\.IfxCif_PinMap.o.opt"
+
+"0_Src\4_McHal\Tricore\_PinMap\.IfxCif_PinMap.o.opt" : .refresh
+	@argfile "0_Src\4_McHal\Tricore\_PinMap\.IfxCif_PinMap.o.opt" -o "0_Src\4_McHal\Tricore\_PinMap\IfxCif_PinMap.o" "..\0_Src\4_McHal\Tricore\_PinMap\IfxCif_PinMap.c" -Ctc27xc --lsl-core=vtc -t -I"E:\OS\TASKING_TC275C_OS\TC275C_OS" -Wa-H"sfr/regtc27xc.def" -Wa-gAHLs --emit-locals=-equ,-symbols -Wa-Ogs -Wa--error-limit=42 -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Config\Common" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Tricore\DemoApp" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\StdIf" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\Tricore\Compilers" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_Reg" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_PinMap" --iso=99 --language=-gcc,-volatile,+strings --switch=auto --align=0 --default-near-size=8 --default-a0-size=0 --default-a1-size=0 -O2 --tradeoff=4 --compact-max-size=200 -g --source -c --dep-file="0_Src\4_McHal\Tricore\_PinMap\.IfxCif_PinMap.o.d" -Wc--make-target="0_Src\4_McHal\Tricore\_PinMap\IfxCif_PinMap.o"
+DEPENDENCY_FILES += "0_Src\4_McHal\Tricore\_PinMap\.IfxCif_PinMap.o.d"
+
+C_FILES += "..\0_Src\4_McHal\Tricore\_PinMap\IfxDsadc_PinMap.c"
+OBJ_FILES += "0_Src\4_McHal\Tricore\_PinMap\IfxDsadc_PinMap.o"
+"0_Src\4_McHal\Tricore\_PinMap\IfxDsadc_PinMap.o" : "..\0_Src\4_McHal\Tricore\_PinMap\IfxDsadc_PinMap.c" "0_Src\4_McHal\Tricore\_PinMap\.IfxDsadc_PinMap.o.opt"
+	@echo Compiling ${<F}
+	@"${PRODDIR}\bin\cctc" -f "0_Src\4_McHal\Tricore\_PinMap\.IfxDsadc_PinMap.o.opt"
+
+"0_Src\4_McHal\Tricore\_PinMap\.IfxDsadc_PinMap.o.opt" : .refresh
+	@argfile "0_Src\4_McHal\Tricore\_PinMap\.IfxDsadc_PinMap.o.opt" -o "0_Src\4_McHal\Tricore\_PinMap\IfxDsadc_PinMap.o" "..\0_Src\4_McHal\Tricore\_PinMap\IfxDsadc_PinMap.c" -Ctc27xc --lsl-core=vtc -t -I"E:\OS\TASKING_TC275C_OS\TC275C_OS" -Wa-H"sfr/regtc27xc.def" -Wa-gAHLs --emit-locals=-equ,-symbols -Wa-Ogs -Wa--error-limit=42 -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Config\Common" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Tricore\DemoApp" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\StdIf" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\Tricore\Compilers" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_Reg" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_PinMap" --iso=99 --language=-gcc,-volatile,+strings --switch=auto --align=0 --default-near-size=8 --default-a0-size=0 --default-a1-size=0 -O2 --tradeoff=4 --compact-max-size=200 -g --source -c --dep-file="0_Src\4_McHal\Tricore\_PinMap\.IfxDsadc_PinMap.o.d" -Wc--make-target="0_Src\4_McHal\Tricore\_PinMap\IfxDsadc_PinMap.o"
+DEPENDENCY_FILES += "0_Src\4_McHal\Tricore\_PinMap\.IfxDsadc_PinMap.o.d"
+
+C_FILES += "..\0_Src\4_McHal\Tricore\_PinMap\IfxEray_PinMap.c"
+OBJ_FILES += "0_Src\4_McHal\Tricore\_PinMap\IfxEray_PinMap.o"
+"0_Src\4_McHal\Tricore\_PinMap\IfxEray_PinMap.o" : "..\0_Src\4_McHal\Tricore\_PinMap\IfxEray_PinMap.c" "0_Src\4_McHal\Tricore\_PinMap\.IfxEray_PinMap.o.opt"
+	@echo Compiling ${<F}
+	@"${PRODDIR}\bin\cctc" -f "0_Src\4_McHal\Tricore\_PinMap\.IfxEray_PinMap.o.opt"
+
+"0_Src\4_McHal\Tricore\_PinMap\.IfxEray_PinMap.o.opt" : .refresh
+	@argfile "0_Src\4_McHal\Tricore\_PinMap\.IfxEray_PinMap.o.opt" -o "0_Src\4_McHal\Tricore\_PinMap\IfxEray_PinMap.o" "..\0_Src\4_McHal\Tricore\_PinMap\IfxEray_PinMap.c" -Ctc27xc --lsl-core=vtc -t -I"E:\OS\TASKING_TC275C_OS\TC275C_OS" -Wa-H"sfr/regtc27xc.def" -Wa-gAHLs --emit-locals=-equ,-symbols -Wa-Ogs -Wa--error-limit=42 -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Config\Common" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Tricore\DemoApp" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\StdIf" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\Tricore\Compilers" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_Reg" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_PinMap" --iso=99 --language=-gcc,-volatile,+strings --switch=auto --align=0 --default-near-size=8 --default-a0-size=0 --default-a1-size=0 -O2 --tradeoff=4 --compact-max-size=200 -g --source -c --dep-file="0_Src\4_McHal\Tricore\_PinMap\.IfxEray_PinMap.o.d" -Wc--make-target="0_Src\4_McHal\Tricore\_PinMap\IfxEray_PinMap.o"
+DEPENDENCY_FILES += "0_Src\4_McHal\Tricore\_PinMap\.IfxEray_PinMap.o.d"
+
+C_FILES += "..\0_Src\4_McHal\Tricore\_PinMap\IfxEth_PinMap.c"
+OBJ_FILES += "0_Src\4_McHal\Tricore\_PinMap\IfxEth_PinMap.o"
+"0_Src\4_McHal\Tricore\_PinMap\IfxEth_PinMap.o" : "..\0_Src\4_McHal\Tricore\_PinMap\IfxEth_PinMap.c" "0_Src\4_McHal\Tricore\_PinMap\.IfxEth_PinMap.o.opt"
+	@echo Compiling ${<F}
+	@"${PRODDIR}\bin\cctc" -f "0_Src\4_McHal\Tricore\_PinMap\.IfxEth_PinMap.o.opt"
+
+"0_Src\4_McHal\Tricore\_PinMap\.IfxEth_PinMap.o.opt" : .refresh
+	@argfile "0_Src\4_McHal\Tricore\_PinMap\.IfxEth_PinMap.o.opt" -o "0_Src\4_McHal\Tricore\_PinMap\IfxEth_PinMap.o" "..\0_Src\4_McHal\Tricore\_PinMap\IfxEth_PinMap.c" -Ctc27xc --lsl-core=vtc -t -I"E:\OS\TASKING_TC275C_OS\TC275C_OS" -Wa-H"sfr/regtc27xc.def" -Wa-gAHLs --emit-locals=-equ,-symbols -Wa-Ogs -Wa--error-limit=42 -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Config\Common" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Tricore\DemoApp" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\StdIf" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\Tricore\Compilers" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_Reg" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_PinMap" --iso=99 --language=-gcc,-volatile,+strings --switch=auto --align=0 --default-near-size=8 --default-a0-size=0 --default-a1-size=0 -O2 --tradeoff=4 --compact-max-size=200 -g --source -c --dep-file="0_Src\4_McHal\Tricore\_PinMap\.IfxEth_PinMap.o.d" -Wc--make-target="0_Src\4_McHal\Tricore\_PinMap\IfxEth_PinMap.o"
+DEPENDENCY_FILES += "0_Src\4_McHal\Tricore\_PinMap\.IfxEth_PinMap.o.d"
+
+C_FILES += "..\0_Src\4_McHal\Tricore\_PinMap\IfxGpt12_PinMap.c"
+OBJ_FILES += "0_Src\4_McHal\Tricore\_PinMap\IfxGpt12_PinMap.o"
+"0_Src\4_McHal\Tricore\_PinMap\IfxGpt12_PinMap.o" : "..\0_Src\4_McHal\Tricore\_PinMap\IfxGpt12_PinMap.c" "0_Src\4_McHal\Tricore\_PinMap\.IfxGpt12_PinMap.o.opt"
+	@echo Compiling ${<F}
+	@"${PRODDIR}\bin\cctc" -f "0_Src\4_McHal\Tricore\_PinMap\.IfxGpt12_PinMap.o.opt"
+
+"0_Src\4_McHal\Tricore\_PinMap\.IfxGpt12_PinMap.o.opt" : .refresh
+	@argfile "0_Src\4_McHal\Tricore\_PinMap\.IfxGpt12_PinMap.o.opt" -o "0_Src\4_McHal\Tricore\_PinMap\IfxGpt12_PinMap.o" "..\0_Src\4_McHal\Tricore\_PinMap\IfxGpt12_PinMap.c" -Ctc27xc --lsl-core=vtc -t -I"E:\OS\TASKING_TC275C_OS\TC275C_OS" -Wa-H"sfr/regtc27xc.def" -Wa-gAHLs --emit-locals=-equ,-symbols -Wa-Ogs -Wa--error-limit=42 -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Config\Common" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Tricore\DemoApp" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\StdIf" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\Tricore\Compilers" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_Reg" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_PinMap" --iso=99 --language=-gcc,-volatile,+strings --switch=auto --align=0 --default-near-size=8 --default-a0-size=0 --default-a1-size=0 -O2 --tradeoff=4 --compact-max-size=200 -g --source -c --dep-file="0_Src\4_McHal\Tricore\_PinMap\.IfxGpt12_PinMap.o.d" -Wc--make-target="0_Src\4_McHal\Tricore\_PinMap\IfxGpt12_PinMap.o"
+DEPENDENCY_FILES += "0_Src\4_McHal\Tricore\_PinMap\.IfxGpt12_PinMap.o.d"
+
+C_FILES += "..\0_Src\4_McHal\Tricore\_PinMap\IfxGtm_PinMap.c"
+OBJ_FILES += "0_Src\4_McHal\Tricore\_PinMap\IfxGtm_PinMap.o"
+"0_Src\4_McHal\Tricore\_PinMap\IfxGtm_PinMap.o" : "..\0_Src\4_McHal\Tricore\_PinMap\IfxGtm_PinMap.c" "0_Src\4_McHal\Tricore\_PinMap\.IfxGtm_PinMap.o.opt"
+	@echo Compiling ${<F}
+	@"${PRODDIR}\bin\cctc" -f "0_Src\4_McHal\Tricore\_PinMap\.IfxGtm_PinMap.o.opt"
+
+"0_Src\4_McHal\Tricore\_PinMap\.IfxGtm_PinMap.o.opt" : .refresh
+	@argfile "0_Src\4_McHal\Tricore\_PinMap\.IfxGtm_PinMap.o.opt" -o "0_Src\4_McHal\Tricore\_PinMap\IfxGtm_PinMap.o" "..\0_Src\4_McHal\Tricore\_PinMap\IfxGtm_PinMap.c" -Ctc27xc --lsl-core=vtc -t -I"E:\OS\TASKING_TC275C_OS\TC275C_OS" -Wa-H"sfr/regtc27xc.def" -Wa-gAHLs --emit-locals=-equ,-symbols -Wa-Ogs -Wa--error-limit=42 -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Config\Common" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Tricore\DemoApp" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\StdIf" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\Tricore\Compilers" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_Reg" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_PinMap" --iso=99 --language=-gcc,-volatile,+strings --switch=auto --align=0 --default-near-size=8 --default-a0-size=0 --default-a1-size=0 -O2 --tradeoff=4 --compact-max-size=200 -g --source -c --dep-file="0_Src\4_McHal\Tricore\_PinMap\.IfxGtm_PinMap.o.d" -Wc--make-target="0_Src\4_McHal\Tricore\_PinMap\IfxGtm_PinMap.o"
+DEPENDENCY_FILES += "0_Src\4_McHal\Tricore\_PinMap\.IfxGtm_PinMap.o.d"
+
+C_FILES += "..\0_Src\4_McHal\Tricore\_PinMap\IfxI2c_PinMap.c"
+OBJ_FILES += "0_Src\4_McHal\Tricore\_PinMap\IfxI2c_PinMap.o"
+"0_Src\4_McHal\Tricore\_PinMap\IfxI2c_PinMap.o" : "..\0_Src\4_McHal\Tricore\_PinMap\IfxI2c_PinMap.c" "0_Src\4_McHal\Tricore\_PinMap\.IfxI2c_PinMap.o.opt"
+	@echo Compiling ${<F}
+	@"${PRODDIR}\bin\cctc" -f "0_Src\4_McHal\Tricore\_PinMap\.IfxI2c_PinMap.o.opt"
+
+"0_Src\4_McHal\Tricore\_PinMap\.IfxI2c_PinMap.o.opt" : .refresh
+	@argfile "0_Src\4_McHal\Tricore\_PinMap\.IfxI2c_PinMap.o.opt" -o "0_Src\4_McHal\Tricore\_PinMap\IfxI2c_PinMap.o" "..\0_Src\4_McHal\Tricore\_PinMap\IfxI2c_PinMap.c" -Ctc27xc --lsl-core=vtc -t -I"E:\OS\TASKING_TC275C_OS\TC275C_OS" -Wa-H"sfr/regtc27xc.def" -Wa-gAHLs --emit-locals=-equ,-symbols -Wa-Ogs -Wa--error-limit=42 -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Config\Common" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Tricore\DemoApp" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\StdIf" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\Tricore\Compilers" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_Reg" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_PinMap" --iso=99 --language=-gcc,-volatile,+strings --switch=auto --align=0 --default-near-size=8 --default-a0-size=0 --default-a1-size=0 -O2 --tradeoff=4 --compact-max-size=200 -g --source -c --dep-file="0_Src\4_McHal\Tricore\_PinMap\.IfxI2c_PinMap.o.d" -Wc--make-target="0_Src\4_McHal\Tricore\_PinMap\IfxI2c_PinMap.o"
+DEPENDENCY_FILES += "0_Src\4_McHal\Tricore\_PinMap\.IfxI2c_PinMap.o.d"
+
+C_FILES += "..\0_Src\4_McHal\Tricore\_PinMap\IfxMsc_PinMap.c"
+OBJ_FILES += "0_Src\4_McHal\Tricore\_PinMap\IfxMsc_PinMap.o"
+"0_Src\4_McHal\Tricore\_PinMap\IfxMsc_PinMap.o" : "..\0_Src\4_McHal\Tricore\_PinMap\IfxMsc_PinMap.c" "0_Src\4_McHal\Tricore\_PinMap\.IfxMsc_PinMap.o.opt"
+	@echo Compiling ${<F}
+	@"${PRODDIR}\bin\cctc" -f "0_Src\4_McHal\Tricore\_PinMap\.IfxMsc_PinMap.o.opt"
+
+"0_Src\4_McHal\Tricore\_PinMap\.IfxMsc_PinMap.o.opt" : .refresh
+	@argfile "0_Src\4_McHal\Tricore\_PinMap\.IfxMsc_PinMap.o.opt" -o "0_Src\4_McHal\Tricore\_PinMap\IfxMsc_PinMap.o" "..\0_Src\4_McHal\Tricore\_PinMap\IfxMsc_PinMap.c" -Ctc27xc --lsl-core=vtc -t -I"E:\OS\TASKING_TC275C_OS\TC275C_OS" -Wa-H"sfr/regtc27xc.def" -Wa-gAHLs --emit-locals=-equ,-symbols -Wa-Ogs -Wa--error-limit=42 -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Config\Common" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Tricore\DemoApp" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\StdIf" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\Tricore\Compilers" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_Reg" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_PinMap" --iso=99 --language=-gcc,-volatile,+strings --switch=auto --align=0 --default-near-size=8 --default-a0-size=0 --default-a1-size=0 -O2 --tradeoff=4 --compact-max-size=200 -g --source -c --dep-file="0_Src\4_McHal\Tricore\_PinMap\.IfxMsc_PinMap.o.d" -Wc--make-target="0_Src\4_McHal\Tricore\_PinMap\IfxMsc_PinMap.o"
+DEPENDENCY_FILES += "0_Src\4_McHal\Tricore\_PinMap\.IfxMsc_PinMap.o.d"
+
+C_FILES += "..\0_Src\4_McHal\Tricore\_PinMap\IfxMultican_PinMap.c"
+OBJ_FILES += "0_Src\4_McHal\Tricore\_PinMap\IfxMultican_PinMap.o"
+"0_Src\4_McHal\Tricore\_PinMap\IfxMultican_PinMap.o" : "..\0_Src\4_McHal\Tricore\_PinMap\IfxMultican_PinMap.c" "0_Src\4_McHal\Tricore\_PinMap\.IfxMultican_PinMap.o.opt"
+	@echo Compiling ${<F}
+	@"${PRODDIR}\bin\cctc" -f "0_Src\4_McHal\Tricore\_PinMap\.IfxMultican_PinMap.o.opt"
+
+"0_Src\4_McHal\Tricore\_PinMap\.IfxMultican_PinMap.o.opt" : .refresh
+	@argfile "0_Src\4_McHal\Tricore\_PinMap\.IfxMultican_PinMap.o.opt" -o "0_Src\4_McHal\Tricore\_PinMap\IfxMultican_PinMap.o" "..\0_Src\4_McHal\Tricore\_PinMap\IfxMultican_PinMap.c" -Ctc27xc --lsl-core=vtc -t -I"E:\OS\TASKING_TC275C_OS\TC275C_OS" -Wa-H"sfr/regtc27xc.def" -Wa-gAHLs --emit-locals=-equ,-symbols -Wa-Ogs -Wa--error-limit=42 -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Config\Common" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Tricore\DemoApp" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\StdIf" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\Tricore\Compilers" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_Reg" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_PinMap" --iso=99 --language=-gcc,-volatile,+strings --switch=auto --align=0 --default-near-size=8 --default-a0-size=0 --default-a1-size=0 -O2 --tradeoff=4 --compact-max-size=200 -g --source -c --dep-file="0_Src\4_McHal\Tricore\_PinMap\.IfxMultican_PinMap.o.d" -Wc--make-target="0_Src\4_McHal\Tricore\_PinMap\IfxMultican_PinMap.o"
+DEPENDENCY_FILES += "0_Src\4_McHal\Tricore\_PinMap\.IfxMultican_PinMap.o.d"
+
+C_FILES += "..\0_Src\4_McHal\Tricore\_PinMap\IfxPort_PinMap.c"
+OBJ_FILES += "0_Src\4_McHal\Tricore\_PinMap\IfxPort_PinMap.o"
+"0_Src\4_McHal\Tricore\_PinMap\IfxPort_PinMap.o" : "..\0_Src\4_McHal\Tricore\_PinMap\IfxPort_PinMap.c" "0_Src\4_McHal\Tricore\_PinMap\.IfxPort_PinMap.o.opt"
+	@echo Compiling ${<F}
+	@"${PRODDIR}\bin\cctc" -f "0_Src\4_McHal\Tricore\_PinMap\.IfxPort_PinMap.o.opt"
+
+"0_Src\4_McHal\Tricore\_PinMap\.IfxPort_PinMap.o.opt" : .refresh
+	@argfile "0_Src\4_McHal\Tricore\_PinMap\.IfxPort_PinMap.o.opt" -o "0_Src\4_McHal\Tricore\_PinMap\IfxPort_PinMap.o" "..\0_Src\4_McHal\Tricore\_PinMap\IfxPort_PinMap.c" -Ctc27xc --lsl-core=vtc -t -I"E:\OS\TASKING_TC275C_OS\TC275C_OS" -Wa-H"sfr/regtc27xc.def" -Wa-gAHLs --emit-locals=-equ,-symbols -Wa-Ogs -Wa--error-limit=42 -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Config\Common" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Tricore\DemoApp" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\StdIf" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\Tricore\Compilers" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_Reg" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_PinMap" --iso=99 --language=-gcc,-volatile,+strings --switch=auto --align=0 --default-near-size=8 --default-a0-size=0 --default-a1-size=0 -O2 --tradeoff=4 --compact-max-size=200 -g --source -c --dep-file="0_Src\4_McHal\Tricore\_PinMap\.IfxPort_PinMap.o.d" -Wc--make-target="0_Src\4_McHal\Tricore\_PinMap\IfxPort_PinMap.o"
+DEPENDENCY_FILES += "0_Src\4_McHal\Tricore\_PinMap\.IfxPort_PinMap.o.d"
+
+C_FILES += "..\0_Src\4_McHal\Tricore\_PinMap\IfxPsi5_PinMap.c"
+OBJ_FILES += "0_Src\4_McHal\Tricore\_PinMap\IfxPsi5_PinMap.o"
+"0_Src\4_McHal\Tricore\_PinMap\IfxPsi5_PinMap.o" : "..\0_Src\4_McHal\Tricore\_PinMap\IfxPsi5_PinMap.c" "0_Src\4_McHal\Tricore\_PinMap\.IfxPsi5_PinMap.o.opt"
+	@echo Compiling ${<F}
+	@"${PRODDIR}\bin\cctc" -f "0_Src\4_McHal\Tricore\_PinMap\.IfxPsi5_PinMap.o.opt"
+
+"0_Src\4_McHal\Tricore\_PinMap\.IfxPsi5_PinMap.o.opt" : .refresh
+	@argfile "0_Src\4_McHal\Tricore\_PinMap\.IfxPsi5_PinMap.o.opt" -o "0_Src\4_McHal\Tricore\_PinMap\IfxPsi5_PinMap.o" "..\0_Src\4_McHal\Tricore\_PinMap\IfxPsi5_PinMap.c" -Ctc27xc --lsl-core=vtc -t -I"E:\OS\TASKING_TC275C_OS\TC275C_OS" -Wa-H"sfr/regtc27xc.def" -Wa-gAHLs --emit-locals=-equ,-symbols -Wa-Ogs -Wa--error-limit=42 -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Config\Common" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Tricore\DemoApp" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\StdIf" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\Tricore\Compilers" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_Reg" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_PinMap" --iso=99 --language=-gcc,-volatile,+strings --switch=auto --align=0 --default-near-size=8 --default-a0-size=0 --default-a1-size=0 -O2 --tradeoff=4 --compact-max-size=200 -g --source -c --dep-file="0_Src\4_McHal\Tricore\_PinMap\.IfxPsi5_PinMap.o.d" -Wc--make-target="0_Src\4_McHal\Tricore\_PinMap\IfxPsi5_PinMap.o"
+DEPENDENCY_FILES += "0_Src\4_McHal\Tricore\_PinMap\.IfxPsi5_PinMap.o.d"
+
+C_FILES += "..\0_Src\4_McHal\Tricore\_PinMap\IfxPsi5s_PinMap.c"
+OBJ_FILES += "0_Src\4_McHal\Tricore\_PinMap\IfxPsi5s_PinMap.o"
+"0_Src\4_McHal\Tricore\_PinMap\IfxPsi5s_PinMap.o" : "..\0_Src\4_McHal\Tricore\_PinMap\IfxPsi5s_PinMap.c" "0_Src\4_McHal\Tricore\_PinMap\.IfxPsi5s_PinMap.o.opt"
+	@echo Compiling ${<F}
+	@"${PRODDIR}\bin\cctc" -f "0_Src\4_McHal\Tricore\_PinMap\.IfxPsi5s_PinMap.o.opt"
+
+"0_Src\4_McHal\Tricore\_PinMap\.IfxPsi5s_PinMap.o.opt" : .refresh
+	@argfile "0_Src\4_McHal\Tricore\_PinMap\.IfxPsi5s_PinMap.o.opt" -o "0_Src\4_McHal\Tricore\_PinMap\IfxPsi5s_PinMap.o" "..\0_Src\4_McHal\Tricore\_PinMap\IfxPsi5s_PinMap.c" -Ctc27xc --lsl-core=vtc -t -I"E:\OS\TASKING_TC275C_OS\TC275C_OS" -Wa-H"sfr/regtc27xc.def" -Wa-gAHLs --emit-locals=-equ,-symbols -Wa-Ogs -Wa--error-limit=42 -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Config\Common" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Tricore\DemoApp" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\StdIf" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\Tricore\Compilers" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_Reg" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_PinMap" --iso=99 --language=-gcc,-volatile,+strings --switch=auto --align=0 --default-near-size=8 --default-a0-size=0 --default-a1-size=0 -O2 --tradeoff=4 --compact-max-size=200 -g --source -c --dep-file="0_Src\4_McHal\Tricore\_PinMap\.IfxPsi5s_PinMap.o.d" -Wc--make-target="0_Src\4_McHal\Tricore\_PinMap\IfxPsi5s_PinMap.o"
+DEPENDENCY_FILES += "0_Src\4_McHal\Tricore\_PinMap\.IfxPsi5s_PinMap.o.d"
+
+C_FILES += "..\0_Src\4_McHal\Tricore\_PinMap\IfxQspi_PinMap.c"
+OBJ_FILES += "0_Src\4_McHal\Tricore\_PinMap\IfxQspi_PinMap.o"
+"0_Src\4_McHal\Tricore\_PinMap\IfxQspi_PinMap.o" : "..\0_Src\4_McHal\Tricore\_PinMap\IfxQspi_PinMap.c" "0_Src\4_McHal\Tricore\_PinMap\.IfxQspi_PinMap.o.opt"
+	@echo Compiling ${<F}
+	@"${PRODDIR}\bin\cctc" -f "0_Src\4_McHal\Tricore\_PinMap\.IfxQspi_PinMap.o.opt"
+
+"0_Src\4_McHal\Tricore\_PinMap\.IfxQspi_PinMap.o.opt" : .refresh
+	@argfile "0_Src\4_McHal\Tricore\_PinMap\.IfxQspi_PinMap.o.opt" -o "0_Src\4_McHal\Tricore\_PinMap\IfxQspi_PinMap.o" "..\0_Src\4_McHal\Tricore\_PinMap\IfxQspi_PinMap.c" -Ctc27xc --lsl-core=vtc -t -I"E:\OS\TASKING_TC275C_OS\TC275C_OS" -Wa-H"sfr/regtc27xc.def" -Wa-gAHLs --emit-locals=-equ,-symbols -Wa-Ogs -Wa--error-limit=42 -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Config\Common" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Tricore\DemoApp" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\StdIf" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\Tricore\Compilers" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_Reg" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_PinMap" --iso=99 --language=-gcc,-volatile,+strings --switch=auto --align=0 --default-near-size=8 --default-a0-size=0 --default-a1-size=0 -O2 --tradeoff=4 --compact-max-size=200 -g --source -c --dep-file="0_Src\4_McHal\Tricore\_PinMap\.IfxQspi_PinMap.o.d" -Wc--make-target="0_Src\4_McHal\Tricore\_PinMap\IfxQspi_PinMap.o"
+DEPENDENCY_FILES += "0_Src\4_McHal\Tricore\_PinMap\.IfxQspi_PinMap.o.d"
+
+C_FILES += "..\0_Src\4_McHal\Tricore\_PinMap\IfxScu_PinMap.c"
+OBJ_FILES += "0_Src\4_McHal\Tricore\_PinMap\IfxScu_PinMap.o"
+"0_Src\4_McHal\Tricore\_PinMap\IfxScu_PinMap.o" : "..\0_Src\4_McHal\Tricore\_PinMap\IfxScu_PinMap.c" "0_Src\4_McHal\Tricore\_PinMap\.IfxScu_PinMap.o.opt"
+	@echo Compiling ${<F}
+	@"${PRODDIR}\bin\cctc" -f "0_Src\4_McHal\Tricore\_PinMap\.IfxScu_PinMap.o.opt"
+
+"0_Src\4_McHal\Tricore\_PinMap\.IfxScu_PinMap.o.opt" : .refresh
+	@argfile "0_Src\4_McHal\Tricore\_PinMap\.IfxScu_PinMap.o.opt" -o "0_Src\4_McHal\Tricore\_PinMap\IfxScu_PinMap.o" "..\0_Src\4_McHal\Tricore\_PinMap\IfxScu_PinMap.c" -Ctc27xc --lsl-core=vtc -t -I"E:\OS\TASKING_TC275C_OS\TC275C_OS" -Wa-H"sfr/regtc27xc.def" -Wa-gAHLs --emit-locals=-equ,-symbols -Wa-Ogs -Wa--error-limit=42 -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Config\Common" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Tricore\DemoApp" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\StdIf" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\Tricore\Compilers" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_Reg" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_PinMap" --iso=99 --language=-gcc,-volatile,+strings --switch=auto --align=0 --default-near-size=8 --default-a0-size=0 --default-a1-size=0 -O2 --tradeoff=4 --compact-max-size=200 -g --source -c --dep-file="0_Src\4_McHal\Tricore\_PinMap\.IfxScu_PinMap.o.d" -Wc--make-target="0_Src\4_McHal\Tricore\_PinMap\IfxScu_PinMap.o"
+DEPENDENCY_FILES += "0_Src\4_McHal\Tricore\_PinMap\.IfxScu_PinMap.o.d"
+
+C_FILES += "..\0_Src\4_McHal\Tricore\_PinMap\IfxSent_PinMap.c"
+OBJ_FILES += "0_Src\4_McHal\Tricore\_PinMap\IfxSent_PinMap.o"
+"0_Src\4_McHal\Tricore\_PinMap\IfxSent_PinMap.o" : "..\0_Src\4_McHal\Tricore\_PinMap\IfxSent_PinMap.c" "0_Src\4_McHal\Tricore\_PinMap\.IfxSent_PinMap.o.opt"
+	@echo Compiling ${<F}
+	@"${PRODDIR}\bin\cctc" -f "0_Src\4_McHal\Tricore\_PinMap\.IfxSent_PinMap.o.opt"
+
+"0_Src\4_McHal\Tricore\_PinMap\.IfxSent_PinMap.o.opt" : .refresh
+	@argfile "0_Src\4_McHal\Tricore\_PinMap\.IfxSent_PinMap.o.opt" -o "0_Src\4_McHal\Tricore\_PinMap\IfxSent_PinMap.o" "..\0_Src\4_McHal\Tricore\_PinMap\IfxSent_PinMap.c" -Ctc27xc --lsl-core=vtc -t -I"E:\OS\TASKING_TC275C_OS\TC275C_OS" -Wa-H"sfr/regtc27xc.def" -Wa-gAHLs --emit-locals=-equ,-symbols -Wa-Ogs -Wa--error-limit=42 -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Config\Common" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Tricore\DemoApp" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\StdIf" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\Tricore\Compilers" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_Reg" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_PinMap" --iso=99 --language=-gcc,-volatile,+strings --switch=auto --align=0 --default-near-size=8 --default-a0-size=0 --default-a1-size=0 -O2 --tradeoff=4 --compact-max-size=200 -g --source -c --dep-file="0_Src\4_McHal\Tricore\_PinMap\.IfxSent_PinMap.o.d" -Wc--make-target="0_Src\4_McHal\Tricore\_PinMap\IfxSent_PinMap.o"
+DEPENDENCY_FILES += "0_Src\4_McHal\Tricore\_PinMap\.IfxSent_PinMap.o.d"
+
+C_FILES += "..\0_Src\4_McHal\Tricore\_PinMap\IfxSmu_PinMap.c"
+OBJ_FILES += "0_Src\4_McHal\Tricore\_PinMap\IfxSmu_PinMap.o"
+"0_Src\4_McHal\Tricore\_PinMap\IfxSmu_PinMap.o" : "..\0_Src\4_McHal\Tricore\_PinMap\IfxSmu_PinMap.c" "0_Src\4_McHal\Tricore\_PinMap\.IfxSmu_PinMap.o.opt"
+	@echo Compiling ${<F}
+	@"${PRODDIR}\bin\cctc" -f "0_Src\4_McHal\Tricore\_PinMap\.IfxSmu_PinMap.o.opt"
+
+"0_Src\4_McHal\Tricore\_PinMap\.IfxSmu_PinMap.o.opt" : .refresh
+	@argfile "0_Src\4_McHal\Tricore\_PinMap\.IfxSmu_PinMap.o.opt" -o "0_Src\4_McHal\Tricore\_PinMap\IfxSmu_PinMap.o" "..\0_Src\4_McHal\Tricore\_PinMap\IfxSmu_PinMap.c" -Ctc27xc --lsl-core=vtc -t -I"E:\OS\TASKING_TC275C_OS\TC275C_OS" -Wa-H"sfr/regtc27xc.def" -Wa-gAHLs --emit-locals=-equ,-symbols -Wa-Ogs -Wa--error-limit=42 -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Config\Common" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Tricore\DemoApp" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\StdIf" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\Tricore\Compilers" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_Reg" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_PinMap" --iso=99 --language=-gcc,-volatile,+strings --switch=auto --align=0 --default-near-size=8 --default-a0-size=0 --default-a1-size=0 -O2 --tradeoff=4 --compact-max-size=200 -g --source -c --dep-file="0_Src\4_McHal\Tricore\_PinMap\.IfxSmu_PinMap.o.d" -Wc--make-target="0_Src\4_McHal\Tricore\_PinMap\IfxSmu_PinMap.o"
+DEPENDENCY_FILES += "0_Src\4_McHal\Tricore\_PinMap\.IfxSmu_PinMap.o.d"
+
+C_FILES += "..\0_Src\4_McHal\Tricore\_PinMap\IfxVadc_PinMap.c"
+OBJ_FILES += "0_Src\4_McHal\Tricore\_PinMap\IfxVadc_PinMap.o"
+"0_Src\4_McHal\Tricore\_PinMap\IfxVadc_PinMap.o" : "..\0_Src\4_McHal\Tricore\_PinMap\IfxVadc_PinMap.c" "0_Src\4_McHal\Tricore\_PinMap\.IfxVadc_PinMap.o.opt"
+	@echo Compiling ${<F}
+	@"${PRODDIR}\bin\cctc" -f "0_Src\4_McHal\Tricore\_PinMap\.IfxVadc_PinMap.o.opt"
+
+"0_Src\4_McHal\Tricore\_PinMap\.IfxVadc_PinMap.o.opt" : .refresh
+	@argfile "0_Src\4_McHal\Tricore\_PinMap\.IfxVadc_PinMap.o.opt" -o "0_Src\4_McHal\Tricore\_PinMap\IfxVadc_PinMap.o" "..\0_Src\4_McHal\Tricore\_PinMap\IfxVadc_PinMap.c" -Ctc27xc --lsl-core=vtc -t -I"E:\OS\TASKING_TC275C_OS\TC275C_OS" -Wa-H"sfr/regtc27xc.def" -Wa-gAHLs --emit-locals=-equ,-symbols -Wa-Ogs -Wa--error-limit=42 -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Config\Common" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Tricore\DemoApp" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\StdIf" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\Tricore\Compilers" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_Reg" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_PinMap" --iso=99 --language=-gcc,-volatile,+strings --switch=auto --align=0 --default-near-size=8 --default-a0-size=0 --default-a1-size=0 -O2 --tradeoff=4 --compact-max-size=200 -g --source -c --dep-file="0_Src\4_McHal\Tricore\_PinMap\.IfxVadc_PinMap.o.d" -Wc--make-target="0_Src\4_McHal\Tricore\_PinMap\IfxVadc_PinMap.o"
+DEPENDENCY_FILES += "0_Src\4_McHal\Tricore\_PinMap\.IfxVadc_PinMap.o.d"
+
+
+GENERATED_FILES += "0_Src\4_McHal\Tricore\_PinMap\IfxAsclin_PinMap.o" "0_Src\4_McHal\Tricore\_PinMap\.IfxAsclin_PinMap.o.opt" "0_Src\4_McHal\Tricore\_PinMap\.IfxAsclin_PinMap.o.d" "0_Src\4_McHal\Tricore\_PinMap\IfxAsclin_PinMap.src" "0_Src\4_McHal\Tricore\_PinMap\IfxAsclin_PinMap.lst" "0_Src\4_McHal\Tricore\_PinMap\IfxCcu6_PinMap.o" "0_Src\4_McHal\Tricore\_PinMap\.IfxCcu6_PinMap.o.opt" "0_Src\4_McHal\Tricore\_PinMap\.IfxCcu6_PinMap.o.d" "0_Src\4_McHal\Tricore\_PinMap\IfxCcu6_PinMap.src" "0_Src\4_McHal\Tricore\_PinMap\IfxCcu6_PinMap.lst" "0_Src\4_McHal\Tricore\_PinMap\IfxCif_PinMap.o" "0_Src\4_McHal\Tricore\_PinMap\.IfxCif_PinMap.o.opt" "0_Src\4_McHal\Tricore\_PinMap\.IfxCif_PinMap.o.d" "0_Src\4_McHal\Tricore\_PinMap\IfxCif_PinMap.src" "0_Src\4_McHal\Tricore\_PinMap\IfxCif_PinMap.lst" "0_Src\4_McHal\Tricore\_PinMap\IfxDsadc_PinMap.o" "0_Src\4_McHal\Tricore\_PinMap\.IfxDsadc_PinMap.o.opt" "0_Src\4_McHal\Tricore\_PinMap\.IfxDsadc_PinMap.o.d" "0_Src\4_McHal\Tricore\_PinMap\IfxDsadc_PinMap.src" "0_Src\4_McHal\Tricore\_PinMap\IfxDsadc_PinMap.lst" "0_Src\4_McHal\Tricore\_PinMap\IfxEray_PinMap.o" "0_Src\4_McHal\Tricore\_PinMap\.IfxEray_PinMap.o.opt" "0_Src\4_McHal\Tricore\_PinMap\.IfxEray_PinMap.o.d" "0_Src\4_McHal\Tricore\_PinMap\IfxEray_PinMap.src" "0_Src\4_McHal\Tricore\_PinMap\IfxEray_PinMap.lst" "0_Src\4_McHal\Tricore\_PinMap\IfxEth_PinMap.o" "0_Src\4_McHal\Tricore\_PinMap\.IfxEth_PinMap.o.opt" "0_Src\4_McHal\Tricore\_PinMap\.IfxEth_PinMap.o.d" "0_Src\4_McHal\Tricore\_PinMap\IfxEth_PinMap.src" "0_Src\4_McHal\Tricore\_PinMap\IfxEth_PinMap.lst" "0_Src\4_McHal\Tricore\_PinMap\IfxGpt12_PinMap.o" "0_Src\4_McHal\Tricore\_PinMap\.IfxGpt12_PinMap.o.opt" "0_Src\4_McHal\Tricore\_PinMap\.IfxGpt12_PinMap.o.d" "0_Src\4_McHal\Tricore\_PinMap\IfxGpt12_PinMap.src" "0_Src\4_McHal\Tricore\_PinMap\IfxGpt12_PinMap.lst" "0_Src\4_McHal\Tricore\_PinMap\IfxGtm_PinMap.o" "0_Src\4_McHal\Tricore\_PinMap\.IfxGtm_PinMap.o.opt" "0_Src\4_McHal\Tricore\_PinMap\.IfxGtm_PinMap.o.d" "0_Src\4_McHal\Tricore\_PinMap\IfxGtm_PinMap.src" "0_Src\4_McHal\Tricore\_PinMap\IfxGtm_PinMap.lst" "0_Src\4_McHal\Tricore\_PinMap\IfxI2c_PinMap.o" "0_Src\4_McHal\Tricore\_PinMap\.IfxI2c_PinMap.o.opt" "0_Src\4_McHal\Tricore\_PinMap\.IfxI2c_PinMap.o.d" "0_Src\4_McHal\Tricore\_PinMap\IfxI2c_PinMap.src" "0_Src\4_McHal\Tricore\_PinMap\IfxI2c_PinMap.lst" "0_Src\4_McHal\Tricore\_PinMap\IfxMsc_PinMap.o" "0_Src\4_McHal\Tricore\_PinMap\.IfxMsc_PinMap.o.opt" "0_Src\4_McHal\Tricore\_PinMap\.IfxMsc_PinMap.o.d" "0_Src\4_McHal\Tricore\_PinMap\IfxMsc_PinMap.src" "0_Src\4_McHal\Tricore\_PinMap\IfxMsc_PinMap.lst" "0_Src\4_McHal\Tricore\_PinMap\IfxMultican_PinMap.o" "0_Src\4_McHal\Tricore\_PinMap\.IfxMultican_PinMap.o.opt" "0_Src\4_McHal\Tricore\_PinMap\.IfxMultican_PinMap.o.d" "0_Src\4_McHal\Tricore\_PinMap\IfxMultican_PinMap.src" "0_Src\4_McHal\Tricore\_PinMap\IfxMultican_PinMap.lst" "0_Src\4_McHal\Tricore\_PinMap\IfxPort_PinMap.o" "0_Src\4_McHal\Tricore\_PinMap\.IfxPort_PinMap.o.opt" "0_Src\4_McHal\Tricore\_PinMap\.IfxPort_PinMap.o.d" "0_Src\4_McHal\Tricore\_PinMap\IfxPort_PinMap.src" "0_Src\4_McHal\Tricore\_PinMap\IfxPort_PinMap.lst" "0_Src\4_McHal\Tricore\_PinMap\IfxPsi5_PinMap.o" "0_Src\4_McHal\Tricore\_PinMap\.IfxPsi5_PinMap.o.opt" "0_Src\4_McHal\Tricore\_PinMap\.IfxPsi5_PinMap.o.d" "0_Src\4_McHal\Tricore\_PinMap\IfxPsi5_PinMap.src" "0_Src\4_McHal\Tricore\_PinMap\IfxPsi5_PinMap.lst" "0_Src\4_McHal\Tricore\_PinMap\IfxPsi5s_PinMap.o" "0_Src\4_McHal\Tricore\_PinMap\.IfxPsi5s_PinMap.o.opt" "0_Src\4_McHal\Tricore\_PinMap\.IfxPsi5s_PinMap.o.d" "0_Src\4_McHal\Tricore\_PinMap\IfxPsi5s_PinMap.src" "0_Src\4_McHal\Tricore\_PinMap\IfxPsi5s_PinMap.lst" "0_Src\4_McHal\Tricore\_PinMap\IfxQspi_PinMap.o" "0_Src\4_McHal\Tricore\_PinMap\.IfxQspi_PinMap.o.opt" "0_Src\4_McHal\Tricore\_PinMap\.IfxQspi_PinMap.o.d" "0_Src\4_McHal\Tricore\_PinMap\IfxQspi_PinMap.src" "0_Src\4_McHal\Tricore\_PinMap\IfxQspi_PinMap.lst" "0_Src\4_McHal\Tricore\_PinMap\IfxScu_PinMap.o" "0_Src\4_McHal\Tricore\_PinMap\.IfxScu_PinMap.o.opt" "0_Src\4_McHal\Tricore\_PinMap\.IfxScu_PinMap.o.d" "0_Src\4_McHal\Tricore\_PinMap\IfxScu_PinMap.src" "0_Src\4_McHal\Tricore\_PinMap\IfxScu_PinMap.lst" "0_Src\4_McHal\Tricore\_PinMap\IfxSent_PinMap.o" "0_Src\4_McHal\Tricore\_PinMap\.IfxSent_PinMap.o.opt" "0_Src\4_McHal\Tricore\_PinMap\.IfxSent_PinMap.o.d" "0_Src\4_McHal\Tricore\_PinMap\IfxSent_PinMap.src" "0_Src\4_McHal\Tricore\_PinMap\IfxSent_PinMap.lst" "0_Src\4_McHal\Tricore\_PinMap\IfxSmu_PinMap.o" "0_Src\4_McHal\Tricore\_PinMap\.IfxSmu_PinMap.o.opt" "0_Src\4_McHal\Tricore\_PinMap\.IfxSmu_PinMap.o.d" "0_Src\4_McHal\Tricore\_PinMap\IfxSmu_PinMap.src" "0_Src\4_McHal\Tricore\_PinMap\IfxSmu_PinMap.lst" "0_Src\4_McHal\Tricore\_PinMap\IfxVadc_PinMap.o" "0_Src\4_McHal\Tricore\_PinMap\.IfxVadc_PinMap.o.opt" "0_Src\4_McHal\Tricore\_PinMap\.IfxVadc_PinMap.o.d" "0_Src\4_McHal\Tricore\_PinMap\IfxVadc_PinMap.src" "0_Src\4_McHal\Tricore\_PinMap\IfxVadc_PinMap.lst"

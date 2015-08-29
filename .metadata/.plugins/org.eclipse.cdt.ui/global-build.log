@@ -745,3 +745,1062 @@ Linking to TC275C_OS.elf
 
 Time consumed: 7498 ms
 **** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling Cpu0_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 288/5] unreachable code
+0 errors, 1 warnings
+Linking to TC275C_OS.elf
+
+Time consumed: 6709 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling Cpu0_Main.c
+Compiling Cpu1_Main.c
+Compiling Cpu2_Main.c
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu1_Main.c" 49/2] undeclared identifier "stm1CompareValue"
+amk E452: ["0_Src\0_AppSw\Tricore\Main\subdir.mk" 19/0] target '0_Src\0_AppSw\Tricore\Main\Cpu1_Main.o' returned exit code 1
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu1_Main.c" 49/57] undeclared identifier "STM1_TICK_PERIOD_IN_MICROSECONDS"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu1_Main.c" 63/45] undeclared identifier "IFX_CFG_ISR_PRIORITY_STM1_COMPARE0"
+ctc W560: ["..\0_Src\0_AppSw\Tricore\Main\Cpu1_Main.c" 63/43] possible truncation at implicit conversion to type "unsigned short int"
+ctc E472: ["..\0_Src\0_AppSw\Tricore\Main\Cpu1_Main.c" 70/1] function Ifx_STM1_Isr is qualified as __interrupt, but is not given an interrupt/trap number
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu1_Main.c" 73/24] undeclared identifier "stm1CompareValue"
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu1_Main.c" 116/5] unreachable code
+5 errors, 2 warnings
+amk E452: ["0_Src\0_AppSw\Tricore\Main\subdir.mk" 29/0] target '0_Src\0_AppSw\Tricore\Main\Cpu2_Main.o' returned exit code 1
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu2_Main.c" 26/2] undeclared identifier "stm2CompareValue"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu2_Main.c" 26/57] undeclared identifier "STM2_TICK_PERIOD_IN_MICROSECONDS"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu2_Main.c" 40/45] undeclared identifier "IFX_CFG_ISR_PRIORITY_STM2_COMPARE0"
+ctc W560: ["..\0_Src\0_AppSw\Tricore\Main\Cpu2_Main.c" 40/43] possible truncation at implicit conversion to type "unsigned short int"
+ctc E472: ["..\0_Src\0_AppSw\Tricore\Main\Cpu2_Main.c" 48/1] function Ifx_STM2_Isr is qualified as __interrupt, but is not given an interrupt/trap number
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu2_Main.c" 51/24] undeclared identifier "stm0CompareValue"
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu2_Main.c" 83/5] unreachable code
+5 errors, 2 warnings
+ctc W505: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 153/5] implicit declaration of function "STM1_Demo_init"
+ctc W577: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 153/19] calling a function without a prototype
+ctc W505: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 154/5] implicit declaration of function "STM2_Demo_init"
+amk E451: make stopped
+ctc W577: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 154/19] calling a function without a prototype
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 198/5] unreachable code
+0 errors, 5 warnings
+
+Time consumed: 5008 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling Cpu0_Main.c
+Compiling Cpu1_Main.c
+Compiling Cpu2_Main.c
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu2_Main.c" 59/24] undeclared identifier "stm0CompareValue"
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu2_Main.c" 91/5] unreachable code
+1 errors, 1 warnings
+amk E452: ["0_Src\0_AppSw\Tricore\Main\subdir.mk" 29/0] target '0_Src\0_AppSw\Tricore\Main\Cpu2_Main.o' returned exit code 1
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu1_Main.c" 110/5] unreachable code
+0 errors, 1 warnings
+ctc W505: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 143/5] implicit declaration of function "STM1_Demo_init"
+ctc W577: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 143/19] calling a function without a prototype
+amk E451: make stopped
+ctc W505: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 144/5] implicit declaration of function "STM2_Demo_init"
+ctc W577: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 144/19] calling a function without a prototype
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 188/5] unreachable code
+0 errors, 5 warnings
+
+Time consumed: 5222 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling Cpu0_Main.c
+Compiling Cpu1_Main.c
+Compiling Cpu2_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu1_Main.c" 52/5] unreachable code
+0 errors, 1 warnings
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu2_Main.c" 37/5] unreachable code
+0 errors, 1 warnings
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 292/5] unreachable code
+0 errors, 1 warnings
+Linking to TC275C_OS.elf
+
+Time consumed: 5292 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling Cpu0_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 291/5] unreachable code
+0 errors, 1 warnings
+Linking to TC275C_OS.elf
+
+Time consumed: 4405 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+
+Time consumed: 954 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling Cpu0_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 281/5] unreachable code
+0 errors, 1 warnings
+Linking to TC275C_OS.elf
+
+Time consumed: 4584 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling Cpu0_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 281/5] unreachable code
+0 errors, 1 warnings
+Linking to TC275C_OS.elf
+
+Time consumed: 4535 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling Cpu0_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 237/5] unreachable code
+0 errors, 1 warnings
+Linking to TC275C_OS.elf
+
+Time consumed: 4474 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+
+Time consumed: 1279 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+
+Time consumed: 1269 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+
+Time consumed: 1202 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling DemoApp.c
+Compiling Cpu0_Main.c
+Compiling Cpu1_Main.c
+Compiling Cpu2_Main.c
+ctc E241: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/30] invalid conversion from "unsigned long int *" to "signed int *[]"
+ctc E241: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/30] invalid conversion from "unsigned long int *" to "signed int *[]"
+amk E452: ["0_Src\0_AppSw\Tricore\Main\subdir.mk" 29/0] target '0_Src\0_AppSw\Tricore\Main\Cpu2_Main.o' returned exit code 1
+ctc E289: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 560/13] "k" redeclared with a different type
+ctc I802: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 555/13] previous declaration of "k"
+ctc E272: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 564/17] undeclared identifier "true"
+ctc E272: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 583/37] undeclared identifier "false"
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu2_Main.c" 37/5] unreachable code
+5 errors, 1 warnings
+ctc E241: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/30] invalid conversion from "unsigned long int *" to "signed int *[]"
+amk E452: ["0_Src\0_AppSw\Tricore\Main\subdir.mk" 19/0] target '0_Src\0_AppSw\Tricore\Main\Cpu1_Main.o' returned exit code 1
+ctc E241: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/30] invalid conversion from "unsigned long int *" to "signed int *[]"
+ctc E289: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 560/13] "k" redeclared with a different type
+ctc I802: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 555/13] previous declaration of "k"
+ctc E272: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 564/17] undeclared identifier "true"
+ctc E272: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 583/37] undeclared identifier "false"
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu1_Main.c" 52/5] unreachable code
+5 errors, 1 warnings
+ctc E241: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/30] invalid conversion from "unsigned long int *" to "signed int *[]"
+amk E452: ["0_Src\0_AppSw\Tricore\Main\subdir.mk" 9/0] target '0_Src\0_AppSw\Tricore\Main\Cpu0_Main.o' returned exit code 1
+ctc E241: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/30] invalid conversion from "unsigned long int *" to "signed int *[]"
+ctc E289: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 560/13] "k" redeclared with a different type
+ctc I802: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 555/13] previous declaration of "k"
+ctc E272: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 564/17] undeclared identifier "true"
+ctc E272: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 583/37] undeclared identifier "false"
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 237/5] unreachable code
+5 errors, 1 warnings
+ctc W510: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 27/6] unexpected text after preprocessing directive
+amk E452: ["0_Src\0_AppSw\Tricore\DemoApp\subdir.mk" 19/0] target '0_Src\0_AppSw\Tricore\DemoApp\DemoApp.o' returned exit code 1
+ctc E241: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/30] invalid conversion from "unsigned long int *" to "signed int *[]"
+amk E451: make stopped
+ctc E241: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/30] invalid conversion from "unsigned long int *" to "signed int *[]"
+ctc E289: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 560/13] "k" redeclared with a different type
+ctc I802: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 555/13] previous declaration of "k"
+ctc E272: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 564/17] undeclared identifier "true"
+ctc E272: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 583/37] undeclared identifier "false"
+ctc W535: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 152/2] no type specifiers - assumed 'int'
+5 errors, 2 warnings
+
+Time consumed: 2629 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling DemoApp.c
+Compiling Cpu0_Main.c
+Compiling Cpu1_Main.c
+Compiling Cpu2_Main.c
+ctc E241: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/30] invalid conversion from "unsigned long int *" to "signed int *[]"
+ctc E241: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/30] invalid conversion from "unsigned long int *" to "signed int *[]"
+amk E452: ["0_Src\0_AppSw\Tricore\Main\subdir.mk" 19/0] target '0_Src\0_AppSw\Tricore\Main\Cpu1_Main.o' returned exit code 1
+ctc E289: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 560/13] "k" redeclared with a different type
+ctc I802: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 555/13] previous declaration of "k"
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu1_Main.c" 52/5] unreachable code
+3 errors, 1 warnings
+ctc W510: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 27/6] unexpected text after preprocessing directive
+amk E452: ["0_Src\0_AppSw\Tricore\DemoApp\subdir.mk" 19/0] target '0_Src\0_AppSw\Tricore\DemoApp\DemoApp.o' returned exit code 1
+ctc E241: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/30] invalid conversion from "unsigned long int *" to "signed int *[]"
+ctc E241: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/30] invalid conversion from "unsigned long int *" to "signed int *[]"
+ctc E289: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 560/13] "k" redeclared with a different type
+ctc I802: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 555/13] previous declaration of "k"
+ctc W535: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 152/2] no type specifiers - assumed 'int'
+3 errors, 2 warnings
+ctc E241: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/30] invalid conversion from "unsigned long int *" to "signed int *[]"
+ctc E241: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/30] invalid conversion from "unsigned long int *" to "signed int *[]"
+ctc E289: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 560/13] "k" redeclared with a different type
+amk E452: ["0_Src\0_AppSw\Tricore\Main\subdir.mk" 29/0] target '0_Src\0_AppSw\Tricore\Main\Cpu2_Main.o' returned exit code 1
+ctc I802: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 555/13] previous declaration of "k"
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu2_Main.c" 37/5] unreachable code
+3 errors, 1 warnings
+ctc E241: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/30] invalid conversion from "unsigned long int *" to "signed int *[]"
+amk E452: ["0_Src\0_AppSw\Tricore\Main\subdir.mk" 9/0] target '0_Src\0_AppSw\Tricore\Main\Cpu0_Main.o' returned exit code 1
+ctc E241: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/30] invalid conversion from "unsigned long int *" to "signed int *[]"
+ctc E289: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 560/13] "k" redeclared with a different type
+ctc I802: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 555/13] previous declaration of "k"
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 237/5] unreachable code
+3 errors, 1 warnings
+amk E451: make stopped
+
+Time consumed: 2112 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling DemoApp.c
+Compiling Cpu0_Main.c
+Compiling Cpu1_Main.c
+Compiling Cpu2_Main.c
+ctc E241: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/30] invalid conversion from "unsigned long int *" to "signed int *[]"
+amk E452: ["0_Src\0_AppSw\Tricore\Main\subdir.mk" 9/0] target '0_Src\0_AppSw\Tricore\Main\Cpu0_Main.o' returned exit code 1
+ctc E241: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/30] invalid conversion from "unsigned long int *" to "signed int *[]"
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 237/5] unreachable code
+2 errors, 1 warnings
+ctc W510: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 27/6] unexpected text after preprocessing directive
+ctc E241: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/30] invalid conversion from "unsigned long int *" to "signed int *[]"
+ctc E241: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/30] invalid conversion from "unsigned long int *" to "signed int *[]"
+ctc W535: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 152/2] no type specifiers - assumed 'int'
+2 errors, 2 warnings
+amk E452: ["0_Src\0_AppSw\Tricore\DemoApp\subdir.mk" 19/0] target '0_Src\0_AppSw\Tricore\DemoApp\DemoApp.o' returned exit code 1
+ctc E241: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/30] invalid conversion from "unsigned long int *" to "signed int *[]"
+amk E452: ["0_Src\0_AppSw\Tricore\Main\subdir.mk" 19/0] target '0_Src\0_AppSw\Tricore\Main\Cpu1_Main.o' returned exit code 1
+ctc E241: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/30] invalid conversion from "unsigned long int *" to "signed int *[]"
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu1_Main.c" 52/5] unreachable code
+2 errors, 1 warnings
+ctc E241: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/30] invalid conversion from "unsigned long int *" to "signed int *[]"
+amk E452: ["0_Src\0_AppSw\Tricore\Main\subdir.mk" 29/0] target '0_Src\0_AppSw\Tricore\Main\Cpu2_Main.o' returned exit code 1
+ctc E241: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/30] invalid conversion from "unsigned long int *" to "signed int *[]"
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu2_Main.c" 37/5] unreachable code
+2 errors, 1 warnings
+amk E451: make stopped
+
+Time consumed: 1860 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling DemoApp.c
+Compiling Cpu0_Main.c
+Compiling Cpu1_Main.c
+Compiling Cpu2_Main.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/31] pointers to different types at initializer
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/31] pointers to different types at initializer
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu1_Main.c" 52/5] unreachable code
+0 errors, 3 warnings
+Compiling Bsp.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/31] pointers to different types at initializer
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/31] pointers to different types at initializer
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu2_Main.c" 37/5] unreachable code
+0 errors, 3 warnings
+Compiling Ifx_DateTime.c
+ctc W510: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 27/6] unexpected text after preprocessing directive
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/31] pointers to different types at initializer
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/31] pointers to different types at initializer
+ctc W535: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 152/2] no type specifiers - assumed 'int'
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 17/23] unused variable "dsadc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 34/6] unused variable "chn"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 164/7] unused variable "str_adc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 165/6] unused variable "chn"
+0 errors, 8 warnings
+Compiling IfxMtu_cfg.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/31] pointers to different types at initializer
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/31] pointers to different types at initializer
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 237/5] unreachable code
+0 errors, 3 warnings
+Compiling Ifx_Fifo.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/31] pointers to different types at initializer
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/31] pointers to different types at initializer
+0 errors, 2 warnings
+Compiling IfxCpu_CStart0.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/31] pointers to different types at initializer
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/31] pointers to different types at initializer
+0 errors, 2 warnings
+Compiling IfxCpu_CStart1.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/31] pointers to different types at initializer
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/31] pointers to different types at initializer
+0 errors, 2 warnings
+Compiling IfxCpu_CStart2.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/31] pointers to different types at initializer
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/31] pointers to different types at initializer
+0 errors, 2 warnings
+Compiling IfxCpu_Irq.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/31] pointers to different types at initializer
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/31] pointers to different types at initializer
+0 errors, 2 warnings
+Compiling IfxCpu.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/31] pointers to different types at initializer
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/31] pointers to different types at initializer
+ctc W549: ["..\0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_Fifo.c" 82/9] condition is always true
+0 errors, 3 warnings
+Compiling IfxCpu_Trap.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/31] pointers to different types at initializer
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/31] pointers to different types at initializer
+0 errors, 2 warnings
+Compiling IfxDma_Dma.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/31] pointers to different types at initializer
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/31] pointers to different types at initializer
+0 errors, 2 warnings
+Compiling IfxDma.c
+ctc W523: ["..\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/31] pointers to different types at initializer
+ctc W523: ["..\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/31] pointers to different types at initializer
+0 errors, 2 warnings
+Compiling IfxDsadc_Dsadc.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/31] pointers to different types at initializer
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/31] pointers to different types at initializer
+0 errors, 2 warnings
+Compiling IfxDsadc.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/31] pointers to different types at initializer
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/31] pointers to different types at initializer
+0 errors, 2 warnings
+Compiling IfxGtm_Cmu.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/31] pointers to different types at initializer
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/31] pointers to different types at initializer
+0 errors, 2 warnings
+Compiling IfxScuCcu.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/31] pointers to different types at initializer
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/31] pointers to different types at initializer
+0 errors, 2 warnings
+Compiling IfxScuEru.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/31] pointers to different types at initializer
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/31] pointers to different types at initializer
+ctc W560: ["..\0_Src\4_McHal\Tricore\Dsadc\Std\IfxDsadc.c" 83/107] possible truncation at implicit conversion to type "float"
+0 errors, 3 warnings
+Compiling IfxScuWdt.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/31] pointers to different types at initializer
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/31] pointers to different types at initializer
+0 errors, 2 warnings
+Compiling IfxStm.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/31] pointers to different types at initializer
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/31] pointers to different types at initializer
+0 errors, 2 warnings
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/31] pointers to different types at initializer
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/31] pointers to different types at initializer
+0 errors, 2 warnings
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/31] pointers to different types at initializer
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/31] pointers to different types at initializer
+0 errors, 2 warnings
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/31] pointers to different types at initializer
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/31] pointers to different types at initializer
+0 errors, 2 warnings
+Linking to TC275C_OS.elf
+
+Time consumed: 27077 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling DemoApp.c
+Compiling Cpu0_Main.c
+Compiling Cpu1_Main.c
+Compiling Cpu2_Main.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/26] pointers to different types at assignment
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/26] pointers to different types at assignment
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu1_Main.c" 52/5] unreachable code
+0 errors, 4 warnings
+Compiling Bsp.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/26] pointers to different types at assignment
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/26] pointers to different types at assignment
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 237/5] unreachable code
+0 errors, 4 warnings
+Compiling Ifx_DateTime.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/26] pointers to different types at assignment
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/26] pointers to different types at assignment
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu2_Main.c" 37/5] unreachable code
+0 errors, 4 warnings
+Compiling IfxMtu_cfg.c
+ctc W510: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 27/6] unexpected text after preprocessing directive
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/26] pointers to different types at assignment
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/26] pointers to different types at assignment
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+ctc W535: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 152/2] no type specifiers - assumed 'int'
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 17/23] unused variable "dsadc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 34/6] unused variable "chn"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 164/7] unused variable "str_adc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 165/6] unused variable "chn"
+0 errors, 9 warnings
+Compiling Ifx_Fifo.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/26] pointers to different types at assignment
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/26] pointers to different types at assignment
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+0 errors, 3 warnings
+Compiling IfxCpu_CStart0.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/26] pointers to different types at assignment
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/26] pointers to different types at assignment
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+0 errors, 3 warnings
+Compiling IfxCpu_CStart1.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/26] pointers to different types at assignment
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/26] pointers to different types at assignment
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+0 errors, 3 warnings
+Compiling IfxCpu_CStart2.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/26] pointers to different types at assignment
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/26] pointers to different types at assignment
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+0 errors, 3 warnings
+Compiling IfxCpu_Irq.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/26] pointers to different types at assignment
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/26] pointers to different types at assignment
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+0 errors, 3 warnings
+Compiling IfxCpu.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/26] pointers to different types at assignment
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/26] pointers to different types at assignment
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+ctc W549: ["..\0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_Fifo.c" 82/9] condition is always true
+0 errors, 4 warnings
+Compiling IfxCpu_Trap.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/26] pointers to different types at assignment
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/26] pointers to different types at assignment
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+0 errors, 3 warnings
+Compiling IfxDma_Dma.c
+ctc W523: ["..\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/26] pointers to different types at assignment
+ctc W523: ["..\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/26] pointers to different types at assignment
+ctc W524: ["..\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+0 errors, 3 warnings
+Compiling IfxDma.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/26] pointers to different types at assignment
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/26] pointers to different types at assignment
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+0 errors, 3 warnings
+Compiling IfxDsadc_Dsadc.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/26] pointers to different types at assignment
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/26] pointers to different types at assignment
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+0 errors, 3 warnings
+Compiling IfxDsadc.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/26] pointers to different types at assignment
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/26] pointers to different types at assignment
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+0 errors, 3 warnings
+Compiling IfxGtm_Cmu.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/26] pointers to different types at assignment
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/26] pointers to different types at assignment
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+0 errors, 3 warnings
+Compiling IfxScuCcu.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/26] pointers to different types at assignment
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/26] pointers to different types at assignment
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+0 errors, 3 warnings
+Compiling IfxScuEru.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/26] pointers to different types at assignment
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/26] pointers to different types at assignment
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+ctc W560: ["..\0_Src\4_McHal\Tricore\Dsadc\Std\IfxDsadc.c" 83/107] possible truncation at implicit conversion to type "float"
+0 errors, 4 warnings
+Compiling IfxScuWdt.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/26] pointers to different types at assignment
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/26] pointers to different types at assignment
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+0 errors, 3 warnings
+Compiling IfxStm.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/26] pointers to different types at assignment
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/26] pointers to different types at assignment
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+0 errors, 3 warnings
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/26] pointers to different types at assignment
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/26] pointers to different types at assignment
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+0 errors, 3 warnings
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/26] pointers to different types at assignment
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/26] pointers to different types at assignment
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+0 errors, 3 warnings
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 552/26] pointers to different types at assignment
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 553/26] pointers to different types at assignment
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+0 errors, 3 warnings
+Linking to TC275C_OS.elf
+
+Time consumed: 27484 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling DemoApp.c
+Compiling Cpu0_Main.c
+Compiling Cpu1_Main.c
+Compiling Cpu2_Main.c
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu1_Main.c" 52/5] unreachable code
+0 errors, 2 warnings
+Compiling Bsp.c
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 237/5] unreachable code
+0 errors, 2 warnings
+Compiling Ifx_DateTime.c
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu2_Main.c" 37/5] unreachable code
+0 errors, 2 warnings
+Compiling IfxMtu_cfg.c
+ctc W510: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 27/6] unexpected text after preprocessing directive
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+ctc W535: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 152/2] no type specifiers - assumed 'int'
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 17/23] unused variable "dsadc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 34/6] unused variable "chn"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 164/7] unused variable "str_adc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 165/6] unused variable "chn"
+0 errors, 7 warnings
+Compiling Ifx_Fifo.c
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+0 errors, 1 warnings
+Compiling IfxCpu_CStart0.c
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+0 errors, 1 warnings
+Compiling IfxCpu_CStart1.c
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+0 errors, 1 warnings
+Compiling IfxCpu_CStart2.c
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+0 errors, 1 warnings
+Compiling IfxCpu_Irq.c
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+0 errors, 1 warnings
+Compiling IfxCpu.c
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+0 errors, 1 warnings
+Compiling IfxCpu_Trap.c
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+ctc W549: ["..\0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_Fifo.c" 82/9] condition is always true
+0 errors, 2 warnings
+Compiling IfxDma_Dma.c
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+0 errors, 1 warnings
+Compiling IfxDma.c
+ctc W524: ["..\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+0 errors, 1 warnings
+Compiling IfxDsadc_Dsadc.c
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+0 errors, 1 warnings
+Compiling IfxDsadc.c
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+0 errors, 1 warnings
+Compiling IfxGtm_Cmu.c
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+0 errors, 1 warnings
+Compiling IfxScuEru.c
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+ctc W560: ["..\0_Src\4_McHal\Tricore\Dsadc\Std\IfxDsadc.c" 83/107] possible truncation at implicit conversion to type "float"
+0 errors, 2 warnings
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+0 errors, 1 warnings
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+0 errors, 1 warnings
+ctc W524: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 574/25] conversion of integer to pointer at assignment
+0 errors, 1 warnings
+Linking to TC275C_OS.elf
+
+Time consumed: 24110 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling DemoApp.c
+Compiling Cpu0_Main.c
+Compiling Cpu1_Main.c
+Compiling Cpu2_Main.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 575/25] pointers to different types at assignment
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu2_Main.c" 37/5] unreachable code
+0 errors, 2 warnings
+Compiling Bsp.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 575/25] pointers to different types at assignment
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 237/5] unreachable code
+0 errors, 2 warnings
+Compiling Ifx_DateTime.c
+ctc W510: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 27/6] unexpected text after preprocessing directive
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 575/25] pointers to different types at assignment
+ctc W535: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 152/2] no type specifiers - assumed 'int'
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 17/23] unused variable "dsadc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 34/6] unused variable "chn"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 164/7] unused variable "str_adc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 165/6] unused variable "chn"
+0 errors, 7 warnings
+Compiling IfxMtu_cfg.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 575/25] pointers to different types at assignment
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu1_Main.c" 52/5] unreachable code
+0 errors, 2 warnings
+Compiling Ifx_Fifo.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 575/25] pointers to different types at assignment
+0 errors, 1 warnings
+Compiling IfxCpu_CStart0.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 575/25] pointers to different types at assignment
+0 errors, 1 warnings
+Compiling IfxCpu_CStart1.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 575/25] pointers to different types at assignment
+0 errors, 1 warnings
+Compiling IfxCpu_CStart2.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 575/25] pointers to different types at assignment
+0 errors, 1 warnings
+Compiling IfxCpu_Irq.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 575/25] pointers to different types at assignment
+0 errors, 1 warnings
+Compiling IfxCpu.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 575/25] pointers to different types at assignment
+ctc W549: ["..\0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_Fifo.c" 82/9] condition is always true
+0 errors, 2 warnings
+Compiling IfxCpu_Trap.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 575/25] pointers to different types at assignment
+0 errors, 1 warnings
+Compiling IfxDma_Dma.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 575/25] pointers to different types at assignment
+0 errors, 1 warnings
+Compiling IfxDma.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 575/25] pointers to different types at assignment
+0 errors, 1 warnings
+Compiling IfxDsadc_Dsadc.c
+ctc W523: ["..\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 575/25] pointers to different types at assignment
+0 errors, 1 warnings
+Compiling IfxDsadc.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 575/25] pointers to different types at assignment
+0 errors, 1 warnings
+Compiling IfxGtm_Cmu.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 575/25] pointers to different types at assignment
+0 errors, 1 warnings
+Compiling IfxScuCcu.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 575/25] pointers to different types at assignment
+0 errors, 1 warnings
+Compiling IfxScuEru.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 575/25] pointers to different types at assignment
+ctc W560: ["..\0_Src\4_McHal\Tricore\Dsadc\Std\IfxDsadc.c" 83/107] possible truncation at implicit conversion to type "float"
+0 errors, 2 warnings
+Compiling IfxScuWdt.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 575/25] pointers to different types at assignment
+0 errors, 1 warnings
+Compiling IfxStm.c
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 575/25] pointers to different types at assignment
+0 errors, 1 warnings
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 575/25] pointers to different types at assignment
+0 errors, 1 warnings
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 575/25] pointers to different types at assignment
+0 errors, 1 warnings
+ctc W523: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 575/25] pointers to different types at assignment
+0 errors, 1 warnings
+Linking to TC275C_OS.elf
+
+Time consumed: 27258 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling DemoApp.c
+Compiling Cpu0_Main.c
+Compiling Cpu1_Main.c
+Compiling Cpu2_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu1_Main.c" 52/5] unreachable code
+0 errors, 1 warnings
+Compiling Bsp.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu2_Main.c" 37/5] unreachable code
+0 errors, 1 warnings
+Compiling Ifx_DateTime.c
+ctc W510: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 27/6] unexpected text after preprocessing directive
+ctc W535: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 152/2] no type specifiers - assumed 'int'
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 17/23] unused variable "dsadc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 34/6] unused variable "chn"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 164/7] unused variable "str_adc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 165/6] unused variable "chn"
+0 errors, 6 warnings
+Compiling IfxMtu_cfg.c
+Compiling Ifx_Fifo.c
+Compiling IfxCpu_CStart0.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 237/5] unreachable code
+0 errors, 1 warnings
+Compiling IfxCpu_CStart1.c
+Compiling IfxCpu_CStart2.c
+Compiling IfxCpu_Irq.c
+Compiling IfxCpu.c
+ctc W549: ["..\0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_Fifo.c" 82/9] condition is always true
+0 errors, 1 warnings
+Compiling IfxCpu_Trap.c
+Compiling IfxDma_Dma.c
+Compiling IfxDma.c
+Compiling IfxDsadc_Dsadc.c
+Compiling IfxDsadc.c
+Compiling IfxGtm_Cmu.c
+Compiling IfxScuCcu.c
+ctc W560: ["..\0_Src\4_McHal\Tricore\Dsadc\Std\IfxDsadc.c" 83/107] possible truncation at implicit conversion to type "float"
+0 errors, 1 warnings
+Compiling IfxScuEru.c
+Compiling IfxScuWdt.c
+Compiling IfxStm.c
+Linking to TC275C_OS.elf
+
+Time consumed: 29487 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling DemoApp.c
+Compiling Cpu0_Main.c
+Compiling Cpu1_Main.c
+Compiling Cpu2_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu2_Main.c" 37/5] unreachable code
+0 errors, 1 warnings
+Compiling Bsp.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 237/5] unreachable code
+0 errors, 1 warnings
+Compiling Ifx_DateTime.c
+ctc W510: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 27/6] unexpected text after preprocessing directive
+ctc W535: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 152/2] no type specifiers - assumed 'int'
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 17/23] unused variable "dsadc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 34/6] unused variable "chn"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 164/7] unused variable "str_adc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 165/6] unused variable "chn"
+0 errors, 6 warnings
+Compiling IfxMtu_cfg.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu1_Main.c" 52/5] unreachable code
+0 errors, 1 warnings
+Compiling Ifx_Fifo.c
+Compiling IfxCpu_CStart0.c
+Compiling IfxCpu_CStart1.c
+Compiling IfxCpu_CStart2.c
+ctc W549: ["..\0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_Fifo.c" 82/9] condition is always true
+0 errors, 1 warnings
+Compiling IfxCpu_Irq.c
+Compiling IfxCpu.c
+Compiling IfxCpu_Trap.c
+Compiling IfxDma_Dma.c
+Compiling IfxDma.c
+Compiling IfxDsadc_Dsadc.c
+Compiling IfxDsadc.c
+Compiling IfxGtm_Cmu.c
+Compiling IfxScuCcu.c
+Compiling IfxScuEru.c
+ctc W560: ["..\0_Src\4_McHal\Tricore\Dsadc\Std\IfxDsadc.c" 83/107] possible truncation at implicit conversion to type "float"
+0 errors, 1 warnings
+Compiling IfxScuWdt.c
+Compiling IfxStm.c
+Linking to TC275C_OS.elf
+
+Time consumed: 26977 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling DemoApp.c
+Compiling Cpu0_Main.c
+Compiling Cpu1_Main.c
+Compiling Cpu2_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu1_Main.c" 52/5] unreachable code
+0 errors, 1 warnings
+Compiling Bsp.c
+ctc W510: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 27/6] unexpected text after preprocessing directive
+ctc W535: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 152/2] no type specifiers - assumed 'int'
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 17/23] unused variable "dsadc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 34/6] unused variable "chn"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 164/7] unused variable "str_adc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 165/6] unused variable "chn"
+0 errors, 6 warnings
+Compiling Ifx_DateTime.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu2_Main.c" 37/5] unreachable code
+0 errors, 1 warnings
+Compiling IfxMtu_cfg.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 237/5] unreachable code
+0 errors, 1 warnings
+Compiling Ifx_Fifo.c
+Compiling IfxCpu_CStart0.c
+Compiling IfxCpu_CStart1.c
+Compiling IfxCpu_CStart2.c
+ctc W549: ["..\0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_Fifo.c" 82/9] condition is always true
+0 errors, 1 warnings
+Compiling IfxCpu_Irq.c
+Compiling IfxCpu.c
+Compiling IfxCpu_Trap.c
+Compiling IfxDma_Dma.c
+Compiling IfxDma.c
+Compiling IfxDsadc_Dsadc.c
+Compiling IfxDsadc.c
+Compiling IfxGtm_Cmu.c
+Compiling IfxScuCcu.c
+Compiling IfxScuEru.c
+ctc W560: ["..\0_Src\4_McHal\Tricore\Dsadc\Std\IfxDsadc.c" 83/107] possible truncation at implicit conversion to type "float"
+0 errors, 1 warnings
+Compiling IfxScuWdt.c
+Compiling IfxStm.c
+Linking to TC275C_OS.elf
+
+Time consumed: 29369 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling DemoApp.c
+Compiling Cpu0_Main.c
+Compiling Cpu1_Main.c
+Compiling Cpu2_Main.c
+ctc W510: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 27/6] unexpected text after preprocessing directive
+ctc W535: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 152/2] no type specifiers - assumed 'int'
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 17/23] unused variable "dsadc"
+ctc W537: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 555/15] unused variable "i"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 34/6] unused variable "chn"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 164/7] unused variable "str_adc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 165/6] unused variable "chn"
+0 errors, 7 warnings
+Compiling Bsp.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu2_Main.c" 37/5] unreachable code
+ctc W537: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 555/15] unused variable "i"
+0 errors, 2 warnings
+Compiling Ifx_DateTime.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 237/5] unreachable code
+ctc W537: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 555/15] unused variable "i"
+0 errors, 2 warnings
+Compiling IfxMtu_cfg.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu1_Main.c" 52/5] unreachable code
+ctc W537: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 555/15] unused variable "i"
+0 errors, 2 warnings
+Compiling Ifx_Fifo.c
+ctc W537: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 555/15] unused variable "i"
+0 errors, 1 warnings
+Compiling IfxCpu_CStart0.c
+ctc W537: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 555/15] unused variable "i"
+0 errors, 1 warnings
+Compiling IfxCpu_CStart1.c
+ctc W537: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 555/15] unused variable "i"
+0 errors, 1 warnings
+Compiling IfxCpu_CStart2.c
+ctc W537: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 555/15] unused variable "i"
+ctc W549: ["..\0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_Fifo.c" 82/9] condition is always true
+0 errors, 2 warnings
+Compiling IfxCpu_Irq.c
+ctc W537: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 555/15] unused variable "i"
+0 errors, 1 warnings
+Compiling IfxCpu.c
+ctc W537: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 555/15] unused variable "i"
+0 errors, 1 warnings
+Compiling IfxCpu_Trap.c
+ctc W537: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 555/15] unused variable "i"
+0 errors, 1 warnings
+Compiling IfxDma_Dma.c
+ctc W537: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 555/15] unused variable "i"
+0 errors, 1 warnings
+Compiling IfxDma.c
+ctc W537: ["..\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 555/15] unused variable "i"
+0 errors, 1 warnings
+Compiling IfxDsadc_Dsadc.c
+ctc W537: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 555/15] unused variable "i"
+0 errors, 1 warnings
+Compiling IfxDsadc.c
+ctc W537: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 555/15] unused variable "i"
+0 errors, 1 warnings
+Compiling IfxGtm_Cmu.c
+ctc W560: ["..\0_Src\4_McHal\Tricore\Dsadc\Std\IfxDsadc.c" 83/107] possible truncation at implicit conversion to type "float"
+ctc W537: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 555/15] unused variable "i"
+0 errors, 2 warnings
+ctc W537: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 555/15] unused variable "i"
+0 errors, 1 warnings
+Compiling IfxScuCcu.c
+Compiling IfxScuEru.c
+ctc W537: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 555/15] unused variable "i"
+0 errors, 1 warnings
+Compiling IfxScuWdt.c
+ctc W537: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 555/15] unused variable "i"
+0 errors, 1 warnings
+Compiling IfxStm.c
+ctc W537: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 555/15] unused variable "i"
+0 errors, 1 warnings
+ctc W537: ["E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\Cpu\Std\IfxCpu.h" 555/15] unused variable "i"
+0 errors, 1 warnings
+Linking to TC275C_OS.elf
+
+Time consumed: 27762 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling DemoApp.c
+Compiling Cpu0_Main.c
+Compiling Cpu1_Main.c
+Compiling Cpu2_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu1_Main.c" 52/5] unreachable code
+0 errors, 1 warnings
+Compiling Bsp.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu2_Main.c" 37/5] unreachable code
+0 errors, 1 warnings
+Compiling Ifx_DateTime.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 237/5] unreachable code
+0 errors, 1 warnings
+Compiling IfxMtu_cfg.c
+ctc W510: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 27/6] unexpected text after preprocessing directive
+ctc W535: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 152/2] no type specifiers - assumed 'int'
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 17/23] unused variable "dsadc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 34/6] unused variable "chn"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 164/7] unused variable "str_adc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 165/6] unused variable "chn"
+0 errors, 6 warnings
+Compiling Ifx_Fifo.c
+Compiling IfxCpu_CStart0.c
+Compiling IfxCpu_CStart1.c
+Compiling IfxCpu_CStart2.c
+Compiling IfxCpu_Irq.c
+Compiling IfxCpu.c
+Compiling IfxCpu_Trap.c
+ctc W549: ["..\0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_Fifo.c" 82/9] condition is always true
+0 errors, 1 warnings
+Compiling IfxDma_Dma.c
+Compiling IfxDma.c
+Compiling IfxDsadc.c
+ctc W560: ["..\0_Src\4_McHal\Tricore\Dsadc\Std\IfxDsadc.c" 83/107] possible truncation at implicit conversion to type "float"
+0 errors, 1 warnings
+Linking to TC275C_OS.elf
+
+Time consumed: 19333 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling DemoApp.c
+Compiling Cpu0_Main.c
+Compiling Cpu1_Main.c
+Compiling Cpu2_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 237/5] unreachable code
+0 errors, 1 warnings
+Compiling Bsp.c
+ctc W510: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 27/6] unexpected text after preprocessing directive
+ctc W535: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 152/2] no type specifiers - assumed 'int'
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 17/23] unused variable "dsadc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 34/6] unused variable "chn"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 164/7] unused variable "str_adc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 165/6] unused variable "chn"
+0 errors, 6 warnings
+Compiling Ifx_DateTime.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu2_Main.c" 37/5] unreachable code
+0 errors, 1 warnings
+Compiling IfxMtu_cfg.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu1_Main.c" 52/5] unreachable code
+0 errors, 1 warnings
+Compiling Ifx_Fifo.c
+Compiling IfxCpu_CStart0.c
+Compiling IfxCpu_CStart1.c
+Compiling IfxCpu_CStart2.c
+ctc W549: ["..\0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_Fifo.c" 82/9] condition is always true
+0 errors, 1 warnings
+Compiling IfxCpu_Irq.c
+Compiling IfxCpu.c
+Compiling IfxCpu_Trap.c
+Compiling IfxDma_Dma.c
+Compiling IfxDma.c
+Compiling IfxDsadc_Dsadc.c
+Compiling IfxDsadc.c
+Compiling IfxGtm_Cmu.c
+Compiling IfxScuCcu.c
+ctc W560: ["..\0_Src\4_McHal\Tricore\Dsadc\Std\IfxDsadc.c" 83/107] possible truncation at implicit conversion to type "float"
+0 errors, 1 warnings
+Compiling IfxScuEru.c
+Compiling IfxScuWdt.c
+Compiling IfxStm.c
+Linking to TC275C_OS.elf
+
+Time consumed: 26425 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling DemoApp.c
+Compiling Cpu0_Main.c
+Compiling Cpu1_Main.c
+Compiling Cpu2_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu2_Main.c" 37/5] unreachable code
+0 errors, 1 warnings
+Compiling Bsp.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu1_Main.c" 52/5] unreachable code
+0 errors, 1 warnings
+Compiling Ifx_DateTime.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 237/5] unreachable code
+0 errors, 1 warnings
+Compiling IfxMtu_cfg.c
+ctc W510: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 27/6] unexpected text after preprocessing directive
+ctc W535: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 152/2] no type specifiers - assumed 'int'
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 17/23] unused variable "dsadc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 34/6] unused variable "chn"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 164/7] unused variable "str_adc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 165/6] unused variable "chn"
+0 errors, 6 warnings
+Compiling Ifx_Fifo.c
+Compiling IfxCpu_CStart0.c
+Compiling IfxCpu_CStart1.c
+Compiling IfxCpu_CStart2.c
+ctc W549: ["..\0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_Fifo.c" 82/9] condition is always true
+0 errors, 1 warnings
+Compiling IfxCpu_Irq.c
+Compiling IfxCpu.c
+Compiling IfxCpu_Trap.c
+Compiling IfxDma_Dma.c
+Compiling IfxDma.c
+Compiling IfxDsadc_Dsadc.c
+Compiling IfxDsadc.c
+Compiling IfxGtm_Cmu.c
+Compiling IfxScuCcu.c
+ctc W560: ["..\0_Src\4_McHal\Tricore\Dsadc\Std\IfxDsadc.c" 83/107] possible truncation at implicit conversion to type "float"
+0 errors, 1 warnings
+Compiling IfxScuEru.c
+Compiling IfxScuWdt.c
+Compiling IfxStm.c
+Linking to TC275C_OS.elf
+
+Time consumed: 26170 ms
+**** End of build ****

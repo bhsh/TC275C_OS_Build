@@ -1,0 +1,109 @@
+#include "Cpu\Std\Ifx_Types.h"
+#include "Cpu\Std\IfxCpu_Intrinsics.h"
+#include "Scu\Std\IfxScuWdt.h"
+#include "Port/Std/IfxPort.h"
+#include "communication.h"
+#include "Cpu0_Main.h"
+#include "SysSe/Bsp/Bsp.h"
+
+extern unsigned long lock;
+extern unsigned long mask;
+
+#pragma section nearbss "zbss_cpu0"
+#pragma section neardata "zdata_cpu0"
+
+ unsigned char core1_test;
+ unsigned long core1_test2;
+
+#pragma section nearbss "zbss_cpu1"
+#pragma section neardata "zdata_cpu1"
+
+ unsigned char core1_test3;
+ unsigned long core1_test4;
+
+#pragma section nearbss "zbss_cpu2"
+#pragma section neardata "zdata_cpu2"
+
+ unsigned char core1_test5;
+ unsigned long core1_test6;
+
+extern App_Cpu0 g_AppCpu0;
+
+/**********************************************************************************
+ *
+ *
+ *   STM1 initialization and interrupt
+ *
+ *
+ *
+ *********************************************************************************/
+void STM1_Demo_init(void)
+{
+	/* Initialize STM for the triggers*/
+	IfxStm_CompareConfig stmCompareConfig;
+
+    // configure P33.8 as general output
+    IfxPort_setPinMode(&MODULE_P33, 9,  IfxPort_Mode_outputPushPullGeneral);
+
+    /* Calculate the compare value of STM0 */
+	stm1CompareValue = IfxStm_getFrequency(&MODULE_STM1) / STM1_TICK_PERIOD_IN_MICROSECONDS;	/* 1ms */
+
+	IfxStm_enableOcdsSuspend(&MODULE_STM1);
+
+	/* Configure interrupt service requests for STM trigger outputs */
+	//IfxSrc_init(&MODULE_SRC.STM[0].SR[0], IfxSrc_Tos_cpu0, IFX_CFG_ISR_PRIORITY_STM0_COMPARE0);
+	//IfxSrc_enable(&MODULE_SRC.STM[0].SR[0]);
+	stmCompareConfig.servProvider = IfxSrc_Tos_cpu0;
+
+	/* Call the constructor of configuration */
+	IfxStm_initCompareConfig(&stmCompareConfig);
+
+	/* Modify only the number of ticks and enable the trigger output */
+	stmCompareConfig.ticks = stm1CompareValue;   /*Interrupt after stm0CompareValue ticks from now */
+	stmCompareConfig.triggerInterruptEnabled = IFX_CFG_ISR_PRIORITY_STM1_COMPARE0;
+
+	/* Now Compare functionality is initialized */
+	IfxStm_initCompare(&MODULE_STM1, &stmCompareConfig);
+
+}
+
+IFX_INTERRUPT(Ifx_STM1_Isr,0,IFX_CFG_ISR_PRIORITY_STM1_COMPARE0)
+{
+    uint32 stmTicks;
+    stmTicks= (uint32)(stm1CompareValue * 100);
+    IfxStm_updateCompare (&MODULE_STM1, IfxStm_Comparator_0, IfxStm_getCompare (&MODULE_STM1, IfxStm_Comparator_0) + stmTicks);
+    IfxPort_togglePin(&MODULE_P33, 9);
+}
+
+int core1_main (void)
+{
+	//test_fun();
+	//test_fun3();
+//	g_AppCpu3++;
+    __enable ();
+    /*
+     * !!WATCHDOG1 IS DISABLED HERE!!
+     * Enable the watchdog in the demo if it is required and also service the watchdog periodically
+     * */
+    IfxScuWdt_disableCpuWatchdog (IfxScuWdt_getCpuWatchdogPassword ());
+
+   //while (1)
+    {
+    	//synchronizeCore0Core1();
+    	//IfxPort_togglePin(&MODULE_P02, 1);
+    }
+
+   // while(lock== 0) requestLock(&lock, mask);
+   while(1)
+   {
+     // for(i=0;i<1000;i++)
+    //  {
+       //IfxPort_togglePin(&MODULE_P02, 1);
+       //IfxStm_waitTicks(&MODULE_STM1, g_AppCpu0.info.stmFreq/100);
+     // }
+       //IfxPort_togglePin(&MODULE_P33, 10);
+       IfxStm_waitTicks(&MODULE_STM0, 20000000);
+      //releaseLock(&lock, mask);
+   }
+    return (1);
+}
