@@ -1,0 +1,36 @@
+################################################################################
+# Automatically-generated file. Do not edit!
+################################################################################
+
+C_FILES += "..\0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_CircularBuffer.asm.c"
+OBJ_FILES += "0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_CircularBuffer.asm.o"
+"0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_CircularBuffer.asm.o" : "..\0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_CircularBuffer.asm.c" "0_Src\4_McHal\Tricore\_Lib\DataHandling\.Ifx_CircularBuffer.asm.o.opt"
+	@echo Compiling ${<F}
+	@"${PRODDIR}\bin\cctc" -f "0_Src\4_McHal\Tricore\_Lib\DataHandling\.Ifx_CircularBuffer.asm.o.opt"
+
+"0_Src\4_McHal\Tricore\_Lib\DataHandling\.Ifx_CircularBuffer.asm.o.opt" : .refresh
+	@argfile "0_Src\4_McHal\Tricore\_Lib\DataHandling\.Ifx_CircularBuffer.asm.o.opt" -o "0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_CircularBuffer.asm.o" "..\0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_CircularBuffer.asm.c" -Ctc27xc --lsl-core=vtc -t -I"E:\OS\TASKING_TC275C_OS\TC275C_OS" -Wa-H"sfr/regtc27xc.def" -Wa-gAHLs --emit-locals=-equ,-symbols -Wa-Ogs -Wa--error-limit=42 -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Config\Common" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Tricore\DemoApp" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\StdIf" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\Tricore\Compilers" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_Reg" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_PinMap" --iso=99 --language=-gcc,-volatile,+strings --switch=auto --align=0 --default-near-size=8 --default-a0-size=0 --default-a1-size=0 -O2 --tradeoff=4 --compact-max-size=200 -g --source -c --dep-file="0_Src\4_McHal\Tricore\_Lib\DataHandling\.Ifx_CircularBuffer.asm.o.d" -Wc--make-target="0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_CircularBuffer.asm.o"
+DEPENDENCY_FILES += "0_Src\4_McHal\Tricore\_Lib\DataHandling\.Ifx_CircularBuffer.asm.o.d"
+
+C_FILES += "..\0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_CircularBuffer.c"
+OBJ_FILES += "0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_CircularBuffer.o"
+"0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_CircularBuffer.o" : "..\0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_CircularBuffer.c" "0_Src\4_McHal\Tricore\_Lib\DataHandling\.Ifx_CircularBuffer.o.opt"
+	@echo Compiling ${<F}
+	@"${PRODDIR}\bin\cctc" -f "0_Src\4_McHal\Tricore\_Lib\DataHandling\.Ifx_CircularBuffer.o.opt"
+
+"0_Src\4_McHal\Tricore\_Lib\DataHandling\.Ifx_CircularBuffer.o.opt" : .refresh
+	@argfile "0_Src\4_McHal\Tricore\_Lib\DataHandling\.Ifx_CircularBuffer.o.opt" -o "0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_CircularBuffer.o" "..\0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_CircularBuffer.c" -Ctc27xc --lsl-core=vtc -t -I"E:\OS\TASKING_TC275C_OS\TC275C_OS" -Wa-H"sfr/regtc27xc.def" -Wa-gAHLs --emit-locals=-equ,-symbols -Wa-Ogs -Wa--error-limit=42 -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Config\Common" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Tricore\DemoApp" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\StdIf" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\Tricore\Compilers" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_Reg" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_PinMap" --iso=99 --language=-gcc,-volatile,+strings --switch=auto --align=0 --default-near-size=8 --default-a0-size=0 --default-a1-size=0 -O2 --tradeoff=4 --compact-max-size=200 -g --source -c --dep-file="0_Src\4_McHal\Tricore\_Lib\DataHandling\.Ifx_CircularBuffer.o.d" -Wc--make-target="0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_CircularBuffer.o"
+DEPENDENCY_FILES += "0_Src\4_McHal\Tricore\_Lib\DataHandling\.Ifx_CircularBuffer.o.d"
+
+C_FILES += "..\0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_Fifo.c"
+OBJ_FILES += "0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_Fifo.o"
+"0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_Fifo.o" : "..\0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_Fifo.c" "0_Src\4_McHal\Tricore\_Lib\DataHandling\.Ifx_Fifo.o.opt"
+	@echo Compiling ${<F}
+	@"${PRODDIR}\bin\cctc" -f "0_Src\4_McHal\Tricore\_Lib\DataHandling\.Ifx_Fifo.o.opt"
+
+"0_Src\4_McHal\Tricore\_Lib\DataHandling\.Ifx_Fifo.o.opt" : .refresh
+	@argfile "0_Src\4_McHal\Tricore\_Lib\DataHandling\.Ifx_Fifo.o.opt" -o "0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_Fifo.o" "..\0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_Fifo.c" -Ctc27xc --lsl-core=vtc -t -I"E:\OS\TASKING_TC275C_OS\TC275C_OS" -Wa-H"sfr/regtc27xc.def" -Wa-gAHLs --emit-locals=-equ,-symbols -Wa-Ogs -Wa--error-limit=42 -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Config\Common" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Tricore\DemoApp" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\StdIf" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\Tricore\Compilers" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_Reg" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_PinMap" --iso=99 --language=-gcc,-volatile,+strings --switch=auto --align=0 --default-near-size=8 --default-a0-size=0 --default-a1-size=0 -O2 --tradeoff=4 --compact-max-size=200 -g --source -c --dep-file="0_Src\4_McHal\Tricore\_Lib\DataHandling\.Ifx_Fifo.o.d" -Wc--make-target="0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_Fifo.o"
+DEPENDENCY_FILES += "0_Src\4_McHal\Tricore\_Lib\DataHandling\.Ifx_Fifo.o.d"
+
+
+GENERATED_FILES += "0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_CircularBuffer.asm.o" "0_Src\4_McHal\Tricore\_Lib\DataHandling\.Ifx_CircularBuffer.asm.o.opt" "0_Src\4_McHal\Tricore\_Lib\DataHandling\.Ifx_CircularBuffer.asm.o.d" "0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_CircularBuffer.asm.src" "0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_CircularBuffer.asm.lst" "0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_CircularBuffer.o" "0_Src\4_McHal\Tricore\_Lib\DataHandling\.Ifx_CircularBuffer.o.opt" "0_Src\4_McHal\Tricore\_Lib\DataHandling\.Ifx_CircularBuffer.o.d" "0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_CircularBuffer.src" "0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_CircularBuffer.lst" "0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_Fifo.o" "0_Src\4_McHal\Tricore\_Lib\DataHandling\.Ifx_Fifo.o.opt" "0_Src\4_McHal\Tricore\_Lib\DataHandling\.Ifx_Fifo.o.d" "0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_Fifo.src" "0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_Fifo.lst"

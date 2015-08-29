@@ -1,0 +1,76 @@
+################################################################################
+# Automatically-generated file. Do not edit!
+################################################################################
+
+C_FILES += "..\0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm.c"
+OBJ_FILES += "0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm.o"
+"0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm.o" : "..\0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm.c" "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm.o.opt"
+	@echo Compiling ${<F}
+	@"${PRODDIR}\bin\cctc" -f "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm.o.opt"
+
+"0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm.o.opt" : .refresh
+	@argfile "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm.o.opt" -o "0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm.o" "..\0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm.c" -Ctc27xc --lsl-core=vtc -t -I"E:\OS\TASKING_TC275C_OS\TC275C_OS" -Wa-H"sfr/regtc27xc.def" -Wa-gAHLs --emit-locals=-equ,-symbols -Wa-Ogs -Wa--error-limit=42 -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Config\Common" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Tricore\DemoApp" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\StdIf" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\Tricore\Compilers" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_Reg" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_PinMap" --iso=99 --language=-gcc,-volatile,+strings --switch=auto --align=0 --default-near-size=8 --default-a0-size=0 --default-a1-size=0 -O2 --tradeoff=4 --compact-max-size=200 -g --source -c --dep-file="0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm.o.d" -Wc--make-target="0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm.o"
+DEPENDENCY_FILES += "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm.o.d"
+
+C_FILES += "..\0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Atom.c"
+OBJ_FILES += "0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Atom.o"
+"0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Atom.o" : "..\0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Atom.c" "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Atom.o.opt"
+	@echo Compiling ${<F}
+	@"${PRODDIR}\bin\cctc" -f "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Atom.o.opt"
+
+"0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Atom.o.opt" : .refresh
+	@argfile "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Atom.o.opt" -o "0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Atom.o" "..\0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Atom.c" -Ctc27xc --lsl-core=vtc -t -I"E:\OS\TASKING_TC275C_OS\TC275C_OS" -Wa-H"sfr/regtc27xc.def" -Wa-gAHLs --emit-locals=-equ,-symbols -Wa-Ogs -Wa--error-limit=42 -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Config\Common" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Tricore\DemoApp" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\StdIf" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\Tricore\Compilers" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_Reg" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_PinMap" --iso=99 --language=-gcc,-volatile,+strings --switch=auto --align=0 --default-near-size=8 --default-a0-size=0 --default-a1-size=0 -O2 --tradeoff=4 --compact-max-size=200 -g --source -c --dep-file="0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Atom.o.d" -Wc--make-target="0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Atom.o"
+DEPENDENCY_FILES += "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Atom.o.d"
+
+C_FILES += "..\0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Cmu.c"
+OBJ_FILES += "0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Cmu.o"
+"0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Cmu.o" : "..\0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Cmu.c" "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Cmu.o.opt"
+	@echo Compiling ${<F}
+	@"${PRODDIR}\bin\cctc" -f "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Cmu.o.opt"
+
+"0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Cmu.o.opt" : .refresh
+	@argfile "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Cmu.o.opt" -o "0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Cmu.o" "..\0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Cmu.c" -Ctc27xc --lsl-core=vtc -t -I"E:\OS\TASKING_TC275C_OS\TC275C_OS" -Wa-H"sfr/regtc27xc.def" -Wa-gAHLs --emit-locals=-equ,-symbols -Wa-Ogs -Wa--error-limit=42 -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Config\Common" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Tricore\DemoApp" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\StdIf" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\Tricore\Compilers" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_Reg" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_PinMap" --iso=99 --language=-gcc,-volatile,+strings --switch=auto --align=0 --default-near-size=8 --default-a0-size=0 --default-a1-size=0 -O2 --tradeoff=4 --compact-max-size=200 -g --source -c --dep-file="0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Cmu.o.d" -Wc--make-target="0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Cmu.o"
+DEPENDENCY_FILES += "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Cmu.o.d"
+
+C_FILES += "..\0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Dpll.c"
+OBJ_FILES += "0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Dpll.o"
+"0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Dpll.o" : "..\0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Dpll.c" "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Dpll.o.opt"
+	@echo Compiling ${<F}
+	@"${PRODDIR}\bin\cctc" -f "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Dpll.o.opt"
+
+"0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Dpll.o.opt" : .refresh
+	@argfile "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Dpll.o.opt" -o "0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Dpll.o" "..\0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Dpll.c" -Ctc27xc --lsl-core=vtc -t -I"E:\OS\TASKING_TC275C_OS\TC275C_OS" -Wa-H"sfr/regtc27xc.def" -Wa-gAHLs --emit-locals=-equ,-symbols -Wa-Ogs -Wa--error-limit=42 -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Config\Common" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Tricore\DemoApp" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\StdIf" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\Tricore\Compilers" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_Reg" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_PinMap" --iso=99 --language=-gcc,-volatile,+strings --switch=auto --align=0 --default-near-size=8 --default-a0-size=0 --default-a1-size=0 -O2 --tradeoff=4 --compact-max-size=200 -g --source -c --dep-file="0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Dpll.o.d" -Wc--make-target="0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Dpll.o"
+DEPENDENCY_FILES += "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Dpll.o.d"
+
+C_FILES += "..\0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Tbu.c"
+OBJ_FILES += "0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Tbu.o"
+"0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Tbu.o" : "..\0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Tbu.c" "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Tbu.o.opt"
+	@echo Compiling ${<F}
+	@"${PRODDIR}\bin\cctc" -f "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Tbu.o.opt"
+
+"0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Tbu.o.opt" : .refresh
+	@argfile "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Tbu.o.opt" -o "0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Tbu.o" "..\0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Tbu.c" -Ctc27xc --lsl-core=vtc -t -I"E:\OS\TASKING_TC275C_OS\TC275C_OS" -Wa-H"sfr/regtc27xc.def" -Wa-gAHLs --emit-locals=-equ,-symbols -Wa-Ogs -Wa--error-limit=42 -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Config\Common" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Tricore\DemoApp" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\StdIf" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\Tricore\Compilers" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_Reg" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_PinMap" --iso=99 --language=-gcc,-volatile,+strings --switch=auto --align=0 --default-near-size=8 --default-a0-size=0 --default-a1-size=0 -O2 --tradeoff=4 --compact-max-size=200 -g --source -c --dep-file="0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Tbu.o.d" -Wc--make-target="0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Tbu.o"
+DEPENDENCY_FILES += "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Tbu.o.d"
+
+C_FILES += "..\0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Tim.c"
+OBJ_FILES += "0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Tim.o"
+"0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Tim.o" : "..\0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Tim.c" "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Tim.o.opt"
+	@echo Compiling ${<F}
+	@"${PRODDIR}\bin\cctc" -f "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Tim.o.opt"
+
+"0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Tim.o.opt" : .refresh
+	@argfile "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Tim.o.opt" -o "0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Tim.o" "..\0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Tim.c" -Ctc27xc --lsl-core=vtc -t -I"E:\OS\TASKING_TC275C_OS\TC275C_OS" -Wa-H"sfr/regtc27xc.def" -Wa-gAHLs --emit-locals=-equ,-symbols -Wa-Ogs -Wa--error-limit=42 -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Config\Common" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Tricore\DemoApp" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\StdIf" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\Tricore\Compilers" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_Reg" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_PinMap" --iso=99 --language=-gcc,-volatile,+strings --switch=auto --align=0 --default-near-size=8 --default-a0-size=0 --default-a1-size=0 -O2 --tradeoff=4 --compact-max-size=200 -g --source -c --dep-file="0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Tim.o.d" -Wc--make-target="0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Tim.o"
+DEPENDENCY_FILES += "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Tim.o.d"
+
+C_FILES += "..\0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Tom.c"
+OBJ_FILES += "0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Tom.o"
+"0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Tom.o" : "..\0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Tom.c" "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Tom.o.opt"
+	@echo Compiling ${<F}
+	@"${PRODDIR}\bin\cctc" -f "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Tom.o.opt"
+
+"0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Tom.o.opt" : .refresh
+	@argfile "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Tom.o.opt" -o "0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Tom.o" "..\0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Tom.c" -Ctc27xc --lsl-core=vtc -t -I"E:\OS\TASKING_TC275C_OS\TC275C_OS" -Wa-H"sfr/regtc27xc.def" -Wa-gAHLs --emit-locals=-equ,-symbols -Wa-Ogs -Wa--error-limit=42 -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Config\Common" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Tricore\DemoApp" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\StdIf" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\1_SrvSw\Tricore\Compilers" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_Reg" -I"E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\4_McHal\Tricore\_PinMap" --iso=99 --language=-gcc,-volatile,+strings --switch=auto --align=0 --default-near-size=8 --default-a0-size=0 --default-a1-size=0 -O2 --tradeoff=4 --compact-max-size=200 -g --source -c --dep-file="0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Tom.o.d" -Wc--make-target="0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Tom.o"
+DEPENDENCY_FILES += "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Tom.o.d"
+
+
+GENERATED_FILES += "0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm.o" "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm.o.opt" "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm.o.d" "0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm.src" "0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm.lst" "0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Atom.o" "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Atom.o.opt" "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Atom.o.d" "0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Atom.src" "0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Atom.lst" "0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Cmu.o" "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Cmu.o.opt" "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Cmu.o.d" "0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Cmu.src" "0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Cmu.lst" "0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Dpll.o" "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Dpll.o.opt" "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Dpll.o.d" "0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Dpll.src" "0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Dpll.lst" "0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Tbu.o" "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Tbu.o.opt" "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Tbu.o.d" "0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Tbu.src" "0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Tbu.lst" "0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Tim.o" "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Tim.o.opt" "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Tim.o.d" "0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Tim.src" "0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Tim.lst" "0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Tom.o" "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Tom.o.opt" "0_Src\4_McHal\Tricore\Gtm\Std\.IfxGtm_Tom.o.d" "0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Tom.src" "0_Src\4_McHal\Tricore\Gtm\Std\IfxGtm_Tom.lst"

@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workbench progressCount="12" version="2.0">
+<workbenchAdvisor/>
+<window height="728" maximized="true" width="1024" x="200" y="110">
+<fastViewData fastViewLocation="1024"/>
+<perspectiveBar>
+<itemSize x="160"/>
+</perspectiveBar>
+<coolbarLayout>
+<coolItem id="group.file" itemType="typeGroupMarker"/>
+<coolItem id="org.eclipse.ui.workbench.file" itemType="typeToolBarContribution" x="122" y="22"/>
+<coolItem id="additions" itemType="typeGroupMarker"/>
+<coolItem id="com.tasking.managedbuilder.CElementCreationActionSet" itemType="typeToolBarContribution" x="167" y="22"/>
+<coolItem id="com.tasking.managedbuilder.buildActionSet" itemType="typeToolBarContribution" x="145" y="22"/>
+<coolItem id="org.eclipse.debug.ui.launch.toolbar" itemType="typeToolBarContribution" x="-1" y="-1"/>
+<coolItem id="org.eclipse.debug.ui.launchActionSet" itemType="typeToolBarContribution" x="53" y="22"/>
+<coolItem id="org.eclipse.debug.ui.main.toolbar" itemType="typeToolBarContribution" x="-1" y="-1"/>
+<coolItem id="org.eclipse.search.searchActionSet" itemType="typeToolBarContribution" x="76" y="22"/>
+<coolItem id="org.eclipse.ui.edit.text.actionSet.presentation" itemType="typeToolBarContribution" x="84" y="22"/>
+<coolItem id="group.nav" itemType="typeGroupMarker"/>
+<coolItem id="org.eclipse.ui.workbench.navigate" itemType="typeToolBarContribution" x="190" y="22"/>
+<coolItem id="group.editor" itemType="typeGroupMarker"/>
+<coolItem id="org.eclipse.cdt.ui.editor.CEditor" itemType="typeToolBarContribution" x="-1" y="-1"/>
+<coolItem id="group.help" itemType="typeGroupMarker"/>
+<coolItem id="org.eclipse.ui.workbench.help" itemType="typeToolBarContribution" x="-1" y="-1"/>
+</coolbarLayout>
+<page aggregateWorkingSetId="Aggregate for window 1440771518490" focus="true" label="Workspace - TASKING C/C++">
+<editors>
+<editorArea activeWorkbook="DefaultEditorWorkbook">
+<info part="DefaultEditorWorkbook">
+<folder appearance="1" expanded="2">
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
+<part id="1"/>
+<part id="2"/>
+<part id="3"/>
+<part id="4"/>
+<part id="5"/>
+<part id="6"/>
+<part id="7"/>
+<part id="8"/>
+<part id="9"/>
+</presentation>
+</folder>
+</info>
+</editorArea>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="IfxGtm_Trig.c" partName="IfxGtm_Trig.c" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/4_McHal/Tricore/Gtm/Trig/IfxGtm_Trig.c" title="IfxGtm_Trig.c" tooltip="TC275C_OS/0_Src/4_McHal/Tricore/Gtm/Trig/IfxGtm_Trig.c" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/4_McHal/Tricore/Gtm/Trig/IfxGtm_Trig.c"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="18120" selectionTopPixel="2385"/>
+</editor>
+<editor activePart="true" focus="true" id="org.eclipse.cdt.ui.editor.CEditor" name="Cpu0_Main.c" partName="Cpu0_Main.c" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu0_Main.c" title="Cpu0_Main.c" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu0_Main.c" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu0_Main.c"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1135" selectionTopPixel="299"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="Cpu2_Main.c" partName="Cpu2_Main.c" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu2_Main.c" title="Cpu2_Main.c" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu2_Main.c" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu2_Main.c"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="89"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="Cpu1_Main.c" partName="Cpu1_Main.c" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu1_Main.c" title="Cpu1_Main.c" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu1_Main.c" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu1_Main.c"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1639" selectionTopPixel="674"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="DemoApp.c" partName="DemoApp.c" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/0_AppSw/Tricore/DemoApp/DemoApp.c" title="DemoApp.c" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/DemoApp/DemoApp.c" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/0_AppSw/Tricore/DemoApp/DemoApp.c"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="6073" selectionTopPixel="2564"/>
+</editor>
+<editor id="com.tasking.lsl.editor.LSLSourceEditor" name="Lcf_Tasking.lsl" partName="Lcf_Tasking.lsl" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/1_ToolEnv/0_Build/1_Config/Lcf_Tasking.lsl" title="Lcf_Tasking.lsl" tooltip="TC275C_OS/1_ToolEnv/0_Build/1_Config/Lcf_Tasking.lsl" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/1_ToolEnv/0_Build/1_Config/Lcf_Tasking.lsl"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="7530" selectionTopPixel="3361"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="Compilers.h" partName="Compilers.h" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/Compilers.h" title="Compilers.h" tooltip="TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/Compilers.h" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/Compilers.h"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1609" selectionTopPixel="419"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="CompilerTasking.h" partName="CompilerTasking.h" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/CompilerTasking.h" title="CompilerTasking.h" tooltip="TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/CompilerTasking.h" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/CompilerTasking.h"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="4060" selectionTopPixel="1049"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="CompilerGnuc.c" partName="CompilerGnuc.c" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/CompilerGnuc.c" title="CompilerGnuc.c" tooltip="TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/CompilerGnuc.c" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/CompilerGnuc.c"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1071" selectionTopPixel="945"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="communication.h" partName="communication.h" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/0_AppSw/Tricore/DemoApp/communication.h" title="communication.h" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/DemoApp/communication.h" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/0_AppSw/Tricore/DemoApp/communication.h"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="132" selectionTopPixel="0"/>
+</editor>
+</editors>
+<views>
+<view id="org.eclipse.ui.views.PropertySheet" partName="Properties">
+<viewState/>
+</view>
+<view id="org.eclipse.ui.views.ResourceNavigator" partName="Navigator">
+<viewState LINK_NAVIGATOR_TO_EDITOR="0" sorter="1">
+<filters>
+<filter element=".*" isEnabled="false"/>
+</filters>
+</viewState>
+</view>
+<view id="org.eclipse.ui.console.ConsoleView" partName="Console">
+<viewState/>
+</view>
+<view id="org.eclipse.ui.views.ContentOutline" partName="Outline">
+<viewState/>
+</view>
+<view id="com.tasking.managedbuilder.cview" partName="C/C++ Projects">
+<viewState horizontalPosition="0" verticalPosition="0">
+<expanded>
+<element path="E:\OS\TASKING_TC275C_OS\TC275C_OS"/>
+<element path="E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw"/>
+<element path="E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Tricore"/>
+<element path="E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Tricore\Main"/>
+</expanded>
+</viewState>
+</view>
+<view id="com.tasking.managedbuilder.TskProblemsView" partName="Problems">
+<viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.idField" categoryGroup="none" markerContentGenerator="com.tasking.managedbuilder.problemsGenerator" partName="Problems">
+<columnWidths org.eclipse.ui.ide.idField="90" org.eclipse.ui.ide.locationField="90" org.eclipse.ui.ide.markerType="90" org.eclipse.ui.ide.pathField="120" org.eclipse.ui.ide.resourceField="90" org.eclipse.ui.ide.severityAndDescriptionField="300"/>
+<visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
+<visible IMemento.internal.id="org.eclipse.ui.ide.resourceField"/>
+<visible IMemento.internal.id="org.eclipse.ui.ide.pathField"/>
+<visible IMemento.internal.id="org.eclipse.ui.ide.locationField"/>
+<visible IMemento.internal.id="org.eclipse.ui.ide.idField"/>
+<visible IMemento.internal.id="org.eclipse.ui.ide.markerType"/>
+</viewState>
+</view>
+</views>
+<perspectives activePart="org.eclipse.cdt.ui.editor.CEditor" activePerspective="com.tasking.managedbuilder.TskCPerspective">
+<perspective editorAreaTrimState="2" editorAreaVisible="1" fixed="0" version="0.016">
+<descriptor class="com.tasking.workspacemgmt.ui.perspectives.TskCPerspectiveFactory" id="com.tasking.managedbuilder.TskCPerspective" label="TASKING C/C++"/>
+<alwaysOnActionSet id="org.eclipse.ui.cheatsheets.actionSet"/>
+<alwaysOnActionSet id="org.eclipse.search.searchActionSet"/>
+<alwaysOnActionSet id="org.eclipse.ui.edit.text.actionSet.annotationNavigation"/>
+<alwaysOnActionSet id="org.eclipse.ui.edit.text.actionSet.navigation"/>
+<alwaysOnActionSet id="org.eclipse.ui.edit.text.actionSet.convertLineDelimitersTo"/>
+<alwaysOnActionSet id="org.eclipse.ui.actionSet.keyBindings"/>
+<alwaysOnActionSet id="org.eclipse.ui.actionSet.openFiles"/>
+<alwaysOnActionSet id="com.tasking.cdt.launch.debugActionSet"/>
+<alwaysOnActionSet id="com.tasking.managedbuilder.buildActionSet"/>
+<alwaysOnActionSet id="org.eclipse.cdt.ui.SearchActionSet"/>
+<alwaysOnActionSet id="com.tasking.managedbuilder.CElementCreationActionSet"/>
+<alwaysOnActionSet id="org.eclipse.ui.NavigateActionSet"/>
+<alwaysOnActionSet id="org.eclipse.ui.edit.text.actionSet.presentation"/>
+<alwaysOnActionSet id="com.tasking.debug.cdt.core.debugActionSet"/>
+<show_view_action id="org.eclipse.ui.console.ConsoleView"/>
+<show_view_action id="org.eclipse.search.ui.views.SearchView"/>
+<show_view_action id="org.eclipse.ui.views.ContentOutline"/>
+<show_view_action id="com.tasking.managedbuilder.TskProblemsView"/>
+<show_view_action id="com.tasking.managedbuilder.cview"/>
+<show_view_action id="org.eclipse.ui.navigator.ProjectExplorer"/>
+<show_view_action id="org.eclipse.ui.views.PropertySheet"/>
+<new_wizard_action id="com.tasking.arm.wizards.TskStdCWizard"/>
+<new_wizard_action id="com.tasking.arm.wizards.NewCStartWizard"/>
+<new_wizard_action id="com.tasking.c51.wizards.TskStdCWizard"/>
+<new_wizard_action id="com.tasking.cpcp.wizards.TskStdCWizard"/>
+<new_wizard_action id="com.tasking.ctc.wizards.TskStdCWizard"/>
+<new_wizard_action id="com.tasking.ctc.wizards.NewCStartWizard"/>
+<new_wizard_action id="com.tasking.lsl.wizards.NewLSLWizard"/>
+<new_wizard_action id="com.tasking.mcs.wizards.TskStdCWizard"/>
+<new_wizard_action id="org.eclipse.cdt.ui.wizards.NewSourceFolderCreationWizard"/>
+<new_wizard_action id="org.eclipse.cdt.ui.wizards.NewFolderCreationWizard"/>
+<new_wizard_action id="org.eclipse.cdt.ui.wizards.NewSourceFileCreationWizard"/>
+<new_wizard_action id="org.eclipse.cdt.ui.wizards.NewHeaderFileCreationWizard"/>
+<new_wizard_action id="org.eclipse.cdt.ui.wizards.NewFileCreationWizard"/>
+<new_wizard_action id="org.eclipse.cdt.ui.wizards.NewClassCreationWizard"/>
+<perspective_action id="com.tasking.debug.cdt.ui.TskDebugPerspective"/>
+<perspective_action id="com.tasking.profiler.TskProfilerPerspective"/>
+<perspective_action id="org.eclipse.team.ui.TeamSynchronizingPerspective"/>
+<hide_menu_item_id id="org.eclipse.ui.run"/>
+<hide_toolbar_item_id id="com.tasking.debug.cdt.core.toolbar.actions.Reset"/>
+<hide_toolbar_item_id id="com.tasking.debug.cdt.core.toolbar.actions.LoadDebugInfo"/>
+<hide_toolbar_item_id id="org.eclipse.ui.edit.text.toggleShowSelectedElementOnly"/>
+<hide_toolbar_item_id id="org.eclipse.debug.ui.commands.RunToLine"/>
+<hide_toolbar_item_id id="com.tasking.debug.cdt.core.toolbar.actions.Restart"/>
+<hide_toolbar_item_id id="com.tasking.debug.cdt.core.toolbar.actions.interrupt"/>
+<view id="com.tasking.managedbuilder.cview"/>
+<view id="org.eclipse.ui.views.ResourceNavigator"/>
+<view id="com.tasking.managedbuilder.TskProblemsView"/>
+<view id="org.eclipse.ui.console.ConsoleView"/>
+<view id="org.eclipse.ui.views.PropertySheet"/>
+<view id="org.eclipse.ui.views.ContentOutline"/>
+<fastViewBars/>
+<layout>
+<mainWindow>
+<info folder="true" part="topLeft">
+<folder activePageID="com.tasking.managedbuilder.cview" appearance="2" expanded="2">
+<page content="com.tasking.managedbuilder.cview" label="C/C++ Projects"/>
+<page content="org.eclipse.ui.views.ResourceNavigator" label="Navigator"/>
+<page content="org.eclipse.ui.views.BookmarkView" label="LabelNotFound"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
+<part id="1"/>
+</presentation>
+</folder>
+</info>
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@76b80a" ratio="0.75" ratioLeft="750" ratioRight="250" relationship="2" relative="topLeft">
+<folder appearance="2" expanded="2">
+<page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
+<page content="org.eclipse.ui.internal.introview" label="LabelNotFound"/>
+<page content="org.eclipse.ui.cheatsheets.views.CheatSheetView" label="LabelNotFound"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
+</folder>
+</info>
+<info part="org.eclipse.ui.editorss" ratio="0.26" ratioLeft="260" ratioRight="740" relationship="2" relative="topLeft"/>
+<info folder="true" part="bottom" ratio="0.7774193" ratioLeft="482" ratioRight="138" relationship="4" relative="org.eclipse.ui.editorss">
+<folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
+<page content="com.tasking.managedbuilder.TskProblemsView" label="Problems"/>
+<page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
+<page content="org.eclipse.ui.views.PropertySheet" label="Properties"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
+<part id="1"/>
+<part id="2"/>
+</presentation>
+</folder>
+</info>
+<info folder="true" part="topRight" ratio="0.75" ratioLeft="555" ratioRight="185" relationship="2" relative="org.eclipse.ui.editorss">
+<folder activePageID="org.eclipse.ui.views.ContentOutline" appearance="2" expanded="2">
+<page content="org.eclipse.ui.views.ContentOutline" label="Outline"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
+</presentation>
+</folder>
+</info>
+</mainWindow>
+</layout>
+</perspective>
+</perspectives>
+<workingSets>
+<workingSet IMemento.internal.id="ActiveProject"/>
+</workingSets>
+<navigationHistory>
+<editors>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/4_McHal/Tricore/Gtm/Trig/IfxGtm_Trig.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu0_Main.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu2_Main.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu1_Main.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/0_AppSw/Tricore/DemoApp/DemoApp.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.tasking.lsl.editor.LSLSourceEditor" path="/TC275C_OS/1_ToolEnv/0_Build/1_Config/Lcf_Tasking.lsl"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/Compilers.h"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/CompilerTasking.h"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/CompilerGnuc.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/CompilerGnuc.h"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/0_AppSw/Tricore/DemoApp/DemoApp.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/0_AppSw/Tricore/DemoApp/communication.h"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu0_Main.c"/>
+</editors>
+<item historyLabel="IfxGtm_Trig.c" index="0">
+<position info="not_deleted" x="18120" y="0"/>
+</item>
+<item historyLabel="Cpu0_Main.c" index="1">
+<position/>
+</item>
+<item historyLabel="Cpu2_Main.c" index="2">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="Cpu1_Main.c" index="3">
+<position info="not_deleted" x="781" y="0"/>
+</item>
+<item historyLabel="DemoApp.c" index="4">
+<position info="not_deleted" x="282" y="28"/>
+</item>
+<item historyLabel="DemoApp.c" index="4">
+<position info="not_deleted" x="5363" y="0"/>
+</item>
+<item historyLabel="Cpu0_Main.c" index="1">
+<position info="not_deleted" x="229" y="0"/>
+</item>
+<item historyLabel="Cpu1_Main.c" index="3">
+<position info="not_deleted" x="1639" y="0"/>
+</item>
+<item historyLabel="Cpu2_Main.c" index="2">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="Cpu1_Main.c" index="3">
+<position info="not_deleted" x="1639" y="0"/>
+</item>
+<item historyLabel="DemoApp.c" index="4">
+<position info="not_deleted" x="5363" y="0"/>
+</item>
+<item historyLabel="Lcf_Tasking.lsl" index="5">
+<position info="not_deleted" x="7530" y="0"/>
+</item>
+<item historyLabel="Cpu0_Main.c" index="1">
+<position info="not_deleted" x="229" y="0"/>
+</item>
+<item historyLabel="DemoApp.c" index="4">
+<position info="not_deleted" x="99" y="0"/>
+</item>
+<item historyLabel="Compilers.h" index="6">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="Compilers.h" index="6">
+<position info="not_deleted" x="1666" y="0"/>
+</item>
+<item historyLabel="CompilerTasking.h" index="7">
+<position info="not_deleted" x="4060" y="0"/>
+</item>
+<item historyLabel="Compilers.h" index="6">
+<position info="not_deleted" x="1609" y="0"/>
+</item>
+<item historyLabel="CompilerGnuc.c" index="8">
+<position info="not_deleted" x="1458" y="0"/>
+</item>
+<item historyLabel="CompilerGnuc.h" index="9">
+<position info="not_deleted" x="3874" y="0"/>
+</item>
+<item historyLabel="CompilerGnuc.c" index="8">
+<position info="not_deleted" x="1458" y="0"/>
+</item>
+<item historyLabel="CompilerGnuc.h" index="9">
+<position info="not_deleted" x="5363" y="0"/>
+</item>
+<item historyLabel="CompilerGnuc.c" index="8">
+<position info="not_deleted" x="1458" y="0"/>
+</item>
+<item historyLabel="DemoApp.c" index="10">
+<position info="not_deleted" x="6073" y="0"/>
+</item>
+<item historyLabel="communication.h" index="11">
+<position info="not_deleted" x="132" y="0"/>
+</item>
+<item historyLabel="DemoApp.c" index="10">
+<position info="not_deleted" x="6073" y="0"/>
+</item>
+<item active="true" historyLabel="Cpu0_Main.c" index="12">
+<position info="not_deleted" x="229" y="0"/>
+</item>
+</navigationHistory>
+<input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
+</page>
+<workbenchWindowAdvisor/>
+<actionBarAdvisor/>
+<trimLayout>
+<trimArea IMemento.internal.id="128">
+<trimItem IMemento.internal.id="org.eclipse.ui.internal.WorkbenchWindow.topBar"/>
+</trimArea>
+<trimArea IMemento.internal.id="1024">
+<trimItem IMemento.internal.id="org.eclise.ui.internal.FastViewBar"/>
+<trimItem IMemento.internal.id="org.eclipse.jface.action.StatusLineManager"/>
+<trimItem IMemento.internal.id="org.eclipse.ui.internal.progress.ProgressRegion"/>
+</trimArea>
+</trimLayout>
+</window>
+<mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="communication.h" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/DemoApp/communication.h">
+<persistable path="/TC275C_OS/0_Src/0_AppSw/Tricore/DemoApp/communication.h"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="CompilerGnuc.h" tooltip="TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/CompilerGnuc.h">
+<persistable path="/TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/CompilerGnuc.h"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="CompilerGnuc.c" tooltip="TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/CompilerGnuc.c">
+<persistable path="/TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/CompilerGnuc.c"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="CompilerTasking.h" tooltip="TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/CompilerTasking.h">
+<persistable path="/TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/CompilerTasking.h"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="Compilers.h" tooltip="TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/Compilers.h">
+<persistable path="/TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/Compilers.h"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.tasking.lsl.editor.LSLSourceEditor" name="Lcf_Tasking.lsl" tooltip="TC275C_OS/1_ToolEnv/0_Build/1_Config/Lcf_Tasking.lsl">
+<persistable path="/TC275C_OS/1_ToolEnv/0_Build/1_Config/Lcf_Tasking.lsl"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="DemoApp.c" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/DemoApp/DemoApp.c">
+<persistable path="/TC275C_OS/0_Src/0_AppSw/Tricore/DemoApp/DemoApp.c"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="Cpu1_Main.c" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu1_Main.c">
+<persistable path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu1_Main.c"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="Cpu2_Main.c" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu2_Main.c">
+<persistable path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu2_Main.c"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="Cpu0_Main.c" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu0_Main.c">
+<persistable path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu0_Main.c"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="IfxGtm_Trig.c" tooltip="TC275C_OS/0_Src/4_McHal/Tricore/Gtm/Trig/IfxGtm_Trig.c">
+<persistable path="/TC275C_OS/0_Src/4_McHal/Tricore/Gtm/Trig/IfxGtm_Trig.c"/>
+</file>
+</mruList>
+</workbench>

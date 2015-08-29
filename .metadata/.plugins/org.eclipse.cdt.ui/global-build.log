@@ -1,0 +1,1469 @@
+
+**** Build of configuration Debug for project Multicore_test1 ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all -a 
+Compiling Ifx_InterfaceConst.c
+Compiling communication.c
+Compiling DemoApp.c
+Compiling Cpu0_Main.c
+Compiling Cpu1_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\DemoApp\communication.c" 49/2] unreachable code
+0 errors, 1 warnings
+Compiling Cpu2_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 178/12] unreachable code
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 179/5] unreachable code
+0 errors, 2 warnings
+Compiling test_clone.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu1_Main.c" 87/5] unreachable code
+0 errors, 1 warnings
+Compiling test_private0.c
+Compiling test_private1.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu2_Main.c" 29/5] unreachable code
+0 errors, 1 warnings
+ctc W510: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 27/6] unexpected text after preprocessing directive
+ctc W535: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 152/2] no type specifiers - assumed 'int'
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 17/23] unused variable "dsadc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 34/6] unused variable "chn"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 164/7] unused variable "str_adc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 165/6] unused variable "chn"
+0 errors, 6 warnings
+Compiling test_share.c
+Compiling SpiIf.c
+Compiling IfxStdIf_DPipe.c
+Compiling IfxStdIf_Pos.c
+Compiling IfxStdIf_PwmHl.c
+Compiling IfxStdIf_Timer.c
+Compiling Assert.c
+Compiling Bsp.c
+Compiling Ifx_Console.c
+Compiling Ifx_Shell.c
+Compiling Ifx_GlobalResources.c
+Compiling Ifx_LowPassPt1.c
+Compiling Ifx_DateTime.c
+Compiling CompilerDcc.c
+Compiling CompilerGnuc.c
+Compiling CompilerTasking.c
+Compiling IfxAsclin_cfg.c
+Compiling IfxCcu6_cfg.c
+ctc W570: ["..\0_Src\1_SrvSw\SysSe\Comm\Ifx_Shell.c" 673/79] type of argument #3 is incompatible with format
+0 errors, 1 warnings
+Compiling IfxCif_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxAsclin_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxCpu_cfg.c
+Compiling IfxDma_cfg.c
+Compiling IfxDsadc_cfg.c
+Compiling IfxDts_cfg.c
+Compiling IfxEmem_cfg.c
+Compiling IfxEray_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxDts_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxEth_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxDsadc_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxFce_cfg.c
+Compiling IfxFlash_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxEth_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxGpt12_cfg.c
+Compiling IfxGtm_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxFce_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxHssl_cfg.c
+Compiling IfxI2c_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxGpt12_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxIom_cfg.c
+Compiling IfxMsc_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxHssl_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxMtu_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxIom_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxMultican_cfg.c
+Compiling IfxPort_cfg.c
+Compiling IfxPsi5_cfg.c
+Compiling IfxPsi5s_cfg.c
+Compiling IfxQspi_cfg.c
+Compiling IfxScu_cfg.c
+Compiling IfxSent_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxPsi5s_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxSrc_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxQspi_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxStm_cfg.c
+Compiling IfxVadc_cfg.c
+Compiling Ifx_CircularBuffer.asm.c
+Compiling Ifx_CircularBuffer.c
+Compiling Ifx_Fifo.c
+Compiling IfxAsclin_PinMap.c
+Compiling IfxCcu6_PinMap.c
+Compiling IfxCif_PinMap.c
+Compiling IfxDsadc_PinMap.c
+Compiling IfxEray_PinMap.c
+ctc W549: ["..\0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_Fifo.c" 82/9] condition is always true
+0 errors, 1 warnings
+Compiling IfxEth_PinMap.c
+Compiling IfxGpt12_PinMap.c
+Compiling IfxGtm_PinMap.c
+Compiling IfxI2c_PinMap.c
+Compiling IfxMsc_PinMap.c
+Compiling IfxMultican_PinMap.c
+Compiling IfxPort_PinMap.c
+Compiling IfxPsi5_PinMap.c
+Compiling IfxPsi5s_PinMap.c
+Compiling IfxQspi_PinMap.c
+Compiling IfxScu_PinMap.c
+Compiling IfxSent_PinMap.c
+Compiling IfxSmu_PinMap.c
+Compiling IfxVadc_PinMap.c
+Compiling IfxCpu_CStart0.c
+Compiling IfxCpu_CStart1.c
+Compiling IfxCpu_CStart2.c
+Compiling IfxCpu_Irq.c
+Compiling IfxCpu.c
+Compiling IfxCpu_Trap.c
+Compiling IfxDma_Dma.c
+Compiling IfxDma.c
+Compiling IfxDsadc_Dsadc.c
+Compiling IfxDsadc.c
+Compiling IfxGtm_Atom_PwmHl.c
+Compiling IfxGtm_Atom_Timer.c
+Compiling IfxGtm.c
+ctc W560: ["..\0_Src\4_McHal\Tricore\Dsadc\Std\IfxDsadc.c" 83/107] possible truncation at implicit conversion to type "float"
+0 errors, 1 warnings
+Compiling IfxGtm_Atom.c
+Compiling IfxGtm_Cmu.c
+Compiling IfxGtm_Dpll.c
+Compiling IfxGtm_Tbu.c
+Compiling IfxGtm_Tim.c
+Compiling IfxGtm_Tom.c
+Compiling IfxGtm_Tom_PwmHl.c
+Compiling IfxGtm_Tom_Timer.c
+Compiling IfxGtm_Trig.c
+Compiling IfxPort_Io.c
+Compiling IfxPort.c
+Compiling IfxScuCcu.c
+ctc W549: ["..\0_Src\4_McHal\Tricore\Gtm\Trig\IfxGtm_Trig.c" 192/22] condition is always true
+ctc W549: ["..\0_Src\4_McHal\Tricore\Gtm\Trig\IfxGtm_Trig.c" 194/15] condition is always true
+0 errors, 2 warnings
+Compiling IfxScuEru.c
+Compiling IfxScuWdt.c
+Compiling IfxSrc.c
+Compiling IfxStm.c
+Linking to Multicore_test1.elf
+
+Time consumed: 86871 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all -a 
+amk F120: problems opening file Makefile: No such file or directory
+
+Time consumed: 432 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all -a 
+amk F120: problems opening file Makefile: No such file or directory
+
+Time consumed: 224 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all -a 
+Compiling Ifx_InterfaceConst.c
+Compiling communication.c
+Compiling DemoApp.c
+Compiling Cpu0_Main.c
+Compiling Cpu1_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\DemoApp\communication.c" 49/2] unreachable code
+0 errors, 1 warnings
+Compiling Cpu2_Main.c
+ctc W510: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 27/6] unexpected text after preprocessing directive
+ctc W535: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 152/2] no type specifiers - assumed 'int'
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 17/23] unused variable "dsadc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 34/6] unused variable "chn"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 164/7] unused variable "str_adc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 165/6] unused variable "chn"
+0 errors, 6 warnings
+Compiling test_clone.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 178/12] unreachable code
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 179/5] unreachable code
+0 errors, 2 warnings
+Compiling test_private0.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu2_Main.c" 29/5] unreachable code
+0 errors, 1 warnings
+Compiling test_private1.c
+Compiling test_share.c
+Compiling SpiIf.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu1_Main.c" 87/5] unreachable code
+0 errors, 1 warnings
+Compiling IfxStdIf_DPipe.c
+Compiling IfxStdIf_Pos.c
+Compiling IfxStdIf_PwmHl.c
+Compiling IfxStdIf_Timer.c
+Compiling Assert.c
+Compiling Bsp.c
+Compiling Ifx_Console.c
+Compiling Ifx_Shell.c
+Compiling Ifx_GlobalResources.c
+Compiling Ifx_LowPassPt1.c
+Compiling Ifx_DateTime.c
+Compiling CompilerDcc.c
+Compiling CompilerGnuc.c
+Compiling CompilerTasking.c
+ctc W570: ["..\0_Src\1_SrvSw\SysSe\Comm\Ifx_Shell.c" 673/79] type of argument #3 is incompatible with format
+0 errors, 1 warnings
+Compiling IfxAsclin_cfg.c
+Compiling IfxCcu6_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxAsclin_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxCif_cfg.c
+Compiling IfxCpu_cfg.c
+Compiling IfxDma_cfg.c
+Compiling IfxDsadc_cfg.c
+Compiling IfxDts_cfg.c
+Compiling IfxEmem_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxDsadc_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxEray_cfg.c
+Compiling IfxEth_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxDts_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxFce_cfg.c
+Compiling IfxFlash_cfg.c
+Compiling IfxGpt12_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxEth_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxGtm_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxFce_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxHssl_cfg.c
+Compiling IfxI2c_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxGpt12_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxIom_cfg.c
+Compiling IfxMsc_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxHssl_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxMtu_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxIom_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxMultican_cfg.c
+Compiling IfxPort_cfg.c
+Compiling IfxPsi5_cfg.c
+Compiling IfxPsi5s_cfg.c
+Compiling IfxQspi_cfg.c
+Compiling IfxScu_cfg.c
+Compiling IfxSent_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxPsi5s_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxSrc_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxQspi_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxStm_cfg.c
+Compiling IfxVadc_cfg.c
+Compiling Ifx_CircularBuffer.asm.c
+Compiling Ifx_CircularBuffer.c
+Compiling Ifx_Fifo.c
+Compiling IfxAsclin_PinMap.c
+Compiling IfxCcu6_PinMap.c
+Compiling IfxCif_PinMap.c
+Compiling IfxDsadc_PinMap.c
+Compiling IfxEray_PinMap.c
+ctc W549: ["..\0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_Fifo.c" 82/9] condition is always true
+0 errors, 1 warnings
+Compiling IfxEth_PinMap.c
+Compiling IfxGpt12_PinMap.c
+Compiling IfxGtm_PinMap.c
+Compiling IfxI2c_PinMap.c
+Compiling IfxMsc_PinMap.c
+Compiling IfxMultican_PinMap.c
+Compiling IfxPort_PinMap.c
+Compiling IfxPsi5_PinMap.c
+Compiling IfxPsi5s_PinMap.c
+Compiling IfxQspi_PinMap.c
+Compiling IfxScu_PinMap.c
+Compiling IfxSent_PinMap.c
+Compiling IfxSmu_PinMap.c
+Compiling IfxVadc_PinMap.c
+Compiling IfxCpu_CStart0.c
+Compiling IfxCpu_CStart1.c
+Compiling IfxCpu_CStart2.c
+Compiling IfxCpu_Irq.c
+Compiling IfxCpu.c
+Compiling IfxCpu_Trap.c
+Compiling IfxDma_Dma.c
+Compiling IfxDma.c
+Compiling IfxDsadc_Dsadc.c
+Compiling IfxDsadc.c
+Compiling IfxGtm_Atom_PwmHl.c
+Compiling IfxGtm_Atom_Timer.c
+Compiling IfxGtm.c
+ctc W560: ["..\0_Src\4_McHal\Tricore\Dsadc\Std\IfxDsadc.c" 83/107] possible truncation at implicit conversion to type "float"
+0 errors, 1 warnings
+Compiling IfxGtm_Atom.c
+Compiling IfxGtm_Cmu.c
+Compiling IfxGtm_Dpll.c
+Compiling IfxGtm_Tbu.c
+Compiling IfxGtm_Tim.c
+Compiling IfxGtm_Tom.c
+Compiling IfxGtm_Tom_PwmHl.c
+Compiling IfxGtm_Tom_Timer.c
+Compiling IfxGtm_Trig.c
+Compiling IfxPort_Io.c
+Compiling IfxPort.c
+Compiling IfxScuCcu.c
+Compiling IfxScuEru.c
+Compiling IfxScuWdt.c
+ctc W549: ["..\0_Src\4_McHal\Tricore\Gtm\Trig\IfxGtm_Trig.c" 192/22] condition is always true
+ctc W549: ["..\0_Src\4_McHal\Tricore\Gtm\Trig\IfxGtm_Trig.c" 194/15] condition is always true
+0 errors, 2 warnings
+Compiling IfxSrc.c
+Compiling IfxStm.c
+Linking to TC275C_OS.elf
+
+Time consumed: 74607 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all -a 
+Compiling Ifx_InterfaceConst.c
+Compiling communication.c
+Compiling DemoApp.c
+Compiling Cpu0_Main.c
+Compiling Cpu1_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\DemoApp\communication.c" 49/2] unreachable code
+0 errors, 1 warnings
+Compiling Cpu2_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 178/12] unreachable code
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 179/5] unreachable code
+0 errors, 2 warnings
+Compiling test_clone.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu1_Main.c" 87/5] unreachable code
+0 errors, 1 warnings
+Compiling test_private0.c
+Compiling test_private1.c
+ctc W510: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 27/6] unexpected text after preprocessing directive
+ctc W535: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 152/2] no type specifiers - assumed 'int'
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 17/23] unused variable "dsadc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 34/6] unused variable "chn"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 164/7] unused variable "str_adc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 165/6] unused variable "chn"
+0 errors, 6 warnings
+Compiling test_share.c
+Compiling SpiIf.c
+Compiling IfxStdIf_DPipe.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu2_Main.c" 29/5] unreachable code
+0 errors, 1 warnings
+Compiling IfxStdIf_Pos.c
+Compiling IfxStdIf_PwmHl.c
+Compiling IfxStdIf_Timer.c
+Compiling Assert.c
+Compiling Bsp.c
+Compiling Ifx_Console.c
+Compiling Ifx_Shell.c
+Compiling Ifx_GlobalResources.c
+Compiling Ifx_LowPassPt1.c
+Compiling Ifx_DateTime.c
+Compiling CompilerDcc.c
+Compiling CompilerGnuc.c
+Compiling CompilerTasking.c
+Compiling IfxAsclin_cfg.c
+Compiling IfxCcu6_cfg.c
+ctc W570: ["..\0_Src\1_SrvSw\SysSe\Comm\Ifx_Shell.c" 673/79] type of argument #3 is incompatible with format
+0 errors, 1 warnings
+Compiling IfxCif_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxAsclin_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxCpu_cfg.c
+Compiling IfxDma_cfg.c
+Compiling IfxDsadc_cfg.c
+Compiling IfxDts_cfg.c
+Compiling IfxEmem_cfg.c
+Compiling IfxEray_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxDts_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxEth_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxDsadc_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxFce_cfg.c
+Compiling IfxFlash_cfg.c
+Compiling IfxGpt12_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxFce_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxGtm_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxEth_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxHssl_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxGpt12_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxI2c_cfg.c
+Compiling IfxIom_cfg.c
+Compiling IfxMsc_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxHssl_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxMtu_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxIom_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxMultican_cfg.c
+Compiling IfxPort_cfg.c
+Compiling IfxPsi5_cfg.c
+Compiling IfxPsi5s_cfg.c
+Compiling IfxQspi_cfg.c
+Compiling IfxScu_cfg.c
+Compiling IfxSent_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxPsi5s_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxSrc_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxQspi_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxStm_cfg.c
+Compiling IfxVadc_cfg.c
+Compiling Ifx_CircularBuffer.asm.c
+Compiling Ifx_CircularBuffer.c
+Compiling Ifx_Fifo.c
+Compiling IfxAsclin_PinMap.c
+Compiling IfxCcu6_PinMap.c
+Compiling IfxCif_PinMap.c
+Compiling IfxDsadc_PinMap.c
+Compiling IfxEray_PinMap.c
+ctc W549: ["..\0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_Fifo.c" 82/9] condition is always true
+0 errors, 1 warnings
+Compiling IfxEth_PinMap.c
+Compiling IfxGpt12_PinMap.c
+Compiling IfxGtm_PinMap.c
+Compiling IfxI2c_PinMap.c
+Compiling IfxMsc_PinMap.c
+Compiling IfxMultican_PinMap.c
+Compiling IfxPort_PinMap.c
+Compiling IfxPsi5_PinMap.c
+Compiling IfxPsi5s_PinMap.c
+Compiling IfxQspi_PinMap.c
+Compiling IfxScu_PinMap.c
+Compiling IfxSent_PinMap.c
+Compiling IfxSmu_PinMap.c
+Compiling IfxVadc_PinMap.c
+Compiling IfxCpu_CStart0.c
+Compiling IfxCpu_CStart1.c
+Compiling IfxCpu_CStart2.c
+Compiling IfxCpu_Irq.c
+Compiling IfxCpu.c
+Compiling IfxCpu_Trap.c
+Compiling IfxDma_Dma.c
+Compiling IfxDma.c
+Compiling IfxDsadc_Dsadc.c
+Compiling IfxDsadc.c
+Compiling IfxGtm_Atom_PwmHl.c
+Compiling IfxGtm_Atom_Timer.c
+ctc W560: ["..\0_Src\4_McHal\Tricore\Dsadc\Std\IfxDsadc.c" 83/107] possible truncation at implicit conversion to type "float"
+0 errors, 1 warnings
+Compiling IfxGtm.c
+Compiling IfxGtm_Atom.c
+Compiling IfxGtm_Cmu.c
+Compiling IfxGtm_Dpll.c
+Compiling IfxGtm_Tbu.c
+Compiling IfxGtm_Tim.c
+Compiling IfxGtm_Tom.c
+Compiling IfxGtm_Tom_PwmHl.c
+Compiling IfxGtm_Tom_Timer.c
+Compiling IfxGtm_Trig.c
+Compiling IfxPort_Io.c
+Compiling IfxPort.c
+Compiling IfxScuCcu.c
+Compiling IfxScuEru.c
+ctc W549: ["..\0_Src\4_McHal\Tricore\Gtm\Trig\IfxGtm_Trig.c" 192/22] condition is always true
+ctc W549: ["..\0_Src\4_McHal\Tricore\Gtm\Trig\IfxGtm_Trig.c" 194/15] condition is always true
+0 errors, 2 warnings
+Compiling IfxScuWdt.c
+Compiling IfxSrc.c
+Compiling IfxStm.c
+Linking to TC275C_OS.elf
+
+Time consumed: 78601 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all -a 
+Compiling Ifx_InterfaceConst.c
+Compiling communication.c
+Compiling DemoApp.c
+Compiling Cpu0_Main.c
+ctc E219: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 17/1] cannot open #include file "test_private1.h"
+amk E452: ["0_Src\0_AppSw\Tricore\Main\subdir.mk" 9/0] target '0_Src\0_AppSw\Tricore\Main\Cpu0_Main.o' returned exit code 1
+1 errors, 0 warnings
+ctc W544: ["..\0_Src\0_AppSw\Tricore\DemoApp\communication.c" 49/2] unreachable code
+0 errors, 1 warnings
+ctc W510: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 27/6] unexpected text after preprocessing directive
+ctc W535: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 152/2] no type specifiers - assumed 'int'
+amk E451: make stopped
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 17/23] unused variable "dsadc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 34/6] unused variable "chn"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 164/7] unused variable "str_adc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 165/6] unused variable "chn"
+0 errors, 6 warnings
+
+Time consumed: 4611 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling Cpu0_Main.c
+Compiling Cpu1_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 72/12] unreachable code
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 73/5] unreachable code
+ctc W557: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 62/12] possible infinite loop
+0 errors, 3 warnings
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu1_Main.c" 64/8] undeclared identifier "test_count_private0"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu1_Main.c" 65/8] undeclared identifier "core1_temp"
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu1_Main.c" 70/5] unreachable code
+amk E452: ["0_Src\0_AppSw\Tricore\Main\subdir.mk" 19/0] target '0_Src\0_AppSw\Tricore\Main\Cpu1_Main.o' returned exit code 1
+amk E451: make stopped
+2 errors, 1 warnings
+
+Time consumed: 3748 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling Cpu1_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu1_Main.c" 68/5] unreachable code
+0 errors, 1 warnings
+Linking to TC275C_OS.elf
+
+Time consumed: 5419 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all -a 
+Compiling Ifx_InterfaceConst.c
+Compiling communication.c
+Compiling DemoApp.c
+Compiling Cpu0_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\DemoApp\communication.c" 49/2] unreachable code
+0 errors, 1 warnings
+Compiling Cpu1_Main.c
+Compiling Cpu2_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 72/12] unreachable code
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 73/5] unreachable code
+ctc W557: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 62/12] possible infinite loop
+0 errors, 3 warnings
+Compiling SpiIf.c
+ctc W510: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 27/6] unexpected text after preprocessing directive
+ctc W535: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 152/2] no type specifiers - assumed 'int'
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 17/23] unused variable "dsadc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 34/6] unused variable "chn"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 164/7] unused variable "str_adc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 165/6] unused variable "chn"
+0 errors, 6 warnings
+Compiling IfxStdIf_DPipe.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu1_Main.c" 68/5] unreachable code
+0 errors, 1 warnings
+Compiling IfxStdIf_Pos.c
+Compiling IfxStdIf_PwmHl.c
+Compiling IfxStdIf_Timer.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu2_Main.c" 29/5] unreachable code
+0 errors, 1 warnings
+Compiling Assert.c
+Compiling Bsp.c
+Compiling Ifx_Console.c
+Compiling Ifx_Shell.c
+Compiling Ifx_GlobalResources.c
+Compiling Ifx_LowPassPt1.c
+Compiling Ifx_DateTime.c
+Compiling CompilerDcc.c
+Compiling CompilerGnuc.c
+Compiling CompilerTasking.c
+Compiling IfxAsclin_cfg.c
+Compiling IfxCcu6_cfg.c
+ctc W570: ["..\0_Src\1_SrvSw\SysSe\Comm\Ifx_Shell.c" 673/79] type of argument #3 is incompatible with format
+0 errors, 1 warnings
+Compiling IfxCif_cfg.c
+Compiling IfxCpu_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxAsclin_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxDma_cfg.c
+Compiling IfxDsadc_cfg.c
+Compiling IfxDts_cfg.c
+Compiling IfxEmem_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxDts_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxEray_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxDsadc_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxEth_cfg.c
+Compiling IfxFce_cfg.c
+Compiling IfxFlash_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxEth_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxGpt12_cfg.c
+Compiling IfxGtm_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxFce_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxHssl_cfg.c
+Compiling IfxI2c_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxGpt12_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxIom_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxHssl_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxMsc_cfg.c
+Compiling IfxMtu_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxIom_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxMultican_cfg.c
+Compiling IfxPort_cfg.c
+Compiling IfxPsi5_cfg.c
+Compiling IfxPsi5s_cfg.c
+Compiling IfxQspi_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxPsi5s_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxScu_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxQspi_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxSent_cfg.c
+Compiling IfxSrc_cfg.c
+Compiling IfxStm_cfg.c
+Compiling IfxVadc_cfg.c
+Compiling Ifx_CircularBuffer.asm.c
+Compiling Ifx_CircularBuffer.c
+Compiling Ifx_Fifo.c
+Compiling IfxAsclin_PinMap.c
+Compiling IfxCcu6_PinMap.c
+Compiling IfxCif_PinMap.c
+Compiling IfxDsadc_PinMap.c
+Compiling IfxEray_PinMap.c
+Compiling IfxEth_PinMap.c
+ctc W549: ["..\0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_Fifo.c" 82/9] condition is always true
+0 errors, 1 warnings
+Compiling IfxGpt12_PinMap.c
+Compiling IfxGtm_PinMap.c
+Compiling IfxI2c_PinMap.c
+Compiling IfxMsc_PinMap.c
+Compiling IfxMultican_PinMap.c
+Compiling IfxPort_PinMap.c
+Compiling IfxPsi5_PinMap.c
+Compiling IfxPsi5s_PinMap.c
+Compiling IfxQspi_PinMap.c
+Compiling IfxScu_PinMap.c
+Compiling IfxSent_PinMap.c
+Compiling IfxSmu_PinMap.c
+Compiling IfxVadc_PinMap.c
+Compiling IfxCpu_CStart0.c
+Compiling IfxCpu_CStart1.c
+Compiling IfxCpu_CStart2.c
+Compiling IfxCpu_Irq.c
+Compiling IfxCpu.c
+Compiling IfxCpu_Trap.c
+Compiling IfxDma_Dma.c
+Compiling IfxDma.c
+Compiling IfxDsadc_Dsadc.c
+Compiling IfxDsadc.c
+Compiling IfxGtm_Atom_PwmHl.c
+Compiling IfxGtm_Atom_Timer.c
+ctc W560: ["..\0_Src\4_McHal\Tricore\Dsadc\Std\IfxDsadc.c" 83/107] possible truncation at implicit conversion to type "float"
+0 errors, 1 warnings
+Compiling IfxGtm.c
+Compiling IfxGtm_Atom.c
+Compiling IfxGtm_Cmu.c
+Compiling IfxGtm_Dpll.c
+Compiling IfxGtm_Tbu.c
+Compiling IfxGtm_Tim.c
+Compiling IfxGtm_Tom.c
+Compiling IfxGtm_Tom_PwmHl.c
+Compiling IfxGtm_Tom_Timer.c
+Compiling IfxGtm_Trig.c
+Compiling IfxPort_Io.c
+Compiling IfxPort.c
+Compiling IfxScuCcu.c
+Compiling IfxScuEru.c
+ctc W549: ["..\0_Src\4_McHal\Tricore\Gtm\Trig\IfxGtm_Trig.c" 192/22] condition is always true
+ctc W549: ["..\0_Src\4_McHal\Tricore\Gtm\Trig\IfxGtm_Trig.c" 194/15] condition is always true
+0 errors, 2 warnings
+Compiling IfxScuWdt.c
+Compiling IfxSrc.c
+Compiling IfxStm.c
+Linking to TC275C_OS.elf
+
+Time consumed: 74651 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all -a 
+Compiling Ifx_InterfaceConst.c
+Compiling communication.c
+Compiling DemoApp.c
+Compiling Cpu0_Main.c
+Compiling Cpu1_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\DemoApp\communication.c" 49/2] unreachable code
+0 errors, 1 warnings
+Compiling Cpu2_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 72/12] unreachable code
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 73/5] unreachable code
+ctc W557: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 62/12] possible infinite loop
+0 errors, 3 warnings
+Compiling SpiIf.c
+ctc W510: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 27/6] unexpected text after preprocessing directive
+ctc W535: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 152/2] no type specifiers - assumed 'int'
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 17/23] unused variable "dsadc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 34/6] unused variable "chn"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 164/7] unused variable "str_adc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 165/6] unused variable "chn"
+0 errors, 6 warnings
+Compiling IfxStdIf_DPipe.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu1_Main.c" 68/5] unreachable code
+0 errors, 1 warnings
+Compiling IfxStdIf_Pos.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu2_Main.c" 29/5] unreachable code
+0 errors, 1 warnings
+Compiling IfxStdIf_PwmHl.c
+Compiling IfxStdIf_Timer.c
+Compiling Assert.c
+Compiling Bsp.c
+Compiling Ifx_Console.c
+Compiling Ifx_Shell.c
+Compiling Ifx_GlobalResources.c
+Compiling Ifx_LowPassPt1.c
+Compiling Ifx_DateTime.c
+Compiling CompilerDcc.c
+Compiling CompilerGnuc.c
+Compiling CompilerTasking.c
+Compiling IfxAsclin_cfg.c
+ctc W570: ["..\0_Src\1_SrvSw\SysSe\Comm\Ifx_Shell.c" 673/79] type of argument #3 is incompatible with format
+0 errors, 1 warnings
+Compiling IfxCcu6_cfg.c
+Compiling IfxCif_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxAsclin_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxCpu_cfg.c
+Compiling IfxDma_cfg.c
+Compiling IfxDsadc_cfg.c
+Compiling IfxDts_cfg.c
+Compiling IfxEmem_cfg.c
+Compiling IfxEray_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxDts_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxEth_cfg.c
+Compiling IfxFce_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxDsadc_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxFlash_cfg.c
+Compiling IfxGpt12_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxEth_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxGtm_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxFce_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxHssl_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxGpt12_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxI2c_cfg.c
+Compiling IfxIom_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxHssl_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxMsc_cfg.c
+Compiling IfxMtu_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxIom_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxMultican_cfg.c
+Compiling IfxPort_cfg.c
+Compiling IfxPsi5_cfg.c
+Compiling IfxPsi5s_cfg.c
+Compiling IfxQspi_cfg.c
+Compiling IfxScu_cfg.c
+Compiling IfxSent_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxQspi_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxSrc_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxPsi5s_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxStm_cfg.c
+Compiling IfxVadc_cfg.c
+Compiling Ifx_CircularBuffer.asm.c
+Compiling Ifx_CircularBuffer.c
+Compiling Ifx_Fifo.c
+Compiling IfxAsclin_PinMap.c
+Compiling IfxCcu6_PinMap.c
+Compiling IfxCif_PinMap.c
+Compiling IfxDsadc_PinMap.c
+Compiling IfxEray_PinMap.c
+ctc W549: ["..\0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_Fifo.c" 82/9] condition is always true
+0 errors, 1 warnings
+Compiling IfxEth_PinMap.c
+Compiling IfxGpt12_PinMap.c
+Compiling IfxGtm_PinMap.c
+Compiling IfxI2c_PinMap.c
+Compiling IfxMsc_PinMap.c
+Compiling IfxMultican_PinMap.c
+Compiling IfxPort_PinMap.c
+Compiling IfxPsi5_PinMap.c
+Compiling IfxPsi5s_PinMap.c
+Compiling IfxQspi_PinMap.c
+Compiling IfxScu_PinMap.c
+Compiling IfxSent_PinMap.c
+Compiling IfxSmu_PinMap.c
+Compiling IfxVadc_PinMap.c
+Compiling IfxCpu_CStart0.c
+Compiling IfxCpu_CStart1.c
+Compiling IfxCpu_CStart2.c
+Compiling IfxCpu_Irq.c
+Compiling IfxCpu.c
+Compiling IfxCpu_Trap.c
+Compiling IfxDma_Dma.c
+Compiling IfxDma.c
+Compiling IfxDsadc_Dsadc.c
+Compiling IfxDsadc.c
+Compiling IfxGtm_Atom_PwmHl.c
+Compiling IfxGtm_Atom_Timer.c
+ctc W560: ["..\0_Src\4_McHal\Tricore\Dsadc\Std\IfxDsadc.c" 83/107] possible truncation at implicit conversion to type "float"
+0 errors, 1 warnings
+Compiling IfxGtm.c
+Compiling IfxGtm_Atom.c
+Compiling IfxGtm_Cmu.c
+Compiling IfxGtm_Dpll.c
+Compiling IfxGtm_Tbu.c
+Compiling IfxGtm_Tim.c
+Compiling IfxGtm_Tom.c
+Compiling IfxGtm_Tom_PwmHl.c
+Compiling IfxGtm_Tom_Timer.c
+Compiling IfxGtm_Trig.c
+Compiling IfxPort_Io.c
+Compiling IfxPort.c
+Compiling IfxScuCcu.c
+Compiling IfxScuEru.c
+ctc W549: ["..\0_Src\4_McHal\Tricore\Gtm\Trig\IfxGtm_Trig.c" 192/22] condition is always true
+ctc W549: ["..\0_Src\4_McHal\Tricore\Gtm\Trig\IfxGtm_Trig.c" 194/15] condition is always true
+0 errors, 2 warnings
+Compiling IfxScuWdt.c
+Compiling IfxSrc.c
+Compiling IfxStm.c
+Linking to TC275C_OS.elf
+
+Time consumed: 70689 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all -a 
+Compiling Ifx_InterfaceConst.c
+Compiling communication.c
+Compiling DemoApp.c
+Compiling Cpu0_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 90/12] unreachable code
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 91/5] unreachable code
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 104/2] undeclared identifier "stm0CompareValue"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 104/57] undeclared identifier "STM0_TICK_PERIOD_IN_MICROSECONDS"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 118/45] undeclared identifier "IFX_CFG_ISR_PRIORITY_STM0_COMPARE0"
+ctc W560: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 118/43] possible truncation at implicit conversion to type "unsigned short int"
+ctc E472: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 124/1] function Ifx_STM0_Isr is qualified as __interrupt, but is not given an interrupt/trap number
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 127/24] undeclared identifier "stm0CompareValue"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 130/5] undeclared identifier "Data_pointer"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 132/5] undeclared identifier "Data_array"
+ctc E245: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 132/5] invalid type for left operand of subscript
+ctc E244: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 132/15] invalid operand types for + operator
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 134/8] undeclared identifier "Update_flag"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 135/9] undeclared identifier "Up_Down_flag"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 136/7] undeclared identifier "PwmFrequency"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 142/10] undeclared identifier "PwmPeriod"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 142/71] undeclared identifier "PwmGtmCmuClk"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 143/10] undeclared identifier "PwmDuty"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 162/38] undeclared identifier "PwmGTMATOM"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 162/50] undeclared identifier "PwmGtmAtomCh"
+ctc W524: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 162/38] conversion of integer to pointer at argument #1
+17 errors, 4 warnings
+amk E452: ["0_Src\0_AppSw\Tricore\Main\subdir.mk" 9/0] target '0_Src\0_AppSw\Tricore\Main\Cpu0_Main.o' returned exit code 1
+ctc W544: ["..\0_Src\0_AppSw\Tricore\DemoApp\communication.c" 49/2] unreachable code
+0 errors, 1 warnings
+ctc W510: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 27/6] unexpected text after preprocessing directive
+amk E451: make stopped
+ctc W535: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 152/2] no type specifiers - assumed 'int'
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 17/23] unused variable "dsadc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 34/6] unused variable "chn"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 164/7] unused variable "str_adc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 165/6] unused variable "chn"
+0 errors, 6 warnings
+
+Time consumed: 8047 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling Cpu0_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 96/12] unreachable code
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 97/5] unreachable code
+amk E452: ["0_Src\0_AppSw\Tricore\Main\subdir.mk" 9/0] target '0_Src\0_AppSw\Tricore\Main\Cpu0_Main.o' returned exit code 1
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 110/57] undeclared identifier "STM0_TICK_PERIOD_IN_MICROSECONDS"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 124/45] undeclared identifier "IFX_CFG_ISR_PRIORITY_STM0_COMPARE0"
+ctc W560: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 124/43] possible truncation at implicit conversion to type "unsigned short int"
+ctc E472: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 130/1] function Ifx_STM0_Isr is qualified as __interrupt, but is not given an interrupt/trap number
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 136/5] undeclared identifier "Data_pointer"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 138/5] undeclared identifier "Data_array"
+ctc E245: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 138/5] invalid type for left operand of subscript
+ctc E244: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 138/15] invalid operand types for + operator
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 140/8] undeclared identifier "Update_flag"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 141/9] undeclared identifier "Up_Down_flag"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 142/7] undeclared identifier "PwmFrequency"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 148/10] undeclared identifier "PwmPeriod"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 148/71] undeclared identifier "PwmGtmCmuClk"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 149/10] undeclared identifier "PwmDuty"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 168/38] undeclared identifier "PwmGTMATOM"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 168/50] undeclared identifier "PwmGtmAtomCh"
+ctc W524: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 168/38] conversion of integer to pointer at argument #1
+15 errors, 4 warnings
+amk E451: make stopped
+
+Time consumed: 1747 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling Cpu0_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 96/12] unreachable code
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 97/5] unreachable code
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 124/45] undeclared identifier "IFX_CFG_ISR_PRIORITY_STM0_COMPARE0"
+ctc W560: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 124/43] possible truncation at implicit conversion to type "unsigned short int"
+ctc E472: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 130/1] function Ifx_STM0_Isr is qualified as __interrupt, but is not given an interrupt/trap number
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 136/5] undeclared identifier "Data_pointer"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 138/5] undeclared identifier "Data_array"
+ctc E245: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 138/5] invalid type for left operand of subscript
+ctc E244: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 138/15] invalid operand types for + operator
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 140/8] undeclared identifier "Update_flag"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 141/9] undeclared identifier "Up_Down_flag"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 142/7] undeclared identifier "PwmFrequency"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 148/10] undeclared identifier "PwmPeriod"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 148/71] undeclared identifier "PwmGtmCmuClk"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 149/10] undeclared identifier "PwmDuty"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 168/38] undeclared identifier "PwmGTMATOM"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 168/50] undeclared identifier "PwmGtmAtomCh"
+ctc W524: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 168/38] conversion of integer to pointer at argument #1
+14 errors, 4 warnings
+amk E452: ["0_Src\0_AppSw\Tricore\Main\subdir.mk" 9/0] target '0_Src\0_AppSw\Tricore\Main\Cpu0_Main.o' returned exit code 1
+amk E451: make stopped
+
+Time consumed: 2065 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling Cpu0_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 97/12] unreachable code
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 98/5] unreachable code
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 137/5] undeclared identifier "Data_pointer"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 139/5] undeclared identifier "Data_array"
+ctc E245: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 139/5] invalid type for left operand of subscript
+ctc E244: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 139/15] invalid operand types for + operator
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 141/8] undeclared identifier "Update_flag"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 142/9] undeclared identifier "Up_Down_flag"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 143/7] undeclared identifier "PwmFrequency"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 149/10] undeclared identifier "PwmPeriod"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 149/71] undeclared identifier "PwmGtmCmuClk"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 150/10] undeclared identifier "PwmDuty"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 169/38] undeclared identifier "PwmGTMATOM"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 169/50] undeclared identifier "PwmGtmAtomCh"
+ctc W524: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 169/38] conversion of integer to pointer at argument #1
+12 errors, 3 warnings
+amk E452: ["0_Src\0_AppSw\Tricore\Main\subdir.mk" 9/0] target '0_Src\0_AppSw\Tricore\Main\Cpu0_Main.o' returned exit code 1
+amk E451: make stopped
+
+Time consumed: 1649 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling Cpu0_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 97/12] unreachable code
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 98/5] unreachable code
+amk E452: ["0_Src\0_AppSw\Tricore\Main\subdir.mk" 9/0] target '0_Src\0_AppSw\Tricore\Main\Cpu0_Main.o' returned exit code 1
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 137/5] undeclared identifier "Data_pointer"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 139/5] undeclared identifier "Data_array"
+ctc E245: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 139/5] invalid type for left operand of subscript
+ctc E244: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 139/15] invalid operand types for + operator
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 141/8] undeclared identifier "Update_flag"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 142/9] undeclared identifier "Up_Down_flag"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 143/7] undeclared identifier "PwmFrequency"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 149/10] undeclared identifier "PwmPeriod"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 149/71] undeclared identifier "PwmGtmCmuClk"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 150/10] undeclared identifier "PwmDuty"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 169/38] undeclared identifier "PwmGTMATOM"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 169/50] undeclared identifier "PwmGtmAtomCh"
+ctc W524: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 169/38] conversion of integer to pointer at argument #1
+12 errors, 3 warnings
+amk E451: make stopped
+
+Time consumed: 1768 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling Cpu0_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 98/12] unreachable code
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 99/5] unreachable code
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 140/5] undeclared identifier "Data_array"
+ctc E245: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 140/5] invalid type for left operand of subscript
+ctc E244: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 140/15] invalid operand types for + operator
+amk E452: ["0_Src\0_AppSw\Tricore\Main\subdir.mk" 9/0] target '0_Src\0_AppSw\Tricore\Main\Cpu0_Main.o' returned exit code 1
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 142/8] undeclared identifier "Update_flag"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 143/9] undeclared identifier "Up_Down_flag"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 144/7] undeclared identifier "PwmFrequency"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 150/10] undeclared identifier "PwmPeriod"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 150/71] undeclared identifier "PwmGtmCmuClk"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 151/10] undeclared identifier "PwmDuty"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 170/38] undeclared identifier "PwmGTMATOM"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 170/50] undeclared identifier "PwmGtmAtomCh"
+ctc W524: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 170/38] conversion of integer to pointer at argument #1
+11 errors, 3 warnings
+amk E451: make stopped
+
+Time consumed: 1643 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling Cpu0_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 98/12] unreachable code
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 99/5] unreachable code
+amk E452: ["0_Src\0_AppSw\Tricore\Main\subdir.mk" 9/0] target '0_Src\0_AppSw\Tricore\Main\Cpu0_Main.o' returned exit code 1
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 142/8] undeclared identifier "Update_flag"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 143/9] undeclared identifier "Up_Down_flag"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 144/7] undeclared identifier "PwmFrequency"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 150/10] undeclared identifier "PwmPeriod"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 150/71] undeclared identifier "PwmGtmCmuClk"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 151/10] undeclared identifier "PwmDuty"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 170/38] undeclared identifier "PwmGTMATOM"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 170/50] undeclared identifier "PwmGtmAtomCh"
+ctc W524: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 170/38] conversion of integer to pointer at argument #1
+8 errors, 3 warnings
+amk E451: make stopped
+
+Time consumed: 2113 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling Cpu0_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 98/12] unreachable code
+amk E452: ["0_Src\0_AppSw\Tricore\Main\subdir.mk" 9/0] target '0_Src\0_AppSw\Tricore\Main\Cpu0_Main.o' returned exit code 1
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 99/5] unreachable code
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 143/9] undeclared identifier "Up_Down_flag"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 144/7] undeclared identifier "PwmFrequency"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 150/10] undeclared identifier "PwmPeriod"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 150/71] undeclared identifier "PwmGtmCmuClk"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 151/10] undeclared identifier "PwmDuty"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 170/38] undeclared identifier "PwmGTMATOM"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 170/50] undeclared identifier "PwmGtmAtomCh"
+ctc W524: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 170/38] conversion of integer to pointer at argument #1
+7 errors, 3 warnings
+amk E451: make stopped
+
+Time consumed: 2319 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling Cpu0_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 103/12] unreachable code
+amk E452: ["0_Src\0_AppSw\Tricore\Main\subdir.mk" 9/0] target '0_Src\0_AppSw\Tricore\Main\Cpu0_Main.o' returned exit code 1
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 104/5] unreachable code
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 149/7] undeclared identifier "PwmFrequency"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 155/10] undeclared identifier "PwmPeriod"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 155/71] undeclared identifier "PwmGtmCmuClk"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 156/10] undeclared identifier "PwmDuty"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 175/38] undeclared identifier "PwmGTMATOM"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 175/50] undeclared identifier "PwmGtmAtomCh"
+ctc W524: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 175/38] conversion of integer to pointer at argument #1
+6 errors, 3 warnings
+amk E451: make stopped
+
+Time consumed: 1573 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling Cpu0_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 106/12] unreachable code
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 107/5] unreachable code
+amk E452: ["0_Src\0_AppSw\Tricore\Main\subdir.mk" 9/0] target '0_Src\0_AppSw\Tricore\Main\Cpu0_Main.o' returned exit code 1
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 158/71] undeclared identifier "PwmGtmCmuClk"
+amk E451: make stopped
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 178/38] undeclared identifier "PwmGTMATOM"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 178/50] undeclared identifier "PwmGtmAtomCh"
+ctc W524: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 178/38] conversion of integer to pointer at argument #1
+3 errors, 3 warnings
+
+Time consumed: 1651 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling Cpu0_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 106/12] unreachable code
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 107/5] unreachable code
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 178/38] undeclared identifier "PwmGTMATOM"
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 178/50] undeclared identifier "PwmGtmAtomCh"
+ctc W524: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 178/38] conversion of integer to pointer at argument #1
+2 errors, 3 warnings
+amk E452: ["0_Src\0_AppSw\Tricore\Main\subdir.mk" 9/0] target '0_Src\0_AppSw\Tricore\Main\Cpu0_Main.o' returned exit code 1
+amk E451: make stopped
+
+Time consumed: 1437 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling Cpu0_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 106/12] unreachable code
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 107/5] unreachable code
+amk E452: ["0_Src\0_AppSw\Tricore\Main\subdir.mk" 9/0] target '0_Src\0_AppSw\Tricore\Main\Cpu0_Main.o' returned exit code 1
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 178/38] undeclared identifier "PwmGTMATOM"
+amk E451: make stopped
+ctc E272: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 178/50] undeclared identifier "PwmGtmAtomCh"
+ctc W524: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 178/38] conversion of integer to pointer at argument #1
+2 errors, 3 warnings
+
+Time consumed: 1715 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling Cpu0_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 106/12] unreachable code
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 107/5] unreachable code
+ctc W557: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 96/12] possible infinite loop
+0 errors, 3 warnings
+Linking to TC275C_OS.elf
+
+Time consumed: 9473 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all -a 
+Compiling Ifx_InterfaceConst.c
+Compiling communication.c
+Compiling DemoApp.c
+Compiling Cpu0_Main.c
+Compiling Cpu1_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\DemoApp\communication.c" 49/2] unreachable code
+0 errors, 1 warnings
+Compiling Cpu2_Main.c
+ctc W510: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 27/6] unexpected text after preprocessing directive
+ctc W535: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 152/2] no type specifiers - assumed 'int'
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 17/23] unused variable "dsadc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 34/6] unused variable "chn"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 164/7] unused variable "str_adc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 165/6] unused variable "chn"
+0 errors, 6 warnings
+Compiling SpiIf.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu1_Main.c" 68/5] unreachable code
+0 errors, 1 warnings
+Compiling IfxStdIf_DPipe.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu2_Main.c" 29/5] unreachable code
+0 errors, 1 warnings
+Compiling IfxStdIf_Pos.c
+Compiling IfxStdIf_PwmHl.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 106/12] unreachable code
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 107/5] unreachable code
+ctc W557: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 96/12] possible infinite loop
+0 errors, 3 warnings
+Compiling IfxStdIf_Timer.c
+Compiling Assert.c
+Compiling Bsp.c
+Compiling Ifx_Console.c
+Compiling Ifx_Shell.c
+Compiling Ifx_GlobalResources.c
+Compiling Ifx_LowPassPt1.c
+Compiling Ifx_DateTime.c
+Compiling CompilerDcc.c
+Compiling CompilerGnuc.c
+Compiling CompilerTasking.c
+ctc W570: ["..\0_Src\1_SrvSw\SysSe\Comm\Ifx_Shell.c" 673/79] type of argument #3 is incompatible with format
+0 errors, 1 warnings
+Compiling IfxAsclin_cfg.c
+Compiling IfxCcu6_cfg.c
+Compiling IfxCif_cfg.c
+Compiling IfxCpu_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxAsclin_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxDma_cfg.c
+Compiling IfxDsadc_cfg.c
+Compiling IfxDts_cfg.c
+Compiling IfxEmem_cfg.c
+Compiling IfxEray_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxDsadc_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxEth_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxDts_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxFce_cfg.c
+Compiling IfxFlash_cfg.c
+Compiling IfxGpt12_cfg.c
+Compiling IfxGtm_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxFce_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxHssl_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxEth_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxI2c_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxGpt12_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxIom_cfg.c
+Compiling IfxMsc_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxIom_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxMtu_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxHssl_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxMultican_cfg.c
+Compiling IfxPort_cfg.c
+Compiling IfxPsi5_cfg.c
+Compiling IfxPsi5s_cfg.c
+Compiling IfxQspi_cfg.c
+Compiling IfxScu_cfg.c
+Compiling IfxSent_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxPsi5s_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxSrc_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxQspi_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxStm_cfg.c
+Compiling IfxVadc_cfg.c
+Compiling Ifx_CircularBuffer.asm.c
+Compiling Ifx_CircularBuffer.c
+Compiling Ifx_Fifo.c
+Compiling IfxAsclin_PinMap.c
+Compiling IfxCcu6_PinMap.c
+Compiling IfxCif_PinMap.c
+Compiling IfxDsadc_PinMap.c
+Compiling IfxEray_PinMap.c
+ctc W549: ["..\0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_Fifo.c" 82/9] condition is always true
+0 errors, 1 warnings
+Compiling IfxEth_PinMap.c
+Compiling IfxGpt12_PinMap.c
+Compiling IfxGtm_PinMap.c
+Compiling IfxI2c_PinMap.c
+Compiling IfxMsc_PinMap.c
+Compiling IfxMultican_PinMap.c
+Compiling IfxPort_PinMap.c
+Compiling IfxPsi5_PinMap.c
+Compiling IfxPsi5s_PinMap.c
+Compiling IfxQspi_PinMap.c
+Compiling IfxScu_PinMap.c
+Compiling IfxSent_PinMap.c
+Compiling IfxSmu_PinMap.c
+Compiling IfxVadc_PinMap.c
+Compiling IfxCpu_CStart0.c
+Compiling IfxCpu_CStart1.c
+Compiling IfxCpu_CStart2.c
+Compiling IfxCpu_Irq.c
+Compiling IfxCpu.c
+Compiling IfxCpu_Trap.c
+Compiling IfxDma_Dma.c
+Compiling IfxDma.c
+Compiling IfxDsadc_Dsadc.c
+Compiling IfxDsadc.c
+Compiling IfxGtm_Atom_PwmHl.c
+Compiling IfxGtm_Atom_Timer.c
+Compiling IfxGtm.c
+ctc W560: ["..\0_Src\4_McHal\Tricore\Dsadc\Std\IfxDsadc.c" 83/107] possible truncation at implicit conversion to type "float"
+0 errors, 1 warnings
+Compiling IfxGtm_Atom.c
+Compiling IfxGtm_Cmu.c
+Compiling IfxGtm_Dpll.c
+Compiling IfxGtm_Tbu.c
+Compiling IfxGtm_Tim.c
+Compiling IfxGtm_Tom.c
+Compiling IfxGtm_Tom_PwmHl.c
+Compiling IfxGtm_Tom_Timer.c
+Compiling IfxGtm_Trig.c
+Compiling IfxPort_Io.c
+Compiling IfxPort.c
+ctc W549: ["..\0_Src\4_McHal\Tricore\Gtm\Trig\IfxGtm_Trig.c" 192/22] condition is always true
+ctc W549: ["..\0_Src\4_McHal\Tricore\Gtm\Trig\IfxGtm_Trig.c" 194/15] condition is always true
+0 errors, 2 warnings
+Compiling IfxScuCcu.c
+Compiling IfxScuEru.c
+Compiling IfxScuWdt.c
+Compiling IfxSrc.c
+Compiling IfxStm.c
+Linking to TC275C_OS.elf
+
+Time consumed: 83091 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all -a 
+Compiling Ifx_InterfaceConst.c
+Compiling communication.c
+Compiling DemoApp.c
+Compiling Cpu0_Main.c
+Compiling Cpu1_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\DemoApp\communication.c" 49/2] unreachable code
+0 errors, 1 warnings
+Compiling Cpu2_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu1_Main.c" 68/5] unreachable code
+0 errors, 1 warnings
+Compiling SpiIf.c
+ctc W510: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 27/6] unexpected text after preprocessing directive
+ctc W535: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 152/2] no type specifiers - assumed 'int'
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 17/23] unused variable "dsadc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 34/6] unused variable "chn"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 164/7] unused variable "str_adc"
+ctc W537: ["..\0_Src\0_AppSw\Tricore\DemoApp\DemoApp.c" 165/6] unused variable "chn"
+0 errors, 6 warnings
+Compiling IfxStdIf_DPipe.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu2_Main.c" 29/5] unreachable code
+0 errors, 1 warnings
+Compiling IfxStdIf_Pos.c
+Compiling IfxStdIf_PwmHl.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 106/12] unreachable code
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 107/5] unreachable code
+ctc W557: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 96/12] possible infinite loop
+0 errors, 3 warnings
+Compiling IfxStdIf_Timer.c
+Compiling Assert.c
+Compiling Bsp.c
+Compiling Ifx_Console.c
+Compiling Ifx_Shell.c
+Compiling Ifx_GlobalResources.c
+Compiling Ifx_LowPassPt1.c
+Compiling Ifx_DateTime.c
+Compiling CompilerDcc.c
+Compiling CompilerGnuc.c
+ctc W570: ["..\0_Src\1_SrvSw\SysSe\Comm\Ifx_Shell.c" 673/79] type of argument #3 is incompatible with format
+0 errors, 1 warnings
+Compiling CompilerTasking.c
+Compiling IfxAsclin_cfg.c
+Compiling IfxCcu6_cfg.c
+Compiling IfxCif_cfg.c
+Compiling IfxCpu_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxAsclin_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxDma_cfg.c
+Compiling IfxDsadc_cfg.c
+Compiling IfxDts_cfg.c
+Compiling IfxEmem_cfg.c
+Compiling IfxEray_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxDsadc_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxEth_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxDts_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxFce_cfg.c
+Compiling IfxFlash_cfg.c
+Compiling IfxGpt12_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxEth_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxGtm_cfg.c
+Compiling IfxHssl_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxFce_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxI2c_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxGpt12_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxIom_cfg.c
+Compiling IfxMsc_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxHssl_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxMtu_cfg.c
+Compiling IfxMultican_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxIom_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxPort_cfg.c
+Compiling IfxPsi5_cfg.c
+Compiling IfxPsi5s_cfg.c
+Compiling IfxQspi_cfg.c
+Compiling IfxScu_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxPsi5s_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxSent_cfg.c
+Compiling IfxSrc_cfg.c
+Compiling IfxStm_cfg.c
+ctc W508: ["..\0_Src\4_McHal\Tricore\_Impl\IfxQspi_cfg.c" 1/1] empty source file
+0 errors, 1 warnings
+Compiling IfxVadc_cfg.c
+Compiling Ifx_CircularBuffer.asm.c
+Compiling Ifx_CircularBuffer.c
+Compiling Ifx_Fifo.c
+Compiling IfxAsclin_PinMap.c
+Compiling IfxCcu6_PinMap.c
+Compiling IfxCif_PinMap.c
+Compiling IfxDsadc_PinMap.c
+Compiling IfxEray_PinMap.c
+ctc W549: ["..\0_Src\4_McHal\Tricore\_Lib\DataHandling\Ifx_Fifo.c" 82/9] condition is always true
+0 errors, 1 warnings
+Compiling IfxEth_PinMap.c
+Compiling IfxGpt12_PinMap.c
+Compiling IfxGtm_PinMap.c
+Compiling IfxI2c_PinMap.c
+Compiling IfxMsc_PinMap.c
+Compiling IfxMultican_PinMap.c
+Compiling IfxPort_PinMap.c
+Compiling IfxPsi5_PinMap.c
+Compiling IfxPsi5s_PinMap.c
+Compiling IfxQspi_PinMap.c
+Compiling IfxScu_PinMap.c
+Compiling IfxSent_PinMap.c
+Compiling IfxSmu_PinMap.c
+Compiling IfxVadc_PinMap.c
+Compiling IfxCpu_CStart0.c
+Compiling IfxCpu_CStart1.c
+Compiling IfxCpu_CStart2.c
+Compiling IfxCpu_Irq.c
+Compiling IfxCpu.c
+Compiling IfxCpu_Trap.c
+Compiling IfxDma_Dma.c
+Compiling IfxDma.c
+Compiling IfxDsadc_Dsadc.c
+Compiling IfxDsadc.c
+Compiling IfxGtm_Atom_PwmHl.c
+Compiling IfxGtm_Atom_Timer.c
+ctc W560: ["..\0_Src\4_McHal\Tricore\Dsadc\Std\IfxDsadc.c" 83/107] possible truncation at implicit conversion to type "float"
+0 errors, 1 warnings
+Compiling IfxGtm.c
+Compiling IfxGtm_Atom.c
+Compiling IfxGtm_Cmu.c
+Compiling IfxGtm_Dpll.c
+Compiling IfxGtm_Tbu.c
+Compiling IfxGtm_Tim.c
+Compiling IfxGtm_Tom.c
+Compiling IfxGtm_Tom_PwmHl.c
+Compiling IfxGtm_Tom_Timer.c
+Compiling IfxGtm_Trig.c
+Compiling IfxPort_Io.c
+Compiling IfxPort.c
+Compiling IfxScuCcu.c
+Compiling IfxScuEru.c
+ctc W549: ["..\0_Src\4_McHal\Tricore\Gtm\Trig\IfxGtm_Trig.c" 192/22] condition is always true
+ctc W549: ["..\0_Src\4_McHal\Tricore\Gtm\Trig\IfxGtm_Trig.c" 194/15] condition is always true
+0 errors, 2 warnings
+Compiling IfxScuWdt.c
+Compiling IfxSrc.c
+Compiling IfxStm.c
+Linking to TC275C_OS.elf
+
+Time consumed: 77888 ms
+**** End of build ****
