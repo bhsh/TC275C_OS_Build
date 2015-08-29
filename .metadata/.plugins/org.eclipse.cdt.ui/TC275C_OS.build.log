@@ -3,9 +3,12 @@
 
 "C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
 Compiling Cpu0_Main.c
-ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 177/5] unreachable code
+Compiling Cpu1_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu1_Main.c" 65/5] unreachable code
+0 errors, 1 warnings
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 290/5] unreachable code
 0 errors, 1 warnings
 Linking to TC275C_OS.elf
 
-Time consumed: 5984 ms
+Time consumed: 7498 ms
 **** End of build ****

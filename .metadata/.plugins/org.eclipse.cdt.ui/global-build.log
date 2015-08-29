@@ -691,3 +691,57 @@ Linking to TC275C_OS.elf
 
 Time consumed: 5984 ms
 **** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling Cpu0_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 285/5] unreachable code
+0 errors, 1 warnings
+Linking to TC275C_OS.elf
+
+Time consumed: 6439 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling Cpu0_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 284/5] unreachable code
+0 errors, 1 warnings
+Linking to TC275C_OS.elf
+
+Time consumed: 6244 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling Cpu0_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 288/5] unreachable code
+0 errors, 1 warnings
+Linking to TC275C_OS.elf
+
+Time consumed: 6407 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+
+Time consumed: 1106 ms
+**** End of build ****
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all 
+Compiling Cpu0_Main.c
+Compiling Cpu1_Main.c
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu1_Main.c" 65/5] unreachable code
+0 errors, 1 warnings
+ctc W544: ["..\0_Src\0_AppSw\Tricore\Main\Cpu0_Main.c" 290/5] unreachable code
+0 errors, 1 warnings
+Linking to TC275C_OS.elf
+
+Time consumed: 7498 ms
+**** End of build ****
