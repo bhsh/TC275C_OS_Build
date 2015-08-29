@@ -1,0 +1,11 @@
+
+**** Build of configuration Debug for project TC275C_OS ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all -a 
+amk F120: problems opening file Makefile: No such file or directory
+
+Time consumed: 224 ms
+**** End of build ****
+
+Tool info: 
+TASKING program builder v4.3r3 Build 079
