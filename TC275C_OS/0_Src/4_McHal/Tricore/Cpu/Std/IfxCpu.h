@@ -547,6 +547,39 @@ IFX_INLINE IfxCpu_ResourceCpu IfxCpu_getCoreId(void)
 
 IFX_INLINE void IfxCpu_initCSA(uint32 *csaBegin, uint32 *csaEnd)
 {
+#if 1
+/* The code is added by Yanpeng Xi in order to locate the LCX in low address and FCX in high address in the startup. */
+
+	uint32 *csa_area_begin = csaBegin;
+	uint32 *csa_area_end   = csaEnd;
+    uint32  k;
+    uint32  no_of_csas;
+    uint32 *csa;
+    uint32  seg_nr, seg_idx, pcxi_val=0;
+    _Bool   first=1;
+
+    /* first calculate nr of CSAs in this area */
+    no_of_csas = (csa_area_end - csa_area_begin) >> 4;
+
+    for (k=0; k < no_of_csas; k++)
+    {
+           csa = csa_area_begin + k*16;
+           /* Store null pointer in last CSA (= very first time!) */
+           *csa = pcxi_val;
+
+           seg_nr  = __extru( (uint32) csa, 28, 4) << 16;
+           seg_idx = __extru( (uint32) csa, 6, 16);
+           pcxi_val = seg_nr | seg_idx;
+           if (first)
+           {
+                 first = 0;
+                 __mtcr(CPU_LCX, pcxi_val);
+           }
+     }
+      __mtcr(CPU_FCX, pcxi_val);
+
+/* The code above is the old template that has FCX in low address and LCX in high address */
+# else
     uint32  k;
     uint32  nxt_cxi_val = 0;
     uint32 *prvCsa      = 0U;
@@ -571,6 +604,8 @@ IFX_INLINE void IfxCpu_initCSA(uint32 *csaBegin, uint32 *csaEnd)
 
     *prvCsa = 0;
     __mtcr(CPU_LCX, nxt_cxi_val);   /* Last context save area is pointed in LCX to know if there is CSA depletion */
+#endif
+
 }
 
 

@@ -6,32 +6,19 @@
 #include "Cpu0_Main.h"
 #include "SysSe/Bsp/Bsp.h"
 
+
 extern unsigned long lock;
 extern unsigned long mask;
-
-#pragma section nearbss "zbss_cpu0"
-#pragma section neardata "zdata_cpu0"
-
- unsigned char core1_test;
- unsigned long core1_test2;
-
-#pragma section nearbss "zbss_cpu1"
-#pragma section neardata "zdata_cpu1"
-
- unsigned char core1_test3;
- unsigned long core1_test4;
-
-#pragma section nearbss "zbss_cpu2"
-#pragma section neardata "zdata_cpu2"
-
- unsigned char core1_test5;
- unsigned long core1_test6;
-
-//#pragma section nearbss restore
-
 extern App_Cpu0 g_AppCpu0;
-//extern float32  g_AppCpu3;
 
+/**********************************************************************************
+ *
+ *
+ *   Core1 main function
+ *
+ *
+ *
+ *********************************************************************************/
 int core1_main (void)
 {
 	//test_fun();

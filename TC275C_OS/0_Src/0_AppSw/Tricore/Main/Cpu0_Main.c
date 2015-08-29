@@ -10,32 +10,18 @@
 #include "Port\Io\IfxPort_Io.h"
 #include "Stm\Std\IfxStm.h"
 #include "Src\Std\IfxSrc.h"
-#include "Gtm\Std\IfxGtm.h"
-#include "Gtm\Std\IfxGtm_Atom.h"
-#include "Gtm\Std\IfxGtm_Tom.h"
-#include "Gtm\Std\IfxGtm_Tim.h"
-#include "Gtm\Tom\Timer\IfxGtm_Tom_Timer.h"
-#include "Gtm\Tom\PwmHl\IfxGtm_Tom_PwmHl.h"
-#include "Gtm\Trig\IfxGtm_Trig.h"
-#include "IfxGtm_PinMap.h"
-//#include "DemoApp.h
 
+#define STM0_TICK_PERIOD_IN_MICROSECONDS    1000
+#define STM1_TICK_PERIOD_IN_MICROSECONDS    1000
+#define STM2_TICK_PERIOD_IN_MICROSECONDS    1000
 
-#define STM0_TICK_PERIOD_IN_MICROSECONDS 1000
-#define STM1_TICK_PERIOD_IN_MICROSECONDS 1000
-#define STM2_TICK_PERIOD_IN_MICROSECONDS 1000
-
-#define IFX_CFG_ISR_PRIORITY_STM0_COMPARE0	10 /**< \brief Stm0 Compare 0 interrupt priority.  */
-#define IFX_CFG_ISR_PRIORITY_STM1_COMPARE0	11 /**< \brief Stm0 Compare 0 interrupt priority.  */
-#define IFX_CFG_ISR_PRIORITY_STM2_COMPARE0	12 /**< \brief Stm0 Compare 0 interrupt priority.  */
-
+#define IFX_CFG_ISR_PRIORITY_STM0_COMPARE0	10   /**< \brief Stm0 Compare 0 interrupt priority.  */
+#define IFX_CFG_ISR_PRIORITY_STM1_COMPARE0	11   /**< \brief Stm1 Compare 0 interrupt priority.  */
+#define IFX_CFG_ISR_PRIORITY_STM2_COMPARE0	12   /**< \brief Stm2 Compare 0 interrupt priority.  */
 
 uint32 stm0CompareValue;
 uint32 stm1CompareValue;
 uint32 stm2CompareValue;
-
-
-
 
 App_Cpu0 g_AppCpu0; /**< \brief CPU 0 global data */
 unsigned long  lock=1; // 1 means available,
@@ -86,43 +72,6 @@ IFX_INTERRUPT(Ifx_STM0_Isr,0,IFX_CFG_ISR_PRIORITY_STM0_COMPARE0)
     stmTicks= (uint32)(stm0CompareValue * 100);
     IfxStm_updateCompare (&MODULE_STM0, IfxStm_Comparator_0, IfxStm_getCompare (&MODULE_STM0, IfxStm_Comparator_0) + stmTicks);
     IfxPort_togglePin(&MODULE_P33, 8);
-#if 0
-    Data_pointer++;
-    if(Data_pointer == 100) Data_pointer = 0;
-    Data_array[Data_pointer] = MODULE_STM0.TIM0.U;
-    __enable ();
-    if(Update_flag==1){
-    	if(Up_Down_flag == 1){
-    		PwmFrequency-=10;
-    	}else{
-    		PwmFrequency+=10;
-    	}
-
-    	if(PwmFrequency != 0){
-    	    PwmPeriod = (uint32)(IfxGtm_Cmu_getClkFrequency(&MODULE_GTM, PwmGtmCmuClk, FALSE) / PwmFrequency);
-    	    PwmDuty = (PwmPeriod * 30) / 100;
-    	}else{
-    	    	PwmPeriod = 0x100;
-    	    	PwmDuty = 0x0;
-    	}
-
-    	/*
-    	if(Up_Down_flag == 1){
-    		PwmPeriod-=100;
-    	}else{
-    		PwmPeriod+=100;
-    	}
-    	*/
-    	//PwmDuty+=100;
-    	//if(PwmFrequency >= 20000) Up_Down_flag = 1;
-    	//if(PwmFrequency <= 50) Up_Down_flag = 0;
-
-    	//PwmPeriod+=100;
-    	//if(PwmFrequecncy>= 200000) PwmFrequency = 100000;
-    	//IfxGtm_Atom_Ch_setCompareShadow(PwmGTMATOM, PwmGtmAtomCh, PwmPeriod, PwmDuty);
-    }
-    //CounterTick(IFX_OSTASK_COUNTER);
-#endif
 }
 /**********************************************************************************
  *
@@ -148,7 +97,7 @@ void STM1_Demo_init(void)
 	/* Configure interrupt service requests for STM trigger outputs */
 	//IfxSrc_init(&MODULE_SRC.STM[0].SR[0], IfxSrc_Tos_cpu0, IFX_CFG_ISR_PRIORITY_STM0_COMPARE0);
 	//IfxSrc_enable(&MODULE_SRC.STM[0].SR[0]);
-	stmCompareConfig.servProvider = IfxSrc_Tos_cpu0;
+	stmCompareConfig.servProvider = IfxSrc_Tos_cpu1;
 
 	/* Call the constructor of configuration */
 	IfxStm_initCompareConfig(&stmCompareConfig);
@@ -161,7 +110,6 @@ void STM1_Demo_init(void)
 	IfxStm_initCompare(&MODULE_STM1, &stmCompareConfig);
 
 }
-
 
 IFX_INTERRUPT(Ifx_STM1_Isr,0,IFX_CFG_ISR_PRIORITY_STM1_COMPARE0)
 {
@@ -195,7 +143,7 @@ void STM2_Demo_init(void)
 	/* Configure interrupt service requests for STM trigger outputs */
 	//IfxSrc_init(&MODULE_SRC.STM[0].SR[0], IfxSrc_Tos_cpu0, IFX_CFG_ISR_PRIORITY_STM0_COMPARE0);
 	//IfxSrc_enable(&MODULE_SRC.STM[0].SR[0]);
-	stmCompareConfig.servProvider = IfxSrc_Tos_cpu0;
+	stmCompareConfig.servProvider = IfxSrc_Tos_cpu2;
 
 	/* Call the constructor of configuration */
 	IfxStm_initCompareConfig(&stmCompareConfig);
@@ -208,7 +156,6 @@ void STM2_Demo_init(void)
 	IfxStm_initCompare(&MODULE_STM2, &stmCompareConfig);
 
 }
-
 
 IFX_INTERRUPT(Ifx_STM2_Isr,0,IFX_CFG_ISR_PRIORITY_STM2_COMPARE0)
 {
