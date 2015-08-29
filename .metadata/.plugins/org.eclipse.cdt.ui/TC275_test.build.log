@@ -1,0 +1,13 @@
+
+**** Build of configuration Debug for project TC275_test ****
+
+"C:\\Program Files (x86)\\TASKING\\TriCore v4.3r3\\ctc\\bin\\amk" -j4 all -a 
+Compiling cstart.c
+Compiling cstart_tc1.c
+Compiling cstart_tc2.c
+Compiling sync_on_halt.c
+Compiling TC275_test.c
+Linking to TC275_test.elf
+
+Time consumed: 5049 ms
+**** End of build ****

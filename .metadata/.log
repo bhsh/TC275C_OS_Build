@@ -145,3 +145,6 @@ HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.debug,
 HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.debug,
 	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@19b0892,
 	expression=,sourcePriority=0)
+
+!ENTRY org.eclipse.cdt.core 1 0 2015-08-29 12:47:57.204
+!MESSAGE Indexed 'TC275_test' (5 sources, 9 headers) in 3.77 sec: 23,964 declarations; 1,238 references; 0 unresolved inclusions; 6 syntax errors; 0 unresolved names (0.00%)
