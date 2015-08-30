@@ -11,6 +11,8 @@
 #include "Stm\Std\IfxStm.h"
 #include "Src\Std\IfxSrc.h"
 
+#include "os_kernel.h"
+
 #define STM0_TICK_PERIOD_IN_MICROSECONDS    1000
 #define STM1_TICK_PERIOD_IN_MICROSECONDS    1000
 #define STM2_TICK_PERIOD_IN_MICROSECONDS    1000
@@ -27,6 +29,30 @@ App_Cpu0 g_AppCpu0; /**< \brief CPU 0 global data */
 unsigned long  lock=1; // 1 means available,
 unsigned long mask=1;
 
+
+extern uint32_t pthread_runnable;
+//! Currently running thread
+extern pthread_t pthread_running;
+//! Array of linked lists which holds runnable threads
+extern pthread_t pthread_runnable_threads[PTHREAD_PRIO_MAX];
+
+void stm_src0(void) {
+
+    uint32 stmTicks;
+
+    pthread_t thread;
+    pthread_running->lcx = __mfcr(CPU_PCXI);
+    thread = pthread_running->next; // get next thread with same priority
+    pthread_runnable_threads[thread->priority] = thread;
+
+    stmTicks= (uint32)(stm0CompareValue * 1);
+    IfxStm_updateCompare (&MODULE_STM0, IfxStm_Comparator_0, IfxStm_getCompare (&MODULE_STM0, IfxStm_Comparator_0) + stmTicks);
+
+    pthread_running = thread;
+    __dsync(); // required before PCXI manipulation (see RTOS porting guide)
+    __mtcr(CPU_PCXI, thread->lcx);
+    __asm("ji a11");
+}
 /**********************************************************************************
  *
  *
@@ -35,6 +61,8 @@ unsigned long mask=1;
  *
  *
  *********************************************************************************/
+
+
 void STM_Demo_init(void)
 {
 	/* Initialize STM for the triggers*/
@@ -68,10 +96,10 @@ void STM_Demo_init(void)
 
 IFX_INTERRUPT(Ifx_STM0_Isr,0,IFX_CFG_ISR_PRIORITY_STM0_COMPARE0)
 {
-    uint32 stmTicks;
-    stmTicks= (uint32)(stm0CompareValue * 100);
-    IfxStm_updateCompare (&MODULE_STM0, IfxStm_Comparator_0, IfxStm_getCompare (&MODULE_STM0, IfxStm_Comparator_0) + stmTicks);
-    IfxPort_togglePin(&MODULE_P33, 8);
+   /// IfxPort_togglePin(&MODULE_P33, 8);
+      //__asm(  " svlcx        \n"
+      //        " jla stm_src0 \n"
+   	  //      " rslcx"::"a"(pthread_running->next));
 }
 /**********************************************************************************
  *
@@ -116,7 +144,7 @@ IFX_INTERRUPT(Ifx_STM1_Isr,0,IFX_CFG_ISR_PRIORITY_STM1_COMPARE0)
     uint32 stmTicks;
     stmTicks= (uint32)(stm1CompareValue * 100);
     IfxStm_updateCompare (&MODULE_STM1, IfxStm_Comparator_0, IfxStm_getCompare (&MODULE_STM1, IfxStm_Comparator_0) + stmTicks);
-    IfxPort_togglePin(&MODULE_P33, 9);
+    //IfxPort_togglePin(&MODULE_P33, 9);
 }
 
 /**********************************************************************************
@@ -188,12 +216,12 @@ int core0_main (void)
     g_AppCpu0.info.sysFreq = IfxScuCcu_getSpbFrequency();
     g_AppCpu0.info.stmFreq = IfxStm_getFrequency(&MODULE_STM0);
 
-    STM_Demo_init();
+    //STM_Demo_init();
     STM1_Demo_init();
     STM2_Demo_init();
 
     /* Enable the global interrupts of this CPU */
-    IfxCpu_enableInterrupts();
+    //IfxCpu_enableInterrupts();
 
     /* Demo init */
     // configure P33.8 as general output
@@ -206,11 +234,13 @@ int core0_main (void)
     IfxPort_setPinMode(&MODULE_P33, 11,  IfxPort_Mode_outputPushPullGeneral);
 
     /* background endless loop */
+    start_os();
+
     while (1)
     {
     	//synchronizeCore0Core1();
     	//communicationCore0Core1_ptr->core0Ready = 1;
-    	//IfxPort_togglePin(&MODULE_P33, 8);
+    	IfxPort_togglePin(&MODULE_P33, 8);
     	//IfxPort_togglePin(&MODULE_P33, 9);
     	//IfxPort_togglePin(&MODULE_P33, 10);
     	//IfxPort_togglePin(&MODULE_P33, 11);
