@@ -63,7 +63,7 @@ typedef struct pthread_s {
 
 int pthread_create_np(pthread_t, const pthread_attr_t *, void(*)(void *),
         void *);
-void start_os(void);
+void start_core0_os(void);
 
 
 //! Start threads
@@ -72,7 +72,6 @@ inline void pthread_start_np(void) {
     extern  pthread_t pthread_running;
     extern  pthread_t pthread_runnable_threads[PTHREAD_PRIO_MAX];
     extern  pthread_t thread_test;
-    uint32_t lcx_test;
 
     pthread_t thread;
     //assert(pthread_runnable != 0);
@@ -92,15 +91,14 @@ inline void pthread_start_np(void) {
     //thread->lcx=lcx_test&0xffefffff;
 
     //lcx_test=thread->lcx;
+    
     pthread_running = thread;//
-    //__dsync();
-
     __mtcr(CPU_PSW, 0x00000980);        /* clear PSW.IS */
 
     __dsync();
-
     __mtcr(CPU_PCXI,  thread->lcx);
     __rslcx();
+    __enable();
     __asm(" mov d2,#0");
     __asm(" rfe");
 }

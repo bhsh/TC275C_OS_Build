@@ -30,7 +30,7 @@ int core2_main (void)
           //IfxStm_waitTicks(&MODULE_STM1, g_AppCpu0.info.stmFreq/100);
         // }
 
-          IfxPort_togglePin(&MODULE_P33, 11);
+          //IfxPort_togglePin(&MODULE_P33, 11);
           IfxStm_waitTicks(&MODULE_STM0, 10000000);
          //releaseLock(&lock, mask);
     }

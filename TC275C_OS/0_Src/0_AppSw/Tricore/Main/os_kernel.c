@@ -41,6 +41,8 @@ static void list_append(pthread_t *head, pthread_t elem, pthread_t list_prev,
     }
 }
 
+pthread_t thread_1;
+pthread_t thread_2;
 context_t *cx_test;
 int pthread_create_np(pthread_t thread, //!< [in] thread control block pointer.
         const pthread_attr_t *attr, //!<  [in] thread attribute. Can be NULL to use default.
@@ -78,11 +80,21 @@ int pthread_create_np(pthread_t thread, //!< [in] thread control block pointer.
     cx->l.a4 = arg;
     thread->arg = arg;
 
-    cx_test=cx;
-
+    if((uint32_t)(arg)==1)
+    {
+    	thread_1=thread;
+    }
+    if((uint32_t)(arg)==2)
+    {
+    	thread_2=thread;
+    }
     uint32_t i = thread->priority;
+    pthread_runnable_threads[i]=thread_2;
+
+#if 0
     list_append(&pthread_runnable_threads[i], thread, thread,
             pthread_runnable_threads[i]);
+#endif
     __putbit(1,(int*)&pthread_runnable,i); // mark current thread ready
 
     return 0;

@@ -17,8 +17,8 @@
 #define LCF_CPU2 2
 
 /*Un comment one of the below statements to enable CpuX DMI RAM to hold global variables*/
-//#define LCF_DEFAULT_HOST LCF_CPU0
-#define LCF_DEFAULT_HOST LCF_CPU1
+#define LCF_DEFAULT_HOST LCF_CPU0
+//#define LCF_DEFAULT_HOST LCF_CPU1
 /*#define LCF_DEFAULT_HOST LCF_CPU2*/
 
 #define LCF_DSPR2_START 0x50000000

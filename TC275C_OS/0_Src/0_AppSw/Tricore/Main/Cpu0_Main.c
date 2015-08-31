@@ -36,22 +36,41 @@ extern pthread_t pthread_running;
 //! Array of linked lists which holds runnable threads
 extern pthread_t pthread_runnable_threads[PTHREAD_PRIO_MAX];
 
-void stm_src0(void) {
-
-    uint32 stmTicks;
+pthread_t pthread_running_testp;
+uint32_t pthread_running_test;
+int m=0;
+extern pthread_t thread_1;
+extern pthread_t thread_2;
+ void stm_src0(void) {
 
     pthread_t thread;
-    pthread_running->lcx = __mfcr(CPU_PCXI);
-    thread = pthread_running->next; // get next thread with same priority
-    pthread_runnable_threads[thread->priority] = thread;
+    uint32 stmTicks;
 
-    stmTicks= (uint32)(stm0CompareValue * 1);
+    stmTicks= (uint32)(stm0CompareValue*10);
     IfxStm_updateCompare (&MODULE_STM0, IfxStm_Comparator_0, IfxStm_getCompare (&MODULE_STM0, IfxStm_Comparator_0) + stmTicks);
+    IfxPort_togglePin(&MODULE_P33, 10);
 
-    pthread_running = thread;
+   // pthread_running->lcx = __mfcr(CPU_PCXI);
+   // thread = pthread_running->next; // get next thread with same priority
+   // pthread_runnable_threads[thread->priority] = thread;
+
+  if(m==0)
+  {
+    thread_2->lcx=__mfcr(CPU_PCXI);
+    thread=thread_1;
+    m=1;
+  }
+  else
+  {
+	thread_1->lcx=__mfcr(CPU_PCXI);
+	thread=thread_2;
+	m=0;
+  }
+
     __dsync(); // required before PCXI manipulation (see RTOS porting guide)
     __mtcr(CPU_PCXI, thread->lcx);
     __asm("ji a11");
+
 }
 /**********************************************************************************
  *
@@ -96,10 +115,25 @@ void STM_Demo_init(void)
 
 IFX_INTERRUPT(Ifx_STM0_Isr,0,IFX_CFG_ISR_PRIORITY_STM0_COMPARE0)
 {
-   /// IfxPort_togglePin(&MODULE_P33, 8);
-      //__asm(  " svlcx        \n"
-      //        " jla stm_src0 \n"
-   	  //      " rslcx"::"a"(pthread_running->next));
+
+	//__svlcx();
+	//__isync();
+	//stm_src0();
+	/* we restore the lower context, this could be form any task or our saved from entry */
+	//__rslcx();
+	//__isync();
+	/* we don't was calling here we must return with rfe */
+	//__asm ( "rfe" );
+    __asm(  " svlcx          \n"
+            " jla   stm_src0 \n"
+  		    " rslcx"::"a"(pthread_running->next));
+
+#if 0
+      __asm( " svlcx   \t");
+      __asm( " jla\t %0" : : "a" (stm_src0));
+      __asm( " rslcx \t");
+      __asm( " rfe");
+#endif
 }
 /**********************************************************************************
  *
@@ -190,7 +224,7 @@ IFX_INTERRUPT(Ifx_STM2_Isr,0,IFX_CFG_ISR_PRIORITY_STM2_COMPARE0)
     uint32 stmTicks;
     stmTicks= (uint32)(stm0CompareValue * 100);
     IfxStm_updateCompare (&MODULE_STM2, IfxStm_Comparator_0, IfxStm_getCompare (&MODULE_STM2, IfxStm_Comparator_0) + stmTicks);
-    IfxPort_togglePin(&MODULE_P33, 10);
+    //IfxPort_togglePin(&MODULE_P33, 10);
 }
 
 /**********************************************************************************
@@ -216,31 +250,31 @@ int core0_main (void)
     g_AppCpu0.info.sysFreq = IfxScuCcu_getSpbFrequency();
     g_AppCpu0.info.stmFreq = IfxStm_getFrequency(&MODULE_STM0);
 
-    //STM_Demo_init();
-    STM1_Demo_init();
-    STM2_Demo_init();
+    STM_Demo_init();
+    //STM1_Demo_init();
+    //STM2_Demo_init();
 
     /* Enable the global interrupts of this CPU */
     //IfxCpu_enableInterrupts();
 
     /* Demo init */
     // configure P33.8 as general output
-    //IfxPort_setPinMode(&MODULE_P33, 8,  IfxPort_Mode_outputPushPullGeneral);
-    // configure P33.9 as general output
-    //IfxPort_setPinMode(&MODULE_P33, 9,  IfxPort_Mode_outputPushPullGeneral);
+    IfxPort_setPinMode(&MODULE_P33, 8,  IfxPort_Mode_outputPushPullGeneral);
+     //configure P33.9 as general output
+    IfxPort_setPinMode(&MODULE_P33, 9,  IfxPort_Mode_outputPushPullGeneral);
 
-    //IfxPort_setPinMode(&MODULE_P33, 10,  IfxPort_Mode_outputPushPullGeneral);
+    IfxPort_setPinMode(&MODULE_P33, 10,  IfxPort_Mode_outputPushPullGeneral);
     // configure P33.9 as general output
     IfxPort_setPinMode(&MODULE_P33, 11,  IfxPort_Mode_outputPushPullGeneral);
 
     /* background endless loop */
-    start_os();
+    start_core0_os();
 
     while (1)
     {
     	//synchronizeCore0Core1();
     	//communicationCore0Core1_ptr->core0Ready = 1;
-    	IfxPort_togglePin(&MODULE_P33, 8);
+    	//IfxPort_togglePin(&MODULE_P33, 8);
     	//IfxPort_togglePin(&MODULE_P33, 9);
     	//IfxPort_togglePin(&MODULE_P33, 10);
     	//IfxPort_togglePin(&MODULE_P33, 11);
