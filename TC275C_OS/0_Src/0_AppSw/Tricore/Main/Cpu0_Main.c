@@ -268,8 +268,8 @@ int core0_main (void)
     IfxPort_setPinMode(&MODULE_P33, 11,  IfxPort_Mode_outputPushPullGeneral);
 
     /* background endless loop */
-    start_core0_os();
-
+    //start_core0_os();
+    int m_test;
     while (1)
     {
     	//synchronizeCore0Core1();
@@ -278,6 +278,7 @@ int core0_main (void)
     	//IfxPort_togglePin(&MODULE_P33, 9);
     	//IfxPort_togglePin(&MODULE_P33, 10);
     	//IfxPort_togglePin(&MODULE_P33, 11);
+    	m_test=switch_context();
         IfxStm_waitTicks(&MODULE_STM0, 10000000);
 
     	//IfxStm_waitTicks(&MODULE_STM0, g_AppCpu0.info.stmFreq/1000000);

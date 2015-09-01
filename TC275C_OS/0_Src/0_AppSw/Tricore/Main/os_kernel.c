@@ -10,8 +10,8 @@
 
 
 /* define the system call that is the 6th trap of CPU */
-__syscallfunc(1) int syscall_a( int, int );
-__syscallfunc(2) int syscall_b( int, int );
+//__syscallfunc(1) int syscall_a( int, int );
+//__syscallfunc(2) int syscall_b( int, int );
 __syscallfunc(3) int syscall_c( int, int );
 
 
@@ -112,17 +112,17 @@ void trap6_call(void) {
     __asm("ji a11");
 }
 
-void __trap( 6 ) trap6( int a, int b ) // trap class 6 handler
+/*int __trap( 6 ) trap6( int a, int b ) // trap class 6 handler
 {
-   // int tin;
-   // __asm("mov %0,d15 \n"
-   // 	  "svlcx        ": "=d"(tin)); // put d15 in C variable tin
+    //int tin;
+    int tin;
+    __asm("mov %0,d15" : "=d"(tin)); // put d15 in C variable tin
 
-      __asm(  " svlcx        \n"
-              " jla trap6_call \n"
-    		  " rslcx"::"a"(pthread_running->next));
+     // __asm(  " svlcx        \n"
+     //         " jla trap6_call \n"
+    //		  " rslcx"::"a"(pthread_running->next));
 
-   /* switch( tin )
+    switch( tin )
     {
     case 1:
          a += b;
@@ -131,13 +131,15 @@ void __trap( 6 ) trap6( int a, int b ) // trap class 6 handler
          a -= b;
          break;
     case 3:
+        a -= b;
+        a -= b;
          break;
     default:
          break;
-    } */
-
+    }
     //pthread_start_np();
-}
+    return a;
+}*/
 /***********************************************************************************
  * function name:
  *                main_call_trap6_interface
@@ -168,7 +170,9 @@ void call_trap6_interface(void)
  *                int
  *
  ***********************************************************************************/
-void switch_context(void)
+int switch_context(void)
 {
-	syscall_c(1,2);  // causes a trap class 6 with TIN = 1
+	 int a;
+	 //a=syscall_c(1,2);  // causes a trap class 6 with TIN = 1
+	 return a;
 }

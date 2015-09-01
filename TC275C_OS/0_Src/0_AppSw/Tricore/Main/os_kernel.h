@@ -160,6 +160,6 @@ inline void delay_ms(uint32_t _milliseconds) {
 
 /* The functions are called by app */
 void call_trap6_interface(void);
-void switch_context(void);
+int switch_context(void);
 
 #endif /* OS_KERNEL_H_ */
