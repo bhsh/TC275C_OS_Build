@@ -99,7 +99,7 @@ inline void pthread_start_np(void) {
     __mtcr(CPU_PCXI,  thread->lcx);
     __rslcx();
     __asm(" mov d2,#0");
-    __enable();
+    //__enable();
     __asm(" rfe");
 
 }

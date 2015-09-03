@@ -159,6 +159,25 @@ void call_trap6_interface(void)
 
 }
 
+uint32_t core0_trap_count_test;
+/* The trap is used for the OS of core0 */
+void IfxCpu_Trap_systemCall_Cpu0(uint32_t tin)
+{
+    //trapWatch = IfxCpu_Trap_extractTrapInfo(IfxCpu_Trap_Class_systemCall, tin);
+    //IFX_CFG_CPU_TRAP_SYSCALL_CPU0_HOOK(trapWatch);
+	
+
+	/* Add the kernel of OS */
+	/* Kernel begins        */
+	core0_trap_count_test++;
+	/* Kernel ends          */	
+    __asm(  " svlcx        \n"
+            " jla trap6_call \n"
+  		    " rslcx"::"a"(trap6_call));
+    __asm(  " rfe");
+
+    //__asm("rfe");
+}
 /***********************************************************************************
  * function name:
  *                switch_context

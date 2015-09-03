@@ -258,7 +258,7 @@ int core0_main (void)
     g_AppCpu0.info.sysFreq = IfxScuCcu_getSpbFrequency();
     g_AppCpu0.info.stmFreq = IfxStm_getFrequency(&MODULE_STM0);
 
-    STM_Demo_init();
+    //STM_Demo_init();
     //STM1_Demo_init();
     //STM2_Demo_init();
 
@@ -276,7 +276,7 @@ int core0_main (void)
     IfxPort_setPinMode(&MODULE_P33, 11,  IfxPort_Mode_outputPushPullGeneral);
 
     /* background endless loop */
-    //start_core0_os();
+    start_core0_os();
 
     while (1)
     {

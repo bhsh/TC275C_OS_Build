@@ -56,7 +56,7 @@ void thread1(void* arg) {
         IfxPort_togglePin(&MODULE_P33, 8);
         //IfxPort_togglePin(&MODULE_P33, 10);
 
-        //switch_context();
+        switch_context();
     }
 }
 
@@ -74,7 +74,7 @@ void thread2(void* arg) {
         //call_trap6_interface();
         thread2_test_counter++;
 
-        //switch_context();
+        switch_context();
     }
 }
 
@@ -89,7 +89,7 @@ void thread3(void* arg) {
         //call_trap6_interface();
         thread2_test_counter++;
 
-        //switch_context();
+        switch_context();
     }
 }
 
