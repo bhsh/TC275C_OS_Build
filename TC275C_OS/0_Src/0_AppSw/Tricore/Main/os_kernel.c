@@ -15,11 +15,8 @@ __syscallfunc(2) int syscall_b( int, int );
 __syscallfunc(3) int syscall_c( int, int );
 
 
-//! Bit number is index into pthread_runnable_threads.
  uint32_t pthread_runnable;
-//! Currently running thread
  pthread_t pthread_running;
-//! Array of linked lists which holds runnable threads
  pthread_t pthread_runnable_threads[PTHREAD_PRIO_MAX];
 
 #define NULL (void*)0
@@ -30,7 +27,7 @@ static void list_append(pthread_t *head, pthread_t elem, pthread_t list_prev,
 
     pthread_t list = *head;
     if (list == NULL) {
-        elem->next = elem_next;
+        elem->next = elem;
         elem->prev = elem;
         *head = elem;
     } else {
@@ -79,7 +76,7 @@ int pthread_create_np(pthread_t thread, //!< [in] thread control block pointer.
     cx->l.pc = start_routine; // init new task start address
     cx->l.a4 = arg;
     thread->arg = arg;
-
+#if 0
     if((uint32_t)(arg)==1)
     {
     	thread_1=thread;
@@ -90,11 +87,12 @@ int pthread_create_np(pthread_t thread, //!< [in] thread control block pointer.
     }
     uint32_t i = thread->priority;
     pthread_runnable_threads[i]=thread_2;
+#endif
 
-#if 0
+
+    uint32_t i = thread->priority;
     list_append(&pthread_runnable_threads[i], thread, thread,
             pthread_runnable_threads[i]);
-#endif
     __putbit(1,(int*)&pthread_runnable,i); // mark current thread ready
 
     return 0;

@@ -42,8 +42,10 @@
 
 #pragma align 8
 // define thread name, priority, policy, stack size
+
 PTHREAD_CONTROL_BLOCK(th1,1,SCHED_RR,PTHREAD_DEFAULT_STACK_SIZE)
 PTHREAD_CONTROL_BLOCK(th2,1,SCHED_RR,PTHREAD_DEFAULT_STACK_SIZE)
+
 //PTHREAD_CONTROL_BLOCK(th3,1,SCHED_RR,PTHREAD_DEFAULT_STACK_SIZE)
 #pragma align restore
 
@@ -84,6 +86,7 @@ void start_core0_os(void) {
 
     pthread_create_np(th1, NULL, thread1, (void*)1);
     pthread_create_np(th2, NULL, thread2, (void*)2);
+
    // pthread_create_np(th3, NULL, thread3, (void*)3);
 
     pthread_start_np();

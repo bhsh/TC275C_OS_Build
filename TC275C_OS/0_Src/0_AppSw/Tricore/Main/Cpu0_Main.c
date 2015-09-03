@@ -41,19 +41,23 @@ uint32_t pthread_running_test;
 int m=0;
 extern pthread_t thread_1;
 extern pthread_t thread_2;
+pthread_t pthread_running_test2;
  void stm_src0(void) {
 
     pthread_t thread;
     uint32 stmTicks;
 
+    pthread_running->lcx = __mfcr(CPU_PCXI);
+    //pthread_running_test=__mfcr(CPU_PCXI);
+    thread = pthread_running->next; // get next thread with same priority
+    //pthread_running_test2=pthread_running;
+    pthread_runnable_threads[thread->priority] = thread;
+
     stmTicks= (uint32)(stm0CompareValue*10);
     IfxStm_updateCompare (&MODULE_STM0, IfxStm_Comparator_0, IfxStm_getCompare (&MODULE_STM0, IfxStm_Comparator_0) + stmTicks);
     IfxPort_togglePin(&MODULE_P33, 10);
 
-   // pthread_running->lcx = __mfcr(CPU_PCXI);
-   // thread = pthread_running->next; // get next thread with same priority
-   // pthread_runnable_threads[thread->priority] = thread;
-
+#if 0
   if(m==0)
   {
     thread_2->lcx=__mfcr(CPU_PCXI);
@@ -66,6 +70,7 @@ extern pthread_t thread_2;
 	thread=thread_2;
 	m=0;
   }
+#endif
 
     __dsync(); // required before PCXI manipulation (see RTOS porting guide)
     __mtcr(CPU_PCXI, thread->lcx);

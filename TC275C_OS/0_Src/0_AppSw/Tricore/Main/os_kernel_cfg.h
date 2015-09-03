@@ -28,5 +28,7 @@ typedef unsigned int   uint32_t;    // 4 byte unsigned; prefix: uw
 
 //#define PCXI	0xfe00	/* Previous Context Information Register  */
 //#define NULL (void*)0
+#define assert(_expr)  \
+    ((void) (!(_expr) ? __debug(): (void) 0))
 
 #endif /* OS_KERNEL_CFG_H_ */

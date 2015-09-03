@@ -74,10 +74,10 @@ inline void pthread_start_np(void) {
     extern  pthread_t thread_test;
 
     pthread_t thread;
-    //assert(pthread_runnable != 0);
+    assert(pthread_runnable != 0);
     thread = pthread_runnable_threads[31 - __clz(pthread_runnable)]; //  get ready thread with highest priority ready
-   // assert(thread);
-    //assert(thread->lcx);
+    assert(thread);
+    assert(thread->lcx);
 
     // check if timer must be enabled if thread policy is SCHED_RR and there is another thread with the same priority
    // if (thread->next != NULL && thread->policy == SCHED_RR)
@@ -98,9 +98,10 @@ inline void pthread_start_np(void) {
     __dsync();
     __mtcr(CPU_PCXI,  thread->lcx);
     __rslcx();
-    __enable();
     __asm(" mov d2,#0");
+    __enable();
     __asm(" rfe");
+
 }
 
 //!  TriCore context structure
