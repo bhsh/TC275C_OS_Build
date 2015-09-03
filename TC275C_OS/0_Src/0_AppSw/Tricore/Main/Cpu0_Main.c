@@ -242,6 +242,7 @@ IFX_INTERRUPT(Ifx_STM2_Isr,0,IFX_CFG_ISR_PRIORITY_STM2_COMPARE0)
  *
  *
  *********************************************************************************/
+uint32 core0_switch_context_count_test;
 int core0_main (void)
 {
     /*
@@ -275,7 +276,7 @@ int core0_main (void)
     IfxPort_setPinMode(&MODULE_P33, 11,  IfxPort_Mode_outputPushPullGeneral);
 
     /* background endless loop */
-    start_core0_os();
+    //start_core0_os();
 
     while (1)
     {
@@ -285,6 +286,8 @@ int core0_main (void)
     	//IfxPort_togglePin(&MODULE_P33, 9);
     	//IfxPort_togglePin(&MODULE_P33, 10);
     	//IfxPort_togglePin(&MODULE_P33, 11);
+    	switch_context();
+    	core0_switch_context_count_test++;
         IfxStm_waitTicks(&MODULE_STM0, 10000000);
 
     	//IfxStm_waitTicks(&MODULE_STM0, g_AppCpu0.info.stmFreq/1000000);

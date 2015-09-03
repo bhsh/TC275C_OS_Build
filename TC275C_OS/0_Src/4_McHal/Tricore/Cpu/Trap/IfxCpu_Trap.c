@@ -136,11 +136,17 @@ void IfxCpu_Trap_assertion(uint32 tin)
     __asm("rfe");
 }
 
-
+uint32 core0_trap_count_test;
+/* The trap is used for the OS of core0 */
 void IfxCpu_Trap_systemCall_Cpu0(uint32 tin)
 {
     trapWatch = IfxCpu_Trap_extractTrapInfo(IfxCpu_Trap_Class_systemCall, tin);
     IFX_CFG_CPU_TRAP_SYSCALL_CPU0_HOOK(trapWatch);
+	
+	/* Add the kernel of OS */
+	/* Kernel begins        */
+	core0_trap_count_test++;
+	/* Kernel ends          */	
     __asm("rfe");
 }
 
