@@ -53,6 +53,8 @@ pthread_t pthread_running_test2;
     //pthread_running_test2=pthread_running;
     pthread_runnable_threads[thread->priority] = thread;
 
+    pthread_running = thread;
+
     stmTicks= (uint32)(stm0CompareValue*10);
     IfxStm_updateCompare (&MODULE_STM0, IfxStm_Comparator_0, IfxStm_getCompare (&MODULE_STM0, IfxStm_Comparator_0) + stmTicks);
     IfxPort_togglePin(&MODULE_P33, 10);
