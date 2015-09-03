@@ -42,11 +42,9 @@
 
 #pragma align 8
 // define thread name, priority, policy, stack size
-
 PTHREAD_CONTROL_BLOCK(th1,1,SCHED_RR,PTHREAD_DEFAULT_STACK_SIZE)
 PTHREAD_CONTROL_BLOCK(th2,1,SCHED_RR,PTHREAD_DEFAULT_STACK_SIZE)
-
-//PTHREAD_CONTROL_BLOCK(th3,1,SCHED_RR,PTHREAD_DEFAULT_STACK_SIZE)
+PTHREAD_CONTROL_BLOCK(th3,1,SCHED_RR,PTHREAD_DEFAULT_STACK_SIZE)
 #pragma align restore
 
 void thread1(void* arg) {
@@ -80,12 +78,28 @@ void thread2(void* arg) {
     }
 }
 
+void thread3(void* arg) {
+    uint32_t volatile counter = 0;
+    for (;;) {
+        counter++;
+ //       printf("Thread %d counter = %d\n", (int) arg, counter);
+        delay_ms(100);
+        IfxPort_togglePin(&MODULE_P33, 11);
+
+        //call_trap6_interface();
+        thread2_test_counter++;
+
+        //switch_context();
+    }
+}
+
 void start_core0_os(void) {
 
    // printf("Example 1: Creates 2 threads with round-robin policy.\n");
 
     pthread_create_np(th1, NULL, thread1, (void*)1);
     pthread_create_np(th2, NULL, thread2, (void*)2);
+    pthread_create_np(th3, NULL, thread3, (void*)3);
 
    // pthread_create_np(th3, NULL, thread3, (void*)3);
 
