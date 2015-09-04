@@ -55,8 +55,10 @@ pthread_t pthread_running_test2;
 
    // assert(pthread_running->next);
    //  Null_Pointer_test=((void) (!(pthread_running->next) ? 1: (void) 0));
+   
+   // fix the bug that buserror will occur when pthread_running->next is NULL
     if(thread==NULL)
-    {
+    { 
     	thread=pthread_running;
     }
 
