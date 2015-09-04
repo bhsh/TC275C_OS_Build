@@ -269,7 +269,7 @@ int core0_main (void)
     g_AppCpu0.info.sysFreq = IfxScuCcu_getSpbFrequency();
     g_AppCpu0.info.stmFreq = IfxStm_getFrequency(&MODULE_STM0);
 
-    STM_Demo_init();
+    //STM_Demo_init();
     //STM1_Demo_init();
     //STM2_Demo_init();
 

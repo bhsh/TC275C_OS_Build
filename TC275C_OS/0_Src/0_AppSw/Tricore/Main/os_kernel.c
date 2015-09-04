@@ -152,6 +152,46 @@ int pthread_mutex_unlock(pthread_mutex_t *mutex) //!<  [in] mutex pointer
     return 0;
 }
 
+//! Wait on a condition
+int pthread_cond_wait(pthread_cond_t *cond,//!< [in] condition pointer
+        pthread_mutex_t *mutex) //!< [in] mutex pointer
+{
+    assert(cppn()==0); // CCPN must be 0, pthread_create cannot be called from ISR
+    assert(cond != NULL); // errno = EINVAL
+    assert(mutex != NULL); // errno = EINVAL
+
+    if (true != __swap(&mutex->lock, false)) // the calling thread must have mutex locked
+        return -1; // errno = ENOTLOCKED
+
+    dispatch_wait(&cond->blocked_threads, NULL);// add this thread to the list of blocked threads by this cond
+    mutex->lock = true;
+    mutex->owner = pthread_running;
+    return 0;
+}
+
+//! Broadcast a condition.
+int pthread_cond_broadcast(pthread_cond_t *cond) //!< [in] condition pointer
+{
+    assert(cond!=NULL);
+    if (cond->blocked_threads != NULL) {
+        if (0 == cppn()) { // _pthread_running on CCPN=0
+            dispatch_signal(&cond->blocked_threads, cond->blocked_threads->prev);// swap in with mutex unlocked
+
+        } else {
+#if 0
+            list_append(&blocked_threads, cond->blocked_threads,
+                    cond->blocked_threads->prev, cond->blocked_threads->next);
+            cond->blocked_threads = NULL;
+            CPU_SRC0.U = 1 << 15 // Set request
+                    | 1 << 12 // Service Request Enable
+                    | 0 << 10 // TOS=CPU
+                    | 1; //Service Request Priority Number
+#endif
+        }
+    }
+    return 0;// dummy to avoid warning
+}
+
 void trap6_call(void) {
 #if 0
     pthread_t thread;

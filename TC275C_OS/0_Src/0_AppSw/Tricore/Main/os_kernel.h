@@ -70,6 +70,11 @@ typedef struct {
     pthread_t blocked_threads; //!< list threads waiting for mutex
 } pthread_mutex_t;
 
+//! Description of a thread conditional variable.
+typedef struct {
+    pthread_t blocked_threads; //!< list threads waiting for condition
+} pthread_cond_t;
+
 int pthread_create_np(pthread_t, const pthread_attr_t *, void(*)(void *),
         void *);
 void start_core0_os(void);
@@ -180,6 +185,9 @@ void call_trap6_interface(void);
 void switch_context(void);
 int pthread_mutex_lock(pthread_mutex_t *mutex) ;//!<  [in] mutex pointer
 int pthread_mutex_unlock(pthread_mutex_t *mutex) ;
-
+//! Wait on a condition
+int pthread_cond_wait(pthread_cond_t *cond,//!< [in] condition pointer
+        pthread_mutex_t *mutex); //!< [in] mutex pointer
+int pthread_cond_broadcast(pthread_cond_t *cond); //!< [in] condition pointer
 
 #endif /* OS_KERNEL_H_ */
