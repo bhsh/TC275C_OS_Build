@@ -52,14 +52,19 @@
 //PTHREAD_CONTROL_BLOCK(th4,1,SCHED_RR,PTHREAD_DEFAULT_STACK_SIZE)
 
 // define thread name, priority, policy, stack size
-PTHREAD_CONTROL_BLOCK(th0,1,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+//PTHREAD_CONTROL_BLOCK(th0,1,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+//PTHREAD_CONTROL_BLOCK(th1,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+//PTHREAD_CONTROL_BLOCK(th2,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+//PTHREAD_CONTROL_BLOCK(th3,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+//PTHREAD_CONTROL_BLOCK(th4,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+//PTHREAD_CONTROL_BLOCK(th5,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+//PTHREAD_CONTROL_BLOCK(th6,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+//PTHREAD_CONTROL_BLOCK(th7,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+
+// define thread name, priority, policy, stack size
+PTHREAD_CONTROL_BLOCK(th0,0,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
 PTHREAD_CONTROL_BLOCK(th1,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
 PTHREAD_CONTROL_BLOCK(th2,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
-PTHREAD_CONTROL_BLOCK(th3,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
-PTHREAD_CONTROL_BLOCK(th4,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
-PTHREAD_CONTROL_BLOCK(th5,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
-PTHREAD_CONTROL_BLOCK(th6,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
-PTHREAD_CONTROL_BLOCK(th7,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
 #pragma align restore
 
 
@@ -123,7 +128,7 @@ void thread3(void* arg) {
         switch_context();
     }
 }
-#endif
+
 
 uint32_t volatile conditionMet = 0;
 pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
@@ -155,7 +160,33 @@ void thread2(void* arg) {
         pthread_mutex_unlock(&mutex);
     }
 }
+#endif
 
+
+
+pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+
+
+//void __interrupt(5) asc0_rx(void) {
+//    puts("Wake up all waiters...");
+//    pthread_cond_broadcast(&cond);
+//}
+
+void idle(void* arg) {
+    for (;;)
+        ;
+}
+
+void thread(void* arg) {
+    for (;;) {
+        pthread_mutex_lock(&mutex);
+        printf("Thread %d blocked\n", (int) arg);
+        pthread_cond_wait(&cond, &mutex);
+        printf("Thread %d continued\n", (int) arg);
+        pthread_mutex_unlock(&mutex);
+    }
+}
 void start_core0_os(void) {
 
    // printf("Example 1: Creates 2 threads with round-robin policy.\n");
@@ -175,17 +206,23 @@ void start_core0_os(void) {
    //pthread_create_np(th4, NULL, thread, (void*) 2);
 
 
-    printf("Example 3: Create 8 threads with first-in-first-out policy."
-            "Shows how to use a condition variable to wake up a thread\n");
+    //printf("Example 3: Create 8 threads with first-in-first-out policy."
+    //       "Shows how to use a condition variable to wake up a thread\n");
 
-    pthread_create_np(th0, NULL, thread1, (void*) 0);
-    pthread_create_np(th1, NULL, thread2, (void*) 1);
-    pthread_create_np(th2, NULL, thread2, (void*) 2);
-    pthread_create_np(th3, NULL, thread2, (void*) 3);
-    pthread_create_np(th4, NULL, thread2, (void*) 4);
-    pthread_create_np(th5, NULL, thread2, (void*) 5);
-    pthread_create_np(th6, NULL, thread2, (void*) 6);
-    pthread_create_np(th7, NULL, thread2, (void*) 7);
+    //pthread_create_np(th0, NULL, thread1, (void*) 0);
+    //pthread_create_np(th1, NULL, thread2, (void*) 1);
+    //pthread_create_np(th2, NULL, thread2, (void*) 2);
+    //pthread_create_np(th3, NULL, thread2, (void*) 3);
+    //pthread_create_np(th4, NULL, thread2, (void*) 4);
+    //pthread_create_np(th5, NULL, thread2, (void*) 5);
+    //pthread_create_np(th6, NULL, thread2, (void*) 6);
+    //pthread_create_np(th7, NULL, thread2, (void*) 7);
+    printf("Example 4: Create 3 threads with first-in-first-out policy."
+            "Shows how to use a condition variable to wake up a thread from an interrupt.\n");
+
+    pthread_create_np(th0, NULL, idle, (void*) 0);
+    pthread_create_np(th1, NULL, thread, (void*) 1);
+    pthread_create_np(th2, NULL, thread, (void*) 2);
 
     pthread_start_np();
 }

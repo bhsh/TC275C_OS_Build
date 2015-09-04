@@ -17,6 +17,7 @@
 #define STM1_TICK_PERIOD_IN_MICROSECONDS    1000
 #define STM2_TICK_PERIOD_IN_MICROSECONDS    1000
 
+#define IFX_CFG_ISR_PRIORITY_CPU0_SOFTWAR0	9    /**< \brief Stm0 Compare 0 interrupt priority.  */
 #define IFX_CFG_ISR_PRIORITY_STM0_COMPARE0	10   /**< \brief Stm0 Compare 0 interrupt priority.  */
 #define IFX_CFG_ISR_PRIORITY_STM1_COMPARE0	11   /**< \brief Stm1 Compare 0 interrupt priority.  */
 #define IFX_CFG_ISR_PRIORITY_STM2_COMPARE0	12   /**< \brief Stm2 Compare 0 interrupt priority.  */
@@ -245,6 +246,34 @@ IFX_INTERRUPT(Ifx_STM2_Isr,0,IFX_CFG_ISR_PRIORITY_STM2_COMPARE0)
     //IfxPort_togglePin(&MODULE_P33, 10);
 }
 
+int cpu0_software_interrupt_test_in_interrupt;
+int cpu0_software_interrupt_test_in_main_loop;
+
+void Init_soft_interrupt(volatile Ifx_SRC_SRCR *src)
+{
+	src->B.SRE=1;
+	src->B.TOS=0;
+	src->B.SRPN=9;
+}
+
+void trigger_soft_interrupt(volatile Ifx_SRC_SRCR *src)
+{
+    src->B.SETR=1;
+    cpu0_software_interrupt_test_in_main_loop++;
+}
+ //   	trigger_soft_interrupt(SRC_GPSR00)
+IFX_INTERRUPT(CPU0_SOFT0_Isr,0,IFX_CFG_ISR_PRIORITY_CPU0_SOFTWAR0)
+{
+    //uint32 stmTicks;
+    //stmTicks= (uint32)(stm0CompareValue * 100);
+    //IfxStm_updateCompare (&MODULE_STM2, IfxStm_Comparator_0, IfxStm_getCompare (&MODULE_STM2, IfxStm_Comparator_0) + stmTicks);
+    //IfxPort_togglePin(&MODULE_P33, 10);
+	cpu0_software_interrupt_test_in_interrupt++;
+
+
+}
+
+
 /**********************************************************************************
  *
  *
@@ -274,7 +303,7 @@ int core0_main (void)
     //STM2_Demo_init();
 
     /* Enable the global interrupts of this CPU */
-    //IfxCpu_enableInterrupts();
+    IfxCpu_enableInterrupts();
 
     /* Demo init */
     // configure P33.8 as general output
@@ -286,19 +315,22 @@ int core0_main (void)
     // configure P33.9 as general output
     IfxPort_setPinMode(&MODULE_P33, 11,  IfxPort_Mode_outputPushPullGeneral);
 
+    Init_soft_interrupt(&SRC_GPSR00);
     /* background endless loop */
-    start_core0_os();
+    //start_core0_os();
 
     while (1)
     {
     	//synchronizeCore0Core1();
     	//communicationCore0Core1_ptr->core0Ready = 1;
-    	//IfxPort_togglePin(&MODULE_P33, 8);
+    	IfxPort_togglePin(&MODULE_P33, 8);
     	//IfxPort_togglePin(&MODULE_P33, 9);
     	//IfxPort_togglePin(&MODULE_P33, 10);
     	//IfxPort_togglePin(&MODULE_P33, 11);
     	//switch_context();
     	//core0_switch_context_count_test++;
+    	//trigger_soft_interrupt(&SRC_GPSR00);
+    	trigger_soft_interrupt(&SRC_GPSR00);
         IfxStm_waitTicks(&MODULE_STM0, 10000000);
 
     	//IfxStm_waitTicks(&MODULE_STM0, g_AppCpu0.info.stmFreq/1000000);
