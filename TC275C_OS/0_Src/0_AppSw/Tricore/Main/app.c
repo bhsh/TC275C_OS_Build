@@ -54,7 +54,7 @@ PTHREAD_CONTROL_BLOCK(th4,1,SCHED_RR,PTHREAD_DEFAULT_STACK_SIZE)
 
 pthread_mutex_t    mutex = PTHREAD_MUTEX_INITIALIZER;
 int                i,j,k,l;
-int volatile       uselock=0;
+int volatile       uselock=1;
 
 void thread(void* arg) {
     for (;;) {

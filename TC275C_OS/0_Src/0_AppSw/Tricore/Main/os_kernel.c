@@ -313,10 +313,10 @@ void IfxCpu_Trap_systemCall_Cpu0(uint32_t tin)
     __asm(  " rfe");
 #endif
 
-    __asm("; mtcr #ICR,%0 \n"
-            " isync      \n"
-            " jg trap_test"
-            ::"d"(1 << 15 | PTHREAD_USER_INT_LEVEL),"a"(trap_test):"a4","a5","d15");//
+    __asm(  " mtcr #ICR,%0    \n"
+            " isync           \n"
+            " jg trapsystem     "
+            ::"d"(1 << 15 | PTHREAD_USER_INT_LEVEL),"a"(trapsystem):"a4","a5","d15");//
     //__asm(  " rfe");
 }
 /***********************************************************************************

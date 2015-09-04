@@ -46,11 +46,20 @@ pthread_t pthread_running_test2;
 
     pthread_t thread;
     uint32 stmTicks;
+    //int Null_Pointer_test;
 
     pthread_running->lcx = __mfcr(CPU_PCXI);
     //pthread_running_test=__mfcr(CPU_PCXI);
     thread = pthread_running->next; // get next thread with same priority
     //pthread_running_test2=pthread_running;
+
+   // assert(pthread_running->next);
+   //  Null_Pointer_test=((void) (!(pthread_running->next) ? 1: (void) 0));
+    if(thread==NULL)
+    {
+    	thread=pthread_running;
+    }
+
     pthread_runnable_threads[thread->priority] = thread;
 
     pthread_running = thread;
@@ -258,7 +267,7 @@ int core0_main (void)
     g_AppCpu0.info.sysFreq = IfxScuCcu_getSpbFrequency();
     g_AppCpu0.info.stmFreq = IfxStm_getFrequency(&MODULE_STM0);
 
-    //STM_Demo_init();
+    STM_Demo_init();
     //STM1_Demo_init();
     //STM2_Demo_init();
 
@@ -276,7 +285,7 @@ int core0_main (void)
     IfxPort_setPinMode(&MODULE_P33, 11,  IfxPort_Mode_outputPushPullGeneral);
 
     /* background endless loop */
-    // start_core0_os();
+    start_core0_os();
 
     while (1)
     {
@@ -286,8 +295,8 @@ int core0_main (void)
     	//IfxPort_togglePin(&MODULE_P33, 9);
     	//IfxPort_togglePin(&MODULE_P33, 10);
     	//IfxPort_togglePin(&MODULE_P33, 11);
-    	switch_context();
-    	core0_switch_context_count_test++;
+    	//switch_context();
+    	//core0_switch_context_count_test++;
         IfxStm_waitTicks(&MODULE_STM0, 10000000);
 
     	//IfxStm_waitTicks(&MODULE_STM0, g_AppCpu0.info.stmFreq/1000000);

@@ -15,7 +15,7 @@
 #define PTHREAD_DEFAULT_ATTR {SUPER, CALL_DEPTH_OVERFLOW_AT_64, PTHREAD_DEFAULT_STACK_SIZE} //!< Default thread attributes: Supervisor mode, call depth = 64, default stack size
 #define PTHREAD_SWAP_HANDLER 0            //!< 0 = no swap handler installed
 #define PTHREAD_COND_TIMEDWAIT_SIZE 8     //!< Number of conditions that can wait for a period to be elapsed
-#define PTHREAD_USER_INT_LEVEL 3          //!< Maximal interrupt level for routines that are managed by the library
+#define PTHREAD_USER_INT_LEVEL 13          //!< Maximal interrupt level for routines that are managed by the library
 
 typedef unsigned int   uint32_t;    // 4 byte unsigned; prefix: uw
 
