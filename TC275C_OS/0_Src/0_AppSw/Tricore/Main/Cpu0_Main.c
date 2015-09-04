@@ -276,7 +276,7 @@ int core0_main (void)
     IfxPort_setPinMode(&MODULE_P33, 11,  IfxPort_Mode_outputPushPullGeneral);
 
     /* background endless loop */
-    start_core0_os();
+    // start_core0_os();
 
     while (1)
     {

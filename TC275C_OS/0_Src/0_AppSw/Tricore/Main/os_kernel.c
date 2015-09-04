@@ -10,10 +10,16 @@
 
 
 /* define the system call that is the 6th trap of CPU */
-__syscallfunc(1) int syscall_a( int, int );
-__syscallfunc(2) int syscall_b( int, int );
-__syscallfunc(3) int syscall_c( int, int );
+//__syscallfunc(1) int syscall_a( int, int );
+//__syscallfunc(2) int syscall_b( int, int );
+//__syscallfunc(3) int syscall_c( int, int );
 
+//! \cond IGNORE
+#define DISPATCH_WAIT     2
+#define DISPATCH_SIGNAL   3
+__syscallfunc(DISPATCH_WAIT)   int dispatch_wait(void *, void *);
+__syscallfunc(DISPATCH_SIGNAL) int dispatch_signal(void *, void *);
+//! \endcond
 
  uint32_t pthread_runnable;
  pthread_t pthread_running;
@@ -38,6 +44,20 @@ static void list_append(pthread_t *head, pthread_t elem, pthread_t list_prev,
     }
 }
 
+static void list_delete_first(pthread_t *head) {
+    assert(head);
+
+    pthread_t old = *head;
+    pthread_t new = old->next;
+
+    if (new != NULL) {
+        old->prev->next = new;
+        new->prev = old->prev;
+        if (new->next == new)
+            new->next = NULL; // if the list has only one element than set ->next = NULL
+    }
+    *head = new;
+}
 pthread_t thread_1;
 pthread_t thread_2;
 context_t *cx_test;
@@ -98,7 +118,42 @@ int pthread_create_np(pthread_t thread, //!< [in] thread control block pointer.
     return 0;
 }
 
+
+int pthread_mutex_lock(pthread_mutex_t *mutex) //!<  [in] mutex pointer
+{
+    assert(cppn()==0); // CCPN must be 0, function cannot be called from ISR
+    assert (mutex != NULL); // errno = EINVAL, return -1
+
+    if (mutex->owner == pthread_running) // errno = EDEADLK
+        return -1;
+
+    while (true == __swap(&mutex->lock, true)) { // swap out if already looked by another thread
+        dispatch_wait(&mutex->blocked_threads, NULL); // block this thread
+    }
+    mutex->owner = pthread_running;
+    return 0;
+}
+
+//! Unlock a mutex
+int pthread_mutex_unlock(pthread_mutex_t *mutex) //!<  [in] mutex pointer
+{
+    assert(cppn()==0); // CCPN must be 0, function cannot be called from ISR
+    assert (mutex != NULL); // errno = EINVAL, return -1
+
+    if (mutex->owner != pthread_running) // errno = EPERM
+        return -1;
+
+    pthread_t threads = mutex->blocked_threads;
+    mutex->owner = NULL;
+    mutex->lock = false;
+    mutex->blocked_threads = NULL;
+    if (threads != NULL)
+        dispatch_signal(&threads, NULL);
+    return 0;
+}
+
 void trap6_call(void) {
+#if 0
     pthread_t thread;
     pthread_running->lcx = __mfcr(CPU_PCXI);
     thread = pthread_running->next; // get next thread with same priority
@@ -108,6 +163,7 @@ void trap6_call(void) {
     __dsync(); // required before PCXI manipulation (see RTOS porting guide)
     __mtcr(CPU_PCXI, thread->lcx);
     __asm("ji a11");
+#endif
 }
 
 void __trap( 6 ) trap6( int a, int b ) // trap class 6 handler
@@ -159,8 +215,87 @@ void call_trap6_interface(void)
 
 }
 
+/*! Trap class 6 handler (System trap) called by
+ \code __syscallfunc(DISPATCH_WAIT)  int dispatch_wait(void *, void *);
+ \code __syscallfunc(DISPATCH_SIGNAL) int dispatch_signal(void *, void *);
+ */
+static void trapsystem(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
+    int tin, i;
+    pthread_t thread, tmp;
+
+    __asm(" mov %0,d15 \n"
+            " svlcx        "
+            : "=d"(tin)); // put d15 in C variable tin
+
+    pthread_running->lcx = __mfcr(CPU_PCXI);
+    i = pthread_running->priority;
+    assert(pthread_runnable_threads[i] == pthread_running);
+    switch (tin) {
+    case DISPATCH_WAIT: // _swap_out _pthread_running
+        list_delete_first(&pthread_runnable_threads[i]);
+        list_append(blocked_threads_ptr, pthread_running, pthread_running, NULL);
+        __putbit(neza(pthread_runnable_threads[i]),(int*)&pthread_runnable,i);
+        break;
+    case DISPATCH_SIGNAL:
+        tmp = NULL;
+        assert(blocked_threads_ptr);
+        thread = *blocked_threads_ptr;
+        while (thread != NULL) {
+            tmp = thread->next;
+            i = thread->priority;
+            list_append(&pthread_runnable_threads[i], thread, thread,
+                    pthread_runnable_threads[i]);
+            __putbit(1,(int*)&pthread_runnable,i);
+            if (thread == last_thread)
+                break;
+            thread = tmp;
+        }
+        *blocked_threads_ptr = tmp;
+        break;
+    default:
+        break;
+    }
+    pthread_start_np();
+}
+//! Trap vector table entry to trap class 6 handler enables interrupts
+#if 0
+void __trap_fast(6) trap6(void) {
+    __asm(" mtcr #ICR,%0 \n"
+            " isync      \n"
+            " jg trapsystem"
+            ::"d"(1 << 8 | PTHREAD_USER_INT_LEVEL),"a"(trapsystem):"a4","a5","d15");//
+}
+#endif
+
 uint32_t core0_trap_count_test;
 /* The trap is used for the OS of core0 */
+
+void trap_test(int *b,int *c)
+{
+    int tin;
+
+    __asm(" mov %0,d15 \n"
+            : "=d"(tin)); // put d15 in C variable tin
+    switch(tin)
+    {
+    case 1:
+    	   *b=10;
+    	   *c=11;
+    	    break;
+    case 2:
+ 	       *b=12;
+ 	       *c=13;
+ 	       break;
+    case 3:
+ 	       *b=14;
+ 	       *c=15;
+ 	       break;
+    default:
+           break;
+    }
+    __asm(  " rfe");
+}
+//void IfxCpu_Trap_systemCall_Cpu0(uint32_t tin)
 void IfxCpu_Trap_systemCall_Cpu0(uint32_t tin)
 {
     //trapWatch = IfxCpu_Trap_extractTrapInfo(IfxCpu_Trap_Class_systemCall, tin);
@@ -169,14 +304,20 @@ void IfxCpu_Trap_systemCall_Cpu0(uint32_t tin)
 
 	/* Add the kernel of OS */
 	/* Kernel begins        */
+#if 0
 	core0_trap_count_test++;
 	/* Kernel ends          */	
     __asm(  " svlcx        \n"
             " jla trap6_call \n"
   		    " rslcx"::"a"(trap6_call));
     __asm(  " rfe");
+#endif
 
-    //__asm("rfe");
+    __asm("; mtcr #ICR,%0 \n"
+            " isync      \n"
+            " jg trap_test"
+            ::"d"(1 << 15 | PTHREAD_USER_INT_LEVEL),"a"(trap_test):"a4","a5","d15");//
+    //__asm(  " rfe");
 }
 /***********************************************************************************
  * function name:
@@ -185,7 +326,10 @@ void IfxCpu_Trap_systemCall_Cpu0(uint32_t tin)
  *                int
  *
  ***********************************************************************************/
+int test1=0;
+int test2=0;
 void switch_context(void)
 {
-	syscall_c(1,2);  // causes a trap class 6 with TIN = 1
+	//syscall_c(1,2);  // causes a trap class 6 with TIN = 1
+	dispatch_wait(&test1,&test2);
 }

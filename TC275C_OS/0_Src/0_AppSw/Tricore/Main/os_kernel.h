@@ -10,6 +10,9 @@
 
 #include "os_kernel_cfg.h"
 
+#define PTHREAD_COND_INITIALIZER {NULL}
+#define PTHREAD_MUTEX_INITIALIZER {false,NULL}
+
 #define PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_stacksize) static struct { \
     pthread_t next,prev;\
     uint32_t lcx; \
@@ -60,6 +63,12 @@ typedef struct pthread_s {
     uint32_t stack[1]; //!< Stack. The size 1 is only a dummy. Memory allocation is done via \ref PTHREAD_CONTROL_BLOCK
 }*pthread_t;
 
+//! Description of a thread mutex.
+typedef struct {
+    uint32_t lock;//!< mutex lock status is one of <true | false>
+    pthread_t owner; //!< owner thread
+    pthread_t blocked_threads; //!< list threads waiting for mutex
+} pthread_mutex_t;
 
 int pthread_create_np(pthread_t, const pthread_attr_t *, void(*)(void *),
         void *);
@@ -157,6 +166,13 @@ inline void delay_ms(uint32_t _milliseconds) {
             "  loop a15,*-4    \n"
             "  loop %0,*-8   \n"
             ::"a"((_milliseconds*200)/2): "a15","d15");
+}
+
+//! Insert NEZ.A instruction
+inline uint32_t neza(void *p) {
+    int ret;
+    __asm("nez.a %0,%1":"=d"(ret):"a"(p));
+    return ret;
 }
 
 /* The functions are called by app */

@@ -25,10 +25,22 @@ typedef unsigned int   uint32_t;    // 4 byte unsigned; prefix: uw
 #define CPU_PSW 0xFE04
 /** \\brief  FE38, , type: Ifx_CPU_FCX, Free CSA List Head Pointer */
 #define CPU_FCX 0xFE38
+/** \\brief  FE2C, , type: Ifx_CPU_ICR, Interrupt Control Register */
+#define CPU_ICR 0xFE2C
+
+#define false 0
+#define true  1
 
 //#define PCXI	0xfe00	/* Previous Context Information Register  */
 //#define NULL (void*)0
 #define assert(_expr)  \
     ((void) (!(_expr) ? __debug(): (void) 0))
+
+/*! Return current process priority number
+ \return current priority process number
+ */
+inline uint32_t cppn(void) {
+    return __extru(__mfcr(CPU_ICR), 0, 8);
+}
 
 #endif /* OS_KERNEL_CFG_H_ */
