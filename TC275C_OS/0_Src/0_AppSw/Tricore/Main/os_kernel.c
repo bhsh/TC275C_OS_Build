@@ -182,7 +182,7 @@ int pthread_cond_broadcast(pthread_cond_t *cond) //!< [in] condition pointer
             dispatch_signal(&cond->blocked_threads, cond->blocked_threads->prev);// swap in with mutex unlocked
 
         } else {
-        	blocked_threads_prev_temp=cond->blocked_threads->prev;
+        	//blocked_threads_prev_temp=cond->blocked_threads->prev;
             list_append(&blocked_threads, cond->blocked_threads,
                     cond->blocked_threads->prev, cond->blocked_threads->next);
             cond->blocked_threads = NULL;
@@ -268,6 +268,7 @@ void call_trap6_interface(void)
  \code __syscallfunc(DISPATCH_WAIT)  int dispatch_wait(void *, void *);
  \code __syscallfunc(DISPATCH_SIGNAL) int dispatch_signal(void *, void *);
  */
+pthread_t pthread_runnable_threads_test;
 static void trapsystem(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
     int tin, i;
     pthread_t thread, tmp;
@@ -282,6 +283,8 @@ static void trapsystem(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
     switch (tin) {
     case DISPATCH_WAIT: // _swap_out _pthread_running
         list_delete_first(&pthread_runnable_threads[i]);
+        pthread_runnable_threads_test=pthread_runnable_threads[i];
+        pthread_runnable_threads[i]=NULL;
         list_append(blocked_threads_ptr, pthread_running, pthread_running, NULL);
         __putbit(neza(pthread_runnable_threads[i]),(int*)&pthread_runnable,i);
         break;
@@ -392,7 +395,7 @@ void __interrupt(9) __vector_table(0) CPU0_SOFT0_Isr(void)
             " mov d15,%2 \n"
             " jg trapsystem"
             ::"a"(&blocked_threads),"a"(blocked_threads_prev_temp),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
-
+            //::"a"(&blocked_threads),"a"(blocked_threads_prev_temp),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
 }
 /***********************************************************************************
  * function name:

@@ -63,8 +63,8 @@
 
 // define thread name, priority, policy, stack size
 PTHREAD_CONTROL_BLOCK(th0,0,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
-PTHREAD_CONTROL_BLOCK(th1,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
 PTHREAD_CONTROL_BLOCK(th2,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+//PTHREAD_CONTROL_BLOCK(th2,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
 //PTHREAD_CONTROL_BLOCK(th3,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
 #pragma align restore
 
@@ -175,16 +175,20 @@ void __interrupt(20) CPU0_SOFT1_Isr(void) {
     thread_test_count=10;
     pthread_cond_broadcast(&cond);
 }
-
+int flag;
 void idle(void* arg) {
     for (;;)
     {
     	thread_test_count1++;
-    	delay_ms(1000);
-        SRC_GPSR01.B.SETR=1;
-        SRC_GPSR01.B.SRE=1;
-        SRC_GPSR01.B.TOS=0;
-        SRC_GPSR01.B.SRPN=20;
+    	delay_ms(100);
+    	if(flag==1)
+    	{
+    	  flag=0;
+          SRC_GPSR01.B.SETR=1;
+          SRC_GPSR01.B.SRE=1;
+          SRC_GPSR01.B.TOS=0;
+          SRC_GPSR01.B.SRPN=20;
+    	}
     }
 }
 
@@ -193,6 +197,7 @@ void thread(void* arg) {
         pthread_mutex_lock(&mutex);
         printf("Thread %d blocked\n", (int) arg);
         thread_test_count++;
+        //delay_ms(500);
         pthread_cond_wait(&cond, &mutex);
         printf("Thread %d continued\n", (int) arg);
         pthread_mutex_unlock(&mutex);
@@ -232,8 +237,8 @@ void start_core0_os(void) {
             "Shows how to use a condition variable to wake up a thread from an interrupt.\n");
 
     pthread_create_np(th0, NULL, idle, (void*) 0);
-    pthread_create_np(th1, NULL, thread, (void*) 1);
     pthread_create_np(th2, NULL, thread, (void*) 2);
+   //pthread_create_np(th2, NULL, thread, (void*) 2);
 
     pthread_start_np();
 }
