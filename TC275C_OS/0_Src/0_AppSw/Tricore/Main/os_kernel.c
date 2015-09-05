@@ -47,6 +47,26 @@ static void list_append(pthread_t *head, pthread_t elem, pthread_t list_prev,
     }
 }
 
+static void list_append2(pthread_t *head, pthread_t elem, pthread_t list_prev,
+        pthread_t elem_next) {
+
+    assert(head != NULL);
+    assert(elem != NULL);
+
+    pthread_t list = *head;
+    if (list == NULL) {
+        elem->next = elem_next;
+    	//elem->next = elem_next;
+        elem->prev = elem;
+        *head = elem;
+    } else {
+        elem->next = elem_next;
+        elem->prev = list->prev;
+        list->prev->next = elem;
+        list->prev = list_prev;
+    }
+}
+
 static void list_delete_first(pthread_t *head) {
     assert(head);
 
@@ -182,9 +202,12 @@ int pthread_cond_broadcast(pthread_cond_t *cond) //!< [in] condition pointer
             dispatch_signal(&cond->blocked_threads, cond->blocked_threads->prev);// swap in with mutex unlocked
 
         } else {
+            /* The bug is found here*/
+        	blocked_threads=NULL;
         	//blocked_threads_prev_temp=cond->blocked_threads->prev;
-            list_append(&blocked_threads, cond->blocked_threads,
-                    cond->blocked_threads->prev, cond->blocked_threads->next);
+        	list_append2(&blocked_threads, cond->blocked_threads,
+                         cond->blocked_threads->prev, cond->blocked_threads->next);
+            //locked_threads=cond->blocked_threads;
             cond->blocked_threads = NULL;
 
             /*  The software interrupt 0 of core0 is used.   */
@@ -284,7 +307,7 @@ static void trapsystem(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
     case DISPATCH_WAIT: // _swap_out _pthread_running
         list_delete_first(&pthread_runnable_threads[i]);
         pthread_runnable_threads_test=pthread_runnable_threads[i];
-        pthread_runnable_threads[i]=NULL;
+        //pthread_runnable_threads[i]=NULL;
         list_append(blocked_threads_ptr, pthread_running, pthread_running, NULL);
         __putbit(neza(pthread_runnable_threads[i]),(int*)&pthread_runnable,i);
         break;
@@ -394,7 +417,7 @@ void __interrupt(9) __vector_table(0) CPU0_SOFT0_Isr(void)
             " mov.aa a5,%1 \n"
             " mov d15,%2 \n"
             " jg trapsystem"
-            ::"a"(&blocked_threads),"a"(blocked_threads_prev_temp),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
+            ::"a"(&blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
             //::"a"(&blocked_threads),"a"(blocked_threads_prev_temp),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
 }
 /***********************************************************************************
