@@ -7,7 +7,7 @@
 
 
 #include "os_kernel.h"
-
+#include "_Reg/IfxSrc_reg.h"
 
 /* define the system call that is the 6th trap of CPU */
 //__syscallfunc(1) int syscall_a( int, int );
@@ -24,16 +24,19 @@ __syscallfunc(DISPATCH_SIGNAL) int dispatch_signal(void *, void *);
  uint32_t pthread_runnable;
  pthread_t pthread_running;
  pthread_t pthread_runnable_threads[PTHREAD_PRIO_MAX];
+ static pthread_t blocked_threads;
+ static pthread_t blocked_threads_prev_temp;
 
 #define NULL (void*)0
 static void list_append(pthread_t *head, pthread_t elem, pthread_t list_prev,
         pthread_t elem_next) {
-   // assert(head != NULL);
-   // assert(elem != NULL);
+    assert(head != NULL);
+    assert(elem != NULL);
 
     pthread_t list = *head;
     if (list == NULL) {
-        elem->next = elem;
+        //elem->next = elem_next;
+    	elem->next = elem;
         elem->prev = elem;
         *head = elem;
     } else {
@@ -174,19 +177,25 @@ int pthread_cond_broadcast(pthread_cond_t *cond) //!< [in] condition pointer
 {
     assert(cond!=NULL);
     if (cond->blocked_threads != NULL) {
+        //if (0 == cppn()) { // _pthread_running on CCPN=0
         if (0 == cppn()) { // _pthread_running on CCPN=0
             dispatch_signal(&cond->blocked_threads, cond->blocked_threads->prev);// swap in with mutex unlocked
 
         } else {
-#if 0
+        	blocked_threads_prev_temp=cond->blocked_threads->prev;
             list_append(&blocked_threads, cond->blocked_threads,
                     cond->blocked_threads->prev, cond->blocked_threads->next);
             cond->blocked_threads = NULL;
-            CPU_SRC0.U = 1 << 15 // Set request
-                    | 1 << 12 // Service Request Enable
-                    | 0 << 10 // TOS=CPU
-                    | 1; //Service Request Priority Number
-#endif
+
+            /*  The software interrupt 0 of core0 is used.   */
+            SRC_GPSR00.B.SETR=1;
+            SRC_GPSR00.B.SRE=1;
+            SRC_GPSR00.B.TOS=0;
+            SRC_GPSR00.B.SRPN=9;
+            //CPU_SRC0.U = 1 << 15 // Set request
+            //        | 1 << 12 // Service Request Enable
+            //        | 0 << 10 // TOS=CPU
+            //        | 1; //Service Request Priority Number
         }
     }
     return 0;// dummy to avoid warning
@@ -289,6 +298,7 @@ static void trapsystem(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
             if (thread == last_thread)
                 break;
             thread = tmp;
+
         }
         *blocked_threads_ptr = tmp;
         break;
@@ -306,6 +316,7 @@ void __trap_fast(6) trap6(void) {
             ::"d"(1 << 8 | PTHREAD_USER_INT_LEVEL),"a"(trapsystem):"a4","a5","d15");//
 }
 #endif
+
 
 uint32_t core0_trap_count_test;
 /* The trap is used for the OS of core0 */
@@ -335,6 +346,7 @@ void trap_test(int *b,int *c)
     }
     __asm(  " rfe");
 }
+
 //void IfxCpu_Trap_systemCall_Cpu0(uint32_t tin)
 void IfxCpu_Trap_systemCall_Cpu0(uint32_t tin)
 {
@@ -358,6 +370,29 @@ void IfxCpu_Trap_systemCall_Cpu0(uint32_t tin)
             " jg trapsystem     "
             ::"d"(1 << 15 | PTHREAD_USER_INT_LEVEL),"a"(trapsystem):"a4","a5","d15");//
     //__asm(  " rfe");
+}
+
+#if 0
+void __interrupt(9) pthread_broadcast(
+        void) {
+    __asm("; setup parameter and jump to trapsystem \n"
+            " mov.aa a4,%0 \n"
+            " mov.aa a5,%1 \n"
+            " mov d15,%2 \n"
+            " jg trapsystem"
+            ::"a"(&blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
+}
+#endif
+int test_count;
+void __interrupt(9) __vector_table(0) CPU0_SOFT0_Isr(void)
+{
+    __asm("; setup parameter and jump to trapsystem \n"
+            " mov.aa a4,%0 \n"
+            " mov.aa a5,%1 \n"
+            " mov d15,%2 \n"
+            " jg trapsystem"
+            ::"a"(&blocked_threads),"a"(blocked_threads_prev_temp),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
+
 }
 /***********************************************************************************
  * function name:

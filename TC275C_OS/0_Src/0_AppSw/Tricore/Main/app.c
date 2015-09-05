@@ -65,6 +65,7 @@
 PTHREAD_CONTROL_BLOCK(th0,0,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
 PTHREAD_CONTROL_BLOCK(th1,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
 PTHREAD_CONTROL_BLOCK(th2,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+//PTHREAD_CONTROL_BLOCK(th3,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
 #pragma align restore
 
 
@@ -166,22 +167,32 @@ void thread2(void* arg) {
 
 pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+volatile int thread_test_count;
+volatile int thread_test_count1;
 
-
-//void __interrupt(5) asc0_rx(void) {
-//    puts("Wake up all waiters...");
-//    pthread_cond_broadcast(&cond);
-//}
+void __interrupt(20) CPU0_SOFT1_Isr(void) {
+    puts("Wake up all waiters...");
+    thread_test_count=10;
+    pthread_cond_broadcast(&cond);
+}
 
 void idle(void* arg) {
     for (;;)
-        ;
+    {
+    	thread_test_count1++;
+    	delay_ms(1000);
+        SRC_GPSR01.B.SETR=1;
+        SRC_GPSR01.B.SRE=1;
+        SRC_GPSR01.B.TOS=0;
+        SRC_GPSR01.B.SRPN=20;
+    }
 }
 
 void thread(void* arg) {
     for (;;) {
         pthread_mutex_lock(&mutex);
         printf("Thread %d blocked\n", (int) arg);
+        thread_test_count++;
         pthread_cond_wait(&cond, &mutex);
         printf("Thread %d continued\n", (int) arg);
         pthread_mutex_unlock(&mutex);
