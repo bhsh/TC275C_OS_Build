@@ -54,12 +54,12 @@
 // define thread name, priority, policy, stack size
 PTHREAD_CONTROL_BLOCK(th0,1,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
 PTHREAD_CONTROL_BLOCK(th1,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
-PTHREAD_CONTROL_BLOCK(th2,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
-PTHREAD_CONTROL_BLOCK(th3,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
-PTHREAD_CONTROL_BLOCK(th4,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
-PTHREAD_CONTROL_BLOCK(th5,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
-PTHREAD_CONTROL_BLOCK(th6,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
-PTHREAD_CONTROL_BLOCK(th7,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+//PTHREAD_CONTROL_BLOCK(th2,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+//PTHREAD_CONTROL_BLOCK(th3,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+//PTHREAD_CONTROL_BLOCK(th4,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+//PTHREAD_CONTROL_BLOCK(th5,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+//PTHREAD_CONTROL_BLOCK(th6,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+//PTHREAD_CONTROL_BLOCK(th7,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
 #pragma align restore
 
 
@@ -180,12 +180,12 @@ void start_core0_os(void) {
 
     pthread_create_np(th0, NULL, thread1, (void*) 0);
     pthread_create_np(th1, NULL, thread2, (void*) 1);
-    pthread_create_np(th2, NULL, thread2, (void*) 2);
-    pthread_create_np(th3, NULL, thread2, (void*) 3);
-    pthread_create_np(th4, NULL, thread2, (void*) 4);
-    pthread_create_np(th5, NULL, thread2, (void*) 5);
-    pthread_create_np(th6, NULL, thread2, (void*) 6);
-    pthread_create_np(th7, NULL, thread2, (void*) 7);
+    //pthread_create_np(th2, NULL, thread2, (void*) 2);
+    //pthread_create_np(th3, NULL, thread2, (void*) 3);
+    //pthread_create_np(th4, NULL, thread2, (void*) 4);
+    //pthread_create_np(th5, NULL, thread2, (void*) 5);
+    //pthread_create_np(th6, NULL, thread2, (void*) 6);
+    //pthread_create_np(th7, NULL, thread2, (void*) 7);
 
     pthread_start_np();
 }
