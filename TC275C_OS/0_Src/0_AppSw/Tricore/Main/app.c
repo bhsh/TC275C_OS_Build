@@ -62,17 +62,21 @@
 //PTHREAD_CONTROL_BLOCK(th7,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
 
 // define thread name, priority, policy, stack size
+//PTHREAD_CONTROL_BLOCK(th0,0,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+//PTHREAD_CONTROL_BLOCK(th1,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+//PTHREAD_CONTROL_BLOCK(th2,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+//PTHREAD_CONTROL_BLOCK(th3,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+//PTHREAD_CONTROL_BLOCK(th4,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+//PTHREAD_CONTROL_BLOCK(th5,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+//PTHREAD_CONTROL_BLOCK(th6,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+//PTHREAD_CONTROL_BLOCK(th7,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+//PTHREAD_CONTROL_BLOCK(th8,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+//PTHREAD_CONTROL_BLOCK(th9,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+//PTHREAD_CONTROL_BLOCK(th10,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+
 PTHREAD_CONTROL_BLOCK(th0,0,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
-PTHREAD_CONTROL_BLOCK(th1,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+//PTHREAD_CONTROL_BLOCK(th1,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
 PTHREAD_CONTROL_BLOCK(th2,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
-PTHREAD_CONTROL_BLOCK(th3,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
-PTHREAD_CONTROL_BLOCK(th4,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
-PTHREAD_CONTROL_BLOCK(th5,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
-PTHREAD_CONTROL_BLOCK(th6,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
-PTHREAD_CONTROL_BLOCK(th7,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
-PTHREAD_CONTROL_BLOCK(th8,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
-PTHREAD_CONTROL_BLOCK(th9,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
-PTHREAD_CONTROL_BLOCK(th10,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
 #pragma align restore
 
 
@@ -171,13 +175,11 @@ void thread2(void* arg) {
 #endif
 
 
-
+#if 0
 pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 volatile int thread_test_count;
 volatile int thread_test_count1;
-
-
 
 volatile int interrupt_test1=0;
 volatile int interrupt_test1_condition=0;
@@ -225,6 +227,34 @@ void thread(void* arg) {
         pthread_mutex_unlock(&mutex);
     }
 }
+#endif
+
+
+pthread_cond_t cond2 = PTHREAD_COND_INITIALIZER;
+pthread_mutex_t mutex2 = PTHREAD_MUTEX_INITIALIZER;
+volatile int thread_test_count1;
+
+void idle(void* arg) {
+    for (;;)
+    {
+
+    	thread_test_count1++;
+    	delay_ms(500);
+
+    }
+}
+
+void thread2(void* arg) {
+    for (;;) {
+        pthread_mutex_lock(&mutex2);
+        printf("Thread %d blocked\n", (int) arg);
+//        pthread_cond_wait(&cond2, &mutex2);
+        pthread_cond_timedwait_np(&cond2, &mutex2, 500);
+        printf("Thread %d continued\n", (int) arg);
+        pthread_mutex_unlock(&mutex2);
+    }
+}
+
 void start_core0_os(void) {
 
    // printf("Example 1: Creates 2 threads with round-robin policy.\n");
@@ -255,20 +285,30 @@ void start_core0_os(void) {
     //pthread_create_np(th5, NULL, thread2, (void*) 5);
     //pthread_create_np(th6, NULL, thread2, (void*) 6);
     //pthread_create_np(th7, NULL, thread2, (void*) 7);
-    printf("Example 4: Create 3 threads with first-in-first-out policy."
-            "Shows how to use a condition variable to wake up a thread from an interrupt.\n");
+    //printf("Example 4: Create 3 threads with first-in-first-out policy."
+    //        "Shows how to use a condition variable to wake up a thread from an interrupt.\n");
+
+    //pthread_create_np(th0, NULL, idle, (void*) 0);
+    //pthread_create_np(th1, NULL, thread, (void*) 1);
+    //pthread_create_np(th2, NULL, thread, (void*) 2);
+    //pthread_create_np(th3, NULL, thread, (void*) 3);
+    //pthread_create_np(th4, NULL, thread, (void*) 4);
+    //pthread_create_np(th5, NULL, thread, (void*) 5);
+    //pthread_create_np(th6, NULL, thread, (void*) 6);
+    //pthread_create_np(th7, NULL, thread, (void*) 7);
+    //pthread_create_np(th8, NULL, thread, (void*) 8);
+    //pthread_create_np(th9, NULL, thread, (void*) 9);
+    //pthread_create_np(th10, NULL, thread, (void*) 10);
+
+
+
+
+    printf("Example 5: Create 3 threads with first-in-first-out policy."
+           "Shows how to block a thread until the condition is signaled or until a timeout period elapsed.\n");
 
     pthread_create_np(th0, NULL, idle, (void*) 0);
-    pthread_create_np(th1, NULL, thread, (void*) 1);
-    pthread_create_np(th2, NULL, thread, (void*) 2);
-    pthread_create_np(th3, NULL, thread, (void*) 3);
-    pthread_create_np(th4, NULL, thread, (void*) 4);
-    pthread_create_np(th5, NULL, thread, (void*) 5);
-    pthread_create_np(th6, NULL, thread, (void*) 6);
-    pthread_create_np(th7, NULL, thread, (void*) 7);
-    pthread_create_np(th8, NULL, thread, (void*) 8);
-    pthread_create_np(th9, NULL, thread, (void*) 9);
-    pthread_create_np(th10, NULL, thread, (void*) 10);
+    //pthread_create_np(th1, NULL, thread1, (void*) 1);
+    pthread_create_np(th2, NULL, thread2, (void*) 2);
 
     pthread_start_np();
 }

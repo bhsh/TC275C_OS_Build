@@ -113,7 +113,7 @@ inline void pthread_start_np(void) {
     __mtcr(CPU_PCXI,  thread->lcx);
     __rslcx();
     __asm(" mov d2,#0");
-    //__enable();
+    //__disable();
     __asm(" rfe");
 
 }
@@ -180,6 +180,68 @@ inline uint32_t neza(void *p) {
     return ret;
 }
 
+//! Find the maximum value in an uint16_t array
+inline uint16_t ixmaxu16(uint16_t *array, //!< [in] array pointer
+        unsigned n, //!< [in] number of elements
+        uint32_t *indexp) //!< [out] index to maximum value
+{
+    uint16_t value;
+    uint64_t e;
+
+    __asm(""
+            " jz.t   %3:0,*+12  ; if n is odd jump +12              \n"
+            " mov16  %1.0,#1    ; maximum index 0, working index 1  \n"
+            " ld.hu  %1.1,[%2+] ; maximum value is 1st element      \n"
+            " j16    *+6        ; jump +6                           \n"
+            " mov16  %1.0,#0    ; maximum index 0, working index 0  \n"
+            " mov16  %1.1,#0    ; maximum value is UINT_MIN         \n"
+            " sh     %3,#-1     ; n = n/2                           \n"
+            " mov.a  a15,%3     ;                                   \n"
+            " add.a  a15,#-1    ; n -=1                             \n"
+            " ld.w   d15,[%2+]  ; Load two next array elements      \n"
+            " ixmax.u  %1,%1,d15  ; Find max (IP pipeline)          \n"
+            " ld16.w d15,[%2+]  ; Load two next array elements (LS) \n"
+            " loop   a15,*-6    ; loop (LP)                         \n"
+            " jz16.a %4,*+8     ; if indexp==NULL jump +8           \n"
+            " extr.u %1.0,%1.0,#16,#16  ; extract index             \n"
+            " st16.h [%4],%1.0  ; *indexp = maximum index           \n"
+            " mov    %0,%1.1    ; value = maximum value             \n"
+            :"=d"(value),"=&e"(e):"a"(array),"d"(n),"a"(indexp):"a15","d15");
+    return value;
+}
+
+
+
+//! Find the minimum value in an uint16_t array
+inline uint16_t ixminu16(uint16_t *array, //!< [in] array pointer
+        unsigned n, //!< [in] number of elements
+        uint32_t *indexp) //!< [out] index to maximum value
+{
+    uint16_t value;
+    uint64_t e;
+
+    __asm(""
+            " jz.t   %3:0,*+12  ; if n is odd jump +12              \n"
+            " mov16  %1.0,#1    ; minimum index 0, working index 1  \n"
+            " ld.hu  %1.1,[%2+] ; minimum value is 1st element      \n"
+            " j16    *+6        ; jump +6                           \n"
+            " mov16  %1.0,#0    ; minimum index 0, working index 0  \n"
+            " mov16  %1.1,#-1   ; minimum value is UINT_MAX         \n"
+            " sh     %3,#-1     ; n = n/2                           \n"
+            " mov.a  a15,%3     ;                                   \n"
+            " add.a  a15,#-1    ; n -=1                             \n"
+            " ld.w   d15,[%2+]  ; Load two next array elements      \n"
+            " ixmin.u %1,%1,d15  ; Find min (IP pipeline)           \n"
+            " ld16.w d15,[%2+]  ; Load two next array elements (LS) \n"
+            " loop   a15,*-6    ; loop (LP)                         \n"
+            " jz16.a %4,*+8     ; if indexp==NULL jump +8           \n"
+            " extr.u %1.0,%1.0,#16,#16  ; extract index             \n"
+            " st16.h [%4],%1.0  ; *indexp = miniumum index          \n"
+            " mov    %0,%1.1    ; value = minimum value             \n"
+            :"=d"(value),"=&e"(e):"a"(array),"d"(n),"a"(indexp):"a15","d15");
+    return value;
+}
+
 /* The functions are called by app */
 void call_trap6_interface(void);
 void switch_context(void);
@@ -189,5 +251,10 @@ int pthread_mutex_unlock(pthread_mutex_t *mutex) ;
 int pthread_cond_wait(pthread_cond_t *cond,//!< [in] condition pointer
         pthread_mutex_t *mutex); //!< [in] mutex pointer
 int pthread_cond_broadcast(pthread_cond_t *cond); //!< [in] condition pointer
+//! Wait on a condition
+int pthread_cond_timedwait_np(pthread_cond_t *cond,//!< [in] condition pointer
+        pthread_mutex_t *mutex,//!< [in] mutex pointer
+        uint16_t reltime); //!< [in] relative time are the relative time STM_TIM4 ticks.NOT PORTABLE.
+
 
 #endif /* OS_KERNEL_H_ */

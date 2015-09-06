@@ -32,67 +32,16 @@ App_Cpu0 g_AppCpu0; /**< \brief CPU 0 global data */
 unsigned long  lock=1; // 1 means available,
 unsigned long mask=1;
 
-
-extern uint32_t pthread_runnable;
-//! Currently running thread
-extern pthread_t pthread_running;
-//! Array of linked lists which holds runnable threads
-extern pthread_t pthread_runnable_threads[PTHREAD_PRIO_MAX];
-
-pthread_t pthread_running_testp;
-uint32_t pthread_running_test;
-int m=0;
-extern pthread_t thread_1;
-extern pthread_t thread_2;
-pthread_t pthread_running_test2;
- void stm_src0(void) {
-
-    pthread_t thread;
+void update_stm0_ticks(void)
+{
     uint32 stmTicks;
-    //int Null_Pointer_test;
-
-    pthread_running->lcx = __mfcr(CPU_PCXI);
-    //pthread_running_test=__mfcr(CPU_PCXI);
-    thread = pthread_running->next; // get next thread with same priority
-    //pthread_running_test2=pthread_running;
-
-   // assert(pthread_running->next);
-   //  Null_Pointer_test=((void) (!(pthread_running->next) ? 1: (void) 0));
-   
-   // fix the bug that buserror will occur when pthread_running->next is NULL
-    if(thread==NULL)
-    { 
-    	thread=pthread_running;
-    }
-
-    pthread_runnable_threads[thread->priority] = thread;
-
-    pthread_running = thread;
 
     stmTicks= (uint32)(stm0CompareValue*10);
     IfxStm_updateCompare (&MODULE_STM0, IfxStm_Comparator_0, IfxStm_getCompare (&MODULE_STM0, IfxStm_Comparator_0) + stmTicks);
     IfxPort_togglePin(&MODULE_P33, 10);
-
-#if 0
-  if(m==0)
-  {
-    thread_2->lcx=__mfcr(CPU_PCXI);
-    thread=thread_1;
-    m=1;
-  }
-  else
-  {
-	thread_1->lcx=__mfcr(CPU_PCXI);
-	thread=thread_2;
-	m=0;
-  }
-#endif
-
-    __dsync(); // required before PCXI manipulation (see RTOS porting guide)
-    __mtcr(CPU_PCXI, thread->lcx);
-    __asm("ji a11");
-
 }
+
+
 /**********************************************************************************
  *
  *
@@ -134,28 +83,7 @@ void STM_Demo_init(void)
 }
 
 
-IFX_INTERRUPT(Ifx_STM0_Isr,0,IFX_CFG_ISR_PRIORITY_STM0_COMPARE0)
-{
 
-	//__svlcx();
-	//__isync();
-	//stm_src0();
-	/* we restore the lower context, this could be form any task or our saved from entry */
-	//__rslcx();
-	//__isync();
-	/* we don't was calling here we must return with rfe */
-	//__asm ( "rfe" );
-    __asm(  " svlcx          \n"
-            " jla   stm_src0 \n"
-  		    " rslcx"::"a"(pthread_running->next));
-
-#if 0
-      __asm( " svlcx   \t");
-      __asm( " jla\t %0" : : "a" (stm_src0));
-      __asm( " rslcx \t");
-      __asm( " rfe");
-#endif
-}
 /**********************************************************************************
  *
  *
@@ -308,7 +236,7 @@ int core0_main (void)
     g_AppCpu0.info.sysFreq = IfxScuCcu_getSpbFrequency();
     g_AppCpu0.info.stmFreq = IfxStm_getFrequency(&MODULE_STM0);
 
-    //STM_Demo_init();
+    STM_Demo_init();
     //STM1_Demo_init();
     //STM2_Demo_init();
 

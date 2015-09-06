@@ -25,7 +25,15 @@ __syscallfunc(DISPATCH_SIGNAL) int dispatch_signal(void *, void *);
  pthread_t pthread_running;
  pthread_t pthread_runnable_threads[PTHREAD_PRIO_MAX];
  static pthread_t blocked_threads;
- static pthread_t blocked_threads_prev_temp;
+
+ //! tw array hold condition and time for pthread_cond_timedwait_np.
+ static struct {
+         uint16_t ticks[PTHREAD_COND_TIMEDWAIT_SIZE];//!< time
+         pthread_cond_t *cond[PTHREAD_COND_TIMEDWAIT_SIZE];//!< condition
+         uint32_t idx; //!< current index to time and condition
+     } tw
+     = { {   USHRT_MAX, USHRT_MAX, USHRT_MAX, USHRT_MAX,
+             USHRT_MAX, USHRT_MAX, USHRT_MAX, USHRT_MAX}, {},0};
 
 #define NULL (void*)0
 static void list_append(pthread_t *head, pthread_t elem, pthread_t list_prev,
@@ -185,6 +193,7 @@ int pthread_cond_broadcast(pthread_cond_t *cond) //!< [in] condition pointer
         	blocked_threads=NULL;
         	//blocked_threads_prev_temp=cond->blocked_threads->prev;
         	list_append(&blocked_threads, cond->blocked_threads,
+
                          cond->blocked_threads->prev, cond->blocked_threads->next);
             //locked_threads=cond->blocked_threads;
             cond->blocked_threads = NULL;
@@ -412,3 +421,227 @@ void switch_context(void)
 	//syscall_c(1,2);  // causes a trap class 6 with TIN = 1
 	dispatch_wait(&test1,&test2);
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+extern uint32_t pthread_runnable;
+//! Currently running thread
+extern pthread_t pthread_running;
+//! Array of linked lists which holds runnable threads
+extern pthread_t pthread_runnable_threads[PTHREAD_PRIO_MAX];
+
+pthread_t pthread_running_testp;
+uint32_t pthread_running_test;
+int m=0;
+extern pthread_t thread_1;
+extern pthread_t thread_2;
+pthread_t pthread_running_test2;
+
+uint16_t tick_count;
+extern void update_stm0_ticks(void);
+ void stm_src0(void) {
+
+#if 0
+    pthread_t thread;
+    uint32 stmTicks;
+#endif
+
+    pthread_cond_t *cond;
+    //int Null_Pointer_test;
+#if 0
+    pthread_running->lcx = __mfcr(CPU_PCXI);
+    //pthread_running_test=__mfcr(CPU_PCXI);
+    thread = pthread_running->next; // get next thread with same priority
+    //pthread_running_test2=pthread_running;
+
+   // assert(pthread_running->next);
+   //  Null_Pointer_test=((void) (!(pthread_running->next) ? 1: (void) 0));
+
+   // fix the bug that buserror will occur when pthread_running->next is NULL
+    if(thread==NULL)
+    {
+    	thread=pthread_running;
+    }
+
+    pthread_runnable_threads[thread->priority] = thread;
+
+    pthread_running = thread;
+
+   // update_stm0_ticks();
+
+#if 0
+  if(m==0)
+  {
+    thread_2->lcx=__mfcr(CPU_PCXI);
+    thread=thread_1;
+    m=1;
+  }
+  else
+  {
+	thread_1->lcx=__mfcr(CPU_PCXI);
+	thread=thread_2;
+	m=0;
+  }
+#endif
+
+    __dsync(); // required before PCXI manipulation (see RTOS porting guide)
+    __mtcr(CPU_PCXI, thread->lcx);
+    __asm("ji a11");
+#endif
+
+    update_stm0_ticks();
+    // STM tick from 0-0xffff every 1ms
+    tick_count++;
+
+
+    if(tw.ticks[tw.idx]==tick_count)
+    {
+
+
+    }
+    else
+    {
+#if 0
+
+     cond = tw.cond[tw.idx]; // get current condition
+     tw.ticks[tw.idx] = USHRT_MAX; // free place in array
+     //uint32_t cmp = ixminu16(tw.ticks, PTHREAD_COND_TIMEDWAIT_SIZE, &tw.idx);
+
+     //if (cmp == USHRT_MAX)
+     //   STM_SRC1.B.SRE = 0; // disable the node if there are no more conditions waiting or
+     //else
+     //   STM_CMP1.U = __max((uint16_t)(STM_TIM4.U + 1), cmp); // set next compare
+
+     //STM_ISRR.B.CMP1IRR = 1; // STOREBIT(STM_ISRR, 2, 1);
+     assert(cond != NULL);
+
+     //setup parameter and jump to trapsystem
+    __asm( " mov.aa a4,%0 \n"
+            " mov.aa a5,%1 \n"
+            " mov d15,%2   \n"
+            " jg trapsystem  "
+            ::"a"(&cond->blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
+#endif
+    }
+
+}
+ void __interrupt(10) __vector_table(0) Ifx_STM0_Isr(void)
+ {
+
+ 	//__svlcx();
+ 	//__isync();
+ 	//stm_src0();
+ 	/* we restore the lower context, this could be form any task or our saved from entry */
+ 	//__rslcx();
+ 	//__isync();
+ 	/* we don't was calling here we must return with rfe */
+ 	//__asm ( "rfe" );
+	// stm_src0();
+
+#if 0
+    pthread_t thread;
+    uint32 stmTicks;
+#endif
+
+    pthread_cond_t *cond;
+    //int Null_Pointer_test;
+
+    update_stm0_ticks();
+    // STM tick from 0-0xffff every 1ms
+    tick_count++;
+
+
+    if(tw.ticks[2]==tick_count)
+    {
+#if 1
+
+     cond = tw.cond[2]; // get current condition
+     //tw.ticks[tw.idx] = USHRT_MAX; // free place in array
+     //uint32_t cmp = ixminu16(tw.ticks, PTHREAD_COND_TIMEDWAIT_SIZE, &tw.idx);
+
+     //if (cmp == USHRT_MAX)
+     //   STM_SRC1.B.SRE = 0; // disable the node if there are no more conditions waiting or
+     //else
+     //   STM_CMP1.U = __max((uint16_t)(STM_TIM4.U + 1), cmp); // set next compare
+
+     //STM_ISRR.B.CMP1IRR = 1; // STOREBIT(STM_ISRR, 2, 1);
+     //assert(cond != NULL);
+
+     //setup parameter and jump to trapsystem
+    __asm( " mov.aa a4,%0 \n"
+            " mov.aa a5,%1 \n"
+            " mov d15,%2   \n"
+            " jg trapsystem  "
+            ::"a"(&cond->blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
+#endif
+#if 0
+     __asm(  " svlcx          \n"
+             " jla   stm_src0 \n"
+   		    " rslcx"::"a"(pthread_running->next));
+#endif
+ #if 0
+       __asm( " svlcx   \t");
+       __asm( " jla\t %0" : : "a" (stm_src0));
+       __asm( " rslcx \t");
+       __asm( " rfe");
+ #endif
+   }
+ }
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+//! Wait on a condition
+int pthread_cond_timedwait_np(pthread_cond_t *cond,//!< [in] condition pointer
+        pthread_mutex_t *mutex,//!< [in] mutex pointer
+        uint16_t reltime) //!< [in] relative time are the relative time STM_TIM4 ticks.NOT PORTABLE.
+{
+    assert(cppn()==0); // CCPN must be 0, pthread_create cannot be called from ISR
+    assert(cond != NULL);
+    assert(mutex != NULL);
+
+    uint32_t i;
+
+    __disable();
+    //STM_SRC1.B.SRE = 0; // STM_SRC1.U = 0x0000 | TIMEDWAIT_INT; // disable service request control register
+    // add ticks value and condition to array
+    //if (USHRT_MAX != ixmaxu16(tw.ticks, PTHREAD_COND_TIMEDWAIT_SIZE, &i))
+    //    return -1; // no free
+
+    //uint16_t tim4 = STM_TIM4.U + 1;
+
+    //tw.ticks[i] = __min(tick_count + reltime, USHRT_MAX - 1); // __extru(tim4 + reltime, 0, 16)
+    tw.ticks[2] =(tick_count + reltime)%(USHRT_MAX - 1); // __extru(tim4 + reltime, 0, 16)
+    tw.cond[2] = cond;
+
+    //uint16_t temp=ixminu16(tw.ticks, PTHREAD_COND_TIMEDWAIT_SIZE,&tw.idx);
+
+    // find the next compare
+    //STM_CMP1.U = __max(tick_count, ixminu16(tw.ticks, PTHREAD_COND_TIMEDWAIT_SIZE,
+    //        &tw.idx));
+    //STM_SRC1.B.SRE = 1; // STM_SRC1.U = 0x1000 | TIMEDWAIT_INT; // enable service request control register
+    __enable();
+
+    __swap(&mutex->lock, false);
+    int err = dispatch_wait(&cond->blocked_threads, NULL);// swap out with mutex unlocked
+    __swap(&mutex->lock, true);
+    mutex->owner = pthread_running;
+    return 0;
+}
+
+//! STM interupts to manage timed wait conditions
+//void __interrupt(PTHREAD_TIMEDWAIT_INT) stm_src1(void) {
+
+//}
