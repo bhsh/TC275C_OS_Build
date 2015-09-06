@@ -183,7 +183,8 @@ volatile int interrupt_test1=0;
 volatile int interrupt_test1_condition=0;
 
 void __interrupt(20) CPU0_SOFT1_Isr(void) {
-	interrupt_test1=1;
+
+	//interrupt_test1=1;
 
     puts("Wake up all waiters...");
     thread_test_count=100;
@@ -215,12 +216,11 @@ void thread(void* arg) {
         thread_test_count++;
         delay_ms(200);
         pthread_cond_wait(&cond, &mutex);
-
         // test if the task is sync with the interrupt.
-        if(interrupt_test1==1)
-        {
-        	interrupt_test1_condition++;
-        }
+//        if(interrupt_test1==1)
+//        {
+//        	interrupt_test1_condition++;
+//        }
         printf("Thread %d continued\n", (int) arg);
         pthread_mutex_unlock(&mutex);
     }

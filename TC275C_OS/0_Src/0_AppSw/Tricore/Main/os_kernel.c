@@ -35,28 +35,8 @@ static void list_append(pthread_t *head, pthread_t elem, pthread_t list_prev,
 
     pthread_t list = *head;
     if (list == NULL) {
-        //elem->next = elem_next;
-    	elem->next = elem;
-        elem->prev = elem;
-        *head = elem;
-    } else {
         elem->next = elem_next;
-        elem->prev = list->prev;
-        list->prev->next = elem;
-        list->prev = list_prev;
-    }
-}
-
-static void list_append2(pthread_t *head, pthread_t elem, pthread_t list_prev,
-        pthread_t elem_next) {
-
-    assert(head != NULL);
-    assert(elem != NULL);
-
-    pthread_t list = *head;
-    if (list == NULL) {
-        elem->next = elem_next;
-    	//elem->next = elem_next;
+    	//elem->next = elem;
         elem->prev = elem;
         *head = elem;
     } else {
@@ -197,7 +177,6 @@ int pthread_cond_broadcast(pthread_cond_t *cond) //!< [in] condition pointer
 {
     assert(cond!=NULL);
     if (cond->blocked_threads != NULL) {
-        //if (0 == cppn()) { // _pthread_running on CCPN=0
         if (0 == cppn()) { // _pthread_running on CCPN=0
             dispatch_signal(&cond->blocked_threads, cond->blocked_threads->prev);// swap in with mutex unlocked
 
@@ -205,7 +184,7 @@ int pthread_cond_broadcast(pthread_cond_t *cond) //!< [in] condition pointer
             /* The bug is found here*/
         	blocked_threads=NULL;
         	//blocked_threads_prev_temp=cond->blocked_threads->prev;
-        	list_append2(&blocked_threads, cond->blocked_threads,
+        	list_append(&blocked_threads, cond->blocked_threads,
                          cond->blocked_threads->prev, cond->blocked_threads->next);
             //locked_threads=cond->blocked_threads;
             cond->blocked_threads = NULL;
@@ -307,7 +286,6 @@ static void trapsystem(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
     case DISPATCH_WAIT: // _swap_out _pthread_running
         list_delete_first(&pthread_runnable_threads[i]);
         pthread_runnable_threads_test=pthread_runnable_threads[i];
-        //pthread_runnable_threads[i]=NULL;
         list_append(blocked_threads_ptr, pthread_running, pthread_running, NULL);
         __putbit(neza(pthread_runnable_threads[i]),(int*)&pthread_runnable,i);
         break;
