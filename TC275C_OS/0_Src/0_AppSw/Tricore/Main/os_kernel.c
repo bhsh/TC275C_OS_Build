@@ -193,7 +193,6 @@ int pthread_cond_broadcast(pthread_cond_t *cond) //!< [in] condition pointer
         	blocked_threads=NULL;
         	//blocked_threads_prev_temp=cond->blocked_threads->prev;
         	list_append(&blocked_threads, cond->blocked_threads,
-
                          cond->blocked_threads->prev, cond->blocked_threads->next);
             //locked_threads=cond->blocked_threads;
             cond->blocked_threads = NULL;
@@ -563,6 +562,8 @@ extern void update_stm0_ticks(void);
 #if 1
 
      cond = tw.cond[2]; // get current condition
+     tw.ticks[2]=USHRT_MAX;
+     tw.cond[2]=NULL;
      //tw.ticks[tw.idx] = USHRT_MAX; // free place in array
      //uint32_t cmp = ixminu16(tw.ticks, PTHREAD_COND_TIMEDWAIT_SIZE, &tw.idx);
 
@@ -580,6 +581,8 @@ extern void update_stm0_ticks(void);
             " mov d15,%2   \n"
             " jg trapsystem  "
             ::"a"(&cond->blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
+
+            //::"a"(&blocked_threads),"a"(blocked_threads_prev_temp),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
 #endif
 #if 0
      __asm(  " svlcx          \n"
@@ -623,8 +626,9 @@ int pthread_cond_timedwait_np(pthread_cond_t *cond,//!< [in] condition pointer
     //uint16_t tim4 = STM_TIM4.U + 1;
 
     //tw.ticks[i] = __min(tick_count + reltime, USHRT_MAX - 1); // __extru(tim4 + reltime, 0, 16)
-    tw.ticks[2] =(tick_count + reltime)%(USHRT_MAX - 1); // __extru(tim4 + reltime, 0, 16)
-    tw.cond[2] = cond;
+    //tw.ticks[2] =(tick_count + reltime)%(USHRT_MAX - 1); // __extru(tim4 + reltime, 0, 16)
+    tw.ticks[2] =(tick_count + reltime)%(USHRT_MAX - 1);
+	tw.cond[2] = cond;
 
     //uint16_t temp=ixminu16(tw.ticks, PTHREAD_COND_TIMEDWAIT_SIZE,&tw.idx);
 
@@ -632,10 +636,11 @@ int pthread_cond_timedwait_np(pthread_cond_t *cond,//!< [in] condition pointer
     //STM_CMP1.U = __max(tick_count, ixminu16(tw.ticks, PTHREAD_COND_TIMEDWAIT_SIZE,
     //        &tw.idx));
     //STM_SRC1.B.SRE = 1; // STM_SRC1.U = 0x1000 | TIMEDWAIT_INT; // enable service request control register
-    __enable();
+    
 
     __swap(&mutex->lock, false);
     int err = dispatch_wait(&cond->blocked_threads, NULL);// swap out with mutex unlocked
+    __enable();
     __swap(&mutex->lock, true);
     mutex->owner = pthread_running;
     return 0;

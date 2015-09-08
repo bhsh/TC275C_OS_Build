@@ -232,7 +232,8 @@ void thread(void* arg) {
 
 pthread_cond_t cond2 = PTHREAD_COND_INITIALIZER;
 pthread_mutex_t mutex2 = PTHREAD_MUTEX_INITIALIZER;
-volatile int thread_test_count1;
+volatile int thread_test_count1=0;
+volatile int thread_test_count_TASK=0;
 
 void idle(void* arg) {
     for (;;)
@@ -249,6 +250,8 @@ void thread2(void* arg) {
         pthread_mutex_lock(&mutex2);
         printf("Thread %d blocked\n", (int) arg);
 //        pthread_cond_wait(&cond2, &mutex2);
+        thread_test_count_TASK++;
+        //cond2.blocked_threads = NULL;
         pthread_cond_timedwait_np(&cond2, &mutex2, 500);
         printf("Thread %d continued\n", (int) arg);
         pthread_mutex_unlock(&mutex2);
