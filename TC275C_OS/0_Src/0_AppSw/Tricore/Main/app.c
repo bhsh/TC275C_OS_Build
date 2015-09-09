@@ -313,7 +313,7 @@ void start_core0_os(void) {
     //pthread_create_np(th1, NULL, thread1, (void*) 1);
     pthread_create_np(th2, NULL, thread2, (void*) 2);
 
-    pthread_start_np();
+	pthread_start_np();
 }
 
 

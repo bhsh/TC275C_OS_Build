@@ -115,7 +115,6 @@ inline void pthread_start_np(void) {
     __asm(" mov d2,#0");
     //__enable();
     __asm(" rfe");
-
 }
 
 //!  TriCore context structure

@@ -398,6 +398,7 @@ void __interrupt(9) pthread_broadcast(
 int test_count;
 void __interrupt(9) __vector_table(0) CPU0_SOFT0_Isr(void)
 {
+	#if 0
     __asm("; setup parameter and jump to trapsystem \n"
             " mov.aa a4,%0 \n"
             " mov.aa a5,%1 \n"
@@ -405,6 +406,7 @@ void __interrupt(9) __vector_table(0) CPU0_SOFT0_Isr(void)
             " jg trapsystem"
             ::"a"(&blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
             //::"a"(&blocked_threads),"a"(blocked_threads_prev_temp),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
+	#endif
 }
 /***********************************************************************************
  * function name:
@@ -533,7 +535,6 @@ extern void update_stm0_ticks(void);
 }
  void __interrupt(10) __vector_table(0) Ifx_STM0_Isr(void)
  {
-
  	//__svlcx();
  	//__isync();
  	//stm_src0();
@@ -573,7 +574,10 @@ extern void update_stm0_ticks(void);
      //   STM_CMP1.U = __max((uint16_t)(STM_TIM4.U + 1), cmp); // set next compare
 
      //STM_ISRR.B.CMP1IRR = 1; // STOREBIT(STM_ISRR, 2, 1);
-     //assert(cond != NULL);
+
+
+	 //this line should be added to check the bug for example 5
+     assert(cond != NULL);       
 
      //setup parameter and jump to trapsystem
     __asm( " mov.aa a4,%0 \n"
