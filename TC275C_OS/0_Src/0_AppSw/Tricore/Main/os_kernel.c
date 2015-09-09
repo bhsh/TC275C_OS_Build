@@ -9,6 +9,19 @@
 #include "os_kernel.h"
 #include "_Reg/IfxSrc_reg.h"
 
+#include "Cpu0_Main.h"
+#include "SysSe/Bsp/Bsp.h"
+//#include "DemoApp.h"
+#include "communication.h"
+
+
+
+#include "Compilers.h"
+#include "Cpu\Std\IfxCpu_Intrinsics.h"
+#include "Port\Io\IfxPort_Io.h"
+#include "Stm\Std\IfxStm.h"
+#include "Src\Std\IfxSrc.h"
+
 /* define the system call that is the 6th trap of CPU */
 //__syscallfunc(1) int syscall_a( int, int );
 //__syscallfunc(2) int syscall_b( int, int );
@@ -34,6 +47,18 @@ __syscallfunc(DISPATCH_SIGNAL) int dispatch_signal(void *, void *);
      } tw
      = { {   USHRT_MAX, USHRT_MAX, USHRT_MAX, USHRT_MAX,
              USHRT_MAX, USHRT_MAX, USHRT_MAX, USHRT_MAX}, {},0};
+
+
+extern uint32 stm0CompareValue;
+inline void update_stm0_ticks(void)
+{
+    uint32 stmTicks;
+
+    stmTicks= (uint32)(stm0CompareValue*10);
+    IfxStm_updateCompare (&MODULE_STM0, IfxStm_Comparator_0, IfxStm_getCompare (&MODULE_STM0, IfxStm_Comparator_0) + stmTicks);
+    IfxPort_togglePin(&MODULE_P33, 10);
+}
+
 
 #define NULL (void*)0
 static void list_append(pthread_t *head, pthread_t elem, pthread_t list_prev,
@@ -446,7 +471,7 @@ extern pthread_t thread_2;
 pthread_t pthread_running_test2;
 
 uint16_t tick_count;
-extern void update_stm0_ticks(void);
+//inline void update_stm0_ticks(void);
  void stm_src0(void) {
 
 #if 0
@@ -577,7 +602,7 @@ extern void update_stm0_ticks(void);
 
 
 	 //this line should be added to check the bug for example 5
-     assert(cond != NULL);       
+     //assert(cond != NULL);       
 
      //setup parameter and jump to trapsystem
     __asm( " mov.aa a4,%0 \n"

@@ -32,7 +32,8 @@ App_Cpu0 g_AppCpu0; /**< \brief CPU 0 global data */
 unsigned long  lock=1; // 1 means available,
 unsigned long mask=1;
 
-void update_stm0_ticks(void)
+#if 0
+inline void update_stm0_ticks(void)
 {
     uint32 stmTicks;
 
@@ -40,7 +41,7 @@ void update_stm0_ticks(void)
     IfxStm_updateCompare (&MODULE_STM0, IfxStm_Comparator_0, IfxStm_getCompare (&MODULE_STM0, IfxStm_Comparator_0) + stmTicks);
     IfxPort_togglePin(&MODULE_P33, 10);
 }
-
+#endif
 
 /**********************************************************************************
  *

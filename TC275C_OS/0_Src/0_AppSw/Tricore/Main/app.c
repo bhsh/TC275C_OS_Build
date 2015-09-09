@@ -240,7 +240,7 @@ void idle(void* arg) {
     {
 
     	thread_test_count1++;
-    	delay_ms(500);
+    	delay_ms(200);
 
     }
 }
@@ -252,7 +252,7 @@ void thread2(void* arg) {
 //        pthread_cond_wait(&cond2, &mutex2);
         thread_test_count_TASK++;
         //cond2.blocked_threads = NULL;
-        pthread_cond_timedwait_np(&cond2, &mutex2, 500);
+        pthread_cond_timedwait_np(&cond2, &mutex2, 100);
         printf("Thread %d continued\n", (int) arg);
         pthread_mutex_unlock(&mutex2);
     }
