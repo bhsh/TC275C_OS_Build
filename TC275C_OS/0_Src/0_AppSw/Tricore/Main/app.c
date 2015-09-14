@@ -245,7 +245,6 @@ void idle(void* arg) {
     }
 }
 
-extern void maxmin_test_cycle(void);
 void thread2(void* arg) {
     for (;;) {
         pthread_mutex_lock(&mutex2);
@@ -255,9 +254,6 @@ void thread2(void* arg) {
         //cond2.blocked_threads = NULL;
         pthread_cond_timedwait_np(&cond2, &mutex2, 100);
         printf("Thread %d continued\n", (int) arg);
-
-        maxmin_test_cycle();
-
         pthread_mutex_unlock(&mutex2);
     }
 }

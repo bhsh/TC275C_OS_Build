@@ -32,10 +32,6 @@ App_Cpu0 g_AppCpu0; /**< \brief CPU 0 global data */
 unsigned long  lock=1; // 1 means available,
 unsigned long mask=1;
 
-// This is the test code for the small data.
-char __a0 yanepng[] = "TriCore";
-char __a0 yanepng2[] = "TriCore";
-
 #if 0
 inline void update_stm0_ticks(void)
 {
