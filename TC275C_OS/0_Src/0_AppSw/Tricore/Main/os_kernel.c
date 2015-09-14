@@ -679,3 +679,20 @@ int pthread_cond_timedwait_np(pthread_cond_t *cond,//!< [in] condition pointer
 //void __interrupt(PTHREAD_TIMEDWAIT_INT) stm_src1(void) {
 
 //}
+
+
+uint16_t ticks_test[8]={1,2,3,4,5,6,7,8};//!< time
+
+uint32_t idx_test_min;
+uint32_t idx_test_max;
+
+uint32_t cmp_test_min;
+uint32_t cmp_test_max;
+
+void maxmin_test_cycle(void)
+{
+
+	cmp_test_min = ixminu16(ticks_test, 8, &idx_test_min);
+	//cmp_test_max = ixmaxu16(ticks_test, 8, &idx_test_max);
+
+}
