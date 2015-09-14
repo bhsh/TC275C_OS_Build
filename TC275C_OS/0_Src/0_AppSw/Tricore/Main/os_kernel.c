@@ -54,13 +54,23 @@ inline void update_stm0_ticks(void)
 {
     uint32 stmTicks;
 
-    stmTicks= (uint32)(stm0CompareValue*10);
+    stmTicks= (uint32)(stm0CompareValue*500);
     IfxStm_updateCompare (&MODULE_STM0, IfxStm_Comparator_0, IfxStm_getCompare (&MODULE_STM0, IfxStm_Comparator_0) + stmTicks);
+    IfxPort_togglePin(&MODULE_P33, 8);
+}
+extern uint32 stm0CompareValue2;
+
+// Unit:ms ,the max is 0xFFFFFFFF/100000=42949ms(42.949s);
+inline void update_stm0_compare1_ticks(uint32 tick_ms)
+{
+    uint32 stmTicks;
+
+    stmTicks= (uint32)(stm0CompareValue2*tick_ms);
+    IfxStm_updateCompare (&MODULE_STM0, IfxStm_Comparator_1, IfxStm_getCompare (&MODULE_STM0, IfxStm_Comparator_1) + stmTicks);
     IfxPort_togglePin(&MODULE_P33, 10);
 }
 
-
-#define NULL (void*)0
+//#define NULL (void*)0
 static void list_append(pthread_t *head, pthread_t elem, pthread_t list_prev,
         pthread_t elem_next) {
     assert(head != NULL);
@@ -679,3 +689,12 @@ int pthread_cond_timedwait_np(pthread_cond_t *cond,//!< [in] condition pointer
 //void __interrupt(PTHREAD_TIMEDWAIT_INT) stm_src1(void) {
 
 //}
+int __a0 test_count_stm0_compare1_small_data;
+int  test_count_stm0_compare1;
+void __interrupt(20) __vector_table(0) Ifx_STM0_compare1_Isr(void)
+{
+	test_count_stm0_compare1_small_data++;
+	test_count_stm0_compare1++;
+
+ 	update_stm0_compare1_ticks(1000);// Unit:ms ,the max is 0xFFFFFFFF/100000=42949ms(42.949s);
+}

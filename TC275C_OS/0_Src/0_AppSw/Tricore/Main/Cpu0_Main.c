@@ -24,9 +24,16 @@
 #define IFX_CFG_ISR_PRIORITY_STM1_COMPARE0	11   /**< \brief Stm1 Compare 0 interrupt priority.  */
 #define IFX_CFG_ISR_PRIORITY_STM2_COMPARE0	12   /**< \brief Stm2 Compare 0 interrupt priority.  */
 
+#define IFX_CFG_ISR_PRIORITY_STM0_COMPARE1	20   /**< \brief Stm0 Compare 0 interrupt priority.  */
+#define IFX_CFG_ISR_PRIORITY_STM1_COMPARE1	21   /**< \brief Stm1 Compare 0 interrupt priority.  */
+#define IFX_CFG_ISR_PRIORITY_STM2_COMPARE1	22   /**< \brief Stm2 Compare 0 interrupt priority.  */
+
 uint32 stm0CompareValue;
 uint32 stm1CompareValue;
 uint32 stm2CompareValue;
+
+uint32 stm0CompareValue2;
+
 
 App_Cpu0 g_AppCpu0; /**< \brief CPU 0 global data */
 unsigned long  lock=1; // 1 means available,
@@ -83,7 +90,38 @@ void STM_Demo_init(void)
 
 }
 
+void STM_Demo_init_stm0_compare1(void)
+{
+	/* Initialize STM for the triggers*/
+	IfxStm_CompareConfig stmCompareConfig;
 
+    // configure P33.8 as general output
+    //IfxPort_setPinMode(&MODULE_P33, 8,  IfxPort_Mode_outputPushPullGeneral);
+
+    /* Calculate the compare value of STM0 */
+	stm0CompareValue2 = IfxStm_getFrequency(&MODULE_STM0) / STM0_TICK_PERIOD_IN_MICROSECONDS;	/* 1ms */
+
+	IfxStm_enableOcdsSuspend(&MODULE_STM0);
+
+	/* Configure interrupt service requests for STM trigger outputs */
+	//IfxSrc_init(&MODULE_SRC.STM[0].SR[0], IfxSrc_Tos_cpu0, IFX_CFG_ISR_PRIORITY_STM0_COMPARE0);
+	//IfxSrc_enable(&MODULE_SRC.STM[0].SR[0]);
+	stmCompareConfig.servProvider = IfxSrc_Tos_cpu0;
+
+	/* Call the constructor of configuration */
+	IfxStm_initCompareConfig(&stmCompareConfig);
+
+	/* Modify only the number of ticks and enable the trigger output */
+	stmCompareConfig.ticks = stm0CompareValue2;   /*Interrupt after stm0CompareValue ticks from now */
+	stmCompareConfig.triggerInterruptEnabled = IFX_CFG_ISR_PRIORITY_STM0_COMPARE1;
+
+	/* Use the compare1 */
+    stmCompareConfig.comparator                 = IfxStm_Comparator_1;
+	stmCompareConfig.comparatorInterrupt        = IfxStm_ComparatorInterrupt_ir1;
+	/* Now Compare functionality is initialized */
+	IfxStm_initCompare(&MODULE_STM0, &stmCompareConfig);
+
+}
 
 /**********************************************************************************
  *
@@ -238,6 +276,7 @@ int core0_main (void)
     g_AppCpu0.info.stmFreq = IfxStm_getFrequency(&MODULE_STM0);
 
     STM_Demo_init();
+    STM_Demo_init_stm0_compare1();
     //STM1_Demo_init();
     //STM2_Demo_init();
 
