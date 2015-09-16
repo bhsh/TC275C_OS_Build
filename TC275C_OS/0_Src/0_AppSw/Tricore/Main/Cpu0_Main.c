@@ -233,6 +233,7 @@ void trigger_soft_interrupt(volatile Ifx_SRC_SRCR *src)
 }
  //   	trigger_soft_interrupt(SRC_GPSR00)
 
+
 //IFX_INTERRUPT(CPU0_SOFT0_Isr,0,IFX_CFG_ISR_PRIORITY_CPU0_SOFTWAR0)
 //{
     //uint32 stmTicks;
@@ -260,6 +261,36 @@ void trigger_soft_interrupt(volatile Ifx_SRC_SRCR *src)
  *
  *********************************************************************************/
 uint32 core0_switch_context_count_test;
+
+
+int math_return;
+
+int math3(int a,int b)
+{
+   int w;
+
+    w=a+b;
+    return w;
+}
+
+int math2(int a,int b,int c)
+{
+   int w;
+
+   w=a+b+c;
+   w=w+math3(9,10);
+   return w;
+}
+
+int math(int a,int b,int c,int d,int e)
+{
+   int w;
+
+    w=a+b+c+math2(6,7,8);
+    w=w+math3(11,12);
+    return w;
+}
+
 int core0_main (void)
 {
     /*
@@ -275,7 +306,7 @@ int core0_main (void)
     g_AppCpu0.info.sysFreq = IfxScuCcu_getSpbFrequency();
     g_AppCpu0.info.stmFreq = IfxStm_getFrequency(&MODULE_STM0);
 
-    STM_Demo_init();
+    //STM_Demo_init();
     STM_Demo_init_stm0_compare1();
     //STM1_Demo_init();
     //STM2_Demo_init();
@@ -295,14 +326,23 @@ int core0_main (void)
 
     //Init_soft_interrupt(&SRC_GPSR00,IFX_CFG_ISR_PRIORITY_CPU0_SOFTWAR0);
     //Init_soft_interrupt(&SRC_GPSR01,IFX_CFG_ISR_PRIORITY_CPU0_SOFTWAR1);
+    int a=1;
+    int b=2;
+    int c=3;
+    int d=4;
+    int e=5;
+
+
+    math_return=math(1,2,3,4,5);
+
     /* background endless loop */
-    start_core0_os();
+    //start_core0_os();
 
     while (1)
     {
     	//synchronizeCore0Core1();
     	//communicationCore0Core1_ptr->core0Ready = 1;
-    	IfxPort_togglePin(&MODULE_P33, 8);
+    	//IfxPort_togglePin(&MODULE_P33, 8);
     	//IfxPort_togglePin(&MODULE_P33, 9);
     	//IfxPort_togglePin(&MODULE_P33, 10);
     	//IfxPort_togglePin(&MODULE_P33, 11);

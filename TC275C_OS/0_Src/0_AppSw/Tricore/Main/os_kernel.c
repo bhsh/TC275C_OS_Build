@@ -685,16 +685,120 @@ int pthread_cond_timedwait_np(pthread_cond_t *cond,//!< [in] condition pointer
     return 0;
 }
 
+#if 0
+
+int pthread_cond_timedwait_dp2(pthread_cond_t *cond,//!< [in] condition pointer
+        pthread_mutex_t *mutex,//!< [in] mutex pointer
+        uint16_t reltime) //!< [in] relative time are the relative time STM_TIM4 ticks.NOT PORTABLE.
+{
+   uint16_t max_value;
+   uint32_t max_index;
+   uint16_t min_value;
+   uint32_t min_index;
+   uint32_t current_tim0;
+   uint32_t set_next_compare;
+
+
+   max_value          = ixmaxu16(tw.ticks,PTHREAD_COND_TIMEDWAIT_SIZE,&tw.idx);
+   // load the next compare value in the database
+   //get the current stm0 counter STM_TIM0
+   current_tim0       = IfxStm_getLower(&MODULE_STM0);
+   set_next_compare   = current_tim0+reltime*100000;//100 000stm clock ticks
+   
+   tw.ticks[tw.idx]   = set_next_compare;
+
+   //load the next compare value into compare register
+   min_value          = ixminu16(tw.ticks,PTHREAD_COND_TIMEDWAIT_SIZE,&min_index);
+
+   if(min_index==tw.idx)
+   {
+     IfxStm_updateCompare (&MODULE_STM0, IfxStm_Comparator_1,set_next_compare);
+   }
+   else
+   {
+     // do nothing.
+
+   }
+
+
+   
+   
+   
+   
+    assert(cppn()==0); // CCPN must be 0, pthread_create cannot be called from ISR
+    assert(cond != NULL);
+    assert(mutex != NULL);
+
+    uint32_t i;
+    STM_SRC1.B.SRE = 0; // STM_SRC1.U = 0x0000 | TIMEDWAIT_INT; // disable service request control register
+    // add ticks value and condition to array
+    if (USHRT_MAX != ixmaxu16(tw.ticks, PTHREAD_COND_TIMEDWAIT_SIZE, &i))
+        return -1; // no free
+    uint16_t tim4 = STM_TIM4.U + 1;
+    tw.ticks[i] = __min(tim4 + reltime, USHRT_MAX - 1); // __extru(tim4 + reltime, 0, 16)
+    tw.cond[i] = cond;
+
+    // find the next compare
+    STM_CMP1.U = __max(tim4, ixminu16(tw.ticks, PTHREAD_COND_TIMEDWAIT_SIZE,
+            &tw.idx));
+    STM_SRC1.B.SRE = 1; // STM_SRC1.U = 0x1000 | TIMEDWAIT_INT; // enable service request control register
+
+    __swap(&mutex->lock, false);
+    int err = dispatch_wait(&cond->blocked_threads, NULL);// swap out with mutex unlocked
+    __swap(&mutex->lock, true);
+    mutex->owner = pthread_running;
+    return 0;
+
+}
+#endif
+
+
+
+
+
+
 //! STM interupts to manage timed wait conditions
 //void __interrupt(PTHREAD_TIMEDWAIT_INT) stm_src1(void) {
 
 //}
 int __a0 test_count_stm0_compare1_small_data;
 int  test_count_stm0_compare1;
+
+extern int math_return;
+extern int math(int a,int b,int c,int d,int e);
 void __interrupt(20) __vector_table(0) Ifx_STM0_compare1_Isr(void)
 {
 	test_count_stm0_compare1_small_data++;
 	test_count_stm0_compare1++;
 
+	math_return=math(1,2,3,4,5);
+
+
+
+
  	update_stm0_compare1_ticks(1000);// Unit:ms ,the max is 0xFFFFFFFF/100000=42949ms(42.949s);
+
+
+#if 0
+    cond = tw.cond[tw.idx]; // get current condition
+    tw.ticks[tw.idx] = USHRT_MAX; // free place in array
+    uint32_t cmp = ixminu16(tw.ticks, PTHREAD_COND_TIMEDWAIT_SIZE, &tw.idx);
+
+    if (cmp == USHRT_MAX)
+        //STM_SRC1.B.SRE = 0; // disable the node if there are no more conditions waiting or
+    else
+        STM_CMP1.U = __max((uint16_t)(STM_TIM4.U + 1), cmp); // set next compare
+
+    //STM_ISRR.B.CMP1IRR = 1; // STOREBIT(STM_ISRR, 2, 1);
+    assert(cond != NULL);
+
+    //setup parameter and jump to trapsystem
+    __asm( " mov.aa a4,%0 \n"
+            " mov.aa a5,%1 \n"
+            " mov d15,%2   \n"
+            " jg trapsystem  "
+            ::"a"(&cond->blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
+
+#endif
+	
 }
