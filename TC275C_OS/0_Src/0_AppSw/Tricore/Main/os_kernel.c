@@ -40,14 +40,72 @@ __syscallfunc(DISPATCH_SIGNAL) int dispatch_signal(void *, void *);
  static pthread_t blocked_threads;
 
  //! tw array hold condition and time for pthread_cond_timedwait_np.
+ static volatile struct {
+         uint16_t ticks[PTHREAD_COND_TIMEDWAIT_SIZE];//!< time
+         pthread_cond_t *cond[PTHREAD_COND_TIMEDWAIT_SIZE];//!< condition
+         uint32_t idx; //!< current index to time and condition
+     } tw = {   
+                 {
+					USHRT_MAX,
+					USHRT_MAX,
+					USHRT_MAX, 
+					USHRT_MAX,
+                    USHRT_MAX,
+                    USHRT_MAX, 
+                    USHRT_MAX, 
+                    USHRT_MAX
+                 },
+                 
+                 { 
+				 	NULL,
+					NULL,
+					NULL,
+					NULL,
+					NULL,
+					NULL,
+					NULL,
+					NULL
+				 }
+					
+				 ,0
+			 };
+// new definition begins
+
+uint16_t ticks[PTHREAD_COND_TIMEDWAIT_SIZE]=
+{
+					USHRT_MAX,
+					USHRT_MAX,
+					USHRT_MAX, 
+					USHRT_MAX,
+                    USHRT_MAX,
+                    USHRT_MAX, 
+                    USHRT_MAX, 
+                    USHRT_MAX
+
+};//!< time
+pthread_cond_t *cond_pointer[PTHREAD_COND_TIMEDWAIT_SIZE]=
+{
+				 	NULL,
+					NULL,
+					NULL,
+					NULL,
+					NULL,
+					NULL,
+					NULL,
+					NULL
+};//!< condition
+uint32_t idx; //!< current index to time and condition
+// new definition ends
+
+
+#if 0	 
  static struct {
          uint16_t ticks[PTHREAD_COND_TIMEDWAIT_SIZE];//!< time
          pthread_cond_t *cond[PTHREAD_COND_TIMEDWAIT_SIZE];//!< condition
          uint32_t idx; //!< current index to time and condition
-     } tw
-     = { {   USHRT_MAX, USHRT_MAX, USHRT_MAX, USHRT_MAX,
-             USHRT_MAX, USHRT_MAX, USHRT_MAX, USHRT_MAX}, {},0};
-
+     } tw = { {   56, USHRT_MAX, USHRT_MAX, USHRT_MAX,
+                  USHRT_MAX, USHRT_MAX, USHRT_MAX, USHRT_MAX}, {},0};
+#endif
 
 extern uint32 stm0CompareValue;
 inline void update_stm0_ticks(void)
@@ -568,8 +626,19 @@ uint16_t tick_count;
     }
 
 }
+
+ extern int math_return;
+ extern int math(int a,int b,int c,int d,int e,int f,int g,int h,int i);
+int math_return3;
  void __interrupt(10) __vector_table(0) Ifx_STM0_Isr(void)
  {
+
+	    uint32 stmTicks;
+	    stmTicks= (uint32)(stm0CompareValue * 100);
+	    IfxStm_updateCompare (&MODULE_STM2, IfxStm_Comparator_0, IfxStm_getCompare (&MODULE_STM2, IfxStm_Comparator_0) + stmTicks);
+	    math_return3=math(1,2,3,4,5,6,7,810,3);
+
+#if 0
  	//__svlcx();
  	//__isync();
  	//stm_src0();
@@ -635,6 +704,7 @@ uint16_t tick_count;
        __asm( " rfe");
  #endif
    }
+#endif
  }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -646,7 +716,7 @@ uint16_t tick_count;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //! Wait on a condition
-int pthread_cond_timedwait_np(pthread_cond_t *cond,//!< [in] condition pointer
+int pthread_cond_timedwait_np3(pthread_cond_t *cond,//!< [in] condition pointer
         pthread_mutex_t *mutex,//!< [in] mutex pointer
         uint16_t reltime) //!< [in] relative time are the relative time STM_TIM4 ticks.NOT PORTABLE.
 {
@@ -752,10 +822,79 @@ int pthread_cond_timedwait_dp2(pthread_cond_t *cond,//!< [in] condition pointer
 }
 #endif
 
+// here the tick is ((0xFFF+1)*0.000 01s=0.04096s)
+// 1s can be divided into 24 (1/0.04096)
+// the range:0xFFFF*0.04096s=2684s=44min
+// reltime unit/0.04096ms 
+uint16_t test_tim3;
+uint32_t test_i;
+uint16_t test_ticks1;
+pthread_cond_t *test_cond;
+uint16_t test_reltime;
 
+uint16_t mid_value1;
+uint16_t mid_value2;
+	
+int pthread_cond_timedwait_np(pthread_cond_t *cond,//!< [in] condition pointer
+        pthread_mutex_t *mutex,//!< [in] mutex pointer
+        uint16_t reltime) //!< [in] relative time are the relative time STM_TIM4 ticks.NOT PORTABLE.
+{
 
+    assert(cppn()==0); // CCPN must be 0, pthread_create cannot be called from ISR
+    assert(cond != NULL);
+    //assert(mutex != NULL);
 
+    uint32_t i;
+    //STM_SRC1.B.SRE = 0; // STM_SRC1.U = 0x0000 | TIMEDWAIT_INT; // disable service request control register
+    // add ticks value and condition to array
+    IfxStm_disableIsrRequest(&MODULE_STM0);
+	
+    if (USHRT_MAX != ixmaxu16(ticks, PTHREAD_COND_TIMEDWAIT_SIZE, &i))
+        return -1; // no free
+        
+    //uint16_t tim4 = STM_TIM4.U + 1;
+    
+    uint16_t tim3=IfxStm_getOffset12Timer(&MODULE_STM0)+1;
 
+	test_tim3=tim3;
+	test_i   =i;
+
+	//tw.ticks[0] =50;
+	//tw.ticks[1] =500;
+	//tw2.ticks[0] =50;
+	//tw2.ticks[1] =500;
+    ticks[i] = __min(tim3 + reltime, USHRT_MAX - 1); // __extru(tim4 + reltime, 0, 16)
+    cond_pointer[i] = cond;
+	
+    ticks[0]=7;
+	
+	test_ticks1  =ticks[i];
+	test_cond    =cond_pointer[i];
+	test_reltime =reltime;
+
+    // find the next compare
+    //STM_CMP1.U = __max(tim3, ixminu16(tw.ticks, PTHREAD_COND_TIMEDWAIT_SIZE,&tw.idx));
+    //STM_CMP1.U = __max(tim3, ixminu16(tw.ticks, PTHREAD_COND_TIMEDWAIT_SIZE,&tw.idx));
+    mid_value1=ixminu16(ticks, PTHREAD_COND_TIMEDWAIT_SIZE,&idx);
+    mid_value2=__max(tim3, mid_value1);
+	
+	IfxStm_updateCompare (&MODULE_STM0, IfxStm_Comparator_1,mid_value2);
+
+	//STM_SRC1.B.SRE = 1; // STM_SRC1.U = 0x1000 | TIMEDWAIT_INT; // enable service request control register
+
+	//IfxStm_enableIsrRequest(&MODULE_STM0);
+
+    //tw.ticks[0] =50;
+	//tw.ticks[1] =500;
+	
+    // __swap(&mutex->lock, false);
+    //int err = dispatch_wait(&cond->blocked_threads, NULL);// swap out with mutex unlocked
+    //__swap(&mutex->lock, true);
+    //mutex->owner = pthread_running;
+    return 0;
+
+}
+/////////////////////////////////////////////////////////
 
 //! STM interupts to manage timed wait conditions
 //void __interrupt(PTHREAD_TIMEDWAIT_INT) stm_src1(void) {
@@ -764,32 +903,42 @@ int pthread_cond_timedwait_dp2(pthread_cond_t *cond,//!< [in] condition pointer
 int __a0 test_count_stm0_compare1_small_data;
 int  test_count_stm0_compare1;
 
+#if 0
 extern int math_return;
 extern int math(int a,int b,int c,int d,int e);
+#endif
+
 void __interrupt(20) __vector_table(0) Ifx_STM0_compare1_Isr(void)
 {
 	test_count_stm0_compare1_small_data++;
 	test_count_stm0_compare1++;
 
-	math_return=math(1,2,3,4,5);
-
-
-
-
- 	update_stm0_compare1_ticks(1000);// Unit:ms ,the max is 0xFFFFFFFF/100000=42949ms(42.949s);
-
-
 #if 0
+	math_return=math(1,2,3,4,5);
+#endif
+
+ 	//update_stm0_compare1_ticks(1000);// Unit:ms ,the max is 0xFFFFFFFF/100000=42949ms(42.949s);
+
+    pthread_cond_t *cond;
+
     cond = tw.cond[tw.idx]; // get current condition
     tw.ticks[tw.idx] = USHRT_MAX; // free place in array
     uint32_t cmp = ixminu16(tw.ticks, PTHREAD_COND_TIMEDWAIT_SIZE, &tw.idx);
 
     if (cmp == USHRT_MAX)
-        //STM_SRC1.B.SRE = 0; // disable the node if there are no more conditions waiting or
+     {   //STM_SRC1.B.SRE = 0; // disable the node if there are no more conditions waiting or
+        IfxStm_disableIsrRequest(&MODULE_STM0);
+     }
     else
-        STM_CMP1.U = __max((uint16_t)(STM_TIM4.U + 1), cmp); // set next compare
+	 {
+        //STM_CMP1.U = __max((uint16_t)(STM_TIM4.U + 1), cmp); // set next compare
+        IfxStm_updateCompare (&MODULE_STM0, IfxStm_Comparator_1, 
+	                          __max((uint16_t)(IfxStm_getOffset12Timer(&MODULE_STM0) + 1), cmp));
+	 }
 
     //STM_ISRR.B.CMP1IRR = 1; // STOREBIT(STM_ISRR, 2, 1);
+    IfxStn_clearIsrRequest(&MODULE_STM0);
+    
     assert(cond != NULL);
 
     //setup parameter and jump to trapsystem
@@ -799,6 +948,4 @@ void __interrupt(20) __vector_table(0) Ifx_STM0_compare1_Isr(void)
             " jg trapsystem  "
             ::"a"(&cond->blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
 
-#endif
-	
 }

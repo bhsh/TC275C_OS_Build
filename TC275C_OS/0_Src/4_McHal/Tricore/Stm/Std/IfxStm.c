@@ -118,7 +118,8 @@ boolean IfxStm_initCompare(Ifx_STM *stm, IfxStm_CompareConfig *config)
         comcon.B.MSIZE1  = config->compareSize;
         comcon.B.MSTART1 = config->compareOffset;
         icr.B.CMP1OS     = config->comparatorInterrupt;
-        icr.B.CMP1EN     = config->triggerInterruptEnabled ? 1 : 0;
+        //icr.B.CMP1EN     = config->triggerInterruptEnabled ? 1 : 0;
+        icr.B.CMP1EN=0;
         result           = TRUE;
     }
     else

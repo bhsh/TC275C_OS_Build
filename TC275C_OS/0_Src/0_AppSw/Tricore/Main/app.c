@@ -252,7 +252,7 @@ void thread2(void* arg) {
 //        pthread_cond_wait(&cond2, &mutex2);
         thread_test_count_TASK++;
         //cond2.blocked_threads = NULL;
-        pthread_cond_timedwait_np(&cond2, &mutex2, 100);
+        //pthread_cond_timedwait_np(&cond2, &mutex2, 1000);
         printf("Thread %d continued\n", (int) arg);
         pthread_mutex_unlock(&mutex2);
     }
@@ -302,6 +302,15 @@ void start_core0_os(void) {
     //pthread_create_np(th8, NULL, thread, (void*) 8);
     //pthread_create_np(th9, NULL, thread, (void*) 9);
     //pthread_create_np(th10, NULL, thread, (void*) 10);
+
+    //pthread_mutex_lock(&mutex2);
+    //printf("Thread %d blocked\n", (int) arg);
+    //pthread_cond_wait(&cond2, &mutex2);
+    //thread_test_count_TASK++;
+    //cond2.blocked_threads = NULL;
+   // pthread_cond_timedwait_np(&cond2, &mutex2, 1000);
+    //printf("Thread %d continued\n", (int) arg);
+    //pthread_mutex_unlock(&mutex2);
 
 
 

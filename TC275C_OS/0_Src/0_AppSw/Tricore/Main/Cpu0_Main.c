@@ -116,10 +116,18 @@ void STM_Demo_init_stm0_compare1(void)
 	stmCompareConfig.triggerInterruptEnabled = IFX_CFG_ISR_PRIORITY_STM0_COMPARE1;
 
 	/* Use the compare1 */
-    stmCompareConfig.comparator                 = IfxStm_Comparator_1;
-	stmCompareConfig.comparatorInterrupt        = IfxStm_ComparatorInterrupt_ir1;
+    stmCompareConfig.comparator            = IfxStm_Comparator_1;
+	stmCompareConfig.comparatorInterrupt   = IfxStm_ComparatorInterrupt_ir1;
+	
+	/**< \brief Comparator start bit position  defined in MODULE_STMx.CMCON.B.MSTART0(x = 0,1,2). */
+	stmCompareConfig.compareOffset         = IfxStm_ComparatorOffset_12;  
+	/**< \brief Size of compare value to compare with timer defined in  MODULE_STMx.CMCON.B.MSIZE0(x = 0,1,2). */
+    stmCompareConfig.compareSize           = IfxStm_ComparatorSize_16Bits;             
 	/* Now Compare functionality is initialized */
+	
 	IfxStm_initCompare(&MODULE_STM0, &stmCompareConfig);
+	IfxStm_disableIsrRequest(&MODULE_STM0);
+
 
 }
 
@@ -262,8 +270,9 @@ void trigger_soft_interrupt(volatile Ifx_SRC_SRCR *src)
  *********************************************************************************/
 uint32 core0_switch_context_count_test;
 
-
+//#if 0
 int math_return;
+int math_return2;
 
 int math3(int a,int b)
 {
@@ -282,14 +291,24 @@ int math2(int a,int b,int c)
    return w;
 }
 
-int math(int a,int b,int c,int d,int e)
+int math(int a,int b,int c,int d,int e,int f,int g,int h,int i)
 {
    int w;
+   int z;
+   int q;
+   int l;
 
-    w=a+b+c+math2(6,7,8);
-    w=w+math3(11,12);
-    return w;
+    w=a+b+c+d+e*2+f*3+g+h+10*i;
+
+    z=math2(6,7,w);
+
+    q=w+math3(7,w);
+
+    l=z+q;
+
+    return l;
 }
+//#endif
 
 int core0_main (void)
 {
@@ -306,8 +325,8 @@ int core0_main (void)
     g_AppCpu0.info.sysFreq = IfxScuCcu_getSpbFrequency();
     g_AppCpu0.info.stmFreq = IfxStm_getFrequency(&MODULE_STM0);
 
-    //STM_Demo_init();
-    STM_Demo_init_stm0_compare1();
+    STM_Demo_init();
+   // STM_Demo_init_stm0_compare1();
     //STM1_Demo_init();
     //STM2_Demo_init();
 
@@ -326,6 +345,7 @@ int core0_main (void)
 
     //Init_soft_interrupt(&SRC_GPSR00,IFX_CFG_ISR_PRIORITY_CPU0_SOFTWAR0);
     //Init_soft_interrupt(&SRC_GPSR01,IFX_CFG_ISR_PRIORITY_CPU0_SOFTWAR1);
+//#if 0
     int a=1;
     int b=2;
     int c=3;
@@ -333,10 +353,12 @@ int core0_main (void)
     int e=5;
 
 
-    math_return=math(1,2,3,4,5);
+    math_return=math(1,2,3,4,5,6,7,8,9);
+    math_return2=math(1,2,3,4,5,6,7,810,3);
+//#endif
 
     /* background endless loop */
-    //start_core0_os();
+   // start_core0_os();
 
     while (1)
     {

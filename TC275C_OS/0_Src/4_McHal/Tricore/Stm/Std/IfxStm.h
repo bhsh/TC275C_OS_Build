@@ -545,5 +545,19 @@ IFX_INLINE void IfxStm_setSleepMode(Ifx_STM *stm, IfxStm_SleepMode mode)
     IfxScuWdt_setCpuEndinit(passwd);
 }
 
+IFX_INLINE void IfxStn_clearIsrRequest(Ifx_STM *stm)
+{
+   stm->ISCR.B.CMP1IRR=1;
+}
+
+IFX_INLINE void IfxStm_disableIsrRequest(Ifx_STM *stm)
+{
+   stm->ICR.B.CMP1EN=0;
+}
+
+IFX_INLINE void IfxStm_enableIsrRequest(Ifx_STM *stm)
+{
+   stm->ICR.B.CMP1EN=1;
+}
 
 #endif /* IFXSTM_H */
