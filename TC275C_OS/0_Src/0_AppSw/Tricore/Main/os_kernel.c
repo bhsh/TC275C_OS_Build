@@ -44,9 +44,29 @@ __syscallfunc(DISPATCH_SIGNAL) int dispatch_signal(void *, void *);
          uint16_t ticks[PTHREAD_COND_TIMEDWAIT_SIZE];//!< time
          pthread_cond_t *cond[PTHREAD_COND_TIMEDWAIT_SIZE];//!< condition
          uint32_t idx; //!< current index to time and condition
-     } tw
-     = { {   USHRT_MAX, USHRT_MAX, USHRT_MAX, USHRT_MAX,
-             USHRT_MAX, USHRT_MAX, USHRT_MAX, USHRT_MAX}, {},0};
+     } tw = { 
+                { 
+			 	    USHRT_MAX, 
+				    USHRT_MAX, 
+				    USHRT_MAX, 
+				    USHRT_MAX,
+                    USHRT_MAX, 
+                    USHRT_MAX, 
+                    USHRT_MAX, 
+                    USHRT_MAX
+                }, 
+                {
+                    NULL,
+				    NULL,
+                    NULL,
+				    NULL,
+				    NULL,
+				    NULL,
+				    NULL,
+				    NULL
+			    },
+			    0
+	        };
 
 
 extern uint32 stm0CompareValue;
@@ -54,7 +74,7 @@ inline void update_stm0_ticks(void)
 {
     uint32 stmTicks;
 
-    stmTicks= (uint32)(stm0CompareValue*500);
+    stmTicks= (uint32)(stm0CompareValue*10);
     IfxStm_updateCompare (&MODULE_STM0, IfxStm_Comparator_0, IfxStm_getCompare (&MODULE_STM0, IfxStm_Comparator_0) + stmTicks);
     IfxPort_togglePin(&MODULE_P33, 8);
 }
