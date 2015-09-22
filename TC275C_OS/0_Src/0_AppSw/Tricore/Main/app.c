@@ -75,10 +75,13 @@
 //PTHREAD_CONTROL_BLOCK(th10,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
 
 PTHREAD_CONTROL_BLOCK(th0,0,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
-//PTHREAD_CONTROL_BLOCK(th1,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+PTHREAD_CONTROL_BLOCK(th1,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
 PTHREAD_CONTROL_BLOCK(th2,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
 PTHREAD_CONTROL_BLOCK(th3,3,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
 PTHREAD_CONTROL_BLOCK(th4,4,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+PTHREAD_CONTROL_BLOCK(th5,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+PTHREAD_CONTROL_BLOCK(th6,3,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+PTHREAD_CONTROL_BLOCK(th7,4,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
 #pragma align restore
 
 
@@ -231,6 +234,8 @@ void thread(void* arg) {
 }
 #endif
 
+pthread_cond_t cond1 = PTHREAD_COND_INITIALIZER;
+pthread_mutex_t mutex1 = PTHREAD_MUTEX_INITIALIZER;
 
 pthread_cond_t cond2 = PTHREAD_COND_INITIALIZER;
 pthread_mutex_t mutex2 = PTHREAD_MUTEX_INITIALIZER;
@@ -241,18 +246,48 @@ pthread_mutex_t mutex3 = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t cond4 = PTHREAD_COND_INITIALIZER;
 pthread_mutex_t mutex4 = PTHREAD_MUTEX_INITIALIZER;
 
+pthread_cond_t cond5 = PTHREAD_COND_INITIALIZER;
+pthread_mutex_t mutex5 = PTHREAD_MUTEX_INITIALIZER;
+
+pthread_cond_t cond6 = PTHREAD_COND_INITIALIZER;
+pthread_mutex_t mutex6 = PTHREAD_MUTEX_INITIALIZER;
+
+pthread_cond_t cond7 = PTHREAD_COND_INITIALIZER;
+pthread_mutex_t mutex7 = PTHREAD_MUTEX_INITIALIZER;
+
+
 volatile int thread_test_count1=0;
-volatile int thread_test_count_TASK=0;
+
+volatile int thread_test_count_TASK0=0;
+volatile int thread_test_count_TASK1=0;
+volatile int thread_test_count_TASK2=0;
 volatile int thread_test_count_TASK3=0;
 volatile int thread_test_count_TASK4=0;
+volatile int thread_test_count_TASK5=0;
+volatile int thread_test_count_TASK6=0;
+volatile int thread_test_count_TASK7=0;
+
 
 void idle(void* arg) {
     for (;;)
     {
 
-    	thread_test_count1++;
+    	thread_test_count_TASK0++;
     	delay_ms(200);
 
+    }
+}
+
+void thread1(void* arg) {
+    for (;;) {
+        pthread_mutex_lock(&mutex1);
+        printf("Thread %d blocked\n", (int) arg);
+		
+        thread_test_count_TASK1++;
+
+        pthread_cond_timedwait_np(&cond1, &mutex1, 10,(int) arg);
+        printf("Thread %d continued\n", (int) arg);
+        pthread_mutex_unlock(&mutex1);
     }
 }
 
@@ -260,10 +295,8 @@ void thread2(void* arg) {
     for (;;) {
         pthread_mutex_lock(&mutex2);
         printf("Thread %d blocked\n", (int) arg);
-//        pthread_cond_wait(&cond2, &mutex2);
-        thread_test_count_TASK++;
-        //cond2.blocked_threads = NULL;
-        pthread_cond_timedwait_np(&cond2, &mutex2, 100);
+        thread_test_count_TASK2++;
+        pthread_cond_timedwait_np(&cond2, &mutex2, 20,(int) arg);
         printf("Thread %d continued\n", (int) arg);
         pthread_mutex_unlock(&mutex2);
     }
@@ -273,10 +306,8 @@ void thread3(void* arg) {
     for (;;) {
         pthread_mutex_lock(&mutex3);
         printf("Thread %d blocked\n", (int) arg);
-//        pthread_cond_wait(&cond2, &mutex2);
         thread_test_count_TASK3++;
-        //cond2.blocked_threads = NULL;
-        pthread_cond_timedwait_np(&cond3, &mutex3, 300);
+        pthread_cond_timedwait_np(&cond3, &mutex3, 40,(int) arg);
         printf("Thread %d continued\n", (int) arg);
         pthread_mutex_unlock(&mutex3);
     }
@@ -286,15 +317,45 @@ void thread4(void* arg) {
     for (;;) {
         pthread_mutex_lock(&mutex4);
         printf("Thread %d blocked\n", (int) arg);
-//        pthread_cond_wait(&cond2, &mutex2);
         thread_test_count_TASK4++;
-        //cond2.blocked_threads = NULL;
-        pthread_cond_timedwait_np(&cond4, &mutex4, 400);
+        pthread_cond_timedwait_np(&cond4, &mutex4, 80,(int) arg);
         printf("Thread %d continued\n", (int) arg);
         pthread_mutex_unlock(&mutex4);
     }
 }
 
+void thread5(void* arg) {
+    for (;;) {
+        pthread_mutex_lock(&mutex5);
+        printf("Thread %d blocked\n", (int) arg);
+        thread_test_count_TASK5++;
+        pthread_cond_timedwait_np(&cond5, &mutex5, 320,(int) arg);
+        printf("Thread %d continued\n", (int) arg);
+        pthread_mutex_unlock(&mutex5);
+    }
+}
+
+void thread6(void* arg) {
+    for (;;) {
+        pthread_mutex_lock(&mutex6);
+        printf("Thread %d blocked\n", (int) arg);
+        thread_test_count_TASK6++;
+        pthread_cond_timedwait_np(&cond6, &mutex6, 640,(int) arg);
+        printf("Thread %d continued\n", (int) arg);
+        pthread_mutex_unlock(&mutex6);
+    }
+}
+
+void thread7(void* arg) {
+    for (;;) {
+        pthread_mutex_lock(&mutex7);
+        printf("Thread %d blocked\n", (int) arg);
+        thread_test_count_TASK7++;
+        pthread_cond_timedwait_np(&cond7, &mutex7, 1280,(int) arg);
+        printf("Thread %d continued\n", (int) arg);
+        pthread_mutex_unlock(&mutex7);
+    }
+}
 
 void start_core0_os(void) {
 
@@ -348,10 +409,13 @@ void start_core0_os(void) {
            "Shows how to block a thread until the condition is signaled or until a timeout period elapsed.\n");
 
     pthread_create_np(th0, NULL, idle, (void*) 0);
-    //pthread_create_np(th1, NULL, thread1, (void*) 1);
+    pthread_create_np(th1, NULL, thread1, (void*) 1);
     pthread_create_np(th2, NULL, thread2, (void*) 2);
 	pthread_create_np(th3, NULL, thread3, (void*) 3);
 	pthread_create_np(th4, NULL, thread4, (void*) 4);
+	pthread_create_np(th5, NULL, thread5, (void*) 5);
+	pthread_create_np(th6, NULL, thread6, (void*) 6);
+	pthread_create_np(th7, NULL, thread7, (void*) 7);
 
 	pthread_start_np();
 }

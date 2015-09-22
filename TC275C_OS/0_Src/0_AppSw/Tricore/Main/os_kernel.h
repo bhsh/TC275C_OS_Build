@@ -253,7 +253,8 @@ int pthread_cond_broadcast(pthread_cond_t *cond); //!< [in] condition pointer
 //! Wait on a condition
 int pthread_cond_timedwait_np(pthread_cond_t *cond,//!< [in] condition pointer
         pthread_mutex_t *mutex,//!< [in] mutex pointer
-        uint16_t reltime); //!< [in] relative time are the relative time STM_TIM4 ticks.NOT PORTABLE.
+        uint16_t reltime,
+        uint32_t task_id); //!< [in] relative time are the relative time STM_TIM4 ticks.NOT PORTABLE.
 
 
 #endif /* OS_KERNEL_H_ */

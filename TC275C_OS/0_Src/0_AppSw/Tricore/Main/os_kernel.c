@@ -783,7 +783,8 @@ uint16_t stm_tick_count;
     uint16_t set_count;
 int pthread_cond_timedwait_np(pthread_cond_t *cond,//!< [in] condition pointer
         pthread_mutex_t *mutex,//!< [in] mutex pointer
-        uint16_t reltime) //!< [in] relative time are the relative time STM_TIM4 ticks.NOT PORTABLE.
+        uint16_t reltime,
+        uint32_t task_id) //!< [in] relative time are the relative time STM_TIM4 ticks.NOT PORTABLE.
 {
 
 #ifdef OLD_AVALIABLE
@@ -828,14 +829,14 @@ int pthread_cond_timedwait_np(pthread_cond_t *cond,//!< [in] condition pointer
 
 
 			
-    if (USHRT_MAX != ixmaxu16(tw.ticks, PTHREAD_COND_TIMEDWAIT_SIZE, &current_id))
-        return -1; // no free
+    //if (USHRT_MAX != ixmaxu16(stm_ticks, PTHREAD_COND_TIMEDWAIT_SIZE, &current_id))
+    //    return -1; // no free
 			
 	new_tick_count           = stm_tick_count + 1;
 	set_count                = ((uint16_t)(new_tick_count + reltime))%0xFFFF;  // set_count ranges from 0-0xFFFE
 	
-    stm_ticks[current_id]    = set_count;                                      // load the current tick set(lconfig 1.)
-    stm_cond[current_id]     = cond;                                           // load the cond.(lconfig 2.)
+    stm_ticks[task_id]       = set_count;                                      // load the current tick set(lconfig 1.)
+    stm_cond[task_id]        = cond;                                           // load the cond.(lconfig 2.)
 
 	
     __swap(&mutex->lock, false);
