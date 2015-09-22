@@ -77,26 +77,81 @@ __syscallfunc(DISPATCH_SIGNAL) int dispatch_signal(void *, void *);
 
 uint16_t  stm_ticks[PTHREAD_COND_TIMEDWAIT_SIZE]=
 	{
+         		    USHRT_MAX,                      // task 0 
+				    USHRT_MAX,                      // task 1 
+				    USHRT_MAX,                      // task 2
+				    USHRT_MAX,                      // task 3
+                    USHRT_MAX,                      // task 4
+                    USHRT_MAX,                      // task 5
+                    USHRT_MAX,                      // task 6
+                    USHRT_MAX,                      // task 7
+                    USHRT_MAX,                      // task 8                      
+				    USHRT_MAX,                      // task 9                      
+	         		USHRT_MAX,                      // task 10 
+	         		
+				    USHRT_MAX,                      // task 11 
+				    USHRT_MAX,                      // task 12
+				    USHRT_MAX,                      // task 13
+                    USHRT_MAX,                      // task 14
+                    USHRT_MAX,                      // task 15
+                    USHRT_MAX,                      // task 16
+                    USHRT_MAX,                      // task 17
+                    USHRT_MAX,                      // task 18                      
+				    USHRT_MAX,                      // task 19  
+				    USHRT_MAX,                      // task 20 
+				    
+				    USHRT_MAX,                      // task 21 
+				    USHRT_MAX,                      // task 22
+				    USHRT_MAX,                      // task 23
+                    USHRT_MAX,                      // task 24
+                    USHRT_MAX,                      // task 25
+                    USHRT_MAX,                      // task 26
+                    USHRT_MAX,                      // task 27
+                    USHRT_MAX,                      // task 28                      
+				    USHRT_MAX,                      // task 29    
 
-         		    USHRT_MAX, 
-				    USHRT_MAX, 
-				    USHRT_MAX, 
-				    USHRT_MAX,
-                    USHRT_MAX, 
-                    USHRT_MAX, 
-                    USHRT_MAX, 
-                    USHRT_MAX
+					USHRT_MAX,                      // task 30                      
+				    USHRT_MAX,                      // task 31
+				    
     };//!< time
 pthread_cond_t  *stm_cond[PTHREAD_COND_TIMEDWAIT_SIZE]=
 	{
-                    NULL,
-				    NULL,
-                    NULL,
-				    NULL,
-				    NULL,
-				    NULL,
-				    NULL,
-				    NULL
+          		    NULL,                      // task 0 
+				    NULL,                      // task 1 
+				    NULL,                      // task 2
+				    NULL,                      // task 3
+                    NULL,                      // task 4
+                    NULL,                      // task 5
+                    NULL,                      // task 6
+                    NULL,                      // task 7
+                    NULL,                      // task 8                      
+				    NULL,                      // task 9                      
+	         		NULL,                      // task 10 
+	         		
+				    NULL,                      // task 11 
+				    NULL,                      // task 12
+				    NULL,                      // task 13
+                    NULL,                      // task 14
+                    NULL,                      // task 15
+                    NULL,                      // task 16
+                    NULL,                      // task 17
+                    NULL,                      // task 18                      
+				    NULL,                      // task 19  
+				    NULL,                      // task 20 
+				    
+				    NULL,                      // task 21 
+				    NULL,                      // task 22
+				    NULL,                      // task 23
+                    NULL,                      // task 24
+                    NULL,                      // task 25
+                    NULL,                      // task 26
+                    NULL,                      // task 27
+                    NULL,                      // task 28                      
+				    NULL,                      // task 29    
+
+					NULL,                      // task 30                      
+				    NULL,                      // task 31
+
     };//!< condition
 
 extern uint32 stm0CompareValue;
