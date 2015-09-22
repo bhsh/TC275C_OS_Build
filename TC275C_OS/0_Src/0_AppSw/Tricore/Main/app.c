@@ -77,6 +77,8 @@
 PTHREAD_CONTROL_BLOCK(th0,0,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
 //PTHREAD_CONTROL_BLOCK(th1,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
 PTHREAD_CONTROL_BLOCK(th2,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+PTHREAD_CONTROL_BLOCK(th3,3,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+PTHREAD_CONTROL_BLOCK(th4,4,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
 #pragma align restore
 
 
@@ -232,8 +234,17 @@ void thread(void* arg) {
 
 pthread_cond_t cond2 = PTHREAD_COND_INITIALIZER;
 pthread_mutex_t mutex2 = PTHREAD_MUTEX_INITIALIZER;
+
+pthread_cond_t cond3 = PTHREAD_COND_INITIALIZER;
+pthread_mutex_t mutex3 = PTHREAD_MUTEX_INITIALIZER;
+
+pthread_cond_t cond4 = PTHREAD_COND_INITIALIZER;
+pthread_mutex_t mutex4 = PTHREAD_MUTEX_INITIALIZER;
+
 volatile int thread_test_count1=0;
 volatile int thread_test_count_TASK=0;
+volatile int thread_test_count_TASK3=0;
+volatile int thread_test_count_TASK4=0;
 
 void idle(void* arg) {
     for (;;)
@@ -257,6 +268,33 @@ void thread2(void* arg) {
         pthread_mutex_unlock(&mutex2);
     }
 }
+
+void thread3(void* arg) {
+    for (;;) {
+        pthread_mutex_lock(&mutex3);
+        printf("Thread %d blocked\n", (int) arg);
+//        pthread_cond_wait(&cond2, &mutex2);
+        thread_test_count_TASK3++;
+        //cond2.blocked_threads = NULL;
+        pthread_cond_timedwait_np(&cond3, &mutex3, 300);
+        printf("Thread %d continued\n", (int) arg);
+        pthread_mutex_unlock(&mutex3);
+    }
+}
+
+void thread4(void* arg) {
+    for (;;) {
+        pthread_mutex_lock(&mutex4);
+        printf("Thread %d blocked\n", (int) arg);
+//        pthread_cond_wait(&cond2, &mutex2);
+        thread_test_count_TASK4++;
+        //cond2.blocked_threads = NULL;
+        pthread_cond_timedwait_np(&cond4, &mutex4, 400);
+        printf("Thread %d continued\n", (int) arg);
+        pthread_mutex_unlock(&mutex4);
+    }
+}
+
 
 void start_core0_os(void) {
 
@@ -312,6 +350,8 @@ void start_core0_os(void) {
     pthread_create_np(th0, NULL, idle, (void*) 0);
     //pthread_create_np(th1, NULL, thread1, (void*) 1);
     pthread_create_np(th2, NULL, thread2, (void*) 2);
+	pthread_create_np(th3, NULL, thread3, (void*) 3);
+	pthread_create_np(th4, NULL, thread4, (void*) 4);
 
 	pthread_start_np();
 }

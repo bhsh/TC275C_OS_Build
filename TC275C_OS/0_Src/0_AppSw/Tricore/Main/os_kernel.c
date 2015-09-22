@@ -30,6 +30,11 @@
 //! \cond IGNORE
 #define DISPATCH_WAIT     2
 #define DISPATCH_SIGNAL   3
+
+
+//#define OLD_AVALIABLE
+
+
 __syscallfunc(DISPATCH_WAIT)   int dispatch_wait(void *, void *);
 __syscallfunc(DISPATCH_SIGNAL) int dispatch_signal(void *, void *);
 //! \endcond
@@ -40,6 +45,7 @@ __syscallfunc(DISPATCH_SIGNAL) int dispatch_signal(void *, void *);
  static pthread_t blocked_threads;
 
  //! tw array hold condition and time for pthread_cond_timedwait_np.
+ 
  static struct {
          uint16_t ticks[PTHREAD_COND_TIMEDWAIT_SIZE];//!< time
          pthread_cond_t *cond[PTHREAD_COND_TIMEDWAIT_SIZE];//!< condition
@@ -67,7 +73,31 @@ __syscallfunc(DISPATCH_SIGNAL) int dispatch_signal(void *, void *);
 			    },
 			    0
 	        };
+	 
 
+uint16_t  stm_ticks[PTHREAD_COND_TIMEDWAIT_SIZE]=
+	{
+
+         		    USHRT_MAX, 
+				    USHRT_MAX, 
+				    USHRT_MAX, 
+				    USHRT_MAX,
+                    USHRT_MAX, 
+                    USHRT_MAX, 
+                    USHRT_MAX, 
+                    USHRT_MAX
+    };//!< time
+pthread_cond_t  *stm_cond[PTHREAD_COND_TIMEDWAIT_SIZE]=
+	{
+                    NULL,
+				    NULL,
+                    NULL,
+				    NULL,
+				    NULL,
+				    NULL,
+				    NULL,
+				    NULL
+    };//!< condition
 
 extern uint32 stm0CompareValue;
 inline void update_stm0_ticks(void)
@@ -90,8 +120,10 @@ inline void update_stm0_compare1_ticks(uint32 tick_ms)
     IfxPort_togglePin(&MODULE_P33, 10);
 }
 
+
+
 //#define NULL (void*)0
-static void list_append(pthread_t *head, pthread_t elem, pthread_t list_prev,
+inline void list_append(pthread_t *head, pthread_t elem, pthread_t list_prev,
         pthread_t elem_next) {
     assert(head != NULL);
     assert(elem != NULL);
@@ -329,6 +361,29 @@ void call_trap6_interface(void)
 
 }
 
+// dispatch_signal_in_tick function
+inline void dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
+
+	pthread_t thread, tmp;
+	int i;
+
+    tmp = NULL;
+    assert(blocked_threads_ptr);
+    thread = *blocked_threads_ptr;
+    while (thread != NULL) 
+	{
+        tmp = thread->next;
+        i = thread->priority;
+        list_append(&pthread_runnable_threads[i], thread, thread,
+                    pthread_runnable_threads[i]);
+        __putbit(1,(int*)&pthread_runnable,i);
+        if (thread == last_thread)
+            break;
+        thread = tmp;
+    }
+    *blocked_threads_ptr = tmp;
+}
+
 /*! Trap class 6 handler (System trap) called by
  \code __syscallfunc(DISPATCH_WAIT)  int dispatch_wait(void *, void *);
  \code __syscallfunc(DISPATCH_SIGNAL) int dispatch_signal(void *, void *);
@@ -501,6 +556,8 @@ extern pthread_t thread_2;
 pthread_t pthread_running_test2;
 
 uint16_t tick_count;
+uint16_t stm_tick_count;
+
 //inline void update_stm0_ticks(void);
  void stm_src0(void) {
 
@@ -588,8 +645,12 @@ uint16_t tick_count;
     }
 
 }
+
+
  void __interrupt(10) __vector_table(0) Ifx_STM0_Isr(void)
  {
+
+#ifdef OLD_AVALIABLE
  	//__svlcx();
  	//__isync();
  	//stm_src0();
@@ -608,7 +669,7 @@ uint16_t tick_count;
     pthread_cond_t *cond;
     //int Null_Pointer_test;
 
-    update_stm0_ticks();
+    update_stm0_ticks();  // update the tick, this line cannot be changed now.
     // STM tick from 0-0xffff every 1ms
     tick_count++;
 
@@ -618,8 +679,12 @@ uint16_t tick_count;
 #if 1
 
      cond = tw.cond[2]; // get current condition
-     tw.ticks[2]=USHRT_MAX;
-     tw.cond[2]=NULL;
+     tw.ticks[2]  =USHRT_MAX;
+     tw.cond[2]   =NULL;
+
+
+
+	 
      //tw.ticks[tw.idx] = USHRT_MAX; // free place in array
      //uint32_t cmp = ixminu16(tw.ticks, PTHREAD_COND_TIMEDWAIT_SIZE, &tw.idx);
 
@@ -648,13 +713,60 @@ uint16_t tick_count;
              " jla   stm_src0 \n"
    		    " rslcx"::"a"(pthread_running->next));
 #endif
- #if 0
+#if 0
        __asm( " svlcx   \t");
        __asm( " jla\t %0" : : "a" (stm_src0));
        __asm( " rslcx \t");
        __asm( " rfe");
- #endif
+#endif
    }
+
+#else 
+    
+    pthread_cond_t  *cond;
+	pthread_cond_t  *cond_buffer[PTHREAD_COND_TIMEDWAIT_SIZE];
+    uint32_t        index;
+	uint32_t        release_count=0;
+
+
+	stm_tick_count=(stm_tick_count+1)%0xFFFF;                               // os tick from 0-0xffff
+	update_stm0_ticks();                                                    // update the tick, this line cannot be changed now.
+	
+    for(index=0;index<PTHREAD_COND_TIMEDWAIT_SIZE;index++)
+    {
+      if(stm_ticks[index]==stm_tick_count)
+	  {		
+		cond_buffer[release_count] = stm_cond[index];
+		stm_ticks[index]            = USHRT_MAX;                             // free place in array 
+		
+		release_count++;
+	  }
+    }
+	
+   
+    //setup parameter and jump to trapsystem
+    if(release_count!=0)
+	{
+	   assert(cond_buffer[0] != NULL);
+	    if(release_count>1)
+ 	   {
+ 	        while(--release_count)
+ 		   {
+ 	          dispatch_signal_in_tick(&cond_buffer[release_count]->blocked_threads,NULL);
+ 		   }
+ 	   }
+	  assert(cond_buffer[0] != NULL);
+ 	
+	   cond   =cond_buffer[0];                        // get current condition
+       __asm( " mov.aa a4,%0 \n"
+              " mov.aa a5,%1 \n"
+              " mov d15,%2   \n"
+              " jg trapsystem  "
+              ::"a"(&cond->blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
+	 }
+
+#endif
+
  }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -666,10 +778,15 @@ uint16_t tick_count;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //! Wait on a condition
+	uint32_t current_id;
+	uint16_t new_tick_count;
+    uint16_t set_count;
 int pthread_cond_timedwait_np(pthread_cond_t *cond,//!< [in] condition pointer
         pthread_mutex_t *mutex,//!< [in] mutex pointer
         uint16_t reltime) //!< [in] relative time are the relative time STM_TIM4 ticks.NOT PORTABLE.
 {
+
+#ifdef OLD_AVALIABLE
     assert(cppn()==0); // CCPN must be 0, pthread_create cannot be called from ISR
     assert(cond != NULL);
     assert(mutex != NULL);
@@ -703,6 +820,32 @@ int pthread_cond_timedwait_np(pthread_cond_t *cond,//!< [in] condition pointer
     __swap(&mutex->lock, true);
     mutex->owner = pthread_running;
     return 0;
+#else
+
+    assert(cppn()==0); // CCPN must be 0, pthread_create cannot be called from ISR
+    assert(cond != NULL);
+    assert(mutex != NULL);
+
+
+			
+    if (USHRT_MAX != ixmaxu16(tw.ticks, PTHREAD_COND_TIMEDWAIT_SIZE, &current_id))
+        return -1; // no free
+			
+	new_tick_count           = stm_tick_count + 1;
+	set_count                = ((uint16_t)(new_tick_count + reltime))%0xFFFF;  // set_count ranges from 0-0xFFFE
+	
+    stm_ticks[current_id]    = set_count;                                      // load the current tick set(lconfig 1.)
+    stm_cond[current_id]     = cond;                                           // load the cond.(lconfig 2.)
+
+	
+    __swap(&mutex->lock, false);
+    int err = dispatch_wait(&cond->blocked_threads, NULL);// swap out with mutex unlocked
+    __swap(&mutex->lock, true);
+    mutex->owner = pthread_running;
+
+    return 0;
+#endif
+
 }
 
 //! STM interupts to manage timed wait conditions
@@ -718,3 +861,6 @@ void __interrupt(20) __vector_table(0) Ifx_STM0_compare1_Isr(void)
 
  	update_stm0_compare1_ticks(1000);// Unit:ms ,the max is 0xFFFFFFFF/100000=42949ms(42.949s);
 }
+
+
+
