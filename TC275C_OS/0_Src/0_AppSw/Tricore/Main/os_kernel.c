@@ -104,7 +104,7 @@ inline void update_stm0_ticks(void)
 {
     uint32 stmTicks;
 
-    stmTicks= (uint32)(stm0CompareValue*10);
+    stmTicks= (uint32)(stm0CompareValue*1);
     IfxStm_updateCompare (&MODULE_STM0, IfxStm_Comparator_0, IfxStm_getCompare (&MODULE_STM0, IfxStm_Comparator_0) + stmTicks);
     IfxPort_togglePin(&MODULE_P33, 8);
 }
@@ -737,7 +737,7 @@ uint16_t stm_tick_count;
       if(stm_ticks[index]==stm_tick_count)
 	  {		
 		cond_buffer[release_count] = stm_cond[index];
-		stm_ticks[index]            = USHRT_MAX;                             // free place in array 
+		stm_ticks[index]           = USHRT_MAX;                             // free place in array 
 		
 		release_count++;
 	  }
