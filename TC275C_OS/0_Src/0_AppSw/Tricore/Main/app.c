@@ -674,12 +674,12 @@ void thread24(void* arg) {
 
 void thread25(void* arg) {
     for (;;) {
-        //pthread_mutex_lock(&mutex25);
+        pthread_mutex_lock(&mutex25);
         printf("Thread %d blocked\n", (int) arg);
         thread_test_count_TASK25++;
-        //pthread_cond_timedwait_np(&cond25, &mutex25, 320,(int) arg);
+        pthread_cond_timedwait_np(&cond25, &mutex25, 320,(int) arg);
         printf("Thread %d continued\n", (int) arg);
-        //pthread_mutex_unlock(&mutex25);
+        pthread_mutex_unlock(&mutex25);
     }
 }
 void thread26(void* arg) {
@@ -798,7 +798,9 @@ void start_core0_os(void) {
            "Shows how to block a thread until the condition is signaled or until a timeout period elapsed.\n");
 
     pthread_create_np(th0, NULL, idle, (void*) 0);
-	
+
+	//pthread_create_np(th25, NULL, thread25, (void*) 25);
+
     pthread_create_np(th1, NULL, thread1, (void*) 1);
     pthread_create_np(th2, NULL, thread2, (void*) 2);
 	pthread_create_np(th3, NULL, thread3, (void*) 3);
@@ -827,7 +829,6 @@ void start_core0_os(void) {
 	pthread_create_np(th22, NULL, thread22, (void*) 22);	
 	pthread_create_np(th23, NULL, thread23, (void*) 23);
 	pthread_create_np(th24, NULL, thread24, (void*) 24);
-#if 0	
     pthread_create_np(th25, NULL, thread25, (void*) 25);
 	pthread_create_np(th26, NULL, thread26, (void*) 26);
 	pthread_create_np(th27, NULL, thread27, (void*) 27);
@@ -836,8 +837,8 @@ void start_core0_os(void) {
 	pthread_create_np(th30, NULL, thread30, (void*) 30);
 
 
-    pthread_create_np(th31, NULL, thread7, (void*) 31);
-#endif
+    pthread_create_np(th31, NULL, thread31, (void*) 31);
+//#endif
 
 
 	pthread_start_np();

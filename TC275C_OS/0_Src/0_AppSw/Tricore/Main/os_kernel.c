@@ -196,7 +196,6 @@ inline void list_append(pthread_t *head, pthread_t elem, pthread_t list_prev,
         list->prev = list_prev;
     }
 }
-
 static void list_delete_first(pthread_t *head) {
     assert(head);
 

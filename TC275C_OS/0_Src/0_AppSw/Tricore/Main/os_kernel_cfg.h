@@ -9,7 +9,7 @@
 #define OS_KERNEL_CFG_H_
 
 
-#define PTHREAD_PRIO_MAX 5                //!< Maximal priority thread level [0,31]
+#define PTHREAD_PRIO_MAX 32               //!< Maximal priority thread level [0,31]
 #define PTHREAD_DEFAULT_STACK_SIZE 256/4  //!< Default stack size is 256 bytes
 #define PTHREAD_MEMORY_QUALIFIER          //!< None or global a8, a9 which are reserved for RTOS
 #define PTHREAD_DEFAULT_ATTR {SUPER, CALL_DEPTH_OVERFLOW_AT_64, PTHREAD_DEFAULT_STACK_SIZE} //!< Default thread attributes: Supervisor mode, call depth = 64, default stack size
