@@ -209,6 +209,7 @@ void STM2_Demo_init(void)
 
 }
 
+#if 0
 IFX_INTERRUPT(Ifx_STM2_Isr,0,IFX_CFG_ISR_PRIORITY_STM2_COMPARE0)
 {
     uint32 stmTicks;
@@ -216,6 +217,7 @@ IFX_INTERRUPT(Ifx_STM2_Isr,0,IFX_CFG_ISR_PRIORITY_STM2_COMPARE0)
     IfxStm_updateCompare (&MODULE_STM2, IfxStm_Comparator_0, IfxStm_getCompare (&MODULE_STM2, IfxStm_Comparator_0) + stmTicks);
     //IfxPort_togglePin(&MODULE_P33, 10);
 }
+#endif
 
 int cpu0_software_interrupt_test_in_interrupt;
 int cpu0_software_interrupt_test_in_interrupt1;
@@ -280,7 +282,7 @@ int core0_main (void)
     STM_Demo_init();
     //STM_Demo_init_stm0_compare1();
     STM1_Demo_init();
-    //STM2_Demo_init();
+    STM2_Demo_init();
 
     /* Enable the global interrupts of this CPU */
     IfxCpu_enableInterrupts();

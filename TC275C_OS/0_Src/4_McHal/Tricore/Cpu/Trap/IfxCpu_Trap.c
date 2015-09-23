@@ -137,13 +137,7 @@ void IfxCpu_Trap_assertion(uint32 tin)
 }
 extern void IfxCpu_Trap_systemCall_Cpu0(uint32 tin);
 extern void IfxCpu_Trap_systemCall_Cpu1(uint32 tin);
-
-void IfxCpu_Trap_systemCall_Cpu2(uint32 tin)
-{
-    trapWatch = IfxCpu_Trap_extractTrapInfo(IfxCpu_Trap_Class_systemCall, tin);
-    IFX_CFG_CPU_TRAP_SYSCALL_CPU2_HOOK(trapWatch);
-    __asm("rfe");
-}
+extern void IfxCpu_Trap_systemCall_Cpu2(uint32 tin);
 
 
 void IfxCpu_Trap_systemCall_Cpu3(uint32 tin)

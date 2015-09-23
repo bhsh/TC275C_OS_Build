@@ -23,7 +23,7 @@ int core2_main (void)
      * */
     IfxScuWdt_disableCpuWatchdog (IfxScuWdt_getCpuWatchdogPassword ());
 
-
+    start_core2_os();
     while (1)
     {
         // for(i=0;i<1000;i++)

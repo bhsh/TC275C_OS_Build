@@ -82,7 +82,7 @@ int core1_os_pthread_create_np(pthread_t, const pthread_attr_t *, void(*)(void *
 
 void start_core0_os(void);
 void start_core1_os(void);
-
+void start_core2_os(void);
 
 inline uint32_t os_getCoreId(void)
 {
@@ -97,16 +97,17 @@ inline void pthread_start_np(void) {
     extern  uint32_t pthread_runnable;
     extern  pthread_t pthread_running;
     extern  pthread_t pthread_runnable_threads[PTHREAD_PRIO_MAX];
-    extern  pthread_t thread_test;
 
 	extern  uint32_t  core1_os_pthread_runnable;
     extern  pthread_t core1_os_pthread_running;
     extern  pthread_t core1_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
-    extern  pthread_t core1_os_thread_test;
+
+	extern  uint32_t  core2_os_pthread_runnable;
+    extern  pthread_t core2_os_pthread_running;
+    extern  pthread_t core2_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
 
     pthread_t thread;
-
-    
+ 
 	if(os_getCoreId()==0)
 	{
       assert(pthread_runnable != 0);
@@ -135,7 +136,20 @@ inline void pthread_start_np(void) {
       __mtcr(CPU_PCXI,  thread->lcx);
       __rslcx();         // restore the lower context
 	}
-	
+	else if(os_getCoreId()==2)
+	{
+      assert(core2_os_pthread_runnable != 0);
+      thread = core2_os_pthread_runnable_threads[31 - __clz(core2_os_pthread_runnable)]; //  get ready thread with highest priority ready
+      assert(thread);
+      assert(thread->lcx);
+    
+      core2_os_pthread_running = thread;//
+      __mtcr(CPU_PSW, 0x00000980);        /* clear PSW.IS */
+
+      __dsync();
+      __mtcr(CPU_PCXI,  thread->lcx);
+      __rslcx();         // restore the lower context
+	}	
     __asm(" mov d2,#0"); // the return value is 2
     __asm(" rfe");       // restore the upper context
 }
