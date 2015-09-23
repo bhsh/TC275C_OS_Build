@@ -39,9 +39,9 @@ __syscallfunc(DISPATCH_WAIT)   int dispatch_wait(void *, void *);
 __syscallfunc(DISPATCH_SIGNAL) int dispatch_signal(void *, void *);
 //! \endcond
 
-uint32_t  pthread_runnable;
-pthread_t pthread_running;
-pthread_t pthread_runnable_threads[PTHREAD_PRIO_MAX];
+uint32_t  core0_os_pthread_runnable;
+pthread_t core0_os_pthread_running;
+pthread_t core0_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
 static pthread_t blocked_threads;
 
  
@@ -302,9 +302,9 @@ extern uint32 stm1CompareValue;
 extern uint32 stm2CompareValue;
 extern uint32 stm0CompareValue2;
 
-extern uint32_t  pthread_runnable;              //! Currently running thread
-extern pthread_t pthread_running;              //! Array of linked lists which holds runnable threads
-extern pthread_t pthread_runnable_threads[PTHREAD_PRIO_MAX];
+extern uint32_t  core0_os_pthread_runnable;              //! Currently running thread
+extern pthread_t core0_os_pthread_running;              //! Array of linked lists which holds runnable threads
+extern pthread_t core0_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
 
 extern uint32_t  core1_os_pthread_runnable;    //! Currently running thread
 extern pthread_t core1_os_pthread_running;    //! Array of linked lists which holds runnable threads
@@ -421,9 +421,9 @@ int pthread_create_np(pthread_t thread, //!< [in] thread control block pointer.
 	
     if(os_getCoreId()==0)
     {   
-       list_append(&pthread_runnable_threads[i], thread, thread,
-                  pthread_runnable_threads[i]);
-       __putbit(1,(int*)&pthread_runnable,i); // mark current thread ready
+       list_append(&core0_os_pthread_runnable_threads[i], thread, thread,
+                  core0_os_pthread_runnable_threads[i]);
+       __putbit(1,(int*)&core0_os_pthread_runnable,i); // mark current thread ready
     }
     else if(os_getCoreId()==1)
     {
@@ -447,13 +447,13 @@ int pthread_mutex_lock(pthread_mutex_t *mutex) //!<  [in] mutex pointer
 
 	if(os_getCoreId()==0)
 	{
-        if (mutex->owner == pthread_running) // errno = EDEADLK
+        if (mutex->owner == core0_os_pthread_running) // errno = EDEADLK
             return -1;
 
         while (true == __swap(&mutex->lock, true)) { // swap out if already looked by another thread
              dispatch_wait(&mutex->blocked_threads, NULL); // block this thread
         }
-        mutex->owner = pthread_running;
+        mutex->owner = core0_os_pthread_running;
 	}
 	else if(os_getCoreId()==1)
 	{
@@ -487,7 +487,7 @@ int pthread_mutex_unlock(pthread_mutex_t *mutex) //!<  [in] mutex pointer
 
 	if(os_getCoreId()==0)
 	{
-        if (mutex->owner != pthread_running) // errno = EPERM
+        if (mutex->owner != core0_os_pthread_running) // errno = EPERM
              return -1;
 
         pthread_t threads = mutex->blocked_threads;
@@ -537,7 +537,7 @@ int pthread_cond_wait(pthread_cond_t *cond,//!< [in] condition pointer
 
     dispatch_wait(&cond->blocked_threads, NULL);// add this thread to the list of blocked threads by this cond
     mutex->lock = true;
-    mutex->owner = pthread_running;
+    mutex->owner = core0_os_pthread_running;
     return 0;
 }
 
@@ -575,11 +575,11 @@ int pthread_cond_broadcast(pthread_cond_t *cond) //!< [in] condition pointer
 void trap6_call(void) {
 #if 0
     pthread_t thread;
-    pthread_running->lcx = __mfcr(CPU_PCXI);
-    thread = pthread_running->next; // get next thread with same priority
-    pthread_runnable_threads[thread->priority] = thread;
+    core0_os_pthread_running->lcx = __mfcr(CPU_PCXI);
+    thread = core0_os_pthread_running->next; // get next thread with same priority
+    core0_os_pthread_runnable_threads[thread->priority] = thread;
 
-    pthread_running = thread;
+    core0_os_pthread_running = thread;
     __dsync(); // required before PCXI manipulation (see RTOS porting guide)
     __mtcr(CPU_PCXI, thread->lcx);
     __asm("ji a11");
@@ -594,7 +594,7 @@ void __trap( 6 ) trap6( int a, int b ) // trap class 6 handler
 
       __asm(  " svlcx        \n"
               " jla trap6_call \n"
-    		  " rslcx"::"a"(pthread_running->next));
+    		  " rslcx"::"a"(core0_os_pthread_running->next));
 
    /* switch( tin )
     {
@@ -650,9 +650,9 @@ inline void dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t la
         i = thread->priority;
 		if(os_getCoreId()==0)
 		{
-          list_append(&pthread_runnable_threads[i], thread, thread,
-                      pthread_runnable_threads[i]);
-          __putbit(1,(int*)&pthread_runnable,i);
+          list_append(&core0_os_pthread_runnable_threads[i], thread, thread,
+                      core0_os_pthread_runnable_threads[i]);
+          __putbit(1,(int*)&core0_os_pthread_runnable,i);
 		}
 		else if(os_getCoreId()==1)
 	    {
@@ -680,16 +680,16 @@ static void trapsystem(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
 
     if(os_getCoreId()==0)
 	{
-        pthread_running->lcx = __mfcr(CPU_PCXI);
-        i = pthread_running->priority;
-        assert(pthread_runnable_threads[i] == pthread_running);
+        core0_os_pthread_running->lcx = __mfcr(CPU_PCXI);
+        i = core0_os_pthread_running->priority;
+        assert(core0_os_pthread_runnable_threads[i] == core0_os_pthread_running);
         switch (tin) 
 		{
           case DISPATCH_WAIT: // _swap_out _pthread_running
              {
-                list_delete_first(&pthread_runnable_threads[i]);
-                list_append(blocked_threads_ptr, pthread_running, pthread_running, NULL);
-                __putbit(neza(pthread_runnable_threads[i]),(int*)&pthread_runnable,i);
+                list_delete_first(&core0_os_pthread_runnable_threads[i]);
+                list_append(blocked_threads_ptr, core0_os_pthread_running, core0_os_pthread_running, NULL);
+                __putbit(neza(core0_os_pthread_runnable_threads[i]),(int*)&core0_os_pthread_runnable,i);
 		     }
              break;
           case DISPATCH_SIGNAL:
@@ -701,9 +701,9 @@ static void trapsystem(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
 			    {
                      tmp = thread->next;
                      i = thread->priority;
-                     list_append(&pthread_runnable_threads[i], thread, thread,
-                        pthread_runnable_threads[i]);
-                     __putbit(1,(int*)&pthread_runnable,i);
+                     list_append(&core0_os_pthread_runnable_threads[i], thread, thread,
+                        core0_os_pthread_runnable_threads[i]);
+                     __putbit(1,(int*)&core0_os_pthread_runnable,i);
                      if (thread == last_thread) break;
                      thread = tmp;
                 }
@@ -1016,7 +1016,7 @@ int pthread_cond_timedwait_np(pthread_cond_t *cond,//!< [in] condition pointer
       __swap(&mutex->lock, false);
       int err = dispatch_wait(&cond->blocked_threads, NULL);// swap out with mutex unlocked
       __swap(&mutex->lock, true);
-      mutex->owner = pthread_running;
+      mutex->owner = core0_os_pthread_running;
 	}
 	else if(os_getCoreId()==1)
 	{

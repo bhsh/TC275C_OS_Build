@@ -77,9 +77,6 @@ typedef struct {
 
 int pthread_create_np(pthread_t, const pthread_attr_t *, void(*)(void *),
         void *);
-int core1_os_pthread_create_np(pthread_t, const pthread_attr_t *, void(*)(void *),
-        void *);
-
 void start_core0_os(void);
 void start_core1_os(void);
 void start_core2_os(void);
@@ -89,14 +86,15 @@ inline uint32_t os_getCoreId(void)
    uint32_t core_id;
 
    core_id=__mfcr(CPU_CORE_ID);
+   
    return (core_id&0x7);
 }
 
 //! Start threads
 inline void pthread_start_np(void) {
-    extern  uint32_t pthread_runnable;
-    extern  pthread_t pthread_running;
-    extern  pthread_t pthread_runnable_threads[PTHREAD_PRIO_MAX];
+    extern  uint32_t  core0_os_pthread_runnable;
+    extern  pthread_t core0_os_pthread_running;
+    extern  pthread_t core0_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
 
 	extern  uint32_t  core1_os_pthread_runnable;
     extern  pthread_t core1_os_pthread_running;
@@ -110,12 +108,12 @@ inline void pthread_start_np(void) {
  
 	if(os_getCoreId()==0)
 	{
-      assert(pthread_runnable != 0);
-      thread = pthread_runnable_threads[31 - __clz(pthread_runnable)]; //  get ready thread with highest priority ready
+      assert(core0_os_pthread_runnable != 0);
+      thread = core0_os_pthread_runnable_threads[31 - __clz(core0_os_pthread_runnable)]; //  get ready thread with highest priority ready
       assert(thread);
       assert(thread->lcx);
     
-      pthread_running = thread;//
+      core0_os_pthread_running = thread;//
       __mtcr(CPU_PSW, 0x00000980);        /* clear PSW.IS */
 
       __dsync();
@@ -214,68 +212,6 @@ inline uint32_t neza(void *p) {
     int ret;
     __asm("nez.a %0,%1":"=d"(ret):"a"(p));
     return ret;
-}
-
-//! Find the maximum value in an uint16_t array
-inline uint16_t ixmaxu16(uint16_t *array, //!< [in] array pointer
-        unsigned n, //!< [in] number of elements
-        uint32_t *indexp) //!< [out] index to maximum value
-{
-    uint16_t value;
-    uint64_t e;
-
-    __asm(""
-            " jz.t   %3:0,*+12  ; if n is odd jump +12              \n"
-            " mov16  %1.0,#1    ; maximum index 0, working index 1  \n"
-            " ld.hu  %1.1,[%2+] ; maximum value is 1st element      \n"
-            " j16    *+6        ; jump +6                           \n"
-            " mov16  %1.0,#0    ; maximum index 0, working index 0  \n"
-            " mov16  %1.1,#0    ; maximum value is UINT_MIN         \n"
-            " sh     %3,#-1     ; n = n/2                           \n"
-            " mov.a  a15,%3     ;                                   \n"
-            " add.a  a15,#-1    ; n -=1                             \n"
-            " ld.w   d15,[%2+]  ; Load two next array elements      \n"
-            " ixmax.u  %1,%1,d15  ; Find max (IP pipeline)          \n"
-            " ld16.w d15,[%2+]  ; Load two next array elements (LS) \n"
-            " loop   a15,*-6    ; loop (LP)                         \n"
-            " jz16.a %4,*+8     ; if indexp==NULL jump +8           \n"
-            " extr.u %1.0,%1.0,#16,#16  ; extract index             \n"
-            " st16.h [%4],%1.0  ; *indexp = maximum index           \n"
-            " mov    %0,%1.1    ; value = maximum value             \n"
-            :"=d"(value),"=&e"(e):"a"(array),"d"(n),"a"(indexp):"a15","d15");
-    return value;
-}
-
-
-
-//! Find the minimum value in an uint16_t array
-inline uint16_t ixminu16(uint16_t *array, //!< [in] array pointer
-        unsigned n, //!< [in] number of elements
-        uint32_t *indexp) //!< [out] index to maximum value
-{
-    uint16_t value;
-    uint64_t e;
-
-    __asm(""
-            " jz.t   %3:0,*+12  ; if n is odd jump +12              \n"
-            " mov16  %1.0,#1    ; minimum index 0, working index 1  \n"
-            " ld.hu  %1.1,[%2+] ; minimum value is 1st element      \n"
-            " j16    *+6        ; jump +6                           \n"
-            " mov16  %1.0,#0    ; minimum index 0, working index 0  \n"
-            " mov16  %1.1,#-1   ; minimum value is UINT_MAX         \n"
-            " sh     %3,#-1     ; n = n/2                           \n"
-            " mov.a  a15,%3     ;                                   \n"
-            " add.a  a15,#-1    ; n -=1                             \n"
-            " ld.w   d15,[%2+]  ; Load two next array elements      \n"
-            " ixmin.u %1,%1,d15  ; Find min (IP pipeline)           \n"
-            " ld16.w d15,[%2+]  ; Load two next array elements (LS) \n"
-            " loop   a15,*-6    ; loop (LP)                         \n"
-            " jz16.a %4,*+8     ; if indexp==NULL jump +8           \n"
-            " extr.u %1.0,%1.0,#16,#16  ; extract index             \n"
-            " st16.h [%4],%1.0  ; *indexp = miniumum index          \n"
-            " mov    %0,%1.1    ; value = minimum value             \n"
-            :"=d"(value),"=&e"(e):"a"(array),"d"(n),"a"(indexp):"a15","d15");
-    return value;
 }
 
 /* The functions are called by app */
