@@ -1,10 +1,12 @@
-/*
- * os_kernel.c
- *
- *  Created on: Aug 26, 2015
- *      Author: tz68d9
- */
-
+/*-----------------------------------------------------------------------------------
+|
+|   File name:    os_kernel.c
+|   Created on:   Aug 26, 2015
+|   Author:       Yanpeng.xi
+|   Description:
+|                 Multicore OS based on Aurix 275C app kit and TASKING 4.3 compiler
+|
+--------------------------------------------------------------------------------------*/
 
 #include "os_kernel.h"
 #include "_Reg/IfxSrc_reg.h"
