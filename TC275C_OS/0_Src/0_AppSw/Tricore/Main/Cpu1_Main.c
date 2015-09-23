@@ -7,6 +7,8 @@
 #include "SysSe/Bsp/Bsp.h"
 
 
+#include "os_kernel.h"
+
 extern unsigned long lock;
 extern unsigned long mask;
 extern App_Cpu0 g_AppCpu0;
@@ -19,6 +21,9 @@ extern App_Cpu0 g_AppCpu0;
  *
  *
  *********************************************************************************/
+
+
+
 int core1_main (void)
 {
 	//test_fun();
@@ -29,15 +34,11 @@ int core1_main (void)
      * !!WATCHDOG1 IS DISABLED HERE!!
      * Enable the watchdog in the demo if it is required and also service the watchdog periodically
      * */
-    IfxScuWdt_disableCpuWatchdog (IfxScuWdt_getCpuWatchdogPassword ());
+   IfxScuWdt_disableCpuWatchdog (IfxScuWdt_getCpuWatchdogPassword ());
 
-   //while (1)
-    {
-    	//synchronizeCore0Core1();
-    	//IfxPort_togglePin(&MODULE_P02, 1);
-    }
-
-   // while(lock== 0) requestLock(&lock, mask);
+  
+   start_core1_os();
+   
    while(1)
    {
      // for(i=0;i<1000;i++)
@@ -45,7 +46,7 @@ int core1_main (void)
        //IfxPort_togglePin(&MODULE_P02, 1);
        //IfxStm_waitTicks(&MODULE_STM1, g_AppCpu0.info.stmFreq/100);
      // }
-       //IfxPort_togglePin(&MODULE_P33, 10);
+       IfxPort_togglePin(&MODULE_P33, 10);
        IfxStm_waitTicks(&MODULE_STM0, 20000000);
       //releaseLock(&lock, mask);
    }

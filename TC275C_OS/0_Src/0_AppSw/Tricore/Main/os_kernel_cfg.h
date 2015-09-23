@@ -31,6 +31,8 @@ typedef unsigned long long uint64_t;
 /** \\brief  FE2C, , type: Ifx_CPU_ICR, Interrupt Control Register */
 #define CPU_ICR 0xFE2C
 
+#define CPU_CORE_ID 0xFE1C
+
 #define false 0
 #define true  1
 

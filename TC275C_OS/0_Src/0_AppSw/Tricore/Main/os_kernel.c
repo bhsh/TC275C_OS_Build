@@ -44,6 +44,12 @@ __syscallfunc(DISPATCH_SIGNAL) int dispatch_signal(void *, void *);
  pthread_t pthread_runnable_threads[PTHREAD_PRIO_MAX];
  static pthread_t blocked_threads;
 
+ 
+ uint32_t core1_os_pthread_runnable;
+ pthread_t core1_os_pthread_running;
+ pthread_t core1_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
+ static pthread_t core1_os_blocked_threads;
+
  //! tw array hold condition and time for pthread_cond_timedwait_np.
  
  static struct {
@@ -154,14 +160,104 @@ pthread_cond_t  *stm_cond[PTHREAD_COND_TIMEDWAIT_SIZE]=
 
     };//!< condition
 
+uint16_t  core1_os_stm_ticks[PTHREAD_COND_TIMEDWAIT_SIZE]=
+	{
+         		    USHRT_MAX,                      // task 0 
+				    USHRT_MAX,                      // task 1 
+				    USHRT_MAX,                      // task 2
+				    USHRT_MAX,                      // task 3
+                    USHRT_MAX,                      // task 4
+                    USHRT_MAX,                      // task 5
+                    USHRT_MAX,                      // task 6
+                    USHRT_MAX,                      // task 7
+                    USHRT_MAX,                      // task 8                      
+				    USHRT_MAX,                      // task 9                      
+	         		USHRT_MAX,                      // task 10 
+	         		
+				    USHRT_MAX,                      // task 11 
+				    USHRT_MAX,                      // task 12
+				    USHRT_MAX,                      // task 13
+                    USHRT_MAX,                      // task 14
+                    USHRT_MAX,                      // task 15
+                    USHRT_MAX,                      // task 16
+                    USHRT_MAX,                      // task 17
+                    USHRT_MAX,                      // task 18                      
+				    USHRT_MAX,                      // task 19  
+				    USHRT_MAX,                      // task 20 
+				    
+				    USHRT_MAX,                      // task 21 
+				    USHRT_MAX,                      // task 22
+				    USHRT_MAX,                      // task 23
+                    USHRT_MAX,                      // task 24
+                    USHRT_MAX,                      // task 25
+                    USHRT_MAX,                      // task 26
+                    USHRT_MAX,                      // task 27
+                    USHRT_MAX,                      // task 28                      
+				    USHRT_MAX,                      // task 29    
+
+					USHRT_MAX,                      // task 30                      
+				    USHRT_MAX,                      // task 31
+				    
+    };//!< time
+pthread_cond_t  *core1_os_stm_cond[PTHREAD_COND_TIMEDWAIT_SIZE]=
+	{
+          		    NULL,                      // task 0 
+				    NULL,                      // task 1 
+				    NULL,                      // task 2
+				    NULL,                      // task 3
+                    NULL,                      // task 4
+                    NULL,                      // task 5
+                    NULL,                      // task 6
+                    NULL,                      // task 7
+                    NULL,                      // task 8                      
+				    NULL,                      // task 9                      
+	         		NULL,                      // task 10 
+	         		
+				    NULL,                      // task 11 
+				    NULL,                      // task 12
+				    NULL,                      // task 13
+                    NULL,                      // task 14
+                    NULL,                      // task 15
+                    NULL,                      // task 16
+                    NULL,                      // task 17
+                    NULL,                      // task 18                      
+				    NULL,                      // task 19  
+				    NULL,                      // task 20 
+				    
+				    NULL,                      // task 21 
+				    NULL,                      // task 22
+				    NULL,                      // task 23
+                    NULL,                      // task 24
+                    NULL,                      // task 25
+                    NULL,                      // task 26
+                    NULL,                      // task 27
+                    NULL,                      // task 28                      
+				    NULL,                      // task 29    
+
+					NULL,                      // task 30                      
+				    NULL,                      // task 31
+
+    };//!< condition
+
 extern uint32 stm0CompareValue;
+extern uint32 stm1CompareValue;
 inline void update_stm0_ticks(void)
 {
     uint32 stmTicks;
 
     stmTicks= (uint32)(stm0CompareValue*1);
     IfxStm_updateCompare (&MODULE_STM0, IfxStm_Comparator_0, IfxStm_getCompare (&MODULE_STM0, IfxStm_Comparator_0) + stmTicks);
-    IfxPort_togglePin(&MODULE_P33, 8);
+    //IfxPort_togglePin(&MODULE_P33, 8);
+}
+
+inline void update_stm1_ticks(void)
+{
+    uint32 stmTicks;
+	
+    stmTicks= (uint32)(stm1CompareValue * 1);
+    IfxStm_updateCompare (&MODULE_STM1, IfxStm_Comparator_0, IfxStm_getCompare (&MODULE_STM1, IfxStm_Comparator_0) + stmTicks);
+    //IfxPort_togglePin(&MODULE_P33, 9);
+
 }
 extern uint32 stm0CompareValue2;
 
@@ -248,41 +344,50 @@ int pthread_create_np(pthread_t thread, //!< [in] thread control block pointer.
     cx->l.pc = start_routine; // init new task start address
     cx->l.a4 = arg;
     thread->arg = arg;
-#if 0
-    if((uint32_t)(arg)==1)
-    {
-    	thread_1=thread;
-    }
-    if((uint32_t)(arg)==2)
-    {
-    	thread_2=thread;
-    }
-    uint32_t i = thread->priority;
-    pthread_runnable_threads[i]=thread_2;
-#endif
 
 
     uint32_t i = thread->priority;
-    list_append(&pthread_runnable_threads[i], thread, thread,
-            pthread_runnable_threads[i]);
-    __putbit(1,(int*)&pthread_runnable,i); // mark current thread ready
-
+    if(os_getCoreId()==0)
+    {   
+       list_append(&pthread_runnable_threads[i], thread, thread,
+                  pthread_runnable_threads[i]);
+       __putbit(1,(int*)&pthread_runnable,i); // mark current thread ready
+    }
+    else if(os_getCoreId()==1)
+    {
+       list_append(&core1_os_pthread_runnable_threads[i], thread, thread,
+                  core1_os_pthread_runnable_threads[i]);
+       __putbit(1,(int*)&core1_os_pthread_runnable,i); // mark current thread ready
+    }
     return 0;
 }
-
 
 int pthread_mutex_lock(pthread_mutex_t *mutex) //!<  [in] mutex pointer
 {
     assert(cppn()==0); // CCPN must be 0, function cannot be called from ISR
     assert (mutex != NULL); // errno = EINVAL, return -1
 
-    if (mutex->owner == pthread_running) // errno = EDEADLK
-        return -1;
+	if(os_getCoreId()==0)
+	{
+        if (mutex->owner == pthread_running) // errno = EDEADLK
+            return -1;
 
-    while (true == __swap(&mutex->lock, true)) { // swap out if already looked by another thread
-        dispatch_wait(&mutex->blocked_threads, NULL); // block this thread
-    }
-    mutex->owner = pthread_running;
+        while (true == __swap(&mutex->lock, true)) { // swap out if already looked by another thread
+             dispatch_wait(&mutex->blocked_threads, NULL); // block this thread
+        }
+        mutex->owner = pthread_running;
+	}
+	else if(os_getCoreId()==1)
+	{
+
+        if (mutex->owner == core1_os_pthread_running) // errno = EDEADLK
+            return -1;
+
+        while (true == __swap(&mutex->lock, true)) { // swap out if already looked by another thread
+             dispatch_wait(&mutex->blocked_threads, NULL); // block this thread
+        }
+        mutex->owner = core1_os_pthread_running;
+	}
     return 0;
 }
 
@@ -292,15 +397,32 @@ int pthread_mutex_unlock(pthread_mutex_t *mutex) //!<  [in] mutex pointer
     assert(cppn()==0); // CCPN must be 0, function cannot be called from ISR
     assert (mutex != NULL); // errno = EINVAL, return -1
 
-    if (mutex->owner != pthread_running) // errno = EPERM
-        return -1;
+	if(os_getCoreId()==0)
+	{
+        if (mutex->owner != pthread_running) // errno = EPERM
+             return -1;
 
-    pthread_t threads = mutex->blocked_threads;
-    mutex->owner = NULL;
-    mutex->lock = false;
-    mutex->blocked_threads = NULL;
-    if (threads != NULL)
-        dispatch_signal(&threads, NULL);
+        pthread_t threads = mutex->blocked_threads;
+        mutex->owner = NULL;
+        mutex->lock = false;
+        mutex->blocked_threads = NULL;
+        if (threads != NULL)
+            dispatch_signal(&threads, NULL);
+	}
+	else if(os_getCoreId()==1)
+	{
+
+        if (mutex->owner != core1_os_pthread_running) // errno = EPERM
+             return -1;
+
+        pthread_t threads = mutex->blocked_threads;
+        mutex->owner = NULL;
+        mutex->lock = false;
+        mutex->blocked_threads = NULL;
+        if (threads != NULL)
+            dispatch_signal(&threads, NULL);
+	}
+
     return 0;
 }
 
@@ -428,9 +550,18 @@ inline void dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t la
 	{
         tmp = thread->next;
         i = thread->priority;
-        list_append(&pthread_runnable_threads[i], thread, thread,
-                    pthread_runnable_threads[i]);
-        __putbit(1,(int*)&pthread_runnable,i);
+		if(os_getCoreId()==0)
+		{
+          list_append(&pthread_runnable_threads[i], thread, thread,
+                      pthread_runnable_threads[i]);
+          __putbit(1,(int*)&pthread_runnable,i);
+		}
+		else if(os_getCoreId()==1)
+	    {
+          list_append(&core1_os_pthread_runnable_threads[i], thread, thread,
+                      core1_os_pthread_runnable_threads[i]);
+          __putbit(1,(int*)&core1_os_pthread_runnable,i);
+		}
         if (thread == last_thread)
             break;
         thread = tmp;
@@ -442,7 +573,6 @@ inline void dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t la
  \code __syscallfunc(DISPATCH_WAIT)  int dispatch_wait(void *, void *);
  \code __syscallfunc(DISPATCH_SIGNAL) int dispatch_signal(void *, void *);
  */
-pthread_t pthread_runnable_threads_test;
 static void trapsystem(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
     int tin, i;
     pthread_t thread, tmp;
@@ -451,36 +581,78 @@ static void trapsystem(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
             " svlcx        "
             : "=d"(tin)); // put d15 in C variable tin
 
-    pthread_running->lcx = __mfcr(CPU_PCXI);
-    i = pthread_running->priority;
-    assert(pthread_runnable_threads[i] == pthread_running);
-    switch (tin) {
-    case DISPATCH_WAIT: // _swap_out _pthread_running
-        list_delete_first(&pthread_runnable_threads[i]);
-        pthread_runnable_threads_test=pthread_runnable_threads[i];
-        list_append(blocked_threads_ptr, pthread_running, pthread_running, NULL);
-        __putbit(neza(pthread_runnable_threads[i]),(int*)&pthread_runnable,i);
-        break;
-    case DISPATCH_SIGNAL:
-        tmp = NULL;
-        assert(blocked_threads_ptr);
-        thread = *blocked_threads_ptr;
-        while (thread != NULL) {
-            tmp = thread->next;
-            i = thread->priority;
-            list_append(&pthread_runnable_threads[i], thread, thread,
-                    pthread_runnable_threads[i]);
-            __putbit(1,(int*)&pthread_runnable,i);
-            if (thread == last_thread)
+    if(os_getCoreId()==0)
+	{
+        pthread_running->lcx = __mfcr(CPU_PCXI);
+        i = pthread_running->priority;
+        assert(pthread_runnable_threads[i] == pthread_running);
+        switch (tin) 
+		{
+          case DISPATCH_WAIT: // _swap_out _pthread_running
+             {
+                list_delete_first(&pthread_runnable_threads[i]);
+                list_append(blocked_threads_ptr, pthread_running, pthread_running, NULL);
+                __putbit(neza(pthread_runnable_threads[i]),(int*)&pthread_runnable,i);
+		     }
+             break;
+          case DISPATCH_SIGNAL:
+		     {
+                tmp = NULL;
+                assert(blocked_threads_ptr);
+                thread = *blocked_threads_ptr;
+                while (thread != NULL)
+			    {
+                     tmp = thread->next;
+                     i = thread->priority;
+                     list_append(&pthread_runnable_threads[i], thread, thread,
+                        pthread_runnable_threads[i]);
+                     __putbit(1,(int*)&pthread_runnable,i);
+                     if (thread == last_thread) break;
+                     thread = tmp;
+                }
+                *blocked_threads_ptr = tmp;
                 break;
-            thread = tmp;
-
-        }
-        *blocked_threads_ptr = tmp;
-        break;
-    default:
-        break;
-    }
+			  }
+          default:
+              break;
+         }
+	}
+	else if(os_getCoreId()==1)
+	{
+        core1_os_pthread_running->lcx = __mfcr(CPU_PCXI);
+        i = core1_os_pthread_running->priority;
+        assert(core1_os_pthread_runnable_threads[i] == core1_os_pthread_running);
+        switch (tin) 
+		{
+          case DISPATCH_WAIT: // _swap_out _pthread_running
+             {
+                list_delete_first(&core1_os_pthread_runnable_threads[i]);
+                list_append(blocked_threads_ptr, core1_os_pthread_running, core1_os_pthread_running, NULL);
+                __putbit(neza(core1_os_pthread_runnable_threads[i]),(int*)&core1_os_pthread_runnable,i);
+		     }
+             break;
+          case DISPATCH_SIGNAL:
+		     {
+                tmp = NULL;
+                assert(blocked_threads_ptr);
+                thread = *blocked_threads_ptr;
+                while (thread != NULL)
+			    {
+                     tmp = thread->next;
+                     i = thread->priority;
+                     list_append(&core1_os_pthread_runnable_threads[i], thread, thread,
+                        core1_os_pthread_runnable_threads[i]);
+                      __putbit(1,(int*)&core1_os_pthread_runnable,i);
+                     if (thread == last_thread) break;
+                     thread = tmp;
+                }
+                *blocked_threads_ptr = tmp;
+                break;
+			  }
+          default:
+              break;
+         }
+	}
     pthread_start_np();
 }
 //! Trap vector table entry to trap class 6 handler enables interrupts
@@ -526,27 +698,23 @@ void trap_test(int *b,int *c)
 //void IfxCpu_Trap_systemCall_Cpu0(uint32_t tin)
 void IfxCpu_Trap_systemCall_Cpu0(uint32_t tin)
 {
-    //trapWatch = IfxCpu_Trap_extractTrapInfo(IfxCpu_Trap_Class_systemCall, tin);
-    //IFX_CFG_CPU_TRAP_SYSCALL_CPU0_HOOK(trapWatch);
-	
-
 	/* Add the kernel of OS */
 	/* Kernel begins        */
-#if 0
-	core0_trap_count_test++;
-	/* Kernel ends          */	
-    __asm(  " svlcx        \n"
-            " jla trap6_call \n"
-  		    " rslcx"::"a"(trap6_call));
-    __asm(  " rfe");
-#endif
-
     __asm(  " mtcr #ICR,%0    \n"
             " isync           \n"
             " jg trapsystem     "
             ::"d"(1 << 15 | PTHREAD_USER_INT_LEVEL),"a"(trapsystem):"a4","a5","d15");//
-    //__asm(  " rfe");
 }
+void IfxCpu_Trap_systemCall_Cpu1(uint32_t tin)
+{
+	/* Add the kernel of OS */
+	/* Kernel begins        */
+    __asm(  " mtcr #ICR,%0    \n"
+            " isync           \n"
+            " jg trapsystem     "
+            ::"d"(1 << 15 | PTHREAD_USER_INT_LEVEL),"a"(trapsystem):"a4","a5","d15");//
+}
+
 
 #if 0
 void __interrupt(9) pthread_broadcast(
@@ -587,20 +755,17 @@ void switch_context(void)
 	dispatch_wait(&test1,&test2);
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
 extern uint32_t pthread_runnable;
 //! Currently running thread
 extern pthread_t pthread_running;
 //! Array of linked lists which holds runnable threads
 extern pthread_t pthread_runnable_threads[PTHREAD_PRIO_MAX];
+
+extern uint32_t core1_os_pthread_runnable;
+//! Currently running thread
+extern pthread_t core1_os_pthread_running;
+//! Array of linked lists which holds runnable threads
+extern pthread_t core1_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
 
 pthread_t pthread_running_testp;
 uint32_t pthread_running_test;
@@ -611,181 +776,19 @@ pthread_t pthread_running_test2;
 
 uint16_t tick_count;
 uint16_t stm_tick_count;
-
-//inline void update_stm0_ticks(void);
- void stm_src0(void) {
-
-#if 0
-    pthread_t thread;
-    uint32 stmTicks;
-#endif
-
-    pthread_cond_t *cond;
-    //int Null_Pointer_test;
-#if 0
-    pthread_running->lcx = __mfcr(CPU_PCXI);
-    //pthread_running_test=__mfcr(CPU_PCXI);
-    thread = pthread_running->next; // get next thread with same priority
-    //pthread_running_test2=pthread_running;
-
-   // assert(pthread_running->next);
-   //  Null_Pointer_test=((void) (!(pthread_running->next) ? 1: (void) 0));
-
-   // fix the bug that buserror will occur when pthread_running->next is NULL
-    if(thread==NULL)
-    {
-    	thread=pthread_running;
-    }
-
-    pthread_runnable_threads[thread->priority] = thread;
-
-    pthread_running = thread;
-
-   // update_stm0_ticks();
-
-#if 0
-  if(m==0)
-  {
-    thread_2->lcx=__mfcr(CPU_PCXI);
-    thread=thread_1;
-    m=1;
-  }
-  else
-  {
-	thread_1->lcx=__mfcr(CPU_PCXI);
-	thread=thread_2;
-	m=0;
-  }
-#endif
-
-    __dsync(); // required before PCXI manipulation (see RTOS porting guide)
-    __mtcr(CPU_PCXI, thread->lcx);
-    __asm("ji a11");
-#endif
-
-    update_stm0_ticks();
-    // STM tick from 0-0xffff every 1ms
-    tick_count++;
-
-
-    if(tw.ticks[tw.idx]==tick_count)
-    {
-
-
-    }
-    else
-    {
-#if 0
-
-     cond = tw.cond[tw.idx]; // get current condition
-     tw.ticks[tw.idx] = USHRT_MAX; // free place in array
-     //uint32_t cmp = ixminu16(tw.ticks, PTHREAD_COND_TIMEDWAIT_SIZE, &tw.idx);
-
-     //if (cmp == USHRT_MAX)
-     //   STM_SRC1.B.SRE = 0; // disable the node if there are no more conditions waiting or
-     //else
-     //   STM_CMP1.U = __max((uint16_t)(STM_TIM4.U + 1), cmp); // set next compare
-
-     //STM_ISRR.B.CMP1IRR = 1; // STOREBIT(STM_ISRR, 2, 1);
-     assert(cond != NULL);
-
-     //setup parameter and jump to trapsystem
-    __asm( " mov.aa a4,%0 \n"
-            " mov.aa a5,%1 \n"
-            " mov d15,%2   \n"
-            " jg trapsystem  "
-            ::"a"(&cond->blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
-#endif
-    }
-
-}
-
-
- void __interrupt(10) __vector_table(0) Ifx_STM0_Isr(void)
- {
-
-#ifdef OLD_AVALIABLE
- 	//__svlcx();
- 	//__isync();
- 	//stm_src0();
- 	/* we restore the lower context, this could be form any task or our saved from entry */
- 	//__rslcx();
- 	//__isync();
- 	/* we don't was calling here we must return with rfe */
- 	//__asm ( "rfe" );
-	// stm_src0();
-
-#if 0
-    pthread_t thread;
-    uint32 stmTicks;
-#endif
-
-    pthread_cond_t *cond;
-    //int Null_Pointer_test;
-
-    update_stm0_ticks();  // update the tick, this line cannot be changed now.
-    // STM tick from 0-0xffff every 1ms
-    tick_count++;
-
-
-    if(tw.ticks[2]==tick_count)
-    {
-#if 1
-
-     cond = tw.cond[2]; // get current condition
-     tw.ticks[2]  =USHRT_MAX;
-     tw.cond[2]   =NULL;
+uint16_t core1_os_stm_tick_count;
 
 
 
-	 
-     //tw.ticks[tw.idx] = USHRT_MAX; // free place in array
-     //uint32_t cmp = ixminu16(tw.ticks, PTHREAD_COND_TIMEDWAIT_SIZE, &tw.idx);
-
-     //if (cmp == USHRT_MAX)
-     //   STM_SRC1.B.SRE = 0; // disable the node if there are no more conditions waiting or
-     //else
-     //   STM_CMP1.U = __max((uint16_t)(STM_TIM4.U + 1), cmp); // set next compare
-
-     //STM_ISRR.B.CMP1IRR = 1; // STOREBIT(STM_ISRR, 2, 1);
-
-
-	 //this line should be added to check the bug for example 5
-     //assert(cond != NULL);       
-
-     //setup parameter and jump to trapsystem
-    __asm( " mov.aa a4,%0 \n"
-            " mov.aa a5,%1 \n"
-            " mov d15,%2   \n"
-            " jg trapsystem  "
-            ::"a"(&cond->blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
-
-            //::"a"(&blocked_threads),"a"(blocked_threads_prev_temp),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
-#endif
-#if 0
-     __asm(  " svlcx          \n"
-             " jla   stm_src0 \n"
-   		    " rslcx"::"a"(pthread_running->next));
-#endif
-#if 0
-       __asm( " svlcx   \t");
-       __asm( " jla\t %0" : : "a" (stm_src0));
-       __asm( " rslcx \t");
-       __asm( " rfe");
-#endif
-   }
-
-#else 
-    
+inline void schedule_in_tick(void)
+{
     pthread_cond_t  *cond;
 	pthread_cond_t  *cond_buffer[PTHREAD_COND_TIMEDWAIT_SIZE];
     uint32_t        index;
 	uint32_t        release_count=0;
 
-
-	stm_tick_count=(stm_tick_count+1)%0xFFFF;                               // os tick from 0-0xffff
-	update_stm0_ticks();                                                    // update the tick, this line cannot be changed now.
-	
+ if(os_getCoreId()==0)
+ {
     for(index=0;index<PTHREAD_COND_TIMEDWAIT_SIZE;index++)
     {
       if(stm_ticks[index]==stm_tick_count)
@@ -796,8 +799,22 @@ uint16_t stm_tick_count;
 		release_count++;
 	  }
     }
-	
-   
+ }
+ else if(os_getCoreId()==1)
+ {
+
+    for(index=0;index<PTHREAD_COND_TIMEDWAIT_SIZE;index++)
+    {
+      if(core1_os_stm_ticks[index]==core1_os_stm_tick_count)
+	  {		
+		cond_buffer[release_count] = core1_os_stm_cond[index];
+		core1_os_stm_ticks[index]  = USHRT_MAX;                             // free place in array 
+		
+		release_count++;
+	  }
+    }
+
+ }
     //setup parameter and jump to trapsystem
     if(release_count!=0)
 	{
@@ -819,88 +836,70 @@ uint16_t stm_tick_count;
               ::"a"(&cond->blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
 	 }
 
-#endif
 
- }
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-//! Wait on a condition
-	uint32_t current_id;
-	uint16_t new_tick_count;
-    uint16_t set_count;
+}
+
+// the stm0 interrupt is used for core0
+void __interrupt(10) __vector_table(0) Ifx_STM0_Isr(void)
+{  
+   stm_tick_count=(stm_tick_count+1)%0xFFFF;   // os tick from 0-0xffff
+   update_stm0_ticks();                        // update the tick, this line cannot be changed now. 
+   schedule_in_tick();
+
+}
+
+// the stm1 interrupt is used for core1
+void __interrupt(11) __vector_table(0) Ifx_STM1_Isr(void)
+{
+   core1_os_stm_tick_count=(core1_os_stm_tick_count+1)%0xFFFF;   // os tick from 0-0xffff
+   update_stm1_ticks();                                          // update the tick, this line cannot be changed now. 
+   schedule_in_tick();
+
+}
+
+
 int pthread_cond_timedwait_np(pthread_cond_t *cond,//!< [in] condition pointer
         pthread_mutex_t *mutex,//!< [in] mutex pointer
         uint16_t reltime,
         uint32_t task_id) //!< [in] relative time are the relative time STM_TIM4 ticks.NOT PORTABLE.
 {
-
-#ifdef OLD_AVALIABLE
+	uint16_t new_tick_count;
+    uint16_t set_count;
+	
     assert(cppn()==0); // CCPN must be 0, pthread_create cannot be called from ISR
     assert(cond != NULL);
     assert(mutex != NULL);
 
-    uint32_t i;
-
-    __disable();
-    //STM_SRC1.B.SRE = 0; // STM_SRC1.U = 0x0000 | TIMEDWAIT_INT; // disable service request control register
-    // add ticks value and condition to array
-    //if (USHRT_MAX != ixmaxu16(tw.ticks, PTHREAD_COND_TIMEDWAIT_SIZE, &i))
-    //    return -1; // no free
-
-    //uint16_t tim4 = STM_TIM4.U + 1;
-
-    //tw.ticks[i] = __min(tick_count + reltime, USHRT_MAX - 1); // __extru(tim4 + reltime, 0, 16)
-    //tw.ticks[2] =(tick_count + reltime)%(USHRT_MAX - 1); // __extru(tim4 + reltime, 0, 16)
-    tw.ticks[2] =(tick_count + reltime)%(USHRT_MAX - 1);
-	tw.cond[2] = cond;
-
-    //uint16_t temp=ixminu16(tw.ticks, PTHREAD_COND_TIMEDWAIT_SIZE,&tw.idx);
-
-    // find the next compare
-    //STM_CMP1.U = __max(tick_count, ixminu16(tw.ticks, PTHREAD_COND_TIMEDWAIT_SIZE,
-    //        &tw.idx));
-    //STM_SRC1.B.SRE = 1; // STM_SRC1.U = 0x1000 | TIMEDWAIT_INT; // enable service request control register
-    
-
-    __swap(&mutex->lock, false);
-    int err = dispatch_wait(&cond->blocked_threads, NULL);// swap out with mutex unlocked
-    __enable();
-    __swap(&mutex->lock, true);
-    mutex->owner = pthread_running;
-    return 0;
-#else
-
-    assert(cppn()==0); // CCPN must be 0, pthread_create cannot be called from ISR
-    assert(cond != NULL);
-    assert(mutex != NULL);
-
-
-			
-    //if (USHRT_MAX != ixmaxu16(stm_ticks, PTHREAD_COND_TIMEDWAIT_SIZE, &current_id))
-    //    return -1; // no free
-			
-	new_tick_count           = stm_tick_count + 1;
-	set_count                = ((uint16_t)(new_tick_count + reltime))%0xFFFF;  // set_count ranges from 0-0xFFFE
+	if(os_getCoreId()==0)
+	{
+	  new_tick_count           = stm_tick_count + 1;
+	  set_count                = ((uint16_t)(new_tick_count + reltime))%0xFFFF;  // set_count ranges from 0-0xFFFE
 	
-    stm_ticks[task_id]       = set_count;                                      // load the current tick set(lconfig 1.)
-    stm_cond[task_id]        = cond;                                           // load the cond.(lconfig 2.)
+      stm_ticks[task_id]       = set_count;                                      // load the current tick set(lconfig 1.)
+      stm_cond[task_id]        = cond;                                           // load the cond.(lconfig 2.)
 
 	
-    __swap(&mutex->lock, false);
-    int err = dispatch_wait(&cond->blocked_threads, NULL);// swap out with mutex unlocked
-    __swap(&mutex->lock, true);
-    mutex->owner = pthread_running;
+      __swap(&mutex->lock, false);
+      int err = dispatch_wait(&cond->blocked_threads, NULL);// swap out with mutex unlocked
+      __swap(&mutex->lock, true);
+      mutex->owner = pthread_running;
+	}
+	else if(os_getCoreId()==1)
+	{
+	  new_tick_count           = core1_os_stm_tick_count + 1;
+	  set_count                = ((uint16_t)(new_tick_count + reltime))%0xFFFF;  // set_count ranges from 0-0xFFFE
+	
+      core1_os_stm_ticks[task_id]       = set_count;                                      // load the current tick set(lconfig 1.)
+      core1_os_stm_cond[task_id]        = cond;                                           // load the cond.(lconfig 2.)
 
+	
+      __swap(&mutex->lock, false);
+      int err = dispatch_wait(&cond->blocked_threads, NULL);// swap out with mutex unlocked
+      __swap(&mutex->lock, true);
+      mutex->owner = core1_os_pthread_running;
+
+	}
     return 0;
-#endif
-
 }
 
 //! STM interupts to manage timed wait conditions

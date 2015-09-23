@@ -22,6 +22,8 @@ int core2_main (void)
      * Enable the watchdog in the demo if it is required and also service the watchdog periodically
      * */
     IfxScuWdt_disableCpuWatchdog (IfxScuWdt_getCpuWatchdogPassword ());
+
+
     while (1)
     {
         // for(i=0;i<1000;i++)

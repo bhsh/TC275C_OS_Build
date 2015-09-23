@@ -77,8 +77,20 @@ typedef struct {
 
 int pthread_create_np(pthread_t, const pthread_attr_t *, void(*)(void *),
         void *);
-void start_core0_os(void);
+int core1_os_pthread_create_np(pthread_t, const pthread_attr_t *, void(*)(void *),
+        void *);
 
+void start_core0_os(void);
+void start_core1_os(void);
+
+
+inline uint32_t os_getCoreId(void)
+{
+   uint32_t core_id;
+
+   core_id=__mfcr(CPU_CORE_ID);
+   return (core_id&0x7);
+}
 
 //! Start threads
 inline void pthread_start_np(void) {
@@ -87,34 +99,45 @@ inline void pthread_start_np(void) {
     extern  pthread_t pthread_runnable_threads[PTHREAD_PRIO_MAX];
     extern  pthread_t thread_test;
 
+	extern  uint32_t  core1_os_pthread_runnable;
+    extern  pthread_t core1_os_pthread_running;
+    extern  pthread_t core1_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
+    extern  pthread_t core1_os_thread_test;
+
     pthread_t thread;
-    assert(pthread_runnable != 0);
-    thread = pthread_runnable_threads[31 - __clz(pthread_runnable)]; //  get ready thread with highest priority ready
-    assert(thread);
-    assert(thread->lcx);
 
-    // check if timer must be enabled if thread policy is SCHED_RR and there is another thread with the same priority
-   // if (thread->next != NULL && thread->policy == SCHED_RR)
-   //     STM_SRC0.B.SRE = 1; // STOREBIT(STM_SRC0, 12, 1);
-   // else
-   //    STM_SRC0.B.SRE = 0; // STOREBIT(STM_SRC0, 12, 0);
-   // __enable();
-
-   // PTHREAD_SWAP_HANDLER(thread,pthread_running);
-    //lcx_test=thread->lcx;
-    //thread->lcx=lcx_test&0xffefffff;
-
-    //lcx_test=thread->lcx;
     
-    pthread_running = thread;//
-    __mtcr(CPU_PSW, 0x00000980);        /* clear PSW.IS */
+	if(os_getCoreId()==0)
+	{
+      assert(pthread_runnable != 0);
+      thread = pthread_runnable_threads[31 - __clz(pthread_runnable)]; //  get ready thread with highest priority ready
+      assert(thread);
+      assert(thread->lcx);
+    
+      pthread_running = thread;//
+      __mtcr(CPU_PSW, 0x00000980);        /* clear PSW.IS */
 
-    __dsync();
-    __mtcr(CPU_PCXI,  thread->lcx);
-    __rslcx();
-    __asm(" mov d2,#0");
-    //__enable();
-    __asm(" rfe");
+      __dsync();
+      __mtcr(CPU_PCXI,  thread->lcx);
+      __rslcx();
+	}
+    else if(os_getCoreId()==1)
+	{
+      assert(core1_os_pthread_runnable != 0);
+      thread = core1_os_pthread_runnable_threads[31 - __clz(core1_os_pthread_runnable)]; //  get ready thread with highest priority ready
+      assert(thread);
+      assert(thread->lcx);
+    
+      core1_os_pthread_running = thread;//
+      __mtcr(CPU_PSW, 0x00000980);        /* clear PSW.IS */
+
+      __dsync();
+      __mtcr(CPU_PCXI,  thread->lcx);
+      __rslcx();         // restore the lower context
+	}
+	
+    __asm(" mov d2,#0"); // the return value is 2
+    __asm(" rfe");       // restore the upper context
 }
 
 //!  TriCore context structure
