@@ -23,9 +23,6 @@
 #include "Src\Std\IfxSrc.h"
 
 /* define the system call that is the 6th trap of CPU */
-//__syscallfunc(1) int syscall_a( int, int );
-//__syscallfunc(2) int syscall_b( int, int );
-//__syscallfunc(3) int syscall_c( int, int );
 
 //! \cond IGNORE
 #define DISPATCH_WAIT     2
@@ -42,7 +39,7 @@ __syscallfunc(DISPATCH_SIGNAL) int dispatch_signal(void *, void *);
 uint32_t  core0_os_pthread_runnable;
 pthread_t core0_os_pthread_running;
 pthread_t core0_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
-static pthread_t blocked_threads;
+static pthread_t core0_os_blocked_threads;
 
  
 uint32_t core1_os_pthread_runnable;
@@ -315,6 +312,13 @@ extern pthread_t core2_os_pthread_running;    //! Array of linked lists which ho
 extern pthread_t core2_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
 
 
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|             update_stm0_ticks 
+|             update stm0 ticks
+|
+--------------------------------------------------------------------------------------*/
 inline void update_stm0_ticks(void)
 {
     uint32 stmTicks;
@@ -323,6 +327,13 @@ inline void update_stm0_ticks(void)
     IfxStm_updateCompare (&MODULE_STM0, IfxStm_Comparator_0, IfxStm_getCompare (&MODULE_STM0, IfxStm_Comparator_0) + stmTicks);
     //IfxPort_togglePin(&MODULE_P33, 8);
 }
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|             update_stm1_ticks 
+|             update stm1 ticks
+|
+--------------------------------------------------------------------------------------*/
 inline void update_stm1_ticks(void)
 {
     uint32 stmTicks;
@@ -331,6 +342,13 @@ inline void update_stm1_ticks(void)
     IfxStm_updateCompare (&MODULE_STM1, IfxStm_Comparator_0, IfxStm_getCompare (&MODULE_STM1, IfxStm_Comparator_0) + stmTicks);
     //IfxPort_togglePin(&MODULE_P33, 9);
 }
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|             update_stm2_ticks 
+|             update stm2 ticks
+|
+--------------------------------------------------------------------------------------*/
 inline void update_stm2_ticks(void)
 {
     uint32 stmTicks;
@@ -339,6 +357,13 @@ inline void update_stm2_ticks(void)
     //IfxPort_togglePin(&MODULE_P33, 10);
 }
 
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|             update_stm0_compare1_ticks
+|             update stm0 compare1
+|
+--------------------------------------------------------------------------------------*/
 // Unit:ms ,the max is 0xFFFFFFFF/100000=42949ms(42.949s);
 inline void update_stm0_compare1_ticks(uint32 tick_ms)
 {
@@ -349,6 +374,13 @@ inline void update_stm0_compare1_ticks(uint32 tick_ms)
     IfxPort_togglePin(&MODULE_P33, 10);
 }
 
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|             list_append 
+|             add one node into a list 
+|
+--------------------------------------------------------------------------------------*/
 inline void list_append(pthread_t *head, pthread_t elem, pthread_t list_prev,
         pthread_t elem_next) {
     assert(head != NULL);
@@ -367,6 +399,14 @@ inline void list_append(pthread_t *head, pthread_t elem, pthread_t list_prev,
         list->prev = list_prev;
     }
 }
+
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|             static void list_delete_first(pthread_t *head) 
+|             delete one node in a list
+|
+--------------------------------------------------------------------------------------*/
 static void list_delete_first(pthread_t *head) {
     assert(head);
 
@@ -381,6 +421,14 @@ static void list_delete_first(pthread_t *head) {
     }
     *head = new;
 }
+
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|             pthread_create_np 
+|             create threads from users
+|
+--------------------------------------------------------------------------------------*/
 int pthread_create_np(pthread_t thread, //!< [in] thread control block pointer.
         const pthread_attr_t *attr, //!<  [in] thread attribute. Can be NULL to use default.
         void(*start_routine)(void *),//!<  [in] thread function pointer
@@ -440,6 +488,13 @@ int pthread_create_np(pthread_t thread, //!< [in] thread control block pointer.
     return 0;
 }
 
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|             int pthread_mutex_lock(pthread_mutex_t *mutex) 
+|             lock a mutex
+|
+--------------------------------------------------------------------------------------*/
 int pthread_mutex_lock(pthread_mutex_t *mutex) //!<  [in] mutex pointer
 {
     assert(cppn()==0); // CCPN must be 0, function cannot be called from ISR
@@ -479,7 +534,13 @@ int pthread_mutex_lock(pthread_mutex_t *mutex) //!<  [in] mutex pointer
     return 0;
 }
 
-//! Unlock a mutex
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|             int pthread_mutex_unlock(pthread_mutex_t *mutex) 
+|             Unlock a mutex
+|
+--------------------------------------------------------------------------------------*/
 int pthread_mutex_unlock(pthread_mutex_t *mutex) //!<  [in] mutex pointer
 {
     assert(cppn()==0); // CCPN must be 0, function cannot be called from ISR
@@ -524,7 +585,13 @@ int pthread_mutex_unlock(pthread_mutex_t *mutex) //!<  [in] mutex pointer
     return 0;
 }
 
-//! Wait on a condition
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|             int pthread_cond_wait(pthread_cond_t *cond, pthread_mutex_t *mutex)
+|             Wait on a condition
+|
+--------------------------------------------------------------------------------------*/
 int pthread_cond_wait(pthread_cond_t *cond,//!< [in] condition pointer
         pthread_mutex_t *mutex) //!< [in] mutex pointer
 {
@@ -538,104 +605,87 @@ int pthread_cond_wait(pthread_cond_t *cond,//!< [in] condition pointer
     dispatch_wait(&cond->blocked_threads, NULL);// add this thread to the list of blocked threads by this cond
     mutex->lock = true;
     mutex->owner = core0_os_pthread_running;
+
+	
     return 0;
 }
 
-//! Broadcast a condition.
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|               int pthread_cond_broadcast(pthread_cond_t *cond)
+|               Broadcast a condition
+|
+--------------------------------------------------------------------------------------*/
 int pthread_cond_broadcast(pthread_cond_t *cond) //!< [in] condition pointer
 {
     assert(cond!=NULL);
     if (cond->blocked_threads != NULL) {
         if (0 == cppn()) { // _pthread_running on CCPN=0
             dispatch_signal(&cond->blocked_threads, cond->blocked_threads->prev);// swap in with mutex unlocked
+        } 
+		else 
+        {
+	        if(os_getCoreId()==0)
+		    {
+                 /* The bug is found here*/
+        	     core0_os_blocked_threads=NULL;
+        	     //blocked_threads_prev_temp=cond->blocked_threads->prev;
+        	     list_append(&core0_os_blocked_threads, cond->blocked_threads,
+                              cond->blocked_threads->prev, cond->blocked_threads->next);
+                 //locked_threads=cond->blocked_threads;
+                 cond->blocked_threads = NULL;
 
-        } else {
-            /* The bug is found here*/
-        	blocked_threads=NULL;
-        	//blocked_threads_prev_temp=cond->blocked_threads->prev;
-        	list_append(&blocked_threads, cond->blocked_threads,
-                         cond->blocked_threads->prev, cond->blocked_threads->next);
-            //locked_threads=cond->blocked_threads;
-            cond->blocked_threads = NULL;
+                 /*  The software interrupt 0 of core0 is used.   */
+                 SRC_GPSR00.B.SETR=1;    // Set request
+                 SRC_GPSR00.B.SRE=1;     // Service Request Enable
+                 SRC_GPSR00.B.TOS=0;     // TOS=CPU0
+                 SRC_GPSR00.B.SRPN=9;    // Service Request Priority Number
+            }
+			else if(os_getCoreId()==1)
+			{
+                 /* The bug is found here*/
+        	     core1_os_blocked_threads=NULL;
+        	     //blocked_threads_prev_temp=cond->blocked_threads->prev;
+        	     list_append(&core1_os_blocked_threads, cond->blocked_threads,
+                              cond->blocked_threads->prev, cond->blocked_threads->next);
+                 //locked_threads=cond->blocked_threads;
+                 cond->blocked_threads = NULL;
 
-            /*  The software interrupt 0 of core0 is used.   */
-            SRC_GPSR00.B.SETR=1;
-            SRC_GPSR00.B.SRE=1;
-            SRC_GPSR00.B.TOS=0;
-            SRC_GPSR00.B.SRPN=9;
-            //CPU_SRC0.U = 1 << 15 // Set request
-            //        | 1 << 12 // Service Request Enable
-            //        | 0 << 10 // TOS=CPU
-            //        | 1; //Service Request Priority Number
+                 /*  The software interrupt 0 of core0 is used.   */
+                 SRC_GPSR10.B.SETR=1;    // Set request
+                 SRC_GPSR10.B.SRE=1;     // Service Request Enable
+                 SRC_GPSR10.B.TOS=0;     // TOS=CPU0
+                 SRC_GPSR10.B.SRPN=9;    // Service Request Priority Number
+
+			}
+			else if(os_getCoreId()==2)
+			{
+                 /* The bug is found here*/
+        	     core2_os_blocked_threads=NULL;
+        	     //blocked_threads_prev_temp=cond->blocked_threads->prev;
+        	     list_append(&core2_os_blocked_threads, cond->blocked_threads,
+                              cond->blocked_threads->prev, cond->blocked_threads->next);
+                 //locked_threads=cond->blocked_threads;
+                 cond->blocked_threads = NULL;
+
+                 /*  The software interrupt 0 of core0 is used.   */
+                 SRC_GPSR20.B.SETR=1;    // Set request
+                 SRC_GPSR20.B.SRE=1;     // Service Request Enable
+                 SRC_GPSR20.B.TOS=0;     // TOS=CPU0
+                 SRC_GPSR20.B.SRPN=9;    // Service Request Priority Number
+			}
         }
     }
     return 0;// dummy to avoid warning
 }
 
-void trap6_call(void) {
-#if 0
-    pthread_t thread;
-    core0_os_pthread_running->lcx = __mfcr(CPU_PCXI);
-    thread = core0_os_pthread_running->next; // get next thread with same priority
-    core0_os_pthread_runnable_threads[thread->priority] = thread;
-
-    core0_os_pthread_running = thread;
-    __dsync(); // required before PCXI manipulation (see RTOS porting guide)
-    __mtcr(CPU_PCXI, thread->lcx);
-    __asm("ji a11");
-#endif
-}
-
-void __trap( 6 ) trap6( int a, int b ) // trap class 6 handler
-{
-   // int tin;
-   // __asm("mov %0,d15 \n"
-   // 	  "svlcx        ": "=d"(tin)); // put d15 in C variable tin
-
-      __asm(  " svlcx        \n"
-              " jla trap6_call \n"
-    		  " rslcx"::"a"(core0_os_pthread_running->next));
-
-   /* switch( tin )
-    {
-    case 1:
-         a += b;
-         break;
-    case 2:
-         a -= b;
-         break;
-    case 3:
-         break;
-    default:
-         break;
-    } */
-
-    //pthread_start_np();
-}
-/***********************************************************************************
- * function name:
- *                main_call_trap6_interface
- * return type:
- *                int
- *
- ***********************************************************************************/
-
-int x_test_buffer;
-int call_trap6_test_counter;
-
-
-void call_trap6_interface(void)
-{
-	//syscall_a(1,2);  // causes a trap class 6 with TIN = 1
-	//x = syscall_b(4,3); // causes a trap class 6 with TIN = 2
-
-	//x_test_buffer=x;
-
-	call_trap6_test_counter++;
-
-}
-
-// dispatch_signal_in_tick function
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|               dispatch_signal_in_tick
+|
+--------------------------------------------------------------------------------------*/
 inline void dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
 
 	pthread_t thread, tmp;
@@ -644,32 +694,59 @@ inline void dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t la
     tmp = NULL;
     assert(blocked_threads_ptr);
     thread = *blocked_threads_ptr;
-    while (thread != NULL) 
+	
+    if(os_getCoreId()==0)
 	{
+       while (thread != NULL) 
+	   {
         tmp = thread->next;
         i = thread->priority;
-		if(os_getCoreId()==0)
-		{
-          list_append(&core0_os_pthread_runnable_threads[i], thread, thread,
+        list_append(&core0_os_pthread_runnable_threads[i], thread, thread,
                       core0_os_pthread_runnable_threads[i]);
-          __putbit(1,(int*)&core0_os_pthread_runnable,i);
-		}
-		else if(os_getCoreId()==1)
-	    {
-          list_append(&core1_os_pthread_runnable_threads[i], thread, thread,
-                      core1_os_pthread_runnable_threads[i]);
-          __putbit(1,(int*)&core1_os_pthread_runnable,i);
-		}
+        __putbit(1,(int*)&core0_os_pthread_runnable,i);
         if (thread == last_thread)break;
         thread = tmp;
-    }
-    *blocked_threads_ptr = tmp;
+       }
+       *blocked_threads_ptr = tmp;
+	 }
+	 else if(os_getCoreId()==1)
+	 {
+       while (thread != NULL) 
+	   {
+        tmp = thread->next;
+        i = thread->priority;
+          list_append(&core1_os_pthread_runnable_threads[i], thread, thread,
+                      core1_os_pthread_runnable_threads[i]);
+        __putbit(1,(int*)&core1_os_pthread_runnable,i);
+        if (thread == last_thread)break;
+        thread = tmp;
+       }
+       *blocked_threads_ptr = tmp;
+	 }
+	 else if(os_getCoreId()==2)
+	 {
+       while (thread != NULL) 
+	   {
+        tmp = thread->next;
+        i = thread->priority;
+          list_append(&core2_os_pthread_runnable_threads[i], thread, thread,
+                      core2_os_pthread_runnable_threads[i]);
+        __putbit(1,(int*)&core2_os_pthread_runnable,i);
+        if (thread == last_thread)break;
+        thread = tmp;
+       }
+       *blocked_threads_ptr = tmp;
+	 }
 }
 
-/*! Trap class 6 handler (System trap) called by
- \code __syscallfunc(DISPATCH_WAIT)  int dispatch_wait(void *, void *);
- \code __syscallfunc(DISPATCH_SIGNAL) int dispatch_signal(void *, void *);
- */
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|               Trap class 6 handler (System trap) called by
+|               __syscallfunc(DISPATCH_WAIT)  int dispatch_wait(void *, void *);
+|               __syscallfunc(DISPATCH_SIGNAL) int dispatch_signal(void *, void *);
+|
+--------------------------------------------------------------------------------------*/
 static void trapsystem(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
     int tin, i;
     pthread_t thread, tmp;
@@ -789,114 +866,15 @@ static void trapsystem(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
 
     pthread_start_np();
 }
-//! Trap vector table entry to trap class 6 handler enables interrupts
-#if 0
-void __trap_fast(6) trap6(void) {
-    __asm(" mtcr #ICR,%0 \n"
-            " isync      \n"
-            " jg trapsystem"
-            ::"d"(1 << 8 | PTHREAD_USER_INT_LEVEL),"a"(trapsystem):"a4","a5","d15");//
-}
-#endif
 
 
-uint32_t core0_trap_count_test;
-/* The trap is used for the OS of core0 */
 
-void trap_test(int *b,int *c)
-{
-    int tin;
-
-    __asm(" mov %0,d15 \n"
-            : "=d"(tin)); // put d15 in C variable tin
-    switch(tin)
-    {
-    case 1:
-    	   *b=10;
-    	   *c=11;
-    	    break;
-    case 2:
- 	       *b=12;
- 	       *c=13;
- 	       break;
-    case 3:
- 	       *b=14;
- 	       *c=15;
- 	       break;
-    default:
-           break;
-    }
-    __asm(  " rfe");
-}
-
-//void IfxCpu_Trap_systemCall_Cpu0(uint32_t tin)
-void IfxCpu_Trap_systemCall_Cpu0(uint32_t tin)
-{
-	/* Add the kernel of OS */
-	/* Kernel begins        */
-    __asm(  " mtcr #ICR,%0    \n"
-            " isync           \n"
-            " jg trapsystem     "
-            ::"d"(1 << 15 | PTHREAD_USER_INT_LEVEL),"a"(trapsystem):"a4","a5","d15");//
-}
-void IfxCpu_Trap_systemCall_Cpu1(uint32_t tin)
-{
-	/* Add the kernel of OS */
-	/* Kernel begins        */
-    __asm(  " mtcr #ICR,%0    \n"
-            " isync           \n"
-            " jg trapsystem     "
-            ::"d"(1 << 15 | PTHREAD_USER_INT_LEVEL),"a"(trapsystem):"a4","a5","d15");//
-}
-void IfxCpu_Trap_systemCall_Cpu2(uint32_t tin)
-{
-	/* Add the kernel of OS */
-	/* Kernel begins        */
-    __asm(  " mtcr #ICR,%0    \n"
-            " isync           \n"
-            " jg trapsystem     "
-            ::"d"(1 << 15 | PTHREAD_USER_INT_LEVEL),"a"(trapsystem):"a4","a5","d15");//
-}
-
-#if 0
-void __interrupt(9) pthread_broadcast(
-        void) {
-    __asm("; setup parameter and jump to trapsystem \n"
-            " mov.aa a4,%0 \n"
-            " mov.aa a5,%1 \n"
-            " mov d15,%2 \n"
-            " jg trapsystem"
-            ::"a"(&blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
-}
-#endif
-int test_count;
-void __interrupt(9) __vector_table(0) CPU0_SOFT0_Isr(void)
-{
-	#if 0
-    __asm("; setup parameter and jump to trapsystem \n"
-            " mov.aa a4,%0 \n"
-            " mov.aa a5,%1 \n"
-            " mov d15,%2 \n"
-            " jg trapsystem"
-            ::"a"(&blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
-            //::"a"(&blocked_threads),"a"(blocked_threads_prev_temp),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
-	#endif
-}
-/***********************************************************************************
- * function name:
- *                switch_context
- * return type:
- *                int
- *
- ***********************************************************************************/
-int test1=0;
-int test2=0;
-void switch_context(void)
-{
-	//syscall_c(1,2);  // causes a trap class 6 with TIN = 1
-	dispatch_wait(&test1,&test2);
-}
-
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|           schedule_in_tick
+|           
+--------------------------------------------------------------------------------------*/
 inline void schedule_in_tick(void)
 {
     pthread_cond_t  *cond;
@@ -963,36 +941,15 @@ inline void schedule_in_tick(void)
               " jg trapsystem  "
               ::"a"(&cond->blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
 	 }
-
-
 }
 
-// the stm0 interrupt is used for core0
-void __interrupt(10) __vector_table(0) Ifx_STM0_Isr(void)
-{  
-   stm_tick_count=(stm_tick_count+1)%0xFFFF;   // os tick from 0-0xffff
-   update_stm0_ticks();                        // update the tick, this line cannot be changed now. 
-   schedule_in_tick();
-
-}
-
-// the stm1 interrupt is used for core1
-void __interrupt(11) __vector_table(0) Ifx_STM1_Isr(void)
-{
-   core1_os_stm_tick_count=(core1_os_stm_tick_count+1)%0xFFFF;   // os tick from 0-0xffff
-   update_stm1_ticks();                                          // update the tick, this line cannot be changed now. 
-   schedule_in_tick();
-
-}
-
-// the stm2 interrupt is used for core1
-void __interrupt(12) __vector_table(0) Ifx_STM2_Isr(void)
-{
-   core2_os_stm_tick_count=(core2_os_stm_tick_count+1)%0xFFFF;   // os tick from 0-0xffff
-   update_stm2_ticks();                                          // update the tick, this line cannot be changed now. 
-   schedule_in_tick();
-
-}
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|           pthread_cond_timedwait_np
+|           time block
+|           
+--------------------------------------------------------------------------------------*/
 int pthread_cond_timedwait_np(pthread_cond_t *cond,//!< [in] condition pointer
         pthread_mutex_t *mutex,//!< [in] mutex pointer
         uint16_t reltime,
@@ -1047,10 +1004,128 @@ int pthread_cond_timedwait_np(pthread_cond_t *cond,//!< [in] condition pointer
 	}
     return 0;
 }
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|           Ifx_STM0_compare1_Isr
+|           the stm0 interrupt is used for core0
+|           
+--------------------------------------------------------------------------------------*/
 
+void __interrupt(10) __vector_table(0) Ifx_STM0_Isr(void)
+{  
+   stm_tick_count=(stm_tick_count+1)%0xFFFF;   // os tick from 0-0xffff
+   update_stm0_ticks();                        // update the tick, this line cannot be changed now. 
+   schedule_in_tick();
+
+}
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|           Ifx_STM0_compare1_Isr
+|           the stm1 interrupt is used for core1
+|           
+--------------------------------------------------------------------------------------*/
+void __interrupt(11) __vector_table(0) Ifx_STM1_Isr(void)
+{
+   core1_os_stm_tick_count=(core1_os_stm_tick_count+1)%0xFFFF;   // os tick from 0-0xffff
+   update_stm1_ticks();                                          // update the tick, this line cannot be changed now. 
+   schedule_in_tick();
+
+}
+
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|           Ifx_STM0_compare1_Isr
+|           the stm2 interrupt is used for core2
+|           
+--------------------------------------------------------------------------------------*/
+
+void __interrupt(12) __vector_table(0) Ifx_STM2_Isr(void)
+{
+   core2_os_stm_tick_count=(core2_os_stm_tick_count+1)%0xFFFF;   // os tick from 0-0xffff
+   update_stm2_ticks();                                          // update the tick, this line cannot be changed now. 
+   schedule_in_tick();
+
+}
+
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|           CPU0_SOFT0_Isr
+|           
+--------------------------------------------------------------------------------------*/
+void __interrupt(9) __vector_table(0) CPU0_SOFT0_Isr(void)
+{
+    __asm("; setup parameter and jump to trapsystem \n"
+            " mov.aa a4,%0 \n"
+            " mov.aa a5,%1 \n"
+            " mov d15,%2 \n"
+            " jg trapsystem"
+            ::"a"(&core0_os_blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
+}
+
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|           Ifx_STM0_compare1_Isr
+|           
+--------------------------------------------------------------------------------------*/
 void __interrupt(20) __vector_table(0) Ifx_STM0_compare1_Isr(void)
 {
  	update_stm0_compare1_ticks(1000);// Unit:ms ,the max is 0xFFFFFFFF/100000=42949ms(42.949s);
+}
+
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|           Trap vector table entry to trap class 6 handler enables interrupts
+|           core0 trap 6
+|
+--------------------------------------------------------------------------------------*/
+void IfxCpu_Trap_systemCall_Cpu0(uint32_t tin)
+{
+	/* Add the kernel of OS */
+	/* Kernel begins        */
+    __asm(  " mtcr #ICR,%0    \n"
+            " isync           \n"
+            " jg trapsystem     "
+            ::"d"(1 << 15 | PTHREAD_USER_INT_LEVEL),"a"(trapsystem):"a4","a5","d15");
+}
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|           Trap vector table entry to trap class 6 handler enables interrupts
+|           core1 trap 6
+|
+--------------------------------------------------------------------------------------*/
+
+void IfxCpu_Trap_systemCall_Cpu1(uint32_t tin)
+{
+	/* Add the kernel of OS */
+	/* Kernel begins        */
+    __asm(  " mtcr #ICR,%0    \n"
+            " isync           \n"
+            " jg trapsystem     "
+            ::"d"(1 << 15 | PTHREAD_USER_INT_LEVEL),"a"(trapsystem):"a4","a5","d15");
+}
+
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|           Trap vector table entry to trap class 6 handler enables interrupts
+|           core2 trap 6
+|
+--------------------------------------------------------------------------------------*/
+void IfxCpu_Trap_systemCall_Cpu2(uint32_t tin)
+{
+	/* Add the kernel of OS */
+	/* Kernel begins        */
+    __asm(  " mtcr #ICR,%0    \n"
+            " isync           \n"
+            " jg trapsystem     "
+            ::"d"(1 << 15 | PTHREAD_USER_INT_LEVEL),"a"(trapsystem):"a4","a5","d15");
 }
 
 

@@ -215,8 +215,6 @@ inline uint32_t neza(void *p) {
 }
 
 /* The functions are called by app */
-void call_trap6_interface(void);
-void switch_context(void);
 int pthread_mutex_lock(pthread_mutex_t *mutex) ;//!<  [in] mutex pointer
 int pthread_mutex_unlock(pthread_mutex_t *mutex) ;
 //! Wait on a condition
