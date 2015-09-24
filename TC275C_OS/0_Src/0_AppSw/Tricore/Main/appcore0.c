@@ -411,17 +411,32 @@ void core0_os_idle(void* arg) {
     	core0_os_thread_test_count_TASK0++;
     	delay_ms(200);
 	    //pthread_cond_broadcast(&core0_os_cond11);
-
-		
         /*  Trigger a software interrupt for test only */
-		
-		//SRC_GPSR01.B.SETR=1;
-        //SRC_GPSR01.B.SRE=1;
-        //SRC_GPSR01.B.TOS=0;
-        //SRC_GPSR01.B.SRPN=20; 
+	    SRC_GPSR01.B.SETR=1;
+        SRC_GPSR01.B.SRE=1;
+        SRC_GPSR01.B.TOS=0;
+        SRC_GPSR01.B.SRPN=20; 
 
+		
 
     }
+}
+
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|   Test type: interrupt sync
+|   Define  a test interrupt :void __interrupt(20) CPU0_SOFT1_Isr(void)
+|   This is only a test interrupt
+|
+--------------------------------------------------------------------------------------*/
+volatile int interrupt_test_flag;
+void __interrupt(20) CPU0_SOFT1_Isr(void) {
+
+//  delay_ms(10);
+	interrupt_test_flag++;
+    //pthread_cond_broadcast(&core0_os_cond21);
+
 }
 /*-------------------------------------------------------------------------------------
 |
@@ -448,6 +463,7 @@ void core0_os_thread1(void* arg) {
         core0_os_thread_test_count_TASK1++;
 
         pthread_cond_timedwait_np(&core0_os_cond1,100,(int) arg);
+
         printf("Thread %d continued\n", (int) arg);
     }
 }
@@ -794,20 +810,7 @@ void core0_os_thread21(void* arg) {
     }
 }
 
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|   Test type: interrupt sync
-|   Define thread 21 :void __interrupt(20) CPU0_SOFT1_Isr(void)
-|   This is only a test interrupt
-|
---------------------------------------------------------------------------------------*/
-void __interrupt(30) CPU0_SOFT1_Isr(void) {
 
-    delay_ms(10);
-    //pthread_cond_broadcast(&core0_os_cond21);
-
-}
 
 
 #if 0
@@ -1084,10 +1087,11 @@ void start_core0_os(void) {
 	//pthread_create_np(th25, NULL, thread25, (void*) 25);
 
     pthread_create_np(core0_os_th1, NULL, core0_os_thread1, (void*) 1);
+#if 0
     pthread_create_np(core0_os_th2, NULL, core0_os_thread2, (void*) 2);
 	pthread_create_np(core0_os_th3, NULL, core0_os_thread3, (void*) 3);
 	pthread_create_np(core0_os_th4, NULL, core0_os_thread4, (void*) 4);
-#if 0
+
 	pthread_create_np(core0_os_th5, NULL, core0_os_thread5, (void*) 5);
 	pthread_create_np(core0_os_th6, NULL, core0_os_thread6, (void*) 6);
 	pthread_create_np(core0_os_th7, NULL, core0_os_thread7, (void*) 7);
@@ -1106,9 +1110,9 @@ void start_core0_os(void) {
 	pthread_create_np(core0_os_th18, NULL, core0_os_thread18, (void*) 18);
 	pthread_create_np(core0_os_th19, NULL, core0_os_thread19, (void*) 19);
 	pthread_create_np(core0_os_th20, NULL, core0_os_thread20, (void*) 20);
-#endif	
+#endif		
     pthread_create_np(core0_os_th21, NULL, core0_os_thread21, (void*) 21);
-	
+
 #if 0
 	pthread_create_np(core0_os_th22, NULL, core0_os_thread22, (void*) 22);	
 	pthread_create_np(core0_os_th23, NULL, core0_os_thread23, (void*) 23);

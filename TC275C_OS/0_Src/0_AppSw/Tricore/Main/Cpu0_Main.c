@@ -277,7 +277,13 @@ volatile uint32 ustack_address;
    ustack_used_size_in_byte  = ustack_end_address - ustack_address;
 }
 
-int math(int a,int b,int c,int d,int e ,int f,int g)
+
+int math_test;
+
+int math1(int a,int b,int c,int d,int e ,int f,int g);
+int math2(int a,int b,int c,int d,int e ,int f,int g);
+int math3(int a,int b,int c,int d,int e ,int f,int g);
+int math1(int a,int b,int c,int d,int e ,int f,int g)
 {
     
    int a1=1;
@@ -298,13 +304,67 @@ int math(int a,int b,int c,int d,int e ,int f,int g)
    g1=g1+g;
 
    total=a1+b1*2+c1+d1*6+d1+f1+g1+e1*4+2;
-
-   	test_ustack();
-
-
+   
+   math_test=math2(7,6,5,4,3,2,1);
+   test_ustack();
+   
    return total;
 }
 
+int math2(int a,int b,int c,int d,int e ,int f,int g)
+{
+    
+   int a1=1;
+   int b1=2;
+   int c1=3;
+   int d1=4;
+   int e1=5;
+   int f1=6;
+   int g1=7;
+   int total;
+
+   a1=a1+a;
+   b1=b1+b;   
+   c1=c1+c;
+   d1=d1+d;
+   e1=e1+e;
+   f1=f1+f;
+   g1=g1+g;
+
+   total=a1+b1*2+c1+d1*6+d1+f1+g1+e1*4+2;
+   
+   math_test=math3(7,6,5,4,3,2,1);
+   //test_ustack();
+   
+   return total;
+}
+int math3(int a,int b,int c,int d,int e ,int f,int g)
+{
+    
+   int a1=1;
+   int b1=2;
+   int c1=3;
+   int d1=4;
+   int e1=5;
+   int f1=6;
+   int g1=7;
+   int total;
+
+   a1=a1+a;
+   b1=b1+b;   
+   c1=c1+c;
+   d1=d1+d;
+   e1=e1+e;
+   f1=f1+f;
+   g1=g1+g;
+
+   total=a1+b1*2+c1+d1*6+d1+f1+g1+e1*4+2;
+   
+   //math_test=math3(7,6,5,4,3,2,1);
+   test_ustack();
+   
+   return total;
+}
 int core0_main (void)
 {
     /*
@@ -329,9 +389,9 @@ int core0_main (void)
     IfxCpu_enableInterrupts();
 
 
-	test_ustack();
+	//test_ustack();
 
-	math(7,6,5,4,3,2,1);
+	//math1(7,6,5,4,3,2,1);
     /* Demo init */
     // configure P33.8 as general output
     IfxPort_setPinMode(&MODULE_P33, 8,  IfxPort_Mode_outputPushPullGeneral);
