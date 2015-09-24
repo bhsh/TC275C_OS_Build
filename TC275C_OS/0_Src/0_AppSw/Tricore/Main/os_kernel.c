@@ -952,7 +952,6 @@ inline void schedule_in_tick(void)
 |           
 --------------------------------------------------------------------------------------*/
 int pthread_cond_timedwait_np(pthread_cond_t *cond,//!< [in] condition pointer
-        pthread_mutex_t *mutex,//!< [in] mutex pointer
         uint16_t reltime,
         uint32_t task_id) //!< [in] relative time are the relative time STM_TIM4 ticks.NOT PORTABLE.
 {
@@ -961,7 +960,6 @@ int pthread_cond_timedwait_np(pthread_cond_t *cond,//!< [in] condition pointer
 	
     assert(cppn()==0); // CCPN must be 0, pthread_create cannot be called from ISR
     assert(cond != NULL);
-    assert(mutex != NULL);
 
 	if(os_getCoreId()==0)
 	{
@@ -971,10 +969,10 @@ int pthread_cond_timedwait_np(pthread_cond_t *cond,//!< [in] condition pointer
       stm_ticks[task_id]       = set_count;                                      // load the current tick set(lconfig 1.)
       stm_cond[task_id]        = cond;                                           // load the cond.(lconfig 2.)
 
-      __swap(&mutex->lock, false);
+      //__swap(&mutex->lock, false);
       int err = dispatch_wait(&cond->blocked_threads, NULL);// swap out with mutex unlocked
-      __swap(&mutex->lock, true);
-      mutex->owner = core0_os_pthread_running;
+      //__swap(&mutex->lock, true);
+      //mutex->owner = core0_os_pthread_running;
 	}
 	else if(os_getCoreId()==1)
 	{
@@ -984,10 +982,10 @@ int pthread_cond_timedwait_np(pthread_cond_t *cond,//!< [in] condition pointer
       core1_os_stm_ticks[task_id]       = set_count;                                      // load the current tick set(lconfig 1.)
       core1_os_stm_cond[task_id]        = cond;                                           // load the cond.(lconfig 2.)
 	
-      __swap(&mutex->lock, false);
+      //__swap(&mutex->lock, false);
       int err = dispatch_wait(&cond->blocked_threads, NULL);// swap out with mutex unlocked
-      __swap(&mutex->lock, true);
-      mutex->owner = core1_os_pthread_running;
+      //__swap(&mutex->lock, true);
+      //mutex->owner = core1_os_pthread_running;
 
 	}
 	else if(os_getCoreId()==2)
@@ -998,10 +996,10 @@ int pthread_cond_timedwait_np(pthread_cond_t *cond,//!< [in] condition pointer
       core2_os_stm_ticks[task_id]       = set_count;                                      // load the current tick set(lconfig 1.)
       core2_os_stm_cond[task_id]        = cond;                                           // load the cond.(lconfig 2.)
 
-      __swap(&mutex->lock, false);
+      //__swap(&mutex->lock, false);
       int err = dispatch_wait(&cond->blocked_threads, NULL);// swap out with mutex unlocked
-      __swap(&mutex->lock, true);
-      mutex->owner = core2_os_pthread_running;
+      //__swap(&mutex->lock, true);
+      //mutex->owner = core2_os_pthread_running;
 	}
     return 0;
 }
@@ -1073,7 +1071,7 @@ void __interrupt(9) __vector_table(0) CPU0_SOFT0_Isr(void)
 |           Ifx_STM0_compare1_Isr
 |           
 --------------------------------------------------------------------------------------*/
-void __interrupt(20) __vector_table(0) Ifx_STM0_compare1_Isr(void)
+void __interrupt(21) __vector_table(0) Ifx_STM0_compare1_Isr(void)
 {
  	update_stm0_compare1_ticks(1000);// Unit:ms ,the max is 0xFFFFFFFF/100000=42949ms(42.949s);
 }

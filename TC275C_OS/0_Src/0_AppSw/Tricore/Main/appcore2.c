@@ -77,27 +77,25 @@ void core2_os_idle(void* arg) {
 }
 void core2_os_thread1(void* arg) {
     for (;;) {
-        pthread_mutex_lock(&core2_os_mutex1);
+
         printf("Thread %d blocked\n", (int) arg);
 
         core2_os_thread_test_count_TASK1++;
 
-        pthread_cond_timedwait_np(&core2_os_cond1, &core2_os_mutex1, 100,(int) arg);
+        pthread_cond_timedwait_np(&core2_os_cond1, 100,(int) arg);
         printf("Thread %d continued\n", (int) arg);
-        pthread_mutex_unlock(&core2_os_mutex1);
     }
 }
 
 void core2_os_thread2(void* arg) {
     for (;;) {
-        pthread_mutex_lock(&core2_os_mutex2);
+
         printf("Thread %d blocked\n", (int) arg);
 
         core2_os_thread_test_count_TASK2++;
 
-        pthread_cond_timedwait_np(&core2_os_cond2, &core2_os_mutex2, 200,(int) arg);
+        pthread_cond_timedwait_np(&core2_os_cond2, 200,(int) arg);
         printf("Thread %d continued\n", (int) arg);
-        pthread_mutex_unlock(&core2_os_mutex2);
     }
 }
 void start_core2_os(void) {
