@@ -218,8 +218,7 @@ inline uint32_t neza(void *p) {
 int pthread_mutex_lock(pthread_mutex_t *mutex) ;//!<  [in] mutex pointer
 int pthread_mutex_unlock(pthread_mutex_t *mutex) ;
 //! Wait on a condition
-int pthread_cond_wait(pthread_cond_t *cond,//!< [in] condition pointer
-        pthread_mutex_t *mutex); //!< [in] mutex pointer
+int pthread_cond_wait(pthread_cond_t *cond);//!< [in] condition pointer
 int pthread_cond_broadcast(pthread_cond_t *cond); //!< [in] condition pointer
 //! Wait on a condition
 int pthread_cond_timedwait_np(pthread_cond_t *cond,//!< [in] condition pointer

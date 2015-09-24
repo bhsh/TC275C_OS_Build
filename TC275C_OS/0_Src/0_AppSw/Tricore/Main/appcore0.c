@@ -614,16 +614,11 @@ void core0_os_thread10(void* arg) {
 --------------------------------------------------------------------------------------*/
 void core0_os_thread11(void* arg) {
     for (;;) {
-        pthread_mutex_lock(&core0_os_mutex11);
 
-        puts("Wake up all waiters...");
         delay_ms(200);
-		
 		core0_os_thread_test_count_TASK11++;
 		
         pthread_cond_broadcast(&core0_os_cond11);
-		
-        pthread_mutex_unlock(&core0_os_mutex11);
     }
 }
 /*-------------------------------------------------------------------------------------
@@ -635,14 +630,11 @@ void core0_os_thread11(void* arg) {
 --------------------------------------------------------------------------------------*/
 void core0_os_thread12(void* arg) {
     for (;;) {
-        pthread_mutex_lock(&core0_os_mutex11);
 
-        printf("Thread %d blocked\n", (int) arg);
         delay_ms(200);
 		core0_os_thread_test_count_TASK12++;
-        pthread_cond_wait(&core0_os_cond11, &core0_os_mutex11);
 		
-        pthread_mutex_unlock(&core0_os_mutex11);
+        pthread_cond_wait(&core0_os_cond11);
     }
 }
 /*-------------------------------------------------------------------------------------
@@ -654,16 +646,11 @@ void core0_os_thread12(void* arg) {
 --------------------------------------------------------------------------------------*/
 void core0_os_thread13(void* arg) {
     for (;;) {
-        pthread_mutex_lock(&core0_os_mutex11);
 
-        printf("Thread %d blocked\n", (int) arg);
         delay_ms(200);
 		core0_os_thread_test_count_TASK13++;
-        pthread_cond_wait(&core0_os_cond11, &core0_os_mutex11);
-
-		// active next task
 		
-        pthread_mutex_unlock(&core0_os_mutex11);
+        pthread_cond_wait(&core0_os_cond11);
     }
 }
 
@@ -676,14 +663,11 @@ void core0_os_thread13(void* arg) {
 --------------------------------------------------------------------------------------*/
 void core0_os_thread14(void* arg) {
     for (;;) {
-        pthread_mutex_lock(&core0_os_mutex11);
 
-        printf("Thread %d blocked\n", (int) arg);
         delay_ms(200);
 		core0_os_thread_test_count_TASK14++;
-        pthread_cond_wait(&core0_os_cond11, &core0_os_mutex11);
 		
-        pthread_mutex_unlock(&core0_os_mutex11);
+        pthread_cond_wait(&core0_os_cond11);
     }
 }
 
@@ -696,14 +680,13 @@ void core0_os_thread14(void* arg) {
 --------------------------------------------------------------------------------------*/
 void core0_os_thread15(void* arg) {
     for (;;) {
-        pthread_mutex_lock(&core0_os_mutex11);
 
-        printf("Thread %d blocked\n", (int) arg);
         delay_ms(200);
 		core0_os_thread_test_count_TASK15++;
-        pthread_cond_wait(&core0_os_cond11, &core0_os_mutex11);
 		
-        pthread_mutex_unlock(&core0_os_mutex11);
+        pthread_cond_wait(&core0_os_cond11);
+		
+		pthread_cond_broadcast(&core0_os_cond16);	
     }
 }
 
@@ -716,14 +699,11 @@ void core0_os_thread15(void* arg) {
 --------------------------------------------------------------------------------------*/
 void core0_os_thread16(void* arg) {
     for (;;) {
-        pthread_mutex_lock(&core0_os_mutex11);
 
-        printf("Thread %d blocked\n", (int) arg);
         delay_ms(200);
 		core0_os_thread_test_count_TASK16++;
-        pthread_cond_wait(&core0_os_cond11, &core0_os_mutex11);
 		
-        pthread_mutex_unlock(&core0_os_mutex11);
+        pthread_cond_wait(&core0_os_cond16);		
     }
 }
 
@@ -736,14 +716,65 @@ void core0_os_thread16(void* arg) {
 --------------------------------------------------------------------------------------*/
 void core0_os_thread17(void* arg) {
     for (;;) {
-        pthread_mutex_lock(&core0_os_mutex11);
 
-        printf("Thread %d blocked\n", (int) arg);
-        delay_ms(200);
+        delay_ms(100);
 		core0_os_thread_test_count_TASK17++;
-        pthread_cond_wait(&core0_os_cond11, &core0_os_mutex11);
 		
-        pthread_mutex_unlock(&core0_os_mutex11);
+        pthread_cond_wait(&core0_os_cond16);
+		
+    }
+}
+
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|   Test type: software sync
+|   Define thread 18 :void core0_os_thread18(void* arg) 
+|
+--------------------------------------------------------------------------------------*/
+void core0_os_thread18(void* arg) {
+    for (;;) {
+
+        delay_ms(100);
+		core0_os_thread_test_count_TASK18++;
+		
+        pthread_cond_wait(&core0_os_cond16);
+		
+    }
+}
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|   Test type: software sync
+|   Define thread 19 :void core0_os_thread19(void* arg) 
+|
+--------------------------------------------------------------------------------------*/
+void core0_os_thread19(void* arg) {
+    for (;;) {
+
+        delay_ms(100);
+		core0_os_thread_test_count_TASK19++;
+		
+        pthread_cond_wait(&core0_os_cond16);
+		
+    }
+}
+
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|   Test type: software sync
+|   Define thread 20 :void core0_os_thread20(void* arg) 
+|
+--------------------------------------------------------------------------------------*/
+void core0_os_thread20(void* arg) {
+    for (;;) {
+
+        delay_ms(100);
+		core0_os_thread_test_count_TASK20++;
+		
+        pthread_cond_wait(&core0_os_cond16);
+		
     }
 }
 

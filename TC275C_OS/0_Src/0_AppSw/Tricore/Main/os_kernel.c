@@ -594,19 +594,18 @@ int pthread_mutex_unlock(pthread_mutex_t *mutex) //!<  [in] mutex pointer
 |             Wait on a condition
 |
 --------------------------------------------------------------------------------------*/
-int pthread_cond_wait(pthread_cond_t *cond,//!< [in] condition pointer
-        pthread_mutex_t *mutex) //!< [in] mutex pointer
+int pthread_cond_wait(pthread_cond_t *cond)//!< [in] condition pointer
 {
     assert(cppn()==0); // CCPN must be 0, pthread_create cannot be called from ISR
     assert(cond != NULL); // errno = EINVAL
-    assert(mutex != NULL); // errno = EINVAL
+    //assert(mutex != NULL); // errno = EINVAL
 
-    if (true != __swap(&mutex->lock, false)) // the calling thread must have mutex locked
-        return -1; // errno = ENOTLOCKED
+    //if (true != __swap(&mutex->lock, false)) // the calling thread must have mutex locked
+    //    return -1; // errno = ENOTLOCKED
 
     dispatch_wait(&cond->blocked_threads, NULL);// add this thread to the list of blocked threads by this cond
-    mutex->lock = true;
-    mutex->owner = core0_os_pthread_running;
+    //mutex->lock = true;
+    //mutex->owner = core0_os_pthread_running;
 
 	
     return 0;
