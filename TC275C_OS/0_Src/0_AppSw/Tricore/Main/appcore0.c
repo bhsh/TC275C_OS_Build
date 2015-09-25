@@ -213,7 +213,6 @@ void core0_os_idle(void* arg) {
     	delay_ms(200);
 		
         /* Trigger a software interrupt for test only */
-
 		SRC_GPSR01.U=(1<<26)|   //SRC_GPSR01.B.SETR=1;
 			         (1<<10)|   //SRC_GPSR01.B.SRE=1;
 			         (0<<11)|   //SRC_GPSR01.B.TOS=0;
@@ -235,7 +234,7 @@ void __interrupt(20) CPU0_SOFT1_Isr(void)
 {
 
 	interrupt_test_flag++;
-    pthread_cond_broadcast(&core0_os_cond16);
+    pthread_cond_broadcast(&core0_os_cond3);
 }
 /*-------------------------------------------------------------------------------------
 |
@@ -295,8 +294,12 @@ void core0_os_thread3(void* arg) {
 
         printf("Thread %d blocked\n", (int) arg);
         core0_os_thread_test_count_TASK3++;
-        pthread_cond_timedwait_np(&core0_os_cond3, 400,(int) arg);
+       // pthread_cond_timedwait_np(&core0_os_cond3, 400,(int) arg);
+
+	    pthread_cond_wait(&core0_os_cond3);
         printf("Thread %d continued\n", (int) arg);
+	    pthread_cond_broadcast(&core0_os_cond4);
+
     }
 }
 
@@ -312,9 +315,12 @@ void core0_os_thread4(void* arg) {
 
         printf("Thread %d blocked\n", (int) arg);
         core0_os_thread_test_count_TASK4++;
-        pthread_cond_timedwait_np(&core0_os_cond4, 200,(int) arg);
+        //pthread_cond_timedwait_np(&core0_os_cond4, 200,(int) arg);
+
+	    pthread_cond_wait(&core0_os_cond4);
 		printf("Thread %d continued\n", (int) arg);
 
+	    pthread_cond_broadcast(&core0_os_cond5);
     }
 }
 
@@ -330,8 +336,12 @@ void core0_os_thread5(void* arg) {
 
         printf("Thread %d blocked\n", (int) arg);
         core0_os_thread_test_count_TASK5++;
-        pthread_cond_timedwait_np(&core0_os_cond5, 320,(int) arg);
+        //pthread_cond_timedwait_np(&core0_os_cond5, 320,(int) arg);
+
+	    pthread_cond_wait(&core0_os_cond5);
 		printf("Thread %d continued\n", (int) arg);		
+
+	    pthread_cond_broadcast(&core0_os_cond6);
     }
 }
 
@@ -347,9 +357,12 @@ void core0_os_thread6(void* arg) {
 
         printf("Thread %d blocked\n", (int) arg);		
         core0_os_thread_test_count_TASK6++;
-        pthread_cond_timedwait_np(&core0_os_cond6, 640,(int) arg);
+        //pthread_cond_timedwait_np(&core0_os_cond6, 640,(int) arg);
+
+		pthread_cond_wait(&core0_os_cond6);
 		printf("Thread %d continued\n", (int) arg);		
 
+	    pthread_cond_broadcast(&core0_os_cond7);
     }
 }
 
@@ -365,9 +378,12 @@ void core0_os_thread7(void* arg) {
 
 		printf("Thread %d blocked\n", (int) arg);				
         core0_os_thread_test_count_TASK7++;
-        pthread_cond_timedwait_np(&core0_os_cond7, 1280,(int) arg);
+        //pthread_cond_timedwait_np(&core0_os_cond7, 1280,(int) arg);
+
+		pthread_cond_wait(&core0_os_cond7);
 	    printf("Thread %d continued\n", (int) arg);		
 
+	    pthread_cond_broadcast(&core0_os_cond8);
     }
 }
 
@@ -383,9 +399,12 @@ void core0_os_thread8(void* arg) {
 
 		printf("Thread %d blocked\n", (int) arg);				
         core0_os_thread_test_count_TASK8++;
-        pthread_cond_timedwait_np(&core0_os_cond8, 640,(int) arg);
-	    printf("Thread %d continued\n", (int) arg);		
+        //pthread_cond_timedwait_np(&core0_os_cond8, 640,(int) arg);
 
+	    pthread_cond_wait(&core0_os_cond8);
+	    printf("Thread %d continued\n", (int) arg);	
+
+	    pthread_cond_broadcast(&core0_os_cond9);
     }
 }
 
@@ -401,9 +420,12 @@ void core0_os_thread9(void* arg) {
 
 	    printf("Thread %d blocked\n", (int) arg);		
         core0_os_thread_test_count_TASK9++;
-        pthread_cond_timedwait_np(&core0_os_cond9, 320,(int) arg);
-	    printf("Thread %d continued\n", (int) arg);		
+        //pthread_cond_timedwait_np(&core0_os_cond9, 320,(int) arg);
 
+	    pthread_cond_wait(&core0_os_cond9);
+	    printf("Thread %d continued\n", (int) arg);	
+
+	    pthread_cond_broadcast(&core0_os_cond10);
     }
 }
 
@@ -419,7 +441,9 @@ void core0_os_thread10(void* arg) {
 
 	    printf("Thread %d blocked\n", (int) arg);		
 		core0_os_thread_test_count_TASK10++;
-        pthread_cond_timedwait_np(&core0_os_cond10, 640,(int) arg);
+        //pthread_cond_timedwait_np(&core0_os_cond10, 640,(int) arg);
+
+		pthread_cond_wait(&core0_os_cond10);
 	    printf("Thread %d continued\n", (int) arg);		
 
 	   // pthread_cond_broadcast(&core0_os_cond11);
@@ -824,7 +848,8 @@ void start_core0_os(void) {
     pthread_create_np(core0_os_th8, NULL, core0_os_thread8, (void*) 8);
     pthread_create_np(core0_os_th9, NULL, core0_os_thread9, (void*) 9);
 	pthread_create_np(core0_os_th10, NULL, core0_os_thread10,(void*) 10);
-	
+
+#if 0	
 	pthread_create_np(core0_os_th11, NULL, core0_os_thread11, (void*) 11);
 	pthread_create_np(core0_os_th12, NULL, core0_os_thread12, (void*) 12);
 	pthread_create_np(core0_os_th13, NULL, core0_os_thread13, (void*) 13);
@@ -842,7 +867,6 @@ void start_core0_os(void) {
 	pthread_create_np(core0_os_th23, NULL, core0_os_thread23, (void*) 23);
 	pthread_create_np(core0_os_th24, NULL, core0_os_thread24, (void*) 24);
     pthread_create_np(core0_os_th25, NULL, core0_os_thread25, (void*) 25);
-#if 0
 	pthread_create_np(core0_os_th26, NULL, core0_os_thread26, (void*) 26);
 	pthread_create_np(core0_os_th27, NULL, core0_os_thread27, (void*) 27);
 	pthread_create_np(core0_os_th28, NULL, core0_os_thread28, (void*) 28);
