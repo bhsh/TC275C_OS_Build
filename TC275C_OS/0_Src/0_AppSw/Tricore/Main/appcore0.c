@@ -842,7 +842,7 @@ void start_core0_os(void) {
 	pthread_create_np(core0_os_th23, NULL, core0_os_thread23, (void*) 23);
 	pthread_create_np(core0_os_th24, NULL, core0_os_thread24, (void*) 24);
     pthread_create_np(core0_os_th25, NULL, core0_os_thread25, (void*) 25);
-//#if 0
+#if 0
 	pthread_create_np(core0_os_th26, NULL, core0_os_thread26, (void*) 26);
 	pthread_create_np(core0_os_th27, NULL, core0_os_thread27, (void*) 27);
 	pthread_create_np(core0_os_th28, NULL, core0_os_thread28, (void*) 28);
@@ -850,7 +850,7 @@ void start_core0_os(void) {
 	pthread_create_np(core0_os_th30, NULL, core0_os_thread30, (void*) 30);
 
     pthread_create_np(core0_os_th31, NULL, core0_os_thread31, (void*) 31);
-//#endif
+#endif
 	pthread_start_np();
 }
 
