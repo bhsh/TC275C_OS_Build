@@ -217,7 +217,7 @@ void core0_os_idle(void* arg) {
 		SRC_GPSR01.U=(1<<26)|   //SRC_GPSR01.B.SETR=1;
 			         (1<<10)|   //SRC_GPSR01.B.SRE=1;
 			         (0<<11)|   //SRC_GPSR01.B.TOS=0;
-			         (20);      //SRC_GPSR01.B.SRPN=3; 
+			         (20);      //SRC_GPSR01.B.SRPN=20; 
 
     }
 }

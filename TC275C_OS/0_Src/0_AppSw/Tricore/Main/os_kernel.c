@@ -646,7 +646,7 @@ int pthread_cond_broadcast(pthread_cond_t *cond) //!< [in] condition pointer
 				 SRC_GPSR00.U=(1<<26)|   //SRC_GPSR01.B.SETR=1;
 			                  (1<<10)|   //SRC_GPSR01.B.SRE=1;
 			                  (0<<11)|   //SRC_GPSR01.B.TOS=0;
-			                  (9);       //SRC_GPSR01.B.SRPN=0; 
+			                  (9);       //SRC_GPSR01.B.SRPN=9; 
             }
 			else if(os_getCoreId()==1)
 			{
@@ -659,11 +659,15 @@ int pthread_cond_broadcast(pthread_cond_t *cond) //!< [in] condition pointer
                  cond->blocked_threads = NULL;
 
                  /*  The software interrupt 0 of core0 is used.   */
-                 SRC_GPSR10.B.SETR=1;    // Set request
-                 SRC_GPSR10.B.SRE=1;     // Service Request Enable
-                 SRC_GPSR10.B.TOS=0;     // TOS=CPU0
-                 SRC_GPSR10.B.SRPN=9;    // Service Request Priority Number
-
+                 //SRC_GPSR10.B.SETR=1;    // Set request
+                 //SRC_GPSR10.B.SRE=1;     // Service Request Enable
+                 //SRC_GPSR10.B.TOS=0;     // TOS=CPU0
+                 //SRC_GPSR10.B.SRPN=9;    // Service Request Priority Number
+                 
+				 SRC_GPSR10.U=(1<<26)|   //SRC_GPSR11.B.SETR=1;
+			                  (1<<10)|   //SRC_GPSR11.B.SRE=1;
+			                  (1<<11)|   //SRC_GPSR11.B.TOS=1;
+			                  (8);       //SRC_GPSR11.B.SRPN=8; 
 			}
 			else if(os_getCoreId()==2)
 			{
@@ -676,10 +680,15 @@ int pthread_cond_broadcast(pthread_cond_t *cond) //!< [in] condition pointer
                  cond->blocked_threads = NULL;
 
                  /*  The software interrupt 0 of core0 is used.   */
-                 SRC_GPSR20.B.SETR=1;    // Set request
-                 SRC_GPSR20.B.SRE=1;     // Service Request Enable
-                 SRC_GPSR20.B.TOS=0;     // TOS=CPU0
-                 SRC_GPSR20.B.SRPN=9;    // Service Request Priority Number
+                 //SRC_GPSR20.B.SETR=1;    // Set request
+                 //SRC_GPSR20.B.SRE=1;     // Service Request Enable
+                 //SRC_GPSR20.B.TOS=0;     // TOS=CPU0
+                 //SRC_GPSR20.B.SRPN=9;    // Service Request Priority Number
+
+				 SRC_GPSR10.U=(1<<26)|   //SRC_GPSR11.B.SETR=1;
+			                  (1<<10)|   //SRC_GPSR11.B.SRE=1;
+			                  (2<<11)|   //SRC_GPSR11.B.TOS=2;
+			                  (7);       //SRC_GPSR11.B.SRPN=7; 			
 			}
         }
     }
@@ -1068,6 +1077,38 @@ void __interrupt(9) __vector_table(0) CPU0_SOFT0_Isr(void)
             " mov d15,%2 \n"
             " jg trapsystem"
             ::"a"(&core0_os_blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
+}
+
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|           CPU0_SOFT0_Isr
+|           
+--------------------------------------------------------------------------------------*/
+void __interrupt(8) __vector_table(0) CPU1_SOFT0_Isr(void)
+{
+    __asm("; setup parameter and jump to trapsystem \n"
+            " mov.aa a4,%0 \n"
+            " mov.aa a5,%1 \n"
+            " mov d15,%2 \n"
+            " jg trapsystem"
+            ::"a"(&core1_os_blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
+}
+
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|           CPU0_SOFT0_Isr
+|           
+--------------------------------------------------------------------------------------*/
+void __interrupt(7) __vector_table(0) CPU2_SOFT0_Isr(void)
+{
+    __asm("; setup parameter and jump to trapsystem \n"
+            " mov.aa a4,%0 \n"
+            " mov.aa a5,%1 \n"
+            " mov d15,%2 \n"
+            " jg trapsystem"
+            ::"a"(&core2_os_blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
 }
 
 /*-------------------------------------------------------------------------------------
