@@ -340,7 +340,7 @@ inline void update_stm1_ticks(void)
 {
     uint32 stmTicks;
 	
-    stmTicks= (uint32)(stm1CompareValue * 1);
+    stmTicks= (uint32)(stm1CompareValue * 10);
     IfxStm_updateCompare (&MODULE_STM1, IfxStm_Comparator_0, IfxStm_getCompare (&MODULE_STM1, IfxStm_Comparator_0) + stmTicks);
     //IfxPort_togglePin(&MODULE_P33, 9);
 }
@@ -638,10 +638,15 @@ int pthread_cond_broadcast(pthread_cond_t *cond) //!< [in] condition pointer
                  cond->blocked_threads = NULL;
 
                  /*  The software interrupt 0 of core0 is used.   */
-                 SRC_GPSR00.B.SETR=1;    // Set request
-                 SRC_GPSR00.B.SRE=1;     // Service Request Enable
-                 SRC_GPSR00.B.TOS=0;     // TOS=CPU0
-                 SRC_GPSR00.B.SRPN=9;    // Service Request Priority Number
+                 //SRC_GPSR00.B.SETR=1;    // Set request
+                 //SRC_GPSR00.B.SRE=1;     // Service Request Enable
+                 //SRC_GPSR00.B.TOS=0;     // TOS=CPU0
+                 //SRC_GPSR00.B.SRPN=9;    // Service Request Priority Number
+
+				 SRC_GPSR00.U=(1<<26)|   //SRC_GPSR01.B.SETR=1;
+			                  (1<<10)|   //SRC_GPSR01.B.SRE=1;
+			                  (0<<11)|   //SRC_GPSR01.B.TOS=0;
+			                  (9);       //SRC_GPSR01.B.SRPN=0; 
             }
 			else if(os_getCoreId()==1)
 			{
