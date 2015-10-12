@@ -373,7 +373,7 @@ inline void update_stm0_compare1_ticks(uint32 tick_ms)
 
     stmTicks= (uint32)(stm0CompareValue2*tick_ms);
     IfxStm_updateCompare (&MODULE_STM0, IfxStm_Comparator_1, IfxStm_getCompare (&MODULE_STM0, IfxStm_Comparator_1) + stmTicks);
-    IfxPort_togglePin(&MODULE_P33, 10);
+    //IfxPort_togglePin(&MODULE_P33, 10);
 }
 
 /*-------------------------------------------------------------------------------------

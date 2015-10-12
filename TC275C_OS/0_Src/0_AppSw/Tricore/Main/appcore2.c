@@ -119,7 +119,10 @@ void core2_os_thread1(void* arg) {
 
         core2_os_thread_test_count_TASK1++;
 
-        pthread_cond_timedwait_np(&core2_os_cond1, 100,(int) arg);
+        pthread_cond_timedwait_np(&core2_os_cond1, 300,(int) arg);
+
+		IfxPort_togglePin(&MODULE_P33, 10);
+		
         printf("Thread %d continued\n", (int) arg);
     }
 }
