@@ -58,6 +58,13 @@ uint16_t stm_tick_count;
 uint16_t core1_os_stm_tick_count;
 uint16_t core2_os_stm_tick_count;
 
+
+pthread_cond_t *core0_cond = NULL;
+pthread_cond_t core1_cond  = PTHREAD_COND_INITIALIZER;
+pthread_cond_t core2_cond  = PTHREAD_COND_INITIALIZER;
+
+
+
  //! tw array hold condition and time for pthread_cond_timedwait_np.
  
 uint16_t  stm_ticks[PTHREAD_COND_TIMEDWAIT_SIZE]=
@@ -694,7 +701,53 @@ int pthread_cond_broadcast(pthread_cond_t *cond) //!< [in] condition pointer
     }
     return 0;// dummy to avoid warning
 }
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|               int pthread_cond_broadcast(pthread_cond_t *cond)
+|               Broadcast a condition for the other cores
+|               The function should not be called in interrupt
+|
+--------------------------------------------------------------------------------------*/
+int pthread_other_core_cond_broadcast(pthread_cond_t *cond,core_id_e actived_core_id) //!< [in] condition pointer
+{
+		
+    //assert(cond!=NULL);
+	
+    if (cond->blocked_threads != NULL) 
+	{
 
+	        if(CORE0==actived_core_id)
+		    {
+                  core0_cond=cond;
+                 /*  The software interrupt 0 of core0 is used.   */
+				 SRC_GPSR02.U=(1<<26)|   //SRC_GPSR01.B.SETR=1;
+			                  (1<<10)|   //SRC_GPSR01.B.SRE=1;
+			                  (0<<11)|   //SRC_GPSR01.B.TOS=0;
+			                  (31);       //SRC_GPSR01.B.SRPN=9; 
+            }
+			else if(CORE1==actived_core_id)
+			{
+                 core1_cond.blocked_threads=cond->blocked_threads;
+                 /*  The software interrupt 0 of core0 is used.   */
+				 SRC_GPSR12.U=(1<<26)|   //SRC_GPSR11.B.SETR=1;
+			                  (1<<10)|   //SRC_GPSR11.B.SRE=1;
+			                  (1<<11)|   //SRC_GPSR11.B.TOS=1;
+			                  (32);       //SRC_GPSR11.B.SRPN=8; 
+			}
+			else if(CORE2==actived_core_id)
+			{
+                 core2_cond.blocked_threads=cond->blocked_threads;
+
+                 /*  The software interrupt 0 of core0 is used.   */
+				 SRC_GPSR22.U=(1<<26)|   //SRC_GPSR11.B.SETR=1;
+			                  (1<<10)|   //SRC_GPSR11.B.SRE=1;
+			                  (2<<11)|   //SRC_GPSR11.B.TOS=2;
+			                  (33);       //SRC_GPSR11.B.SRPN=7; 			
+			}
+    }
+    return 0;// dummy to avoid warning
+}
 /*-------------------------------------------------------------------------------------
 |
 |   Description:
@@ -1082,7 +1135,7 @@ void __interrupt(9) __vector_table(0) CPU0_SOFT0_Isr(void)
 /*-------------------------------------------------------------------------------------
 |
 |   Description:
-|           CPU0_SOFT0_Isr
+|           CPU1_SOFT0_Isr
 |           
 --------------------------------------------------------------------------------------*/
 void __interrupt(8) __vector_table(0) CPU1_SOFT0_Isr(void)
@@ -1098,7 +1151,7 @@ void __interrupt(8) __vector_table(0) CPU1_SOFT0_Isr(void)
 /*-------------------------------------------------------------------------------------
 |
 |   Description:
-|           CPU0_SOFT0_Isr
+|           CPU2_SOFT0_Isr
 |           
 --------------------------------------------------------------------------------------*/
 void __interrupt(7) __vector_table(0) CPU2_SOFT0_Isr(void)
@@ -1111,6 +1164,36 @@ void __interrupt(7) __vector_table(0) CPU2_SOFT0_Isr(void)
             ::"a"(&core2_os_blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
 }
 
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|           CPU0_SOFT2_Isr for core sync
+|           
+--------------------------------------------------------------------------------------*/
+void __interrupt(31) __vector_table(0) CPU0_SOFT2_Isr(void)
+{
+   pthread_cond_broadcast(core0_cond);
+}
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|           CPU1_SOFT2_Isr for core sync
+|           
+--------------------------------------------------------------------------------------*/
+void __interrupt(32) __vector_table(0) CPU1_SOFT2_Isr(void)
+{
+   pthread_cond_broadcast(&core1_cond);
+}
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|           CPU2_SOFT2_Isr for core sync
+|           
+--------------------------------------------------------------------------------------*/
+void __interrupt(33) __vector_table(0) CPU2_SOFT2_Isr(void)
+{
+   pthread_cond_broadcast(&core2_cond);
+}
 /*-------------------------------------------------------------------------------------
 |
 |   Description:

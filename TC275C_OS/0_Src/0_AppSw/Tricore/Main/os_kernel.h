@@ -33,6 +33,12 @@ enum sched_policy_e {
 enum user_e {
     USER0, USER1, SUPER
 };
+
+//! core definition
+typedef enum  {
+    SELF, CORE0, CORE1, CORE2
+}core_id_e;
+
 //! Call depth definition
 enum call_depth_overflow_e {
     CALL_DEPTH_OVERFLOW_AT_64 = 0,
@@ -221,6 +227,7 @@ int pthread_mutex_unlock(pthread_mutex_t *mutex) ;
 int pthread_cond_wait(pthread_cond_t *cond);//!< [in] condition pointer
 int pthread_cond_broadcast(pthread_cond_t *cond); //!< [in] condition pointer
 //! Wait on a condition
+int pthread_other_core_cond_broadcast(pthread_cond_t *cond,core_id_e actived_core_id); //!< [in] condition pointer
 int pthread_cond_timedwait_np(pthread_cond_t *cond,//!< [in] condition pointer
         uint16_t reltime,
         uint32_t task_id); //!< [in] relative time are the relative time STM_TIM4 ticks.NOT PORTABLE.

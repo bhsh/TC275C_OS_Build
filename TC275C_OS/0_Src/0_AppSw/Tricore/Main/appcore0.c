@@ -40,6 +40,11 @@ PTHREAD_CONTROL_BLOCK(core0_os_th10,10,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
 
 
 PTHREAD_CONTROL_BLOCK(core0_os_th11,11,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+PTHREAD_CONTROL_BLOCK(core0_os_th112,11,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+PTHREAD_CONTROL_BLOCK(core0_os_th113,11,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+PTHREAD_CONTROL_BLOCK(core0_os_th114,11,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+PTHREAD_CONTROL_BLOCK(core0_os_th115,11,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+
 PTHREAD_CONTROL_BLOCK(core0_os_th12,12,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
 PTHREAD_CONTROL_BLOCK(core0_os_th13,13,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
 PTHREAD_CONTROL_BLOCK(core0_os_th14,14,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
@@ -160,6 +165,12 @@ pthread_cond_t core0_os_cond31 = PTHREAD_COND_INITIALIZER;
 pthread_mutex_t core0_os_mutex31 = PTHREAD_MUTEX_INITIALIZER;
 
 
+pthread_cond_t core0_os_cond112 = PTHREAD_COND_INITIALIZER;
+pthread_cond_t core0_os_cond113 = PTHREAD_COND_INITIALIZER;
+pthread_cond_t core0_os_cond114 = PTHREAD_COND_INITIALIZER;
+pthread_cond_t core0_os_cond115 = PTHREAD_COND_INITIALIZER;
+
+
 volatile int core0_os_thread_test_count_TASK0=0;
 
 volatile int core0_os_thread_test_count_TASK1=0;
@@ -175,6 +186,12 @@ volatile int core0_os_thread_test_count_TASK10=0;
 
 
 volatile int core0_os_thread_test_count_TASK11=0;
+volatile int core0_os_thread_test_count_TASK112=0;
+volatile int core0_os_thread_test_count_TASK113=0;
+volatile int core0_os_thread_test_count_TASK114=0;
+volatile int core0_os_thread_test_count_TASK115=0;
+
+
 volatile int core0_os_thread_test_count_TASK12=0;
 volatile int core0_os_thread_test_count_TASK13=0;
 volatile int core0_os_thread_test_count_TASK14=0;
@@ -448,7 +465,8 @@ void core0_os_thread10(void* arg) {
 		pthread_cond_wait(&core0_os_cond10);
 	    printf("Thread %d continued\n", (int) arg);		
 
-	   // pthread_cond_broadcast(&core0_os_cond11);
+	    pthread_cond_broadcast(&core0_os_cond11);
+	   // pthread_other_core_cond_broadcast(&core0_os_cond11,CORE0);
     }
 }
 
@@ -465,7 +483,86 @@ void core0_os_thread11(void* arg) {
         //delay_ms(200);
 	    printf("Thread %d blocked\n", (int) arg);		
 		core0_os_thread_test_count_TASK11++;
-        pthread_cond_wait(&core0_os_cond16);
+        pthread_cond_wait(&core0_os_cond11);
+	    printf("Thread %d continued\n", (int) arg);		
+
+		pthread_cond_broadcast(&core0_os_cond112);
+
+    }
+}
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|   Test type: software sync
+|   Define thread 11 :void core0_os_thread11(void* arg) 
+|
+--------------------------------------------------------------------------------------*/
+void core0_os_thread112(void* arg) {
+    for (;;) {
+
+        //delay_ms(200);
+	    printf("Thread %d blocked\n", (int) arg);		
+		core0_os_thread_test_count_TASK112++;
+        pthread_cond_wait(&core0_os_cond112);
+	    printf("Thread %d continued\n", (int) arg);		
+
+		pthread_cond_broadcast(&core0_os_cond113);
+
+    }
+}
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|   Test type: software sync
+|   Define thread 11 :void core0_os_thread11(void* arg) 
+|
+--------------------------------------------------------------------------------------*/
+void core0_os_thread113(void* arg) {
+    for (;;) {
+
+        //delay_ms(200);
+	    printf("Thread %d blocked\n", (int) arg);		
+		core0_os_thread_test_count_TASK113++;
+        pthread_cond_wait(&core0_os_cond113);
+	    printf("Thread %d continued\n", (int) arg);		
+
+		pthread_cond_broadcast(&core0_os_cond114);
+
+    }
+}
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|   Test type: software sync
+|   Define thread 11 :void core0_os_thread11(void* arg) 
+|
+--------------------------------------------------------------------------------------*/
+void core0_os_thread114(void* arg) {
+    for (;;) {
+
+        //delay_ms(200);
+	    printf("Thread %d blocked\n", (int) arg);		
+		core0_os_thread_test_count_TASK114++;
+        pthread_cond_wait(&core0_os_cond114);
+	    printf("Thread %d continued\n", (int) arg);		
+		//pthread_cond_broadcast(&core0_os_cond21);
+
+    }
+}
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|   Test type: software sync
+|   Define thread 11 :void core0_os_thread11(void* arg) 
+|
+--------------------------------------------------------------------------------------*/
+void core0_os_thread115(void* arg) {
+    for (;;) {
+
+        //delay_ms(200);
+	    printf("Thread %d blocked\n", (int) arg);		
+		core0_os_thread_test_count_TASK115++;
+        pthread_cond_wait(&core0_os_cond11);
 	    printf("Thread %d continued\n", (int) arg);		
 		//pthread_cond_broadcast(&core0_os_cond21);
 
@@ -851,8 +948,15 @@ void start_core0_os(void) {
     pthread_create_np(core0_os_th9, NULL, core0_os_thread9, (void*) 9);
 	pthread_create_np(core0_os_th10, NULL, core0_os_thread10,(void*) 10);
 
-#if 0	
+
 	pthread_create_np(core0_os_th11, NULL, core0_os_thread11, (void*) 11);
+	
+	pthread_create_np(core0_os_th112, NULL, core0_os_thread112, (void*) 11);
+	pthread_create_np(core0_os_th113, NULL, core0_os_thread113, (void*) 11);
+	pthread_create_np(core0_os_th114, NULL, core0_os_thread114, (void*) 11);
+	pthread_create_np(core0_os_th115, NULL, core0_os_thread115, (void*) 11);
+	
+#if 0	
 	pthread_create_np(core0_os_th12, NULL, core0_os_thread12, (void*) 12);
 	pthread_create_np(core0_os_th13, NULL, core0_os_thread13, (void*) 13);
 	pthread_create_np(core0_os_th14, NULL, core0_os_thread14, (void*) 14);

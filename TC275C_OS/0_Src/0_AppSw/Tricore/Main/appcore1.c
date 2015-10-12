@@ -66,6 +66,8 @@ volatile int core1_os_thread_test_count_TASK10;
 
 volatile int core1_os_interrupt_test_flag;
 
+extern pthread_cond_t core0_os_cond11;
+
 /*-------------------------------------------------------------------------------------
 |
 |   Description:
@@ -142,8 +144,11 @@ void core1_os_thread2(void* arg) {
 
         core1_os_thread_test_count_TASK2++;
 
-        pthread_cond_timedwait_np(&core1_os_cond2, 200,(int) arg);
+        pthread_cond_timedwait_np(&core1_os_cond2, 1000,(int) arg);
         printf("Thread %d continued\n", (int) arg);
+
+		
+
     }
 }
 
@@ -308,6 +313,8 @@ void core1_os_thread10(void* arg) {
         core1_os_thread_test_count_TASK10++;
         pthread_cond_wait(&core1_os_cond10);
         printf("Thread %d continued\n", (int) arg);
+
+		
     }
 }
 
