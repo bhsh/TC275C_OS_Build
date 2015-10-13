@@ -489,19 +489,19 @@ int pthread_create_np(pthread_t thread, //!< [in] thread control block pointer.
 
     uint32_t i = thread->priority;
 	
-    if(os_getCoreId()==0)
+    if(os_getCoreId()==CORE0)
     {   
        list_append(&core0_os_pthread_runnable_threads[i], thread, thread,
                   core0_os_pthread_runnable_threads[i]);
        __putbit(1,(int*)&core0_os_pthread_runnable,i); // mark current thread ready
     }
-    else if(os_getCoreId()==1)
+    else if(os_getCoreId()==CORE1)
     {
        list_append(&core1_os_pthread_runnable_threads[i], thread, thread,
                   core1_os_pthread_runnable_threads[i]);
        __putbit(1,(int*)&core1_os_pthread_runnable,i); // mark current thread ready
     }
-	else if(os_getCoreId()==2)
+	else if(os_getCoreId()==CORE2)
 	{
        list_append(&core2_os_pthread_runnable_threads[i], thread, thread,
                   core2_os_pthread_runnable_threads[i]);
