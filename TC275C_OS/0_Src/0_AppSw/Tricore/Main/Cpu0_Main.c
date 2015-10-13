@@ -376,6 +376,24 @@ int math3(int a,int b,int c,int d,int e ,int f,int g)
    
    return total;
 }
+
+unsigned int mutex=0;
+// Initialization with 0 means the mutex is available.
+// Initialization with 1 would be better, as this is
+// more consistent with semaphores. However,
+// everyone can define himself the semantics.
+unsigned int getMutex(void)
+{
+  unsigned int result;
+  __asm ("mov\t %0, #1\n"
+         "\tswap.w\t %0, [%1]0" : "=d"(result) : "a"(& mutex));
+  return result;
+}
+unsigned int store_result;
+void returnMutex(void)
+{
+  mutex=0x0;
+}
 int core0_main (void)
 {
     /*
@@ -433,13 +451,21 @@ int core0_main (void)
     	//trigger_soft_interrupt(&SRC_GPSR01);
         //IfxStm_waitTicks(&MODULE_STM0, 10000000);  // 100ms 
         tick_begin=IfxStm_getLower(&MODULE_STM0);
+        while(0!=getMutex()){};  
+		ticks_in_10ns=IfxStm_getLower(&MODULE_STM0)-tick_begin;
+        
 		IfxPort_togglePin(&MODULE_P33, 8);
 		core0_global_count1++;
 		//core1_global_count1++;
 		
-	    //IfxStm_waitTicks(&MODULE_STM0, 50000000);
-        delay_ms(500); // the function is not really right in AURIX
-		ticks_in_10ns=IfxStm_getLower(&MODULE_STM0)-tick_begin;
+	    IfxStm_waitTicks(&MODULE_STM0, 50000000);
+	    while(1);
+	    
+		
+        //delay_ms(500); // the function is not really right in AURIX
+		
+
+		returnMutex();
 
     	//IfxStm_waitTicks(&MODULE_STM0, g_AppCpu0.info.stmFreq/1000000);
     	//communicationCore0Core1_ptr->core0Ready = 0;

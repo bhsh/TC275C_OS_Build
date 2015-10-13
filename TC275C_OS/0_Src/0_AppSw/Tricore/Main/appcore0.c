@@ -466,7 +466,7 @@ void core0_os_thread10(void* arg) {
 	    printf("Thread %d continued\n", (int) arg);		
 
 	    pthread_cond_broadcast(&core0_os_cond11);
-	   // pthread_other_core_cond_broadcast(&core0_os_cond11,CORE0);
+	    pthread_other_core_cond_broadcast(&core0_os_cond11,CORE0);
     }
 }
 
@@ -486,7 +486,7 @@ void core0_os_thread11(void* arg) {
         pthread_cond_wait(&core0_os_cond11);
 	    printf("Thread %d continued\n", (int) arg);		
 
-		pthread_cond_broadcast(&core0_os_cond112);
+		//pthread_cond_broadcast(&core0_os_cond112);
 
     }
 }
@@ -950,13 +950,13 @@ void start_core0_os(void) {
 
 
 	pthread_create_np(core0_os_th11, NULL, core0_os_thread11, (void*) 11);
-	
+#if 0		
 	pthread_create_np(core0_os_th112, NULL, core0_os_thread112, (void*) 11);
 	pthread_create_np(core0_os_th113, NULL, core0_os_thread113, (void*) 11);
 	pthread_create_np(core0_os_th114, NULL, core0_os_thread114, (void*) 11);
 	pthread_create_np(core0_os_th115, NULL, core0_os_thread115, (void*) 11);
 	
-#if 0	
+
 	pthread_create_np(core0_os_th12, NULL, core0_os_thread12, (void*) 12);
 	pthread_create_np(core0_os_th13, NULL, core0_os_thread13, (void*) 13);
 	pthread_create_np(core0_os_th14, NULL, core0_os_thread14, (void*) 14);

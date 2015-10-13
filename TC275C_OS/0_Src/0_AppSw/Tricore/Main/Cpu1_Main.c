@@ -55,6 +55,8 @@ int core1_main (void)
        //IfxPort_togglePin(&MODULE_P02, 1);
        //IfxStm_waitTicks(&MODULE_STM1, g_AppCpu0.info.stmFreq/100);
      // }
+       while(0!=getMutex()){};  
+
        core1_tick_begin=IfxStm_getLower(&MODULE_STM0);
 
        core1_global_count1++;
@@ -64,6 +66,7 @@ int core1_main (void)
 	   
 	   core1_ticks_in_10ns=IfxStm_getLower(&MODULE_STM0)-core1_tick_begin;
 
+	   returnMutex();
       //releaseLock(&lock, mask);
    }
     return (1);
