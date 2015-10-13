@@ -10,7 +10,7 @@
 
 #include "os_kernel_cfg.h"
 
-#define PTHREAD_COND_INITIALIZER {NULL}
+#define PTHREAD_COND_INITIALIZER {false,NULL}
 #define PTHREAD_MUTEX_INITIALIZER {false,NULL}
 
 #define PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_stacksize) static struct { \
@@ -36,7 +36,7 @@ enum user_e {
 
 //! core definition
 typedef enum  {
-    SELF, CORE0, CORE1, CORE2
+    CORE0, CORE1, CORE2
 }core_id_e;
 
 //! Call depth definition
@@ -78,8 +78,13 @@ typedef struct {
 
 //! Description of a thread conditional variable.
 typedef struct {
+    core_id_e core_id;//!< cond status is one of <true | false>
     pthread_t blocked_threads; //!< list threads waiting for condition
 } pthread_cond_t;
+
+#define CORE0_PTHREAD_COND_INITIALIZER {CORE0,NULL}
+#define CORE1_PTHREAD_COND_INITIALIZER {CORE1,NULL}
+#define CORE2_PTHREAD_COND_INITIALIZER {CORE2,NULL}
 
 int pthread_create_np(pthread_t, const pthread_attr_t *, void(*)(void *),
         void *);
@@ -112,7 +117,7 @@ inline void pthread_start_np(void) {
 
     pthread_t thread;
  
-	if(os_getCoreId()==0)
+	if(os_getCoreId()==CORE0)
 	{
       assert(core0_os_pthread_runnable != 0);
       thread = core0_os_pthread_runnable_threads[31 - __clz(core0_os_pthread_runnable)]; //  get ready thread with highest priority ready
@@ -126,7 +131,7 @@ inline void pthread_start_np(void) {
       __mtcr(CPU_PCXI,  thread->lcx);
       __rslcx();
 	}
-    else if(os_getCoreId()==1)
+    else if(os_getCoreId()==CORE1)
 	{
       assert(core1_os_pthread_runnable != 0);
       thread = core1_os_pthread_runnable_threads[31 - __clz(core1_os_pthread_runnable)]; //  get ready thread with highest priority ready
@@ -140,7 +145,7 @@ inline void pthread_start_np(void) {
       __mtcr(CPU_PCXI,  thread->lcx);
       __rslcx();         // restore the lower context
 	}
-	else if(os_getCoreId()==2)
+	else if(os_getCoreId()==CORE2)
 	{
       assert(core2_os_pthread_runnable != 0);
       thread = core2_os_pthread_runnable_threads[31 - __clz(core2_os_pthread_runnable)]; //  get ready thread with highest priority ready
@@ -228,7 +233,7 @@ int pthread_mutex_unlock(pthread_mutex_t *mutex) ;
 int pthread_cond_wait(pthread_cond_t *cond);//!< [in] condition pointer
 int pthread_cond_broadcast(pthread_cond_t *cond); //!< [in] condition pointer
 //! Wait on a condition
-int pthread_other_core_cond_broadcast(pthread_cond_t *cond,core_id_e actived_core_id); //!< [in] condition pointer
+//int pthread_other_core_cond_broadcast(pthread_cond_t *cond,core_id_e actived_core_id); //!< [in] condition pointer
 int pthread_cond_timedwait_np(pthread_cond_t *cond,//!< [in] condition pointer
         uint16_t reltime,
         uint32_t task_id); //!< [in] relative time are the relative time STM_TIM4 ticks.NOT PORTABLE.

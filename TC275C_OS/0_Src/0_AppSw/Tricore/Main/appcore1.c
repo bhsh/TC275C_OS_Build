@@ -41,16 +41,16 @@ PTHREAD_CONTROL_BLOCK(core1_th10,10,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
 
 #pragma align restore
 
-pthread_cond_t core1_os_cond1   = PTHREAD_COND_INITIALIZER;
-pthread_cond_t core1_os_cond2   = PTHREAD_COND_INITIALIZER;
-pthread_cond_t core1_os_cond3   = PTHREAD_COND_INITIALIZER;
-pthread_cond_t core1_os_cond4   = PTHREAD_COND_INITIALIZER;
-pthread_cond_t core1_os_cond5   = PTHREAD_COND_INITIALIZER;
-pthread_cond_t core1_os_cond6   = PTHREAD_COND_INITIALIZER;
-pthread_cond_t core1_os_cond7   = PTHREAD_COND_INITIALIZER;
-pthread_cond_t core1_os_cond8   = PTHREAD_COND_INITIALIZER;
-pthread_cond_t core1_os_cond9   = PTHREAD_COND_INITIALIZER;
-pthread_cond_t core1_os_cond10  = PTHREAD_COND_INITIALIZER;
+pthread_cond_t core1_os_cond1   = CORE1_PTHREAD_COND_INITIALIZER;
+pthread_cond_t core1_os_cond2   = CORE0_PTHREAD_COND_INITIALIZER;
+pthread_cond_t core1_os_cond3   = CORE0_PTHREAD_COND_INITIALIZER;
+pthread_cond_t core1_os_cond4   = CORE0_PTHREAD_COND_INITIALIZER;
+pthread_cond_t core1_os_cond5   = CORE0_PTHREAD_COND_INITIALIZER;
+pthread_cond_t core1_os_cond6   = CORE0_PTHREAD_COND_INITIALIZER;
+pthread_cond_t core1_os_cond7   = CORE0_PTHREAD_COND_INITIALIZER;
+pthread_cond_t core1_os_cond8   = CORE0_PTHREAD_COND_INITIALIZER;
+pthread_cond_t core1_os_cond9   = CORE0_PTHREAD_COND_INITIALIZER;
+pthread_cond_t core1_os_cond10  = CORE0_PTHREAD_COND_INITIALIZER;
 
 volatile int core1_os_thread_test_count_TASK0;
 volatile int core1_os_thread_test_count_TASK1;
