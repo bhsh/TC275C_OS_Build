@@ -38,9 +38,7 @@ PTHREAD_CONTROL_BLOCK(core0_os_th8,8,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
 PTHREAD_CONTROL_BLOCK(core0_os_th9,9,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
 PTHREAD_CONTROL_BLOCK(core0_os_th10,10,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
 
-
 PTHREAD_CONTROL_BLOCK(core0_os_th11,11,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
-
 
 #pragma align restore
 
@@ -72,11 +70,6 @@ volatile int core0_os_thread_test_count_TASK10=0;
 
 
 volatile int core0_os_thread_test_count_TASK11=0;
-volatile int core0_os_thread_test_count_TASK112=0;
-volatile int core0_os_thread_test_count_TASK113=0;
-volatile int core0_os_thread_test_count_TASK114=0;
-volatile int core0_os_thread_test_count_TASK115=0;
-
 /*-------------------------------------------------------------------------------------
 |
 |   Description:
