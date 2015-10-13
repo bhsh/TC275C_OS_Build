@@ -42,15 +42,15 @@ PTHREAD_CONTROL_BLOCK(core1_th10,10,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
 #pragma align restore
 
 pthread_cond_t core1_os_cond1   = CORE1_PTHREAD_COND_INITIALIZER;
-pthread_cond_t core1_os_cond2   = CORE0_PTHREAD_COND_INITIALIZER;
-pthread_cond_t core1_os_cond3   = CORE0_PTHREAD_COND_INITIALIZER;
-pthread_cond_t core1_os_cond4   = CORE0_PTHREAD_COND_INITIALIZER;
-pthread_cond_t core1_os_cond5   = CORE0_PTHREAD_COND_INITIALIZER;
-pthread_cond_t core1_os_cond6   = CORE0_PTHREAD_COND_INITIALIZER;
-pthread_cond_t core1_os_cond7   = CORE0_PTHREAD_COND_INITIALIZER;
-pthread_cond_t core1_os_cond8   = CORE0_PTHREAD_COND_INITIALIZER;
-pthread_cond_t core1_os_cond9   = CORE0_PTHREAD_COND_INITIALIZER;
-pthread_cond_t core1_os_cond10  = CORE0_PTHREAD_COND_INITIALIZER;
+pthread_cond_t core1_os_cond2   = CORE1_PTHREAD_COND_INITIALIZER;
+pthread_cond_t core1_os_cond3   = CORE1_PTHREAD_COND_INITIALIZER;
+pthread_cond_t core1_os_cond4   = CORE1_PTHREAD_COND_INITIALIZER;
+pthread_cond_t core1_os_cond5   = CORE1_PTHREAD_COND_INITIALIZER;
+pthread_cond_t core1_os_cond6   = CORE1_PTHREAD_COND_INITIALIZER;
+pthread_cond_t core1_os_cond7   = CORE1_PTHREAD_COND_INITIALIZER;
+pthread_cond_t core1_os_cond8   = CORE1_PTHREAD_COND_INITIALIZER;
+pthread_cond_t core1_os_cond9   = CORE1_PTHREAD_COND_INITIALIZER;
+pthread_cond_t core1_os_cond10  = CORE1_PTHREAD_COND_INITIALIZER;
 
 volatile int core1_os_thread_test_count_TASK0;
 volatile int core1_os_thread_test_count_TASK1;
@@ -313,8 +313,9 @@ void core1_os_thread10(void* arg) {
         core1_os_thread_test_count_TASK10++;
         pthread_cond_wait(&core1_os_cond10);
         printf("Thread %d continued\n", (int) arg);
-
-		
+ 
+        while(core0_os_cond11.blocked_threads==NULL){};
+        pthread_cond_broadcast(&core0_os_cond11);
     }
 }
 

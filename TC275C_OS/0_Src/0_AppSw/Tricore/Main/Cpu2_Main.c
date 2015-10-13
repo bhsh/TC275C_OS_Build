@@ -29,7 +29,7 @@ int core2_main (void)
     g_AppCpu2.info.sysFreq = IfxScuCcu_getSpbFrequency();
     g_AppCpu2.info.stmFreq = IfxStm_getFrequency(&MODULE_STM2);
 
-    //start_core2_os();
+    start_core2_os();
     while (1)
     {
         // for(i=0;i<1000;i++)

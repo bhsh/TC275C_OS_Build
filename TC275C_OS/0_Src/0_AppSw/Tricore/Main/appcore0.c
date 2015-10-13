@@ -327,7 +327,7 @@ void core0_os_thread10(void* arg) {
 		pthread_cond_wait(&core0_os_cond10);
 	    printf("Thread %d continued\n", (int) arg);		
 
-	    pthread_cond_broadcast(&core0_os_cond11);
+	    //pthread_cond_broadcast(&core0_os_cond11);
 	    //pthread_other_core_cond_broadcast(&core0_os_cond11,CORE0);
     }
 }

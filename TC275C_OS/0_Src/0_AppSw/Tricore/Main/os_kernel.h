@@ -78,7 +78,7 @@ typedef struct {
 
 //! Description of a thread conditional variable.
 typedef struct {
-    core_id_e core_id;//!< cond status is one of <true | false>
+    const core_id_e core_id;//!< cond status is one of <true | false>
     pthread_t blocked_threads; //!< list threads waiting for condition
 } pthread_cond_t;
 

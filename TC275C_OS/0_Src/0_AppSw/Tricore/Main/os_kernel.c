@@ -327,10 +327,7 @@ unsigned int core2_mutex=0;
 
 inline unsigned int core_getMutex(uint32_t *mutex)
 {
-  unsigned int result;
-  __asm ("mov\t %0, #1\n"
-         "\tswap.w\t %0, [%1]0" : "=d"(result) : "a"(mutex));
-  return result;
+  return __swap(mutex, true);
 }
 inline void core_returnMutex(uint32_t *mutex)
 {
@@ -658,7 +655,7 @@ int pthread_cond_broadcast(pthread_cond_t *cond) //!< [in] condition pointer
 		 {
 	           if(cond_core_id == CORE0)
 		      {
-                 //while(0!=core_getMutex(&core0_mutex)){};
+                 while(0!=core_getMutex(&core0_mutex)){};
 				 
                  /* The bug is found here*/
         	     core0_os_blocked_threads=NULL;
@@ -683,7 +680,7 @@ int pthread_cond_broadcast(pthread_cond_t *cond) //!< [in] condition pointer
                }
 			   else if(cond_core_id==CORE1)
 			   {
-                 //while(0!=core_getMutex(&core1_mutex)){};
+                 while(0!=core_getMutex(&core1_mutex)){};
 				
                  /* The bug is found here*/
         	     core1_os_blocked_threads=NULL;
@@ -708,7 +705,7 @@ int pthread_cond_broadcast(pthread_cond_t *cond) //!< [in] condition pointer
 			   }
 			   else if(cond_core_id==CORE2)
 			   {
-                 //while(0!=core_getMutex(&core2_mutex)){};
+                 while(0!=core_getMutex(&core2_mutex)){};
 				 
                  /* The bug is found here*/
         	     core2_os_blocked_threads=NULL;
@@ -846,6 +843,8 @@ static void trapsystem(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
           default:
               break;
          }
+		 /* unlock core0_mutex */
+		 core_returnMutex(&core0_mutex);
 	}
 	else if(os_getCoreId()==CORE1)
 	{
@@ -882,6 +881,8 @@ static void trapsystem(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
           default:
               break;
          }
+		 /* unlock core1_mutex */
+		 core_returnMutex(&core1_mutex);
 	}
 	else if(os_getCoreId()==CORE2)
 	{
@@ -918,8 +919,9 @@ static void trapsystem(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
           default:
               break;
          }
+		 /* unlock core0_mutex */
+		 core_returnMutex(&core2_mutex);		
 	}
-
     pthread_start_np();
 }
 
