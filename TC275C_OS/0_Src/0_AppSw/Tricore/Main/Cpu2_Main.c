@@ -14,6 +14,7 @@
  *
  *
  *********************************************************************************/
+extern App_Cpu0 g_AppCpu2; /**< \brief CPU 0 global data */
 int core2_main (void)
 {
     __enable ();
@@ -23,7 +24,12 @@ int core2_main (void)
      * */
     IfxScuWdt_disableCpuWatchdog (IfxScuWdt_getCpuWatchdogPassword ());
 
-    start_core2_os();
+	g_AppCpu2.info.pllFreq = IfxScuCcu_getPllFrequency();
+    g_AppCpu2.info.cpuFreq = IfxScuCcu_getCpuFrequency(IfxCpu_getCoreId());
+    g_AppCpu2.info.sysFreq = IfxScuCcu_getSpbFrequency();
+    g_AppCpu2.info.stmFreq = IfxStm_getFrequency(&MODULE_STM2);
+
+    //start_core2_os();
     while (1)
     {
         // for(i=0;i<1000;i++)
@@ -32,8 +38,9 @@ int core2_main (void)
           //IfxStm_waitTicks(&MODULE_STM1, g_AppCpu0.info.stmFreq/100);
         // }
 
-          //IfxPort_togglePin(&MODULE_P33, 11);
-          IfxStm_waitTicks(&MODULE_STM0, 10000000);
+          IfxPort_togglePin(&MODULE_P33, 10);
+          IfxStm_waitTicks(&MODULE_STM0, 50000000);
+		
          //releaseLock(&lock, mask);
     }
     return (1);

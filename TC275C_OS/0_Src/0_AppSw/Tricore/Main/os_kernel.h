@@ -203,6 +203,7 @@ inline context_t *cx_to_addr(uint32_t cx) {
     return (context_t *) __insert(seg_nr << 28, cx, 6, 16);
 }
 
+#define __fCPU 200
 inline void delay_ms(uint32_t _milliseconds) {
     __asm( "  mov.u d15,#1000 \n"
             "  mov.a a15,d15  \n"
@@ -210,7 +211,7 @@ inline void delay_ms(uint32_t _milliseconds) {
             "  nop16          \n"
             "  loop a15,*-4    \n"
             "  loop %0,*-8   \n"
-            ::"a"((_milliseconds*200)/2): "a15","d15");
+            ::"a"((_milliseconds*__fCPU)/2): "a15","d15");
 }
 
 //! Insert NEZ.A instruction

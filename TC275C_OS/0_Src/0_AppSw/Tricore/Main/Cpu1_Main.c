@@ -13,6 +13,8 @@ extern unsigned long lock;
 extern unsigned long mask;
 extern App_Cpu0 g_AppCpu0;
 
+extern App_Cpu0 g_AppCpu1; /**< \brief CPU 0 global data */
+
 /**********************************************************************************
  *
  *
@@ -22,7 +24,9 @@ extern App_Cpu0 g_AppCpu0;
  *
  *********************************************************************************/
 
-
+volatile uint32 core1_tick_begin;
+volatile uint32 core1_tick_end;
+volatile uint32 core1_ticks_in_10ns;
 
 int core1_main (void)
 {
@@ -36,8 +40,13 @@ int core1_main (void)
      * */
    IfxScuWdt_disableCpuWatchdog (IfxScuWdt_getCpuWatchdogPassword ());
 
+   g_AppCpu1.info.pllFreq = IfxScuCcu_getPllFrequency();
+   g_AppCpu1.info.cpuFreq = IfxScuCcu_getCpuFrequency(IfxCpu_getCoreId());
+   g_AppCpu1.info.sysFreq = IfxScuCcu_getSpbFrequency();
+   g_AppCpu1.info.stmFreq = IfxStm_getFrequency(&MODULE_STM1);
+
   
-   start_core1_os();
+   //start_core1_os();
    
    while(1)
    {
@@ -46,8 +55,13 @@ int core1_main (void)
        //IfxPort_togglePin(&MODULE_P02, 1);
        //IfxStm_waitTicks(&MODULE_STM1, g_AppCpu0.info.stmFreq/100);
      // }
-       IfxPort_togglePin(&MODULE_P33, 10);
-       IfxStm_waitTicks(&MODULE_STM0, 20000000);
+       core1_tick_begin=IfxStm_getLower(&MODULE_STM0);
+
+	   IfxPort_togglePin(&MODULE_P33, 9);
+       IfxStm_waitTicks(&MODULE_STM0, 50000000);
+	   
+	   core1_ticks_in_10ns=IfxStm_getLower(&MODULE_STM0)-core1_tick_begin;
+
       //releaseLock(&lock, mask);
    }
     return (1);
