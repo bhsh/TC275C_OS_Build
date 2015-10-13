@@ -57,6 +57,8 @@ int core1_main (void)
      // }
        core1_tick_begin=IfxStm_getLower(&MODULE_STM0);
 
+       core1_global_count1++;
+	   core0_global_count1++;
 	   IfxPort_togglePin(&MODULE_P33, 9);
        IfxStm_waitTicks(&MODULE_STM0, 50000000);
 	   

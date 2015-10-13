@@ -63,5 +63,8 @@ typedef struct
 /******************************************************************************/
 
 IFX_EXTERN App_Cpu0 g_AppCpu0;
+IFX_EXTERN volatile unsigned long core0_global_count1;
+IFX_EXTERN volatile unsigned long core1_global_count1;
+IFX_EXTERN volatile unsigned long core2_global_count1;
 
 #endif

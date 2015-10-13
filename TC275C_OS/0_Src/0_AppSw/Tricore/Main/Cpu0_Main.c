@@ -40,7 +40,11 @@ App_Cpu0 g_AppCpu1; /**< \brief CPU 0 global data */
 App_Cpu0 g_AppCpu2; /**< \brief CPU 0 global data */
 
 unsigned long  lock=1; // 1 means available,
-unsigned long mask=1;
+unsigned long  mask=1;
+
+unsigned volatile long core0_global_count1;
+unsigned volatile long core1_global_count1;
+unsigned volatile long core2_global_count1;
 
 #if 0
 inline void update_stm0_ticks(void)
@@ -430,7 +434,11 @@ int core0_main (void)
         //IfxStm_waitTicks(&MODULE_STM0, 10000000);  // 100ms 
         tick_begin=IfxStm_getLower(&MODULE_STM0);
 		IfxPort_togglePin(&MODULE_P33, 8);
-        //delay_ms(500); the function is not really right in AURIX
+		core0_global_count1++;
+		//core1_global_count1++;
+		
+	    //IfxStm_waitTicks(&MODULE_STM0, 50000000);
+        delay_ms(500); // the function is not really right in AURIX
 		ticks_in_10ns=IfxStm_getLower(&MODULE_STM0)-tick_begin;
 
     	//IfxStm_waitTicks(&MODULE_STM0, g_AppCpu0.info.stmFreq/1000000);

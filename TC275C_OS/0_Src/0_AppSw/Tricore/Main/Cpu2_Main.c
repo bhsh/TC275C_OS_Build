@@ -39,6 +39,9 @@ int core2_main (void)
         // }
 
           IfxPort_togglePin(&MODULE_P33, 10);
+		
+		  core2_global_count1++;
+		  core0_global_count1++;
           IfxStm_waitTicks(&MODULE_STM0, 50000000);
 		
          //releaseLock(&lock, mask);
