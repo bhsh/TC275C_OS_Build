@@ -55,7 +55,6 @@ enum call_depth_overflow_e {
 typedef struct {
     enum user_e mode;//!< thread mode must be 0 user_e
     uint32_t call_depth_overflow;//!< call depth overflow
-    uint32_t stacksize;//!< stacksize
 } pthread_attr_t;
 
 //! Description the thread record.

@@ -360,21 +360,31 @@ void core0_os_thread11(void* arg) {
 |   Define OS API :void start_core0_os(void) 
 |
 --------------------------------------------------------------------------------------*/
+const pthread_attr_t core0_os_th0_attr = { SUPER, CALL_DEPTH_OVERFLOW_AT_64};
+const pthread_attr_t core0_os_th1_attr = { SUPER, CALL_DEPTH_OVERFLOW_AT_64};
+const pthread_attr_t core0_os_th2_attr = { USER0, CALL_DEPTH_OVERFLOW_AT_64};
+const pthread_attr_t core0_os_th3_attr = { USER0, CALL_DEPTH_OVERFLOW_AT_64};
+const pthread_attr_t core0_os_th4_attr = { USER0, CALL_DEPTH_OVERFLOW_AT_64};
+const pthread_attr_t core0_os_th5_attr = { USER0, CALL_DEPTH_OVERFLOW_AT_64};
+const pthread_attr_t core0_os_th6_attr = { USER0, CALL_DEPTH_OVERFLOW_AT_64};
+const pthread_attr_t core0_os_th7_attr = { USER0, CALL_DEPTH_OVERFLOW_AT_64};
+const pthread_attr_t core0_os_th8_attr = { USER0, CALL_DEPTH_OVERFLOW_AT_64};
+const pthread_attr_t core0_os_th9_attr = { USER0, CALL_DEPTH_OVERFLOW_AT_64};
+const pthread_attr_t core0_os_th10_attr = { USER0, CALL_DEPTH_OVERFLOW_AT_64};
+
 void start_core0_os(void) {
 
-    pthread_create_np(core0_os_th0, NULL, core0_os_idle, (void*) 0);
-
-    pthread_create_np(core0_os_th1, NULL, core0_os_thread1, (void*) 1);	
-    pthread_create_np(core0_os_th2, NULL, core0_os_thread2, (void*) 2);
-
-	pthread_create_np(core0_os_th3, NULL, core0_os_thread3, (void*) 3);
-	pthread_create_np(core0_os_th4, NULL, core0_os_thread4, (void*) 4);
-	pthread_create_np(core0_os_th5, NULL, core0_os_thread5, (void*) 5);
-	pthread_create_np(core0_os_th6, NULL, core0_os_thread6, (void*) 6);
-	pthread_create_np(core0_os_th7, NULL, core0_os_thread7, (void*) 7);
-    pthread_create_np(core0_os_th8, NULL, core0_os_thread8, (void*) 8);
-    pthread_create_np(core0_os_th9, NULL, core0_os_thread9, (void*) 9);
-	pthread_create_np(core0_os_th10, NULL, core0_os_thread10,(void*) 10);
+    pthread_create_np(core0_os_th0, &core0_os_th0_attr, core0_os_idle, (void*) 0);
+    pthread_create_np(core0_os_th1, &core0_os_th1_attr, core0_os_thread1, (void*) 1);	
+    pthread_create_np(core0_os_th2, &core0_os_th2_attr, core0_os_thread2, (void*) 2);
+	pthread_create_np(core0_os_th3, &core0_os_th3_attr, core0_os_thread3, (void*) 3);
+	pthread_create_np(core0_os_th4, &core0_os_th4_attr, core0_os_thread4, (void*) 4);
+	pthread_create_np(core0_os_th5, &core0_os_th5_attr, core0_os_thread5, (void*) 5);
+	pthread_create_np(core0_os_th6, &core0_os_th6_attr, core0_os_thread6, (void*) 6);
+	pthread_create_np(core0_os_th7, &core0_os_th7_attr, core0_os_thread7, (void*) 7);
+    pthread_create_np(core0_os_th8, &core0_os_th8_attr, core0_os_thread8, (void*) 8);
+    pthread_create_np(core0_os_th9, &core0_os_th9_attr, core0_os_thread9, (void*) 9);
+	pthread_create_np(core0_os_th10, &core0_os_th10_attr, core0_os_thread10,(void*) 10);
 
 
 	pthread_create_np(core0_os_th11, NULL, core0_os_thread11, (void*) 11);

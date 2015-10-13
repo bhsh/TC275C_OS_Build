@@ -314,8 +314,8 @@ void core1_os_thread10(void* arg) {
         pthread_cond_wait(&core1_os_cond10);
         printf("Thread %d continued\n", (int) arg);
  
-        while(core0_os_cond11.blocked_threads==NULL){};
-        pthread_cond_broadcast(&core0_os_cond11);
+        //while(core0_os_cond11.blocked_threads==NULL){};
+        //pthread_cond_broadcast(&core0_os_cond11);
     }
 }
 
