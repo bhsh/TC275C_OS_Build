@@ -434,7 +434,7 @@ int core0_main (void)
     //Init_soft_interrupt(&SRC_GPSR00,IFX_CFG_ISR_PRIORITY_CPU0_SOFTWAR0);
     //Init_soft_interrupt(&SRC_GPSR01,IFX_CFG_ISR_PRIORITY_CPU0_SOFTWAR1);
     /* background endless loop */
-    //start_core0_os();
+    start_core0_os();
 
     while (1)
     {
