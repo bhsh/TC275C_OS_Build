@@ -81,7 +81,7 @@ void core1_os_idle(void* arg) {
     {
         printf("Thread %d blocked\n", (int) arg);
     	core1_os_thread_test_count_TASK0++;
-    	delay_ms(200);
+    	IfxStm_waitTicks(&MODULE_STM0, 20000000);
         printf("Thread %d continued\n", (int) arg);
 
 		/* A software interrupt is issued now!!! */

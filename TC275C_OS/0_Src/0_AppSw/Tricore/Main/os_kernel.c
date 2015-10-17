@@ -694,7 +694,7 @@ int pthread_cond_broadcast(pthread_cond_t *cond) //!< [in] condition pointer
                  //SRC_GPSR10.B.SETR=1;    // Set request
                  //SRC_GPSR10.B.SRE=1;     // Service Request Enable
                  //SRC_GPSR10.B.TOS=0;     // TOS=CPU0
-                 //SRC_GPSR10.B.SRPN=9;    // Service Request Priority Number
+                 //SRC_GPSR10.B.SRPN=8;    // Service Request Priority Number
                  
 				 SRC_GPSR10.U=(1<<26)|   //SRC_GPSR11.B.SETR=1;
 			                  (1<<10)|   //SRC_GPSR11.B.SRE=1;
@@ -719,7 +719,7 @@ int pthread_cond_broadcast(pthread_cond_t *cond) //!< [in] condition pointer
                  //SRC_GPSR20.B.SETR=1;    // Set request
                  //SRC_GPSR20.B.SRE=1;     // Service Request Enable
                  //SRC_GPSR20.B.TOS=0;     // TOS=CPU0
-                 //SRC_GPSR20.B.SRPN=9;    // Service Request Priority Number
+                 //SRC_GPSR20.B.SRPN=7;    // Service Request Priority Number
 
 				 SRC_GPSR20.U=(1<<26)|   //SRC_GPSR11.B.SETR=1;
 			                  (1<<10)|   //SRC_GPSR11.B.SRE=1;
