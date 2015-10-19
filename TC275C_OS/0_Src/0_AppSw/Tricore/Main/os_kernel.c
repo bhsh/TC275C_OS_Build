@@ -800,6 +800,7 @@ inline void dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t la
 |               __syscallfunc(DISPATCH_SIGNAL) int dispatch_signal(void *, void *);
 |
 --------------------------------------------------------------------------------------*/
+//#pragma align 4
 static void trapsystem(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
     int tin, i;
     pthread_t thread, tmp;
@@ -808,8 +809,8 @@ static void trapsystem(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
             " svlcx        "
             : "=d"(tin)); // put d15 in C variable tin
 
-    if(os_getCoreId()==CORE0)
-	{
+//    if(os_getCoreId()==CORE0)
+//	{
         core0_os_pthread_running->lcx = __mfcr(CPU_PCXI);
         i = core0_os_pthread_running->priority;
         assert(core0_os_pthread_runnable_threads[i] == core0_os_pthread_running);
@@ -844,8 +845,9 @@ static void trapsystem(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
               break;
          }
 		 /* unlock core0_mutex */
-		 core_returnMutex(&core0_mutex);
-	}
+//		 core_returnMutex(&core0_mutex);
+//	}
+#if 0
 	else if(os_getCoreId()==CORE1)
 	{
         core1_os_pthread_running->lcx = __mfcr(CPU_PCXI);
@@ -922,11 +924,10 @@ static void trapsystem(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
 		 /* unlock core0_mutex */
 		 core_returnMutex(&core2_mutex);		
 	}
+#endif
     pthread_start_np();
 }
-
-
-
+//#pragma align restore
 /*-------------------------------------------------------------------------------------
 |
 |   Description:

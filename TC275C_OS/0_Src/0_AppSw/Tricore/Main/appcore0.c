@@ -77,6 +77,9 @@ volatile uint32 tick_begin_test2;
 volatile uint32 tick_begin_test3;
 volatile uint32 tick_begin_test4;
 volatile uint32 tick_begin_test5;
+volatile uint32 Core0_CPU_Load_Background_Count;
+volatile uint32 Core0_CPU_Load_Background;
+volatile uint32 Core0_CPU_1ms_count;
 /*-------------------------------------------------------------------------------------
 |
 |   Description:
@@ -95,29 +98,18 @@ int core0_math_test(int a,int b)
 
 void core0_os_idle(void* arg) {
 
-#ifdef CORE0_THREAD_TIME_MEASURE
 uint32 tick_begin_test;
 uint32 tick_begin_temp_test;
-#endif
+
     for (;;)
     {   	
-        OS_test1(100);
 		core0_os_thread_test_count_TASK0++;
 		
-#ifdef CORE0_THREAD_TIME_MEASURE
-        EnterUTIL_TimeMeas(&core0_thread_execution_time[CORE0_IDLE]);
         tick_begin_test = OS_Measure_thread_Time();
-#endif
-
-		OS_wait_in_us(200000);
-        tick_begin_test1 = core0_math_test(tick_begin_test2,(tick_begin_test3+11));
-
-#ifdef CORE0_THREAD_TIME_MEASURE
-        tick_begin_temp_test = OS_Measure_thread_Time();
-	   	core0_thread_time[(int) arg] = tick_begin_temp_test - tick_begin_test;
+		OS_wait_in_us(1);
+		Core0_CPU_Load_Background_Count++;
+	   	core0_thread_time[(int) arg] = OS_Measure_thread_Time(); - tick_begin_test;
 		
-		ExitUTIL_TimeMeas(&core0_thread_execution_time[CORE0_IDLE]);
-#endif		
         /* Trigger a software interrupt for test only */
 		//SRC_GPSR01.U=(1<<26)|   //SRC_GPSR01.B.SETR=1;
 	   	//	           (1<<10)|   //SRC_GPSR01.B.SRE=1;
@@ -159,19 +151,43 @@ void __interrupt(20) CPU0_SOFT1_Isr(void)
 |   Define thread 1 :void core0_os_thread1(void* arg) 
 |
 --------------------------------------------------------------------------------------*/
-#pragma protect 
-#pragma optimize O2
-#pragma tradeoff 4
+//#pragma protect 
+//#pragma optimize O2
+//#pragma tradeoff 4
+//#pragma align 4
 void core0_os_thread1(void* arg) 
 {
 
 	uint32 tick_begin;
 	uint32 local_test_flag=20;
 	uint32 i,j,k;
+	uint32 tick_begin_test;
+	uint32 tick_begin_temp_test;
+
     for (;;) 
-	{		
+	{
+#if 0
+        OS_test1(100);	
+		tick_begin = OS_Measure_thread_Time();
+
+        EnterUTIL_TimeMeas(&core0_thread_execution_time[CORE0_THREAD1]);
+
+		//printf("Thread %d blocked\n", (int) arg);
+        core0_os_thread_test_count_TASK1++;
+        pthread_cond_timedwait_np(&core0_os_cond1, 200,(int) arg);
+        ///printf("Thread %d continued\n", (int) arg);
+
+        IfxStm_waitTicks(&MODULE_STM0, 20*100); // 20us delay
+
+		core0_thread_time[(int) arg] = OS_Measure_thread_Time()-tick_begin;
+        IfxPort_togglePin(&MODULE_P33, 9);
+		ExitUTIL_TimeMeas(&core0_thread_execution_time[CORE0_THREAD1]);		
+#endif
+#if 1
 		//printf("Thread %d blocked\n", (int) arg);
 		//OS_test1((((int) arg)+20));	
+		tick_begin_test = OS_Measure_thread_Time();
+
         pthread_cond_timedwait_np(&core0_os_cond1,300,(int) arg);
         core0_os_thread_test_count_TASK1++;	
         OS_test1(100);		
@@ -180,7 +196,7 @@ void core0_os_thread1(void* arg)
         //printf("Thread %d continued\n", (int) arg);
 		//OS_test1(((int) arg+5));	
         EnterUTIL_TimeMeas(&core0_thread_execution_time[CORE0_THREAD1]);
-
+        //OS_wait_in_us(200000);
 		tick_begin=OS_Measure_thread_Time();
         tick_begin_test2 = core0_math_test(tick_begin_test1,(tick_begin_test3+31));
 		core0_thread_time[1]=OS_Measure_thread_Time() - tick_begin;
@@ -198,12 +214,39 @@ void core0_os_thread1(void* arg)
 		for(k = 0;k < local_test_flag; k++)
 		{
 		}
-	
+		core0_thread_time[(int) arg] = OS_Measure_thread_Time() - tick_begin_test;
+
+#else
+
+        OS_test1(100);
+		core0_os_thread_test_count_TASK0++;
+		
+        EnterUTIL_TimeMeas(&core0_thread_execution_time[CORE0_IDLE]);
+
+		
+        tick_begin_test = OS_Measure_thread_Time();
+
+		OS_wait_in_us(200000);
+        tick_begin_test1 = core0_math_test(tick_begin_test2,(tick_begin_test3+11));
+		IfxPort_togglePin(&MODULE_P33, 9);
+		
+	   	core0_thread_time[(int) arg] = OS_Measure_thread_Time() - tick_begin_test;
+
+		ExitUTIL_TimeMeas(&core0_thread_execution_time[CORE0_IDLE]);
+
+        /* Trigger a software interrupt for test only */
+		//SRC_GPSR01.U=(1<<26)|   //SRC_GPSR01.B.SETR=1;
+	   	//	           (1<<10)|   //SRC_GPSR01.B.SRE=1;
+		//	           (0<<11)|   //SRC_GPSR01.B.TOS=0;
+		//	           (20);      //SRC_GPSR01.B.SRPN=20; 
+		OS_test1(4);
+#endif
     }
 }
-#pragma tradeoff restore
-#pragma endoptimize
-#pragma endprotect
+//#pragma align restore
+//#pragma tradeoff restore
+//#pragma endoptimize
+//#pragma endprotect
 
 /*-------------------------------------------------------------------------------------
 |
@@ -216,7 +259,6 @@ void core0_os_thread2(void* arg)
 {
 
 	uint32 tick_begin;
-
     for (;;) 
 	{
 		
@@ -225,14 +267,14 @@ void core0_os_thread2(void* arg)
 
         EnterUTIL_TimeMeas(&core0_thread_execution_time[CORE0_THREAD2]);
 
-		printf("Thread %d blocked\n", (int) arg);
+		//printf("Thread %d blocked\n", (int) arg);
         core0_os_thread_test_count_TASK2++;
-        pthread_cond_timedwait_np(&core0_os_cond2, 200,(int) arg);
-        printf("Thread %d continued\n", (int) arg);
-
-        IfxStm_waitTicks(&MODULE_STM0, 20*100); // 20us delay
-
-		core0_thread_time[2] = OS_Measure_thread_Time()-tick_begin;
+        pthread_cond_timedwait_np(&core0_os_cond2, 100,(int) arg);
+        ///printf("Thread %d continued\n", (int) arg);
+        OS_test1(Core0_CPU_1ms_count);	
+        //IfxStm_waitTicks(&MODULE_STM0, 20*100); // 20us delay
+        //OS_wait_in_us(200000);
+		core0_thread_time[(int) arg] = OS_Measure_thread_Time()-tick_begin;
         IfxPort_togglePin(&MODULE_P33, 8);
 		ExitUTIL_TimeMeas(&core0_thread_execution_time[CORE0_THREAD2]);
     }
