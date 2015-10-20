@@ -158,7 +158,7 @@ void core0_os_thread1(void* arg)
         pthread_cond_timedwait_np(&core0_os_cond1,300,(int) arg);
 
 		tick_begin_test3 = core0_math_test(tick_begin_test1,(tick_begin_test2+1));
-		IfxPort_togglePin(&MODULE_P33, 9);
+		//IfxPort_togglePin(&MODULE_P33, 9);
 		
 		core0_thread_time[(int) arg] = OS_Measure_thread_Time() - tick_begin;
 		ExitUTIL_TimeMeas(&core0_thread_execution_time[CORE0_THREAD1]);
