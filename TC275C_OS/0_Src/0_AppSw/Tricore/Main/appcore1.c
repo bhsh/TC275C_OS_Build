@@ -25,7 +25,7 @@
 #include "Src\Std\IfxSrc.h"
 
 
-#pragma align 8
+#pragma align 16
 
 PTHREAD_CONTROL_BLOCK(core1_th0,0,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
 PTHREAD_CONTROL_BLOCK(core1_th1,1,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
@@ -79,15 +79,12 @@ extern pthread_cond_t core0_os_cond11;
 void core1_os_idle(void* arg) {
     for (;;)
     {
-        printf("Thread %d blocked\n", (int) arg);
-    	core1_os_thread_test_count_TASK0++;
-    	IfxStm_waitTicks(&MODULE_STM0, 20000000);
-        printf("Thread %d continued\n", (int) arg);
-
+    	core1_os_thread_test_count_TASK0++;		
+        delay_ms(200);
 		/* A software interrupt is issued now!!! */
-		SRC_GPSR11.U=(1<<26)|   /* SRC_GPSR11.B.SETR=1; */
-			         (1<<10)|   /* SRC_GPSR11.B.SRE=1;  */
-			         (1<<11)|   /* SRC_GPSR11.B.TOS=1;  */
+		SRC_GPSR11.U=(1<<26)|   /* SRC_GPSR11.B.SETR=1;  */
+			         (1<<10)|   /* SRC_GPSR11.B.SRE=1;   */
+			         (1<<11)|   /* SRC_GPSR11.B.TOS=1;   */
 			         (21);      /* SRC_GPSR11.B.SRPN=21; */ 
     }
 }
@@ -119,14 +116,12 @@ void __interrupt(21) CPU1_SOFT1_Isr(void)
 --------------------------------------------------------------------------------------*/
 void core1_os_thread1(void* arg) {
     for (;;) {
-        printf("Thread %d blocked\n", (int) arg);
 
         core1_os_thread_test_count_TASK1++;
 
         pthread_cond_timedwait_np(&core1_os_cond1, 300,(int) arg);
 
 		IfxPort_togglePin(&MODULE_P33, 9);
-        printf("Thread %d continued\n", (int) arg);
     }
 }
 
@@ -140,15 +135,12 @@ void core1_os_thread1(void* arg) {
 --------------------------------------------------------------------------------------*/
 void core1_os_thread2(void* arg) {
     for (;;) {
-        printf("Thread %d blocked\n", (int) arg);
 
         core1_os_thread_test_count_TASK2++;
 
         pthread_cond_timedwait_np(&core1_os_cond2, 1000,(int) arg);
-        printf("Thread %d continued\n", (int) arg);
 
-		
-
+	
     }
 }
 
@@ -163,10 +155,8 @@ void core1_os_thread2(void* arg) {
 void core1_os_thread3(void* arg) {
     for (;;) {
 		
-        printf("Thread %d blocked\n", (int) arg);
         core1_os_thread_test_count_TASK3++;
         pthread_cond_wait(&core1_os_cond3);
-        printf("Thread %d continued\n", (int) arg);
 
 		/* What is really done by thread3 finally. */
 		pthread_cond_broadcast(&core1_os_cond4);    }
@@ -183,10 +173,8 @@ void core1_os_thread3(void* arg) {
 void core1_os_thread4(void* arg) {
     for (;;) {
 		
-        printf("Thread %d blocked\n", (int) arg);
         core1_os_thread_test_count_TASK4++;
         pthread_cond_wait(&core1_os_cond4);
-        printf("Thread %d continued\n", (int) arg);
 
 		/* What is really done by thread4 finally. */
 		pthread_cond_broadcast(&core1_os_cond5);
@@ -204,10 +192,8 @@ void core1_os_thread4(void* arg) {
 void core1_os_thread5(void* arg) {
     for (;;) {
 		
-        printf("Thread %d blocked\n", (int) arg);
         core1_os_thread_test_count_TASK5++;
         pthread_cond_wait(&core1_os_cond5);
-        printf("Thread %d continued\n", (int) arg);
 
 		/* What is really done by thread5 finally. */
 		pthread_cond_broadcast(&core1_os_cond6);    
@@ -225,10 +211,8 @@ void core1_os_thread5(void* arg) {
 void core1_os_thread6(void* arg) {
     for (;;) {
 		
-        printf("Thread %d blocked\n", (int) arg);
         core1_os_thread_test_count_TASK6++;
         pthread_cond_wait(&core1_os_cond6);
-        printf("Thread %d continued\n", (int) arg);
 
 		/* What is really done by thread6 finally. */
 		pthread_cond_broadcast(&core1_os_cond7);
@@ -246,10 +230,8 @@ void core1_os_thread6(void* arg) {
 void core1_os_thread7(void* arg) {
     for (;;) {
 		
-        printf("Thread %d blocked\n", (int) arg);
         core1_os_thread_test_count_TASK7++;
         pthread_cond_wait(&core1_os_cond7);
-        printf("Thread %d continued\n", (int) arg);
 
 		/* What is really done by thread7 finally. */
 		pthread_cond_broadcast(&core1_os_cond8);
@@ -267,10 +249,8 @@ void core1_os_thread7(void* arg) {
 void core1_os_thread8(void* arg) {
     for (;;) {
 		
-        printf("Thread %d blocked\n", (int) arg);
         core1_os_thread_test_count_TASK8++;
         pthread_cond_wait(&core1_os_cond8);
-        printf("Thread %d continued\n", (int) arg);
 
 		/* What is really done by thread8 finally. */
 		pthread_cond_broadcast(&core1_os_cond9);    
@@ -288,10 +268,8 @@ void core1_os_thread8(void* arg) {
 void core1_os_thread9(void* arg) {
     for (;;) {
 		
-        printf("Thread %d blocked\n", (int) arg);
         core1_os_thread_test_count_TASK9++;
         pthread_cond_wait(&core1_os_cond9);
-        printf("Thread %d continued\n", (int) arg);
 
 	    /* What is really done by thread9 finally. */
 		pthread_cond_broadcast(&core1_os_cond10);    
@@ -309,10 +287,8 @@ void core1_os_thread9(void* arg) {
 void core1_os_thread10(void* arg) {
     for (;;) {
 		
-        printf("Thread %d blocked\n", (int) arg);
         core1_os_thread_test_count_TASK10++;
         pthread_cond_wait(&core1_os_cond10);
-        printf("Thread %d continued\n", (int) arg);
  
         //while(core0_os_cond11.blocked_threads==NULL){};
         //pthread_cond_broadcast(&core0_os_cond11);

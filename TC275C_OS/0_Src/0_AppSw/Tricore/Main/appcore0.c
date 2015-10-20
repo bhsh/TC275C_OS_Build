@@ -73,6 +73,11 @@ volatile uint32 core0_thread_time[E_MaxItems];
 volatile uint32 Core0_CPU_Load_Background_Count;
 volatile uint32 Core0_CPU_Load_Background;
 volatile uint32 Core0_CPU_1ms_count;
+
+volatile uint32 tick_begin_test1;
+volatile uint32 tick_begin_test2;
+volatile uint32 tick_begin_test3;
+
 /*-------------------------------------------------------------------------------------
 |
 |   Description:
@@ -100,7 +105,7 @@ void core0_os_idle(void* arg) {
 		Core0_CPU_Load_Background_Count++;
 
 		delay_ms(200);
-	   	core0_thread_time[(int) arg] = OS_Measure_thread_Time(); - tick_begin;
+	   	core0_thread_time[(int) arg] = OS_Measure_thread_Time() - tick_begin;
 		
         /* Trigger a software interrupt for test only */
 		SRC_GPSR01.U=  (1<<26)|   //SRC_GPSR01.B.SETR=1;
