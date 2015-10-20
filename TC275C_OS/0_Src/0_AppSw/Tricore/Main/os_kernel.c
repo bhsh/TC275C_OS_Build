@@ -59,10 +59,14 @@ uint16_t core1_os_stm_tick_count;
 uint16_t core2_os_stm_tick_count;
 
 
+uint32_t core0_os_pthread_time_waiting;
+uint32_t core1_os_pthread_time_waiting;
+uint32_t core2_os_pthread_time_waiting;
+
 //pthread_cond_t *core0_cond = NULL;
 //pthread_cond_t core1_cond  = PTHREAD_COND_INITIALIZER;
 //pthread_cond_t core2_cond  = PTHREAD_COND_INITIALIZER;
-
+ 
 
 
  //! tw array hold condition and time for pthread_cond_timedwait_np.
@@ -103,7 +107,7 @@ uint16_t  stm_ticks[PTHREAD_COND_TIMEDWAIT_SIZE]=
 				    USHRT_MAX,                      // task 29    
 
 					USHRT_MAX,                      // task 30                      
-				    USHRT_MAX,                      // task 31
+				    USHRT_MAX                       // task 31
 				    
     };//!< time
 pthread_cond_t  *stm_cond[PTHREAD_COND_TIMEDWAIT_SIZE]=
@@ -142,10 +146,47 @@ pthread_cond_t  *stm_cond[PTHREAD_COND_TIMEDWAIT_SIZE]=
 				    NULL,                      // task 29    
 
 					NULL,                      // task 30                      
-				    NULL,                      // task 31
+				    NULL                       // task 31
 
     };//!< condition
+pthread_cond_t  core0_os_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
+	{  
+         		    CORE0_PTHREAD_COND_INITIALIZER,                      // task 0 
+				    CORE0_PTHREAD_COND_INITIALIZER,                      // task 1 
+				    CORE0_PTHREAD_COND_INITIALIZER,                      // task 2
+				    CORE0_PTHREAD_COND_INITIALIZER,                      // task 3
+                    CORE0_PTHREAD_COND_INITIALIZER,                      // task 4
+                    CORE0_PTHREAD_COND_INITIALIZER,                      // task 5
+                    CORE0_PTHREAD_COND_INITIALIZER,                      // task 6
+                    CORE0_PTHREAD_COND_INITIALIZER,                      // task 7
+                    CORE0_PTHREAD_COND_INITIALIZER,                      // task 8                      
+				    CORE0_PTHREAD_COND_INITIALIZER,                      // task 9                      
+	         		CORE0_PTHREAD_COND_INITIALIZER,                      // task 10 
+	         		
+				    CORE0_PTHREAD_COND_INITIALIZER,                      // task 11 
+				    CORE0_PTHREAD_COND_INITIALIZER,                      // task 12
+				    CORE0_PTHREAD_COND_INITIALIZER,                      // task 13
+                    CORE0_PTHREAD_COND_INITIALIZER,                      // task 14
+                    CORE0_PTHREAD_COND_INITIALIZER,                      // task 15
+                    CORE0_PTHREAD_COND_INITIALIZER,                      // task 16
+                    CORE0_PTHREAD_COND_INITIALIZER,                      // task 17
+                    CORE0_PTHREAD_COND_INITIALIZER,                      // task 18                      
+				    CORE0_PTHREAD_COND_INITIALIZER,                      // task 19  
+				    CORE0_PTHREAD_COND_INITIALIZER,                      // task 20 
+				    
+				    CORE0_PTHREAD_COND_INITIALIZER,                      // task 21 
+				    CORE0_PTHREAD_COND_INITIALIZER,                      // task 22
+				    CORE0_PTHREAD_COND_INITIALIZER,                      // task 23
+                    CORE0_PTHREAD_COND_INITIALIZER,                      // task 24
+                    CORE0_PTHREAD_COND_INITIALIZER,                      // task 25
+                    CORE0_PTHREAD_COND_INITIALIZER,                      // task 26
+                    CORE0_PTHREAD_COND_INITIALIZER,                      // task 27
+                    CORE0_PTHREAD_COND_INITIALIZER,                      // task 28                      
+				    CORE0_PTHREAD_COND_INITIALIZER,                      // task 29    
 
+					CORE0_PTHREAD_COND_INITIALIZER,                      // task 30                      
+				    CORE0_PTHREAD_COND_INITIALIZER                       // task 31   
+    };
 uint16_t  core1_os_stm_ticks[PTHREAD_COND_TIMEDWAIT_SIZE]=
 	{
          		    USHRT_MAX,                      // task 0 
@@ -221,9 +262,47 @@ pthread_cond_t  *core1_os_stm_cond[PTHREAD_COND_TIMEDWAIT_SIZE]=
 				    NULL,                      // task 29    
 
 					NULL,                      // task 30                      
-				    NULL,                      // task 31
+				    NULL                       // task 31
 
     };//!< condition
+pthread_cond_t  core1_os_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
+	{  
+         		    CORE1_PTHREAD_COND_INITIALIZER,                      // task 0 
+				    CORE1_PTHREAD_COND_INITIALIZER,                      // task 1 
+				    CORE1_PTHREAD_COND_INITIALIZER,                      // task 2
+				    CORE1_PTHREAD_COND_INITIALIZER,                      // task 3
+                    CORE1_PTHREAD_COND_INITIALIZER,                      // task 4
+                    CORE1_PTHREAD_COND_INITIALIZER,                      // task 5
+                    CORE1_PTHREAD_COND_INITIALIZER,                      // task 6
+                    CORE1_PTHREAD_COND_INITIALIZER,                      // task 7
+                    CORE1_PTHREAD_COND_INITIALIZER,                      // task 8                      
+				    CORE1_PTHREAD_COND_INITIALIZER,                      // task 9                      
+	         		CORE1_PTHREAD_COND_INITIALIZER,                      // task 10 
+	         		
+				    CORE1_PTHREAD_COND_INITIALIZER,                      // task 11 
+				    CORE1_PTHREAD_COND_INITIALIZER,                      // task 12
+				    CORE1_PTHREAD_COND_INITIALIZER,                      // task 13
+                    CORE1_PTHREAD_COND_INITIALIZER,                      // task 14
+                    CORE1_PTHREAD_COND_INITIALIZER,                      // task 15
+                    CORE1_PTHREAD_COND_INITIALIZER,                      // task 16
+                    CORE1_PTHREAD_COND_INITIALIZER,                      // task 17
+                    CORE1_PTHREAD_COND_INITIALIZER,                      // task 18                      
+				    CORE1_PTHREAD_COND_INITIALIZER,                      // task 19  
+				    CORE1_PTHREAD_COND_INITIALIZER,                      // task 20 
+				    
+				    CORE1_PTHREAD_COND_INITIALIZER,                      // task 21 
+				    CORE1_PTHREAD_COND_INITIALIZER,                      // task 22
+				    CORE1_PTHREAD_COND_INITIALIZER,                      // task 23
+                    CORE1_PTHREAD_COND_INITIALIZER,                      // task 24
+                    CORE1_PTHREAD_COND_INITIALIZER,                      // task 25
+                    CORE1_PTHREAD_COND_INITIALIZER,                      // task 26
+                    CORE1_PTHREAD_COND_INITIALIZER,                      // task 27
+                    CORE1_PTHREAD_COND_INITIALIZER,                      // task 28                      
+				    CORE1_PTHREAD_COND_INITIALIZER,                      // task 29    
+
+					CORE1_PTHREAD_COND_INITIALIZER,                      // task 30                      
+				    CORE1_PTHREAD_COND_INITIALIZER                       // task 31   
+    };
 uint16_t  core2_os_stm_ticks[PTHREAD_COND_TIMEDWAIT_SIZE]=
 	{
          		    USHRT_MAX,                      // task 0 
@@ -260,7 +339,7 @@ uint16_t  core2_os_stm_ticks[PTHREAD_COND_TIMEDWAIT_SIZE]=
 				    USHRT_MAX,                      // task 29    
 
 					USHRT_MAX,                      // task 30                      
-				    USHRT_MAX,                      // task 31
+				    USHRT_MAX                       // task 31
 				    
     };//!< time
 pthread_cond_t  *core2_os_stm_cond[PTHREAD_COND_TIMEDWAIT_SIZE]=
@@ -299,10 +378,47 @@ pthread_cond_t  *core2_os_stm_cond[PTHREAD_COND_TIMEDWAIT_SIZE]=
 				    NULL,                      // task 29    
 
 					NULL,                      // task 30                      
-				    NULL,                      // task 31
+				    NULL                       // task 31
 
     };//!< condition
+pthread_cond_t  core2_os_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
+	{  
+         		    CORE2_PTHREAD_COND_INITIALIZER,                      // task 0 
+				    CORE2_PTHREAD_COND_INITIALIZER,                      // task 1 
+				    CORE2_PTHREAD_COND_INITIALIZER,                      // task 2
+				    CORE2_PTHREAD_COND_INITIALIZER,                      // task 3
+                    CORE2_PTHREAD_COND_INITIALIZER,                      // task 4
+                    CORE2_PTHREAD_COND_INITIALIZER,                      // task 5
+                    CORE2_PTHREAD_COND_INITIALIZER,                      // task 6
+                    CORE2_PTHREAD_COND_INITIALIZER,                      // task 7
+                    CORE2_PTHREAD_COND_INITIALIZER,                      // task 8                      
+				    CORE2_PTHREAD_COND_INITIALIZER,                      // task 9                      
+	         		CORE2_PTHREAD_COND_INITIALIZER,                      // task 10 
+	         		
+				    CORE2_PTHREAD_COND_INITIALIZER,                      // task 11 
+				    CORE2_PTHREAD_COND_INITIALIZER,                      // task 12
+				    CORE2_PTHREAD_COND_INITIALIZER,                      // task 13
+                    CORE2_PTHREAD_COND_INITIALIZER,                      // task 14
+                    CORE2_PTHREAD_COND_INITIALIZER,                      // task 15
+                    CORE2_PTHREAD_COND_INITIALIZER,                      // task 16
+                    CORE2_PTHREAD_COND_INITIALIZER,                      // task 17
+                    CORE2_PTHREAD_COND_INITIALIZER,                      // task 18                      
+				    CORE2_PTHREAD_COND_INITIALIZER,                      // task 19  
+				    CORE2_PTHREAD_COND_INITIALIZER,                      // task 20 
+				    
+				    CORE2_PTHREAD_COND_INITIALIZER,                      // task 21 
+				    CORE2_PTHREAD_COND_INITIALIZER,                      // task 22
+				    CORE2_PTHREAD_COND_INITIALIZER,                      // task 23
+                    CORE2_PTHREAD_COND_INITIALIZER,                      // task 24
+                    CORE2_PTHREAD_COND_INITIALIZER,                      // task 25
+                    CORE2_PTHREAD_COND_INITIALIZER,                      // task 26
+                    CORE2_PTHREAD_COND_INITIALIZER,                      // task 27
+                    CORE2_PTHREAD_COND_INITIALIZER,                      // task 28                      
+				    CORE2_PTHREAD_COND_INITIALIZER,                      // task 29    
 
+					CORE2_PTHREAD_COND_INITIALIZER,                      // task 30                      
+				    CORE2_PTHREAD_COND_INITIALIZER                       // task 31   
+    };
 extern uint32 stm0CompareValue;
 extern uint32 stm1CompareValue;
 extern uint32 stm2CompareValue;
@@ -934,128 +1050,160 @@ static void trapsystem(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
 --------------------------------------------------------------------------------------*/
 inline void schedule_in_tick(void)
 {
-    pthread_cond_t  *cond;
-	pthread_cond_t  *cond_buffer[PTHREAD_COND_TIMEDWAIT_SIZE];
-    uint32_t        index;
-	uint32_t        release_count=0;
-
- if(os_getCoreId()==CORE0)
- {
-    for(index=0;index<PTHREAD_COND_TIMEDWAIT_SIZE;index++)
-    {
-      if(stm_ticks[index]==stm_tick_count)
-	  {		
-		cond_buffer[release_count] = stm_cond[index];
-		stm_ticks[index]           = USHRT_MAX;                             // free place in array 
-		
-		release_count++;
-	  }
-    }
- }
- else if(os_getCoreId()==CORE1)
- {
-    for(index=0;index<PTHREAD_COND_TIMEDWAIT_SIZE;index++)
-    {
-      if(core1_os_stm_ticks[index]==core1_os_stm_tick_count)
-	  {		
-		cond_buffer[release_count] = core1_os_stm_cond[index];
-		core1_os_stm_ticks[index]  = USHRT_MAX;                             // free place in array 
-		
-		release_count++;
-	  }
-    }
- }
- else if(os_getCoreId()==CORE2)
- {
-    for(index=0;index<PTHREAD_COND_TIMEDWAIT_SIZE;index++)
-    {
-      if(core2_os_stm_ticks[index]==core2_os_stm_tick_count)
-	  {		
-		cond_buffer[release_count] = core2_os_stm_cond[index];
-		core2_os_stm_ticks[index]  = USHRT_MAX;                             // free place in array 
-		
-		release_count++;
-	  }
-    }
- }
+     pthread_cond_t  *cond;
+	 pthread_cond_t  *cond_buffer[PTHREAD_COND_TIMEDWAIT_SIZE];
+     uint32_t        index;
+	 uint32_t        release_count = 0;
+	 uint32_t        tempt_index;
+	
+	 if(os_getCoreId()==CORE0)
+	 {
+	    tempt_index = PTHREAD_COND_TIMEDWAIT_SIZE - __clz(core0_os_pthread_time_waiting);
+		if( tempt_index == 0) return;
+		tempt_index = tempt_index - 1;
+	    for(index = 0 ; index <= tempt_index ; index++)
+	    {
+	      if(stm_ticks[index] == stm_tick_count)
+		  {		
+			cond_buffer[release_count] = stm_cond[index];
+			stm_ticks[index]           = USHRT_MAX;                             // free place in array 
+			__putbit(0,(int*)&core0_os_pthread_time_waiting,index); 
+			release_count++;
+		  }
+	    }
+	 }
+	 else if(os_getCoreId() == CORE1)
+	 {
+	 	tempt_index = PTHREAD_COND_TIMEDWAIT_SIZE - __clz(core1_os_pthread_time_waiting);
+		if( tempt_index == 0) return;
+		tempt_index = tempt_index - 1;
+	    for(index = 0 ; index <= tempt_index ; index++)
+	    {
+	      if(core1_os_stm_ticks[index] == core1_os_stm_tick_count)
+		  {		
+			cond_buffer[release_count] = core1_os_stm_cond[index];
+			core1_os_stm_ticks[index]  = USHRT_MAX;      
+			__putbit(0,(int*)&core1_os_pthread_time_waiting,index); 
+			release_count++;
+		  }
+	    }
+	 }
+	 else if(os_getCoreId() == CORE2)
+	 {
+	 	tempt_index = PTHREAD_COND_TIMEDWAIT_SIZE - __clz(core2_os_pthread_time_waiting);
+		if( tempt_index == 0) return;
+		tempt_index = tempt_index - 1;
+	    for(index = 0 ; index <= tempt_index ; index++)
+	    {
+	      if(core2_os_stm_ticks[index] == core2_os_stm_tick_count)
+		  {		
+			cond_buffer[release_count] = core2_os_stm_cond[index];
+			core2_os_stm_ticks[index]  = USHRT_MAX;  
+			__putbit(0,(int*)&core2_os_pthread_time_waiting,index); 
+			release_count++;
+		  }
+	    }
+	 }
     //setup parameter and jump to trapsystem
-    if(release_count!=0)
+	if(release_count!=0)
 	{
 	   assert(cond_buffer[0] != NULL);
 	    if(release_count>1)
- 	   {
- 	        while(--release_count)
- 		   {
- 	          dispatch_signal_in_tick(&cond_buffer[release_count]->blocked_threads,NULL);
- 		   }
- 	   }
+		   {
+		        while(--release_count)
+			   {
+		          dispatch_signal_in_tick(&cond_buffer[release_count]->blocked_threads,NULL);
+			   }
+		   }
 	  assert(cond_buffer[0] != NULL);
- 	
+		
 	   cond   =cond_buffer[0];                        // get current condition
-       __asm( " mov.aa a4,%0 \n"
-              " mov.aa a5,%1 \n"
-              " mov d15,%2   \n"
-              " jg trapsystem  "
-              ::"a"(&cond->blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
+	   __asm( " mov.aa a4,%0 \n"
+	          " mov.aa a5,%1 \n"
+	          " mov d15,%2   \n"
+	          " jg trapsystem  "
+	          ::"a"(&cond->blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
 	 }
 }
 
 /*-------------------------------------------------------------------------------------
 |
 |   Description:
-|           pthread_cond_timedwait_np
+|           pthread_cond_timedwait_np(optimized)
 |           time block
 |           
 --------------------------------------------------------------------------------------*/
-int pthread_cond_timedwait_np(pthread_cond_t *cond,//!< [in] condition pointer
-        uint16_t reltime,
-        uint32_t task_id) //!< [in] relative time are the relative time STM_TIM4 ticks.NOT PORTABLE.
+int pthread_cond_timedwait_np(uint16_t reltime) //!< [in] relative time are the relative time STM_TIM4 ticks.NOT PORTABLE.
 {
 	uint16_t new_tick_count;
     uint16_t set_count;
+	uint32_t task_id = 0;
+	pthread_cond_t *cond;
 	
     assert(cppn()==0); // CCPN must be 0, pthread_create cannot be called from ISR
-    assert(cond != NULL);
 
 	if(os_getCoreId()==CORE0)
 	{
 	  new_tick_count           = stm_tick_count + 1;
 	  set_count                = ((uint16_t)(new_tick_count + reltime))%0xFFFF;  // set_count ranges from 0-0xFFFE
-	
+
+      /* Search the empty position. */
+      while((stm_ticks[task_id] != USHRT_MAX)&&(task_id < PTHREAD_COND_TIMEDWAIT_SIZE ))
+	  {
+        task_id++;
+	  }
+	  /* There is not any empty position now. the call is returned. */
+	  if(task_id == PTHREAD_COND_TIMEDWAIT_SIZE ) return 0;
+ 
+      cond = &core0_os_cond[task_id];
+	  __putbit(1,(int*)&core0_os_pthread_time_waiting,task_id); // mark current thread ready
       stm_ticks[task_id]       = set_count;                                      // load the current tick set(lconfig 1.)
       stm_cond[task_id]        = cond;                                           // load the cond.(lconfig 2.)
 
-      //__swap(&mutex->lock, false);
       int err = dispatch_wait(&cond->blocked_threads, NULL);// swap out with mutex unlocked
-      //__swap(&mutex->lock, true);
-      //mutex->owner = core0_os_pthread_running;
 	}
 	else if(os_getCoreId()==CORE1)
 	{
 	  new_tick_count           = core1_os_stm_tick_count + 1;
 	  set_count                = ((uint16_t)(new_tick_count + reltime))%0xFFFF;  // set_count ranges from 0-0xFFFE
-	
-      core1_os_stm_ticks[task_id]       = set_count;                                      // load the current tick set(lconfig 1.)
+
+      /* Search the empty position. */
+      while((core1_os_stm_ticks[task_id] != USHRT_MAX)&&(task_id < PTHREAD_COND_TIMEDWAIT_SIZE ))
+	  {
+        task_id++;
+	  }
+	  /* There is not any empty position now. the call is returned. */
+	  if(task_id == PTHREAD_COND_TIMEDWAIT_SIZE ) return 0;
+
+      cond = &core1_os_cond[task_id];
+	  __putbit(1,(int*)&core1_os_pthread_time_waiting,task_id); // mark current thread ready
+	  
+	  core1_os_stm_ticks[task_id]       = set_count;                                      // load the current tick set(lconfig 1.)
       core1_os_stm_cond[task_id]        = cond;                                           // load the cond.(lconfig 2.)
 	
-      //__swap(&mutex->lock, false);
       int err = dispatch_wait(&cond->blocked_threads, NULL);// swap out with mutex unlocked
-      //__swap(&mutex->lock, true);
-      //mutex->owner = core1_os_pthread_running;
 
 	}
 	else if(os_getCoreId()==CORE2)
 	{
 	  new_tick_count           = core2_os_stm_tick_count + 1;
 	  set_count                = ((uint16_t)(new_tick_count + reltime))%0xFFFF;  // set_count ranges from 0-0xFFFE
-	
-      core2_os_stm_ticks[task_id]       = set_count;                                      // load the current tick set(lconfig 1.)
+
+      /* Search the empty position. */
+      while((core2_os_stm_ticks[task_id] != USHRT_MAX)&&(task_id < PTHREAD_COND_TIMEDWAIT_SIZE ))
+	  {
+        task_id++;
+	  }
+	  /* There is not any empty position now. the call is returned. */
+	  if(task_id == PTHREAD_COND_TIMEDWAIT_SIZE ) return 0;
+
+      cond = &core2_os_cond[task_id];
+	  __putbit(1,(int*)&core2_os_pthread_time_waiting,task_id); // mark current thread ready
+
+	  core2_os_stm_ticks[task_id]       = set_count;                                      // load the current tick set(lconfig 1.)
       core2_os_stm_cond[task_id]        = cond;                                           // load the cond.(lconfig 2.)
 
-      //__swap(&mutex->lock, false);
       int err = dispatch_wait(&cond->blocked_threads, NULL);// swap out with mutex unlocked
-      //__swap(&mutex->lock, true);
-      //mutex->owner = core2_os_pthread_running;
 	}
     return 0;
 }

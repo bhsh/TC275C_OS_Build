@@ -155,10 +155,10 @@ void core0_os_thread1(void* arg)
 		EnterUTIL_TimeMeas(&core0_thread_execution_time[CORE0_THREAD1]);
 		tick_begin = OS_Measure_thread_Time();
         core0_os_thread_test_count_TASK1++;	
-        pthread_cond_timedwait_np(&core0_os_cond1,300,(int) arg);
+        pthread_cond_timedwait_np(300);
 
 		tick_begin_test3 = core0_math_test(tick_begin_test1,(tick_begin_test2+1));
-		//IfxPort_togglePin(&MODULE_P33, 9);
+		IfxPort_togglePin(&MODULE_P33, 9);
 		
 		core0_thread_time[(int) arg] = OS_Measure_thread_Time() - tick_begin;
 		ExitUTIL_TimeMeas(&core0_thread_execution_time[CORE0_THREAD1]);
@@ -186,7 +186,7 @@ void core0_os_thread2(void* arg)
 		tick_begin = OS_Measure_thread_Time();
 
         core0_os_thread_test_count_TASK2++;
-        pthread_cond_timedwait_np(&core0_os_cond2, 500,(int) arg);
+        pthread_cond_timedwait_np(500);
         IfxPort_togglePin(&MODULE_P33, 8);
 		core0_thread_time[(int) arg] = OS_Measure_thread_Time()-tick_begin;
 		//ExitUTIL_TimeMeas(&core0_thread_execution_time[CORE0_THREAD2]);
@@ -354,7 +354,7 @@ void core0_os_thread9(void* arg) {
 		IfxStm_waitTicks(&MODULE_STM0, 500*100); // 500us delay
 		core0_thread_time[(int) arg]=IfxStm_getLower(&MODULE_STM0)-tick_begin;
 
-	    pthread_cond_broadcast(&core0_os_cond10);
+	    //pthread_cond_broadcast(&core0_os_cond10);
     }
 }
 
@@ -373,8 +373,9 @@ void core0_os_thread10(void* arg) {
 
 		core0_os_thread_test_count_TASK10++;
 
-		pthread_cond_wait(&core0_os_cond10);
-		
+		//pthread_cond_wait(&core0_os_cond10);
+		pthread_cond_timedwait_np(1000);
+		IfxPort_togglePin(&MODULE_P33, 10);
 		tick_begin=IfxStm_getLower(&MODULE_STM0);
 		IfxStm_waitTicks(&MODULE_STM0, 500*100); // 500us delay
 		core0_thread_time[(int) arg]=IfxStm_getLower(&MODULE_STM0)-tick_begin;

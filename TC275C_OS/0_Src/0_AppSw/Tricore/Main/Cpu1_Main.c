@@ -46,7 +46,7 @@ int core1_main (void)
    g_AppCpu1.info.stmFreq = IfxStm_getFrequency(&MODULE_STM1);
 
   
-   start_core1_os();
+   //start_core1_os();
    while(1);
    while(1)
    {

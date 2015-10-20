@@ -119,7 +119,7 @@ void core1_os_thread1(void* arg) {
 
         core1_os_thread_test_count_TASK1++;
 
-        pthread_cond_timedwait_np(&core1_os_cond1, 300,(int) arg);
+        pthread_cond_timedwait_np(300);
 
 		IfxPort_togglePin(&MODULE_P33, 9);
     }
@@ -138,7 +138,7 @@ void core1_os_thread2(void* arg) {
 
         core1_os_thread_test_count_TASK2++;
 
-        pthread_cond_timedwait_np(&core1_os_cond2, 1000,(int) arg);
+        pthread_cond_timedwait_np(1000);
 
 	
     }
