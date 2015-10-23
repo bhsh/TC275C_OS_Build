@@ -478,6 +478,29 @@ int pthread_cond_wait(pthread_cond_t *cond)//!< [in] condition pointer
 /*-------------------------------------------------------------------------------------
 |
 |   Description:
+|             int pthread_cond_wait2(pthread_cond_t *cond, pthread_mutex_t *mutex)
+|             Wait on a condition
+|
+--------------------------------------------------------------------------------------*/
+int pthread_cond_wait2(pthread_cond_t *cond)//!< [in] condition pointer
+{
+    assert(cppn()==0); // CCPN must be 0, pthread_create cannot be called from ISR
+    assert(cond!= NULL); // errno = EINVAL
+
+	if(cond->multi_semaphore <= 1)
+	{  
+	    cond->multi_semaphore = 0;
+        dispatch_wait(&cond->blocked_threads, NULL);// add this thread to the list of blocked threads by this cond
+    }
+    else if(cond->multi_semaphore > 1)
+	{
+       cond->multi_semaphore--;
+	}	
+    return 0;
+}
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
 |               int pthread_cond_broadcast(pthread_cond_t *cond)
 |               Broadcast a condition
 |
@@ -588,6 +611,127 @@ int pthread_cond_broadcast(pthread_cond_t *cond) //!< [in] condition pointer
 		  }		
     }
     return 0;// dummy to avoid warning
+}
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|               int pthread_cond_broadcast2(pthread_cond_t *cond)
+|               Broadcast a condition
+|
+--------------------------------------------------------------------------------------*/
+int pthread_cond_broadcast2(pthread_cond_t *cond) //!< [in] condition pointer
+{
+    assert(cond!=NULL);
+	uint32_t current_cpu_id = os_getCoreId();
+	uint32_t cond_core_id   = cond->core_id;
+
+    if((current_cpu_id == CORE0)&&(core0_scheduler_status == SCHEDULER_SUSPENDED)) return 0;
+	if((current_cpu_id == CORE1)&&(core1_scheduler_status == SCHEDULER_SUSPENDED)) return 0;
+	if((current_cpu_id == CORE2)&&(core2_scheduler_status == SCHEDULER_SUSPENDED)) return 0;
+
+	if(cond->multi_semaphore == 0)
+	{
+        cond->multi_semaphore = 1;
+		if (cond->blocked_threads != NULL)
+		{	 
+			 if((cond_core_id == current_cpu_id)&&(0 == cppn()))
+		     {		
+	              // _pthread_running on CCPN=0
+	              dispatch_signal(&cond->blocked_threads, cond->blocked_threads->prev);// swap in with mutex unlocked
+		     }
+	         else
+			 {
+		           if(cond_core_id == CORE0)
+			      { 
+				  	 if(core0_scheduler_status == SCHEDULER_SUSPENDED) return 0;
+
+					 while(0!=core_getMutex(&core0_mutex)){};
+					 
+	                 /* The bug is found here*/
+	        	     core0_os_blocked_threads=NULL;
+	        	     //blocked_threads_prev_temp=cond->blocked_threads->prev;
+	        	     list_append(&core0_os_blocked_threads, cond->blocked_threads,
+	                              cond->blocked_threads->prev, cond->blocked_threads->next);
+	                 //locked_threads=cond->blocked_threads;
+	                 cond->blocked_threads = NULL;
+
+	                 /*  The software interrupt 0 of core0 is used.   */
+	                 //SRC_GPSR00.B.SETR=1;    // Set request
+	                 //SRC_GPSR00.B.SRE=1;     // Service Request Enable
+	                 //SRC_GPSR00.B.TOS=0;     // TOS=CPU0
+	                 //SRC_GPSR00.B.SRPN=9;    // Service Request Priority Number
+
+					 SRC_GPSR00.U=(1<<26)|   //SRC_GPSR01.B.SETR=1;
+				                  (1<<10)|   //SRC_GPSR01.B.SRE=1;
+				                  (0<<11)|   //SRC_GPSR01.B.TOS=0;
+				                  (9);       //SRC_GPSR01.B.SRPN=9; 
+
+					 //core_returnMutex(&core0_mutex);
+	               }
+				   else if(cond_core_id==CORE1)
+				   { 
+
+					 if(core1_scheduler_status == SCHEDULER_SUSPENDED) return 0;
+
+	                 while(0!=core_getMutex(&core1_mutex)){};
+					
+	                 /* The bug is found here*/
+	        	     core1_os_blocked_threads=NULL;
+	        	     //blocked_threads_prev_temp=cond->blocked_threads->prev;
+	        	     list_append(&core1_os_blocked_threads, cond->blocked_threads,
+	                                cond->blocked_threads->prev, cond->blocked_threads->next);
+	                 //locked_threads=cond->blocked_threads;
+	                 cond->blocked_threads = NULL;
+
+	                 /*  The software interrupt 0 of core0 is used.   */
+	                 //SRC_GPSR10.B.SETR=1;    // Set request
+	                 //SRC_GPSR10.B.SRE=1;     // Service Request Enable
+	                 //SRC_GPSR10.B.TOS=0;     // TOS=CPU0
+	                 //SRC_GPSR10.B.SRPN=8;    // Service Request Priority Number
+	                 
+					 SRC_GPSR10.U=(1<<26)|   //SRC_GPSR11.B.SETR=1;
+				                  (1<<10)|   //SRC_GPSR11.B.SRE=1;
+				                  (1<<11)|   //SRC_GPSR11.B.TOS=1;
+				                  (8);       //SRC_GPSR11.B.SRPN=8; 
+				                  
+					 //core_returnMutex(&core1_mutex);
+				   }
+				   else if(cond_core_id==CORE2)
+				   { 
+
+					 if(core2_scheduler_status == SCHEDULER_SUSPENDED) return 0;
+
+	                 while(0!=core_getMutex(&core2_mutex)){};
+					 
+	                 /* The bug is found here*/
+	        	     core2_os_blocked_threads=NULL;
+	        	     //blocked_threads_prev_temp=cond->blocked_threads->prev;
+	        	     list_append(&core2_os_blocked_threads, cond->blocked_threads,
+	                                   cond->blocked_threads->prev, cond->blocked_threads->next);
+	                 //locked_threads=cond->blocked_threads;
+	                 cond->blocked_threads = NULL;
+
+	                 /*  The software interrupt 0 of core0 is used.   */
+	                 //SRC_GPSR20.B.SETR=1;    // Set request
+	                 //SRC_GPSR20.B.SRE=1;     // Service Request Enable
+	                 //SRC_GPSR20.B.TOS=0;     // TOS=CPU0
+	                 //SRC_GPSR20.B.SRPN=7;    // Service Request Priority Number
+
+					 SRC_GPSR20.U=(1<<26)|   //SRC_GPSR11.B.SETR=1;
+				                  (1<<10)|   //SRC_GPSR11.B.SRE=1;
+				                  (2<<11)|   //SRC_GPSR11.B.TOS=2;
+				                  (7);       //SRC_GPSR11.B.SRPN=7; 	
+				                  
+				     //core_returnMutex(&core2_mutex);
+				    }
+			  }		
+	    }
+	}
+	else
+	{
+       cond->multi_semaphore++;
+	}
+	return 0;// dummy to avoid warning
 }
 
 /*-------------------------------------------------------------------------------------

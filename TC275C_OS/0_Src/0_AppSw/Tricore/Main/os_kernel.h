@@ -88,13 +88,14 @@ typedef struct {
 
 //! Description of a thread conditional variable.
 typedef struct {
-    const core_id_e core_id;//!< cond status is one of <true | false>
+    const uint32_t core_id;//!< cond status is one of <true | false>
+    uint32_t  multi_semaphore;
     pthread_t blocked_threads; //!< list threads waiting for condition
 } pthread_cond_t;
 
-#define CORE0_PTHREAD_COND_INITIALIZER {CORE0,NULL}
-#define CORE1_PTHREAD_COND_INITIALIZER {CORE1,NULL}
-#define CORE2_PTHREAD_COND_INITIALIZER {CORE2,NULL}
+#define CORE0_PTHREAD_COND_INITIALIZER {CORE0,0,NULL}
+#define CORE1_PTHREAD_COND_INITIALIZER {CORE1,0,NULL}
+#define CORE2_PTHREAD_COND_INITIALIZER {CORE2,0,NULL}
 
 int pthread_create_np(pthread_t, const pthread_attr_t *, void(*)(void *),
         void *);
