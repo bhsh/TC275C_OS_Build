@@ -80,6 +80,13 @@ typedef struct {
     pthread_t blocked_threads; //!< list threads waiting for mutex
 } pthread_mutex_t;
 
+typedef struct {
+    uint32_t type;//!< mutex lock status is one of <true | false>
+    uint32_t period;//!< mutex lock status is one of <true | false> 
+    uint32_t time;//!< mutex lock status is one of <true | false> 
+    
+} pthread_config_t;
+
 //! Description of a thread conditional variable.
 typedef struct {
     const uint32_t core_id;//!< cond status is one of <true | false>
@@ -87,12 +94,14 @@ typedef struct {
     pthread_t blocked_threads; //!< list threads waiting for condition
 } pthread_cond_t;
 
+typedef void (*task_ptr_t)(pthread_config_t * const pthread_config);
+
 #define CORE0_PTHREAD_COND_INITIALIZER {CORE0,0,NULL}
 #define CORE1_PTHREAD_COND_INITIALIZER {CORE1,0,NULL}
 #define CORE2_PTHREAD_COND_INITIALIZER {CORE2,0,NULL}
 
-int pthread_create_np(pthread_t, const pthread_attr_t *, void(*)(void *),
-        void *);
+int pthread_create_np(pthread_t, const pthread_attr_t *, void(*)(void *,task_ptr_t),
+        void *,task_ptr_t);
 void start_core0_os(void);
 void start_core1_os(void);
 void start_core2_os(void);
@@ -197,7 +206,7 @@ typedef union {
     } u; //!< upper context
     struct {
         uint32_t pcxi; //!< lower context PCXI
-        void (*pc)(void*); //!< lower context saved PC
+        void (*pc)(void*,task_ptr_t); //!< lower context saved PC
         uint32_t a2; //!< lower context A2
         uint32_t a3; //!< lower context A3
         uint32_t d0; //!< lower context D0
@@ -205,7 +214,7 @@ typedef union {
         uint32_t d2; //!< lower context D2
         uint32_t d3; //!< lower context D3
         void * a4; //!< lower context A4
-        uint32_t a5; //!< lower context A5
+        void * a5; //!< lower context A5
         uint32_t a6; //!< lower context A6
         uint32_t a7; //!< lower context A7
         uint32_t d4; //!< lower context D4

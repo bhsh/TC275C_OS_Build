@@ -37,6 +37,8 @@ typedef unsigned long long uint64_t;
 #define false 0
 #define true  1
 
+
+
 //#define PCXI	0xfe00	/* Previous Context Information Register  */
 //#define NULL (void*)0
 #define assert(_expr)  \

@@ -24,6 +24,7 @@
 #include "Stm\Std\IfxStm.h"
 #include "Src\Std\IfxSrc.h"
 
+#include "core1_tasks.h"
 
 #pragma align 16
 
@@ -76,7 +77,7 @@ extern pthread_cond_t core0_os_cond11;
 |   This is only a test interrupt
 |
 --------------------------------------------------------------------------------------*/
-void core1_os_idle(void* arg) {
+void core1_os_idle(void* arg ,task_ptr_t task) {
     for (;;)
     {
     	core1_os_thread_test_count_TASK0++;		
@@ -114,7 +115,7 @@ void __interrupt(21) CPU1_SOFT1_Isr(void)
 |   This is only a test interrupt
 |
 --------------------------------------------------------------------------------------*/
-void core1_os_thread1(void* arg) {
+void core1_os_thread1(void* arg,task_ptr_t task) {
     for (;;) {
 
         core1_os_thread_test_count_TASK1++;
@@ -133,7 +134,7 @@ void core1_os_thread1(void* arg) {
 |   This is only a test task
 |
 --------------------------------------------------------------------------------------*/
-void core1_os_thread2(void* arg) {
+void core1_os_thread2(void* arg,task_ptr_t task) {
     for (;;) {
 
         core1_os_thread_test_count_TASK2++;
@@ -152,7 +153,7 @@ void core1_os_thread2(void* arg) {
 |   This is only a test task
 |
 --------------------------------------------------------------------------------------*/
-void core1_os_thread3(void* arg) {
+void core1_os_thread3(void* arg,task_ptr_t task) {
     for (;;) {
 		
         core1_os_thread_test_count_TASK3++;
@@ -170,7 +171,7 @@ void core1_os_thread3(void* arg) {
 |   This is only a test task
 |
 --------------------------------------------------------------------------------------*/
-void core1_os_thread4(void* arg) {
+void core1_os_thread4(void* arg,task_ptr_t task) {
     for (;;) {
 		
         core1_os_thread_test_count_TASK4++;
@@ -189,7 +190,7 @@ void core1_os_thread4(void* arg) {
 |   This is only a test task
 |
 --------------------------------------------------------------------------------------*/
-void core1_os_thread5(void* arg) {
+void core1_os_thread5(void* arg,task_ptr_t task) {
     for (;;) {
 		
         core1_os_thread_test_count_TASK5++;
@@ -208,7 +209,7 @@ void core1_os_thread5(void* arg) {
 |   This is only a test task
 |
 --------------------------------------------------------------------------------------*/
-void core1_os_thread6(void* arg) {
+void core1_os_thread6(void* arg,task_ptr_t task) {
     for (;;) {
 		
         core1_os_thread_test_count_TASK6++;
@@ -227,7 +228,7 @@ void core1_os_thread6(void* arg) {
 |   This is only a test task
 |
 --------------------------------------------------------------------------------------*/
-void core1_os_thread7(void* arg) {
+void core1_os_thread7(void* arg,task_ptr_t task) {
     for (;;) {
 		
         core1_os_thread_test_count_TASK7++;
@@ -246,7 +247,7 @@ void core1_os_thread7(void* arg) {
 |   This is only a test task
 |
 --------------------------------------------------------------------------------------*/
-void core1_os_thread8(void* arg) {
+void core1_os_thread8(void* arg,task_ptr_t task) {
     for (;;) {
 		
         core1_os_thread_test_count_TASK8++;
@@ -265,7 +266,7 @@ void core1_os_thread8(void* arg) {
 |   This is only a test task
 |
 --------------------------------------------------------------------------------------*/
-void core1_os_thread9(void* arg) {
+void core1_os_thread9(void* arg,task_ptr_t task) {
     for (;;) {
 		
         core1_os_thread_test_count_TASK9++;
@@ -284,7 +285,7 @@ void core1_os_thread9(void* arg) {
 |   This is only a test task
 |
 --------------------------------------------------------------------------------------*/
-void core1_os_thread10(void* arg) {
+void core1_os_thread10(void* arg,task_ptr_t task) {
     for (;;) {
 		
         core1_os_thread_test_count_TASK10++;
@@ -307,19 +308,19 @@ void start_core1_os(void)
 {
 
 	/* Create threads...  */
-    pthread_create_np(core1_th0, NULL, core1_os_idle,    (void*) 0);
-    pthread_create_np(core1_th1, NULL, core1_os_thread1, (void*) 1);
-    pthread_create_np(core1_th2, NULL, core1_os_thread2, (void*) 2);
+    pthread_create_np(core1_th0, NULL, core1_os_idle,    (void*) 0,NULL);
+    pthread_create_np(core1_th1, NULL, core1_os_thread1, (void*) 1,CORE1_TASK1);
+    pthread_create_np(core1_th2, NULL, core1_os_thread2, (void*) 2,CORE1_TASK2);
 
 
-	pthread_create_np(core1_th3, NULL, core1_os_thread3, (void*) 3);
-	pthread_create_np(core1_th4, NULL, core1_os_thread4, (void*) 4);
-	pthread_create_np(core1_th5, NULL, core1_os_thread5, (void*) 5);
-	pthread_create_np(core1_th6, NULL, core1_os_thread6, (void*) 6);
-	pthread_create_np(core1_th7, NULL, core1_os_thread7, (void*) 7);
-	pthread_create_np(core1_th8, NULL, core1_os_thread8, (void*) 8);
-    pthread_create_np(core1_th9, NULL, core1_os_thread9, (void*) 9);
-	pthread_create_np(core1_th10, NULL, core1_os_thread10, (void*) 10);
+	pthread_create_np(core1_th3, NULL, core1_os_thread3, (void*) 3,CORE1_TASK3);
+	pthread_create_np(core1_th4, NULL, core1_os_thread4, (void*) 4,CORE1_TASK4);
+	pthread_create_np(core1_th5, NULL, core1_os_thread5, (void*) 5,CORE1_TASK5);
+	pthread_create_np(core1_th6, NULL, core1_os_thread6, (void*) 6,CORE1_TASK6);
+	pthread_create_np(core1_th7, NULL, core1_os_thread7, (void*) 7,CORE1_TASK7);
+	pthread_create_np(core1_th8, NULL, core1_os_thread8, (void*) 8,CORE1_TASK8);
+    pthread_create_np(core1_th9, NULL, core1_os_thread9, (void*) 9,CORE1_TASK9);
+	pthread_create_np(core1_th10, NULL, core1_os_thread10, (void*) 10,CORE1_TASK10);
 
 	/* Start the core1 OS scheduler now and never return!!! */
 	pthread_start_np();

@@ -281,10 +281,12 @@ static void list_delete_first(pthread_t *head) {
 |             create threads from users
 |
 --------------------------------------------------------------------------------------*/
+//void(*core0_task_ptr)(pthread_config_t * const task)
 int pthread_create_np(pthread_t thread, //!< [in] thread control block pointer.
         const pthread_attr_t *attr, //!<  [in] thread attribute. Can be NULL to use default.
-        void(*start_routine)(void *),//!<  [in] thread function pointer
-        void *arg) //!<  [in] argument passed to thread function when started
+        void(*start_routine)(void *,task_ptr_t),//!<  [in] thread function pointer
+        void *arg,
+        task_ptr_t core0_task_ptr)
 {
 
     const pthread_attr_t default_attr = PTHREAD_DEFAULT_ATTR;
@@ -315,6 +317,7 @@ int pthread_create_np(pthread_t thread, //!< [in] thread control block pointer.
             | fcx; // Previous Context Pointer is the upper context
     cx->l.pc = start_routine; // init new task start address
     cx->l.a4 = arg;
+	cx->l.a5 = core0_task_ptr;
     thread->arg = arg;
 
     uint32_t i = thread->priority;
