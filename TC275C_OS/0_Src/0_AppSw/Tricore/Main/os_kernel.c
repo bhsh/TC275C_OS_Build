@@ -27,15 +27,17 @@
 /* define the system call that is the 6th trap of CPU */
 
 //! \cond IGNORE
+
 #define DISPATCH_WAIT     2
 #define DISPATCH_SIGNAL   3
-
+#define DISPATCH_ONLY     4
 
 //#define OLD_AVALIABLE
 
 
 __syscallfunc(DISPATCH_WAIT)   int dispatch_wait(void *, void *);
 __syscallfunc(DISPATCH_SIGNAL) int dispatch_signal(void *, void *);
+__syscallfunc(DISPATCH_ONLY)   int dispatch_only(void *, void *);
 //! \endcond
 
 uint32_t  core0_os_pthread_runnable;
@@ -67,388 +69,101 @@ uint32_t core2_os_pthread_time_waiting;
 //pthread_cond_t core1_cond  = PTHREAD_COND_INITIALIZER;
 //pthread_cond_t core2_cond  = PTHREAD_COND_INITIALIZER;
 
-scheduler_status_t core0_scheduler_status = SCHEDULER_WORKING;
-scheduler_status_t core1_scheduler_status = SCHEDULER_WORKING;
-scheduler_status_t core2_scheduler_status = SCHEDULER_WORKING;
+static scheduler_status_t core0_scheduler_status = SCHEDULER_WORKING;
+static scheduler_status_t core1_scheduler_status = SCHEDULER_WORKING;
+static scheduler_status_t core2_scheduler_status = SCHEDULER_WORKING;
 
-uint16_t core0_scheduler_suspended  = false;
-uint16_t core0_scheduler_working    = false;
-uint32_t core0_scheduler_suspended_count = 0;
-uint16_t core1_scheduler_suspended  = false;
-uint16_t core1_scheduler_working    = false;
-uint32_t core1_scheduler_suspended_count = 0;
-uint16_t core2_scheduler_suspended  = false;
-uint16_t core2_scheduler_working    = false;
-uint32_t core2_scheduler_suspended_count = 0;
+allthreads_status_t core0_allthreads_status = ALLTHREADS_WORKING;
+allthreads_status_t core1_allthreads_status = ALLTHREADS_WORKING;
+allthreads_status_t core2_allthreads_status = ALLTHREADS_WORKING;
 
+static uint16_t core0_scheduler_suspended  = false;
+static uint16_t core0_scheduler_working    = false;
+static uint32_t core0_scheduler_suspended_count = 0;
+static uint16_t core1_scheduler_suspended  = false;
+static uint16_t core1_scheduler_working    = false;
+static uint32_t core1_scheduler_suspended_count = 0;
+static uint16_t core2_scheduler_suspended  = false;
+static uint16_t core2_scheduler_working    = false;
+static uint32_t core2_scheduler_suspended_count = 0;
 
  //! tw array hold condition and time for pthread_cond_timedwait_np.
- 
-uint16_t  stm_ticks[PTHREAD_COND_TIMEDWAIT_SIZE]=
-{
-         		    USHRT_MAX,                      // task 0 
-				    USHRT_MAX,                      // task 1 
-				    USHRT_MAX,                      // task 2
-				    USHRT_MAX,                      // task 3
-                    USHRT_MAX,                      // task 4
-                    USHRT_MAX,                      // task 5
-                    USHRT_MAX,                      // task 6
-                    USHRT_MAX,                      // task 7
-                    USHRT_MAX,                      // task 8                      
-				    USHRT_MAX,                      // task 9                      
-	         		USHRT_MAX,                      // task 10 
-	         		
-				    USHRT_MAX,                      // task 11 
-				    USHRT_MAX,                      // task 12
-				    USHRT_MAX,                      // task 13
-                    USHRT_MAX,                      // task 14
-                    USHRT_MAX,                      // task 15
-                    USHRT_MAX,                      // task 16
-                    USHRT_MAX,                      // task 17
-                    USHRT_MAX,                      // task 18                      
-				    USHRT_MAX,                      // task 19  
-				    USHRT_MAX,                      // task 20 
-				    
-				    USHRT_MAX,                      // task 21 
-				    USHRT_MAX,                      // task 22
-				    USHRT_MAX,                      // task 23
-                    USHRT_MAX,                      // task 24
-                    USHRT_MAX,                      // task 25
-                    USHRT_MAX,                      // task 26
-                    USHRT_MAX,                      // task 27
-                    USHRT_MAX,                      // task 28                      
-				    USHRT_MAX,                      // task 29    
-
-					USHRT_MAX,                      // task 30                      
-				    USHRT_MAX                       // task 31
-				    
+static uint16_t  stm_ticks[PTHREAD_COND_TIMEDWAIT_SIZE]=
+    { 
+	    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                      
+	    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,  
+	    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                     
+	    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX 	
     };//!< time
-pthread_cond_t  *stm_cond[PTHREAD_COND_TIMEDWAIT_SIZE]=
+static pthread_cond_t  *stm_cond[PTHREAD_COND_TIMEDWAIT_SIZE]=
 	{
-          		    NULL,                      // task 0 
-				    NULL,                      // task 1 
-				    NULL,                      // task 2
-				    NULL,                      // task 3
-                    NULL,                      // task 4
-                    NULL,                      // task 5
-                    NULL,                      // task 6
-                    NULL,                      // task 7
-                    NULL,                      // task 8                      
-				    NULL,                      // task 9                      
-	         		NULL,                      // task 10 
-	         		
-				    NULL,                      // task 11 
-				    NULL,                      // task 12
-				    NULL,                      // task 13
-                    NULL,                      // task 14
-                    NULL,                      // task 15
-                    NULL,                      // task 16
-                    NULL,                      // task 17
-                    NULL,                      // task 18                      
-				    NULL,                      // task 19  
-				    NULL,                      // task 20 
-				    
-				    NULL,                      // task 21 
-				    NULL,                      // task 22
-				    NULL,                      // task 23
-                    NULL,                      // task 24
-                    NULL,                      // task 25
-                    NULL,                      // task 26
-                    NULL,                      // task 27
-                    NULL,                      // task 28                      
-				    NULL,                      // task 29    
-
-					NULL,                      // task 30                      
-				    NULL                       // task 31
-
+        NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,                     
+        NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL                     
     };//!< condition
-pthread_cond_t  core0_os_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
+static pthread_cond_t  core0_os_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
 	{  
-         		    CORE0_PTHREAD_COND_INITIALIZER,                      // task 0 
-				    CORE0_PTHREAD_COND_INITIALIZER,                      // task 1 
-				    CORE0_PTHREAD_COND_INITIALIZER,                      // task 2
-				    CORE0_PTHREAD_COND_INITIALIZER,                      // task 3
-                    CORE0_PTHREAD_COND_INITIALIZER,                      // task 4
-                    CORE0_PTHREAD_COND_INITIALIZER,                      // task 5
-                    CORE0_PTHREAD_COND_INITIALIZER,                      // task 6
-                    CORE0_PTHREAD_COND_INITIALIZER,                      // task 7
-                    CORE0_PTHREAD_COND_INITIALIZER,                      // task 8                      
-				    CORE0_PTHREAD_COND_INITIALIZER,                      // task 9                      
-	         		CORE0_PTHREAD_COND_INITIALIZER,                      // task 10 
-	         		
-				    CORE0_PTHREAD_COND_INITIALIZER,                      // task 11 
-				    CORE0_PTHREAD_COND_INITIALIZER,                      // task 12
-				    CORE0_PTHREAD_COND_INITIALIZER,                      // task 13
-                    CORE0_PTHREAD_COND_INITIALIZER,                      // task 14
-                    CORE0_PTHREAD_COND_INITIALIZER,                      // task 15
-                    CORE0_PTHREAD_COND_INITIALIZER,                      // task 16
-                    CORE0_PTHREAD_COND_INITIALIZER,                      // task 17
-                    CORE0_PTHREAD_COND_INITIALIZER,                      // task 18                      
-				    CORE0_PTHREAD_COND_INITIALIZER,                      // task 19  
-				    CORE0_PTHREAD_COND_INITIALIZER,                      // task 20 
-				    
-				    CORE0_PTHREAD_COND_INITIALIZER,                      // task 21 
-				    CORE0_PTHREAD_COND_INITIALIZER,                      // task 22
-				    CORE0_PTHREAD_COND_INITIALIZER,                      // task 23
-                    CORE0_PTHREAD_COND_INITIALIZER,                      // task 24
-                    CORE0_PTHREAD_COND_INITIALIZER,                      // task 25
-                    CORE0_PTHREAD_COND_INITIALIZER,                      // task 26
-                    CORE0_PTHREAD_COND_INITIALIZER,                      // task 27
-                    CORE0_PTHREAD_COND_INITIALIZER,                      // task 28                      
-				    CORE0_PTHREAD_COND_INITIALIZER,                      // task 29    
-
-					CORE0_PTHREAD_COND_INITIALIZER,                      // task 30                      
-				    CORE0_PTHREAD_COND_INITIALIZER                       // task 31   
+        CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,                     
+        CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,    
+        CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,                     
+        CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,    
+        CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,                    
+        CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,    
+        CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,                     
+        CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER   
     };
-uint16_t  core1_os_stm_ticks[PTHREAD_COND_TIMEDWAIT_SIZE]=
+static uint16_t  core1_os_stm_ticks[PTHREAD_COND_TIMEDWAIT_SIZE]=
 	{
-         		    USHRT_MAX,                      // task 0 
-				    USHRT_MAX,                      // task 1 
-				    USHRT_MAX,                      // task 2
-				    USHRT_MAX,                      // task 3
-                    USHRT_MAX,                      // task 4
-                    USHRT_MAX,                      // task 5
-                    USHRT_MAX,                      // task 6
-                    USHRT_MAX,                      // task 7
-                    USHRT_MAX,                      // task 8                      
-				    USHRT_MAX,                      // task 9                      
-	         		USHRT_MAX,                      // task 10 
-	         		
-				    USHRT_MAX,                      // task 11 
-				    USHRT_MAX,                      // task 12
-				    USHRT_MAX,                      // task 13
-                    USHRT_MAX,                      // task 14
-                    USHRT_MAX,                      // task 15
-                    USHRT_MAX,                      // task 16
-                    USHRT_MAX,                      // task 17
-                    USHRT_MAX,                      // task 18                      
-				    USHRT_MAX,                      // task 19  
-				    USHRT_MAX,                      // task 20 
-				    
-				    USHRT_MAX,                      // task 21 
-				    USHRT_MAX,                      // task 22
-				    USHRT_MAX,                      // task 23
-                    USHRT_MAX,                      // task 24
-                    USHRT_MAX,                      // task 25
-                    USHRT_MAX,                      // task 26
-                    USHRT_MAX,                      // task 27
-                    USHRT_MAX,                      // task 28                      
-				    USHRT_MAX,                      // task 29    
-
-					USHRT_MAX,                      // task 30                      
-				    USHRT_MAX,                      // task 31
+	    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                      
+	    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,  
+	    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                     
+	    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX 
 				    
     };//!< time
-pthread_cond_t  *core1_os_stm_cond[PTHREAD_COND_TIMEDWAIT_SIZE]=
+static pthread_cond_t  *core1_os_stm_cond[PTHREAD_COND_TIMEDWAIT_SIZE]=
 	{
-          		    NULL,                      // task 0 
-				    NULL,                      // task 1 
-				    NULL,                      // task 2
-				    NULL,                      // task 3
-                    NULL,                      // task 4
-                    NULL,                      // task 5
-                    NULL,                      // task 6
-                    NULL,                      // task 7
-                    NULL,                      // task 8                      
-				    NULL,                      // task 9                      
-	         		NULL,                      // task 10 
-	         		
-				    NULL,                      // task 11 
-				    NULL,                      // task 12
-				    NULL,                      // task 13
-                    NULL,                      // task 14
-                    NULL,                      // task 15
-                    NULL,                      // task 16
-                    NULL,                      // task 17
-                    NULL,                      // task 18                      
-				    NULL,                      // task 19  
-				    NULL,                      // task 20 
-				    
-				    NULL,                      // task 21 
-				    NULL,                      // task 22
-				    NULL,                      // task 23
-                    NULL,                      // task 24
-                    NULL,                      // task 25
-                    NULL,                      // task 26
-                    NULL,                      // task 27
-                    NULL,                      // task 28                      
-				    NULL,                      // task 29    
-
-					NULL,                      // task 30                      
-				    NULL                       // task 31
+        NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,                     
+        NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL  
 
     };//!< condition
-pthread_cond_t  core1_os_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
+static pthread_cond_t  core1_os_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
 	{  
-         		    CORE1_PTHREAD_COND_INITIALIZER,                      // task 0 
-				    CORE1_PTHREAD_COND_INITIALIZER,                      // task 1 
-				    CORE1_PTHREAD_COND_INITIALIZER,                      // task 2
-				    CORE1_PTHREAD_COND_INITIALIZER,                      // task 3
-                    CORE1_PTHREAD_COND_INITIALIZER,                      // task 4
-                    CORE1_PTHREAD_COND_INITIALIZER,                      // task 5
-                    CORE1_PTHREAD_COND_INITIALIZER,                      // task 6
-                    CORE1_PTHREAD_COND_INITIALIZER,                      // task 7
-                    CORE1_PTHREAD_COND_INITIALIZER,                      // task 8                      
-				    CORE1_PTHREAD_COND_INITIALIZER,                      // task 9                      
-	         		CORE1_PTHREAD_COND_INITIALIZER,                      // task 10 
-	         		
-				    CORE1_PTHREAD_COND_INITIALIZER,                      // task 11 
-				    CORE1_PTHREAD_COND_INITIALIZER,                      // task 12
-				    CORE1_PTHREAD_COND_INITIALIZER,                      // task 13
-                    CORE1_PTHREAD_COND_INITIALIZER,                      // task 14
-                    CORE1_PTHREAD_COND_INITIALIZER,                      // task 15
-                    CORE1_PTHREAD_COND_INITIALIZER,                      // task 16
-                    CORE1_PTHREAD_COND_INITIALIZER,                      // task 17
-                    CORE1_PTHREAD_COND_INITIALIZER,                      // task 18                      
-				    CORE1_PTHREAD_COND_INITIALIZER,                      // task 19  
-				    CORE1_PTHREAD_COND_INITIALIZER,                      // task 20 
-				    
-				    CORE1_PTHREAD_COND_INITIALIZER,                      // task 21 
-				    CORE1_PTHREAD_COND_INITIALIZER,                      // task 22
-				    CORE1_PTHREAD_COND_INITIALIZER,                      // task 23
-                    CORE1_PTHREAD_COND_INITIALIZER,                      // task 24
-                    CORE1_PTHREAD_COND_INITIALIZER,                      // task 25
-                    CORE1_PTHREAD_COND_INITIALIZER,                      // task 26
-                    CORE1_PTHREAD_COND_INITIALIZER,                      // task 27
-                    CORE1_PTHREAD_COND_INITIALIZER,                      // task 28                      
-				    CORE1_PTHREAD_COND_INITIALIZER,                      // task 29    
-
-					CORE1_PTHREAD_COND_INITIALIZER,                      // task 30                      
-				    CORE1_PTHREAD_COND_INITIALIZER                       // task 31   
+        CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,                     
+        CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,    
+        CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,                     
+        CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,    
+        CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,                    
+        CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,    
+        CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,                     
+        CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER   
     };
-uint16_t  core2_os_stm_ticks[PTHREAD_COND_TIMEDWAIT_SIZE]=
+static uint16_t  core2_os_stm_ticks[PTHREAD_COND_TIMEDWAIT_SIZE] =
 	{
-         		    USHRT_MAX,                      // task 0 
-				    USHRT_MAX,                      // task 1 
-				    USHRT_MAX,                      // task 2
-				    USHRT_MAX,                      // task 3
-                    USHRT_MAX,                      // task 4
-                    USHRT_MAX,                      // task 5
-                    USHRT_MAX,                      // task 6
-                    USHRT_MAX,                      // task 7
-                    USHRT_MAX,                      // task 8                      
-				    USHRT_MAX,                      // task 9                      
-	         		USHRT_MAX,                      // task 10 
-	         		
-				    USHRT_MAX,                      // task 11 
-				    USHRT_MAX,                      // task 12
-				    USHRT_MAX,                      // task 13
-                    USHRT_MAX,                      // task 14
-                    USHRT_MAX,                      // task 15
-                    USHRT_MAX,                      // task 16
-                    USHRT_MAX,                      // task 17
-                    USHRT_MAX,                      // task 18                      
-				    USHRT_MAX,                      // task 19  
-				    USHRT_MAX,                      // task 20 
-				    
-				    USHRT_MAX,                      // task 21 
-				    USHRT_MAX,                      // task 22
-				    USHRT_MAX,                      // task 23
-                    USHRT_MAX,                      // task 24
-                    USHRT_MAX,                      // task 25
-                    USHRT_MAX,                      // task 26
-                    USHRT_MAX,                      // task 27
-                    USHRT_MAX,                      // task 28                      
-				    USHRT_MAX,                      // task 29    
-
-					USHRT_MAX,                      // task 30                      
-				    USHRT_MAX                       // task 31
-				    
+	    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                      
+	    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,  
+	    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                     
+	    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX 				    
     };//!< time
-pthread_cond_t  *core2_os_stm_cond[PTHREAD_COND_TIMEDWAIT_SIZE]=
+static pthread_cond_t  *core2_os_stm_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
 	{
-          		    NULL,                      // task 0 
-				    NULL,                      // task 1 
-				    NULL,                      // task 2
-				    NULL,                      // task 3
-                    NULL,                      // task 4
-                    NULL,                      // task 5
-                    NULL,                      // task 6
-                    NULL,                      // task 7
-                    NULL,                      // task 8                      
-				    NULL,                      // task 9                      
-	         		NULL,                      // task 10 
-	         		
-				    NULL,                      // task 11 
-				    NULL,                      // task 12
-				    NULL,                      // task 13
-                    NULL,                      // task 14
-                    NULL,                      // task 15
-                    NULL,                      // task 16
-                    NULL,                      // task 17
-                    NULL,                      // task 18                      
-				    NULL,                      // task 19  
-				    NULL,                      // task 20 
-				    
-				    NULL,                      // task 21 
-				    NULL,                      // task 22
-				    NULL,                      // task 23
-                    NULL,                      // task 24
-                    NULL,                      // task 25
-                    NULL,                      // task 26
-                    NULL,                      // task 27
-                    NULL,                      // task 28                      
-				    NULL,                      // task 29    
-
-					NULL,                      // task 30                      
-				    NULL                       // task 31
+        NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,                     
+        NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL 
 
     };//!< condition
-pthread_cond_t  core2_os_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
+static pthread_cond_t  core2_os_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
 	{  
-         		    CORE2_PTHREAD_COND_INITIALIZER,                      // task 0 
-				    CORE2_PTHREAD_COND_INITIALIZER,                      // task 1 
-				    CORE2_PTHREAD_COND_INITIALIZER,                      // task 2
-				    CORE2_PTHREAD_COND_INITIALIZER,                      // task 3
-                    CORE2_PTHREAD_COND_INITIALIZER,                      // task 4
-                    CORE2_PTHREAD_COND_INITIALIZER,                      // task 5
-                    CORE2_PTHREAD_COND_INITIALIZER,                      // task 6
-                    CORE2_PTHREAD_COND_INITIALIZER,                      // task 7
-                    CORE2_PTHREAD_COND_INITIALIZER,                      // task 8                      
-				    CORE2_PTHREAD_COND_INITIALIZER,                      // task 9                      
-	         		CORE2_PTHREAD_COND_INITIALIZER,                      // task 10 
-	         		
-				    CORE2_PTHREAD_COND_INITIALIZER,                      // task 11 
-				    CORE2_PTHREAD_COND_INITIALIZER,                      // task 12
-				    CORE2_PTHREAD_COND_INITIALIZER,                      // task 13
-                    CORE2_PTHREAD_COND_INITIALIZER,                      // task 14
-                    CORE2_PTHREAD_COND_INITIALIZER,                      // task 15
-                    CORE2_PTHREAD_COND_INITIALIZER,                      // task 16
-                    CORE2_PTHREAD_COND_INITIALIZER,                      // task 17
-                    CORE2_PTHREAD_COND_INITIALIZER,                      // task 18                      
-				    CORE2_PTHREAD_COND_INITIALIZER,                      // task 19  
-				    CORE2_PTHREAD_COND_INITIALIZER,                      // task 20 
-				    
-				    CORE2_PTHREAD_COND_INITIALIZER,                      // task 21 
-				    CORE2_PTHREAD_COND_INITIALIZER,                      // task 22
-				    CORE2_PTHREAD_COND_INITIALIZER,                      // task 23
-                    CORE2_PTHREAD_COND_INITIALIZER,                      // task 24
-                    CORE2_PTHREAD_COND_INITIALIZER,                      // task 25
-                    CORE2_PTHREAD_COND_INITIALIZER,                      // task 26
-                    CORE2_PTHREAD_COND_INITIALIZER,                      // task 27
-                    CORE2_PTHREAD_COND_INITIALIZER,                      // task 28                      
-				    CORE2_PTHREAD_COND_INITIALIZER,                      // task 29    
-
-					CORE2_PTHREAD_COND_INITIALIZER,                      // task 30                      
-				    CORE2_PTHREAD_COND_INITIALIZER                       // task 31   
+        CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,                     
+        CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,    
+        CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,                     
+        CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,    
+        CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,                    
+        CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,    
+        CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,                     
+        CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER   
     };
 extern uint32 stm0CompareValue;
 extern uint32 stm1CompareValue;
 extern uint32 stm2CompareValue;
 extern uint32 stm0CompareValue2;
-
-extern uint32_t  core0_os_pthread_runnable;              //! Currently running thread
-extern pthread_t core0_os_pthread_running;              //! Array of linked lists which holds runnable threads
-extern pthread_t core0_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
-
-extern uint32_t  core1_os_pthread_runnable;    //! Currently running thread
-extern pthread_t core1_os_pthread_running;    //! Array of linked lists which holds runnable threads
-extern pthread_t core1_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
-
-extern uint32_t  core2_os_pthread_runnable;    //! Currently running thread
-extern pthread_t core2_os_pthread_running;    //! Array of linked lists which holds runnable threads
-extern pthread_t core2_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
-
 
 unsigned int core0_mutex=0;
 unsigned int core1_mutex=0;
@@ -983,6 +698,8 @@ static void trapsystem(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
                 *blocked_threads_ptr = tmp;
                 break;
 			  }
+		  case DISPATCH_ONLY:
+		  	 break;
           default:
               break;
          }
@@ -1021,6 +738,8 @@ static void trapsystem(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
                 *blocked_threads_ptr = tmp;
                 break;
 			  }
+		  case DISPATCH_ONLY:
+		  	 break;		  
           default:
               break;
          }
@@ -1059,6 +778,8 @@ static void trapsystem(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
                 *blocked_threads_ptr = tmp;
                 break;
 			  }
+		  case DISPATCH_ONLY:
+		  	 break;		  
           default:
               break;
          }
@@ -1107,6 +828,7 @@ inline void schedule_in_tick(void)
 			   {
                  stm_ticks[index] = (uint16)(stm_ticks[index] + 
 				 	                (core0_scheduler_suspended_count & USHRT_MAX))%USHRT_MAX;
+				 index++;
                }
 			   core0_scheduler_suspended_count = 0;
 			   core0_scheduler_suspended = false;			   
@@ -1153,6 +875,7 @@ inline void schedule_in_tick(void)
 			   {
                  core1_os_stm_ticks[index] = (uint16)(core1_os_stm_ticks[index] + 
 				 	                         (core1_scheduler_suspended_count & USHRT_MAX))%USHRT_MAX;
+				 index++;
                }
 			   core1_scheduler_suspended_count = 0;
 			   core1_scheduler_suspended = false;			   
@@ -1199,6 +922,7 @@ inline void schedule_in_tick(void)
 			   {
                  core2_os_stm_ticks[index] = (uint16)(core1_os_stm_ticks[index] + 
 				 	                         (core1_scheduler_suspended_count & USHRT_MAX))%USHRT_MAX;
+				 index++;
                }
 			   core2_scheduler_suspended_count = 0;
 			   core2_scheduler_suspended = false;			   
@@ -1339,7 +1063,42 @@ int pthread_cond_timedwait_np(uint16_t reltime) //!< [in] relative time are the 
 --------------------------------------------------------------------------------------*/
 void os_suspend_allthreads(void)
 {
-  
+	/* Because the scheduler logic is located in stm tick interrupt, and */
+   uint32_t current_cpu_id = os_getCoreId();
+
+   if(current_cpu_id == CORE0)
+   {	
+   	   if(core0_allthreads_status == ALLTHREADS_WORKING)
+	   {   
+	   	   core0_allthreads_status = ALLTHREADS_SUSPENDED;
+	   }
+	   else
+	   {
+		   	    /* Do nothing. */
+	   }
+   }
+   else if(current_cpu_id == CORE1)
+   {
+   	   if(core1_allthreads_status == ALLTHREADS_WORKING)
+	   {   
+	   	   core1_allthreads_status = ALLTHREADS_SUSPENDED;
+	   }
+	   else
+	   {
+		   	    /* Do nothing. */
+	   }	
+   }
+   else if(current_cpu_id == CORE2)
+   {
+   	   if(core2_allthreads_status == ALLTHREADS_WORKING)
+	   {   
+	   	   core2_allthreads_status = ALLTHREADS_SUSPENDED;
+	   }
+	   else
+	   {
+		   	    /* Do nothing. */
+	   }	
+   }
 }
 /*-------------------------------------------------------------------------------------
 |
@@ -1350,7 +1109,69 @@ void os_suspend_allthreads(void)
 --------------------------------------------------------------------------------------*/
 void os_restore_allthreads(void)
 {
-	
+	/* Because the scheduler logic is located in stm tick interrupt, and */
+   uint32_t current_cpu_id = os_getCoreId();
+
+   if(current_cpu_id == CORE0)
+   {  
+   	   if(core0_allthreads_status == ALLTHREADS_SUSPENDED)
+	   {  
+	   	     core0_allthreads_status = ALLTHREADS_WORKING;
+		     /* If there is thread higher than the current thread, switch the contex. else keep */
+		     if(core0_os_pthread_running->priority < ((PTHREAD_PRIO_MAX-1) - __clz(core0_os_pthread_runnable)))
+			 {
+               dispatch_only(NULL,NULL);     
+			 }
+			 else
+			 {
+			      /* Do nothing. */
+			 }
+	   }
+	   else
+	   {
+		   	    /* Do nothing. */
+	   }	   
+   }
+   else if(current_cpu_id == CORE1)
+   {
+   	   if(core1_allthreads_status == ALLTHREADS_SUSPENDED)
+	   {  
+	   	  	 core1_allthreads_status = ALLTHREADS_WORKING;
+		     /* If there is thread higher than the current thread, switch the contex. else keep */
+		     if(core1_os_pthread_running->priority < ((PTHREAD_PRIO_MAX-1) - __clz(core1_os_pthread_runnable)))
+			 {
+               dispatch_only(NULL,NULL);     
+			 }
+			 else
+			 {
+			      /* Do nothing. */
+			 }		  
+	   }
+	   else
+	   {
+		   	    /* Do nothing. */
+	   }
+   }
+   else if(current_cpu_id == CORE2)
+   {
+   	   if(core2_allthreads_status == ALLTHREADS_SUSPENDED)
+	   {  
+	   	  	 core2_allthreads_status = ALLTHREADS_WORKING;
+		     if(core2_os_pthread_running->priority < ((PTHREAD_PRIO_MAX-1) - __clz(core2_os_pthread_runnable)))
+			 {
+               dispatch_only(NULL,NULL);     
+			 }
+			 else
+			 {
+			      /* Do nothing. */
+			 }		
+	   }
+	   else
+	   {
+		   	    /* Do nothing. */
+	   }	
+   }
+ 
 }
 /*-------------------------------------------------------------------------------------
 |

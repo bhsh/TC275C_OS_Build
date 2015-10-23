@@ -40,6 +40,11 @@ typedef enum scheduler_status {
 	
 }scheduler_status_t;
 
+typedef enum allthreads_status {	
+    ALLTHREADS_WORKING, 
+	ALLTHREADS_SUSPENDED
+	
+}allthreads_status_t;
 //! core definition
 typedef enum  {
     CORE0, CORE1, CORE2
@@ -111,59 +116,66 @@ inline void pthread_start_np(void) {
     extern  uint32_t  core0_os_pthread_runnable;
     extern  pthread_t core0_os_pthread_running;
     extern  pthread_t core0_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
-
 	extern  uint32_t  core1_os_pthread_runnable;
     extern  pthread_t core1_os_pthread_running;
     extern  pthread_t core1_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
-
 	extern  uint32_t  core2_os_pthread_runnable;
     extern  pthread_t core2_os_pthread_running;
     extern  pthread_t core2_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
+	extern  allthreads_status_t core0_allthreads_status;
+	extern  allthreads_status_t core1_allthreads_status;
+	extern  allthreads_status_t core2_allthreads_status;
 
-    pthread_t thread;
+    pthread_t thread = (void*)0;
  
 	if(os_getCoreId()==CORE0)
-	{
-      assert(core0_os_pthread_runnable != 0);
-      thread = core0_os_pthread_runnable_threads[31 - __clz(core0_os_pthread_runnable)]; //  get ready thread with highest priority ready
-      assert(thread);
-      assert(thread->lcx);
-    
-      core0_os_pthread_running = thread;//
-      __mtcr(CPU_PSW, 0x00000980);        /* clear PSW.IS */
-
-      __dsync();
-      __mtcr(CPU_PCXI,  thread->lcx);
-      __rslcx();
+	{  
+	      assert(core0_os_pthread_runnable != 0);
+		  if(core0_allthreads_status == ALLTHREADS_WORKING)
+		  {
+			      thread = core0_os_pthread_runnable_threads[31 - __clz(core0_os_pthread_runnable)]; //  get ready thread with highest priority ready			    
+			      core0_os_pthread_running = thread;
+		  }
+		  else if(core0_allthreads_status == ALLTHREADS_SUSPENDED)
+		  {
+                  /* In order to keep core0_os_pthread_running unchanged */
+				  thread = core0_os_pthread_running;
+		  }
 	}
     else if(os_getCoreId()==CORE1)
 	{
-      assert(core1_os_pthread_runnable != 0);
-      thread = core1_os_pthread_runnable_threads[31 - __clz(core1_os_pthread_runnable)]; //  get ready thread with highest priority ready
-      assert(thread);
-      assert(thread->lcx);
-    
-      core1_os_pthread_running = thread;//
-      __mtcr(CPU_PSW, 0x00000980);        /* clear PSW.IS */
-
-      __dsync();
-      __mtcr(CPU_PCXI,  thread->lcx);
-      __rslcx();         // restore the lower context
+	      assert(core1_os_pthread_runnable != 0);
+		  if(core1_allthreads_status == ALLTHREADS_WORKING)
+		  {
+			      thread = core1_os_pthread_runnable_threads[31 - __clz(core1_os_pthread_runnable)]; //  get ready thread with highest priority ready
+				  core1_os_pthread_running = thread;
+		  }
+		  else if(core1_allthreads_status == ALLTHREADS_SUSPENDED)
+		  {
+                  /* In order to keep core1_os_pthread_running unchanged */
+				  thread = core1_os_pthread_running;
+		  }
 	}
 	else if(os_getCoreId()==CORE2)
 	{
-      assert(core2_os_pthread_runnable != 0);
-      thread = core2_os_pthread_runnable_threads[31 - __clz(core2_os_pthread_runnable)]; //  get ready thread with highest priority ready
-      assert(thread);
-      assert(thread->lcx);
-    
-      core2_os_pthread_running = thread;//
-      __mtcr(CPU_PSW, 0x00000980);        /* clear PSW.IS */
-
-      __dsync();
-      __mtcr(CPU_PCXI,  thread->lcx);
-      __rslcx();         // restore the lower context
-	}	
+	      assert(core2_os_pthread_runnable != 0);
+		  if(core2_allthreads_status == ALLTHREADS_WORKING)
+		  {
+			      thread = core2_os_pthread_runnable_threads[31 - __clz(core2_os_pthread_runnable)]; //  get ready thread with highest priority ready
+                  core2_os_pthread_running = thread;//
+	      } 
+		  else if(core2_allthreads_status == ALLTHREADS_SUSPENDED)
+		  {
+                  /* Do nothing in order to keep core2_os_pthread_running unchanged */
+				  thread = core2_os_pthread_running;
+		  }
+	}
+	assert(thread);
+    assert(thread->lcx);
+    __mtcr(CPU_PSW, 0x00000980);        /* clear PSW.IS */
+    __dsync();
+    __mtcr(CPU_PCXI,  thread->lcx);
+    __rslcx();         // restore the lower context
     __asm(" mov d2,#0"); // the return value is 2
     __asm(" rfe");       // restore the upper context
 }
