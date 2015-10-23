@@ -34,12 +34,6 @@ enum user_e {
     USER0, USER1, SUPER
 };
 
-typedef enum scheduler_status {	
-    SCHEDULER_WORKING, 
-	SCHEDULER_SUSPENDED
-	
-}scheduler_status_t;
-
 typedef enum allthreads_status {	
     ALLTHREADS_WORKING, 
 	ALLTHREADS_SUSPENDED
