@@ -66,7 +66,20 @@ uint32_t core2_os_pthread_time_waiting;
 //pthread_cond_t *core0_cond = NULL;
 //pthread_cond_t core1_cond  = PTHREAD_COND_INITIALIZER;
 //pthread_cond_t core2_cond  = PTHREAD_COND_INITIALIZER;
- 
+
+scheduler_status_t core0_scheduler_status = SCHEDULER_WORKING;
+scheduler_status_t core1_scheduler_status = SCHEDULER_WORKING;
+scheduler_status_t core2_scheduler_status = SCHEDULER_WORKING;
+
+uint16_t core0_scheduler_suspended  = false;
+uint16_t core0_scheduler_working    = false;
+uint32_t core0_scheduler_suspended_count = 0;
+uint16_t core1_scheduler_suspended  = false;
+uint16_t core1_scheduler_working    = false;
+uint32_t core1_scheduler_suspended_count = 0;
+uint16_t core2_scheduler_suspended  = false;
+uint16_t core2_scheduler_working    = false;
+uint32_t core2_scheduler_suspended_count = 0;
 
 
  //! tw array hold condition and time for pthread_cond_timedwait_np.
@@ -759,9 +772,14 @@ int pthread_cond_broadcast(pthread_cond_t *cond) //!< [in] condition pointer
     assert(cond!=NULL);
 	uint32_t current_cpu_id = os_getCoreId();
 	uint32_t cond_core_id   = cond->core_id;
-	
-    if (cond->blocked_threads != NULL)
-	{	
+
+    if((current_cpu_id == CORE0)&&(core0_scheduler_status == SCHEDULER_SUSPENDED)) return 0;
+	if((current_cpu_id == CORE1)&&(core1_scheduler_status == SCHEDULER_SUSPENDED)) return 0;
+	if((current_cpu_id == CORE2)&&(core2_scheduler_status == SCHEDULER_SUSPENDED)) return 0;
+
+	if (cond->blocked_threads != NULL)
+	{	 
+
 		 if((cond_core_id == current_cpu_id)&&(0 == cppn()))
 	     {		
               // _pthread_running on CCPN=0
@@ -770,8 +788,10 @@ int pthread_cond_broadcast(pthread_cond_t *cond) //!< [in] condition pointer
          else
 		 {
 	           if(cond_core_id == CORE0)
-		      {
-                 while(0!=core_getMutex(&core0_mutex)){};
+		      { 
+			  	 if(core0_scheduler_status == SCHEDULER_SUSPENDED) return 0;
+
+				 while(0!=core_getMutex(&core0_mutex)){};
 				 
                  /* The bug is found here*/
         	     core0_os_blocked_threads=NULL;
@@ -795,7 +815,10 @@ int pthread_cond_broadcast(pthread_cond_t *cond) //!< [in] condition pointer
 				 //core_returnMutex(&core0_mutex);
                }
 			   else if(cond_core_id==CORE1)
-			   {
+			   { 
+
+				 if(core1_scheduler_status == SCHEDULER_SUSPENDED) return 0;
+
                  while(0!=core_getMutex(&core1_mutex)){};
 				
                  /* The bug is found here*/
@@ -820,7 +843,10 @@ int pthread_cond_broadcast(pthread_cond_t *cond) //!< [in] condition pointer
 				 //core_returnMutex(&core1_mutex);
 			   }
 			   else if(cond_core_id==CORE2)
-			   {
+			   { 
+
+				 if(core2_scheduler_status == SCHEDULER_SUSPENDED) return 0;
+
                  while(0!=core_getMutex(&core2_mutex)){};
 				 
                  /* The bug is found here*/
@@ -1057,51 +1083,141 @@ inline void schedule_in_tick(void)
 	 uint32_t        tempt_index;
 	
 	 if(os_getCoreId()==CORE0)
-	 {
+	 {  
+	 	if(core0_scheduler_status == SCHEDULER_SUSPENDED)
+		{  
+			if(core0_scheduler_working == true)
+			{
+				/* clear core0_scheduler_working  */
+				core0_scheduler_working   = false;
+				core0_scheduler_suspended = true;
+			}
+			core0_scheduler_suspended_count++;
+		    return;
+		}
+		else if(core0_scheduler_status == SCHEDULER_WORKING)
+		{
+            if(core0_scheduler_suspended == true)
+		    { 
+			   tempt_index = PTHREAD_COND_TIMEDWAIT_SIZE - __clz(core0_os_pthread_time_waiting);
+		       if( tempt_index == 0) return;
+		       tempt_index = tempt_index - 1;
+			   index = 0;
+			   while((stm_ticks[index] != USHRT_MAX) && (index <= tempt_index))
+			   {
+                 stm_ticks[index] = (uint16)(stm_ticks[index] + 
+				 	                (core0_scheduler_suspended_count & USHRT_MAX))%USHRT_MAX;
+               }
+			   core0_scheduler_suspended_count = 0;
+			   core0_scheduler_suspended = false;			   
+		    }
+		    core0_scheduler_working = true;
+		}
+		
 	    tempt_index = PTHREAD_COND_TIMEDWAIT_SIZE - __clz(core0_os_pthread_time_waiting);
 		if( tempt_index == 0) return;
 		tempt_index = tempt_index - 1;
 	    for(index = 0 ; index <= tempt_index ; index++)
 	    {
-	      if(stm_ticks[index] == stm_tick_count)
-		  {		
-			cond_buffer[release_count] = stm_cond[index];
-			stm_ticks[index]           = USHRT_MAX;                             // free place in array 
-			__putbit(0,(int*)&core0_os_pthread_time_waiting,index); 
-			release_count++;
-		  }
+		      if(stm_ticks[index] == stm_tick_count)
+			  {		
+				cond_buffer[release_count] = stm_cond[index];
+				stm_ticks[index]           = USHRT_MAX;                             // free place in array 
+				__putbit(0,(int*)&core0_os_pthread_time_waiting,index); 
+				release_count++;
+			  }
 	    }
 	 }
 	 else if(os_getCoreId() == CORE1)
 	 {
+	 	if(core1_scheduler_status == SCHEDULER_SUSPENDED)
+		{  
+			if(core1_scheduler_working == true)
+			{
+				/* clear core1_scheduler_working  */
+				core1_scheduler_working   = false;
+				core1_scheduler_suspended = true;
+			}
+			core1_scheduler_suspended_count++;
+		    return;
+		}
+		else if(core1_scheduler_status == SCHEDULER_WORKING)
+		{
+            if(core1_scheduler_suspended == true)
+		    { 
+			   tempt_index = PTHREAD_COND_TIMEDWAIT_SIZE - __clz(core1_os_pthread_time_waiting);
+		       if( tempt_index == 0) return;
+		       tempt_index = tempt_index - 1;
+			   index = 0;
+			   while((core1_os_stm_ticks[index] != USHRT_MAX) && (index <= tempt_index))
+			   {
+                 core1_os_stm_ticks[index] = (uint16)(core1_os_stm_ticks[index] + 
+				 	                         (core1_scheduler_suspended_count & USHRT_MAX))%USHRT_MAX;
+               }
+			   core1_scheduler_suspended_count = 0;
+			   core1_scheduler_suspended = false;			   
+		    }
+		    core1_scheduler_working = true;
+		}
+		
 	 	tempt_index = PTHREAD_COND_TIMEDWAIT_SIZE - __clz(core1_os_pthread_time_waiting);
 		if( tempt_index == 0) return;
 		tempt_index = tempt_index - 1;
 	    for(index = 0 ; index <= tempt_index ; index++)
 	    {
-	      if(core1_os_stm_ticks[index] == core1_os_stm_tick_count)
-		  {		
-			cond_buffer[release_count] = core1_os_stm_cond[index];
-			core1_os_stm_ticks[index]  = USHRT_MAX;      
-			__putbit(0,(int*)&core1_os_pthread_time_waiting,index); 
-			release_count++;
-		  }
+		      if(core1_os_stm_ticks[index] == core1_os_stm_tick_count)
+			  {		
+				cond_buffer[release_count] = core1_os_stm_cond[index];
+				core1_os_stm_ticks[index]  = USHRT_MAX;      
+				__putbit(0,(int*)&core1_os_pthread_time_waiting,index); 
+				release_count++;
+			  }
 	    }
 	 }
 	 else if(os_getCoreId() == CORE2)
 	 {
+	 	if(core2_scheduler_status == SCHEDULER_SUSPENDED)
+		{  
+			if(core2_scheduler_working == true)
+			{
+				/* clear core2_scheduler_working  */
+				core2_scheduler_working   = false;
+				core2_scheduler_suspended = true;
+			}
+			core2_scheduler_suspended_count++;
+		    return;
+		}
+		else if(core2_scheduler_status == SCHEDULER_WORKING)
+		{
+            if(core2_scheduler_suspended == true)
+		    { 
+			   tempt_index = PTHREAD_COND_TIMEDWAIT_SIZE - __clz(core2_os_pthread_time_waiting);
+		       if( tempt_index == 0) return;
+		       tempt_index = tempt_index - 1;
+			   index = 0;
+			   while((core2_os_stm_ticks[index] != USHRT_MAX) && (index <= tempt_index))
+			   {
+                 core2_os_stm_ticks[index] = (uint16)(core1_os_stm_ticks[index] + 
+				 	                         (core1_scheduler_suspended_count & USHRT_MAX))%USHRT_MAX;
+               }
+			   core2_scheduler_suspended_count = 0;
+			   core2_scheduler_suspended = false;			   
+		    }
+		    core2_scheduler_working = true;
+		}
+
 	 	tempt_index = PTHREAD_COND_TIMEDWAIT_SIZE - __clz(core2_os_pthread_time_waiting);
 		if( tempt_index == 0) return;
 		tempt_index = tempt_index - 1;
 	    for(index = 0 ; index <= tempt_index ; index++)
 	    {
-	      if(core2_os_stm_ticks[index] == core2_os_stm_tick_count)
-		  {		
-			cond_buffer[release_count] = core2_os_stm_cond[index];
-			core2_os_stm_ticks[index]  = USHRT_MAX;  
-			__putbit(0,(int*)&core2_os_pthread_time_waiting,index); 
-			release_count++;
-		  }
+		      if(core2_os_stm_ticks[index] == core2_os_stm_tick_count)
+			  {		
+				cond_buffer[release_count] = core2_os_stm_cond[index];
+				core2_os_stm_ticks[index]  = USHRT_MAX;  
+				__putbit(0,(int*)&core2_os_pthread_time_waiting,index); 
+				release_count++;
+			  }
 	    }
 	 }
     //setup parameter and jump to trapsystem
@@ -1144,6 +1260,8 @@ int pthread_cond_timedwait_np(uint16_t reltime) //!< [in] relative time are the 
 
 	if(os_getCoreId()==CORE0)
 	{
+	  if(core0_scheduler_status == SCHEDULER_SUSPENDED) return 0;
+	  	
 	  new_tick_count           = stm_tick_count + 1;
 	  set_count                = ((uint16_t)(new_tick_count + reltime))%0xFFFF;  // set_count ranges from 0-0xFFFE
 
@@ -1163,7 +1281,9 @@ int pthread_cond_timedwait_np(uint16_t reltime) //!< [in] relative time are the 
       int err = dispatch_wait(&cond->blocked_threads, NULL);// swap out with mutex unlocked
 	}
 	else if(os_getCoreId()==CORE1)
-	{
+	{ 
+	  if(core1_scheduler_status == SCHEDULER_SUSPENDED) return 0;
+
 	  new_tick_count           = core1_os_stm_tick_count + 1;
 	  set_count                = ((uint16_t)(new_tick_count + reltime))%0xFFFF;  // set_count ranges from 0-0xFFFE
 
@@ -1186,6 +1306,8 @@ int pthread_cond_timedwait_np(uint16_t reltime) //!< [in] relative time are the 
 	}
 	else if(os_getCoreId()==CORE2)
 	{
+	  if(core2_scheduler_status == SCHEDULER_SUSPENDED) return 0;
+
 	  new_tick_count           = core2_os_stm_tick_count + 1;
 	  set_count                = ((uint16_t)(new_tick_count + reltime))%0xFFFF;  // set_count ranges from 0-0xFFFE
 
@@ -1207,6 +1329,122 @@ int pthread_cond_timedwait_np(uint16_t reltime) //!< [in] relative time are the 
 	}
     return 0;
 }
+
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|           Suspend_AllThreads
+|           time block
+|           
+--------------------------------------------------------------------------------------*/
+void os_suspend_allthreads(void)
+{
+  
+}
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|           Restore_AllThreads
+|           time block
+|           
+--------------------------------------------------------------------------------------*/
+void os_restore_allthreads(void)
+{
+	
+}
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|           os_suspend_scheduler
+|           time block
+|           
+--------------------------------------------------------------------------------------*/
+void os_suspend_scheduler(void)
+{
+	/* Because the scheduler logic is located in stm tick interrupt, and */
+   uint32_t current_cpu_id = os_getCoreId();
+
+   if(current_cpu_id == CORE0)
+   {
+	   if(core0_scheduler_status == SCHEDULER_WORKING)
+	   {
+	      core0_scheduler_status = SCHEDULER_SUSPENDED;
+	   }	
+   }
+   else if(current_cpu_id == CORE1)
+   {
+	   if(core0_scheduler_status == SCHEDULER_WORKING)
+	   {
+	      core1_scheduler_status = SCHEDULER_SUSPENDED;
+	   }	
+   }
+   else if(current_cpu_id == CORE2)
+   {
+	   if(core0_scheduler_status == SCHEDULER_WORKING)
+	   {
+	      core2_scheduler_status = SCHEDULER_SUSPENDED;
+	   }	
+   }
+}
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|           os_restore_scheduler
+|           time block
+|           
+--------------------------------------------------------------------------------------*/
+void os_restore_scheduler(void)
+{
+	/* Because the scheduler logic is located in stm tick interrupt, and */
+   uint32_t current_cpu_id = os_getCoreId();
+
+   if(current_cpu_id == CORE0)
+   {
+	   if(core0_scheduler_status == SCHEDULER_SUSPENDED)
+	   {
+	      core0_scheduler_status = SCHEDULER_WORKING;
+	   }	
+   }
+   else if(current_cpu_id == CORE1)
+   {
+	   if(core0_scheduler_status == SCHEDULER_SUSPENDED)
+	   {
+	      core1_scheduler_status = SCHEDULER_WORKING;
+	   }	
+   }
+   else if(current_cpu_id == CORE2)
+   {
+	   if(core0_scheduler_status == SCHEDULER_SUSPENDED)
+	   {
+	      core2_scheduler_status = SCHEDULER_WORKING;
+	   }	
+   }
+}
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|           os_dsable_allinterrupts
+|           time block
+|           
+--------------------------------------------------------------------------------------*/
+void os_dsable_allinterrupts(void)
+{
+   __enable();
+}
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|           os_enable_allinterrupt
+|           time block
+|           
+--------------------------------------------------------------------------------------*/
+void os_enable_allinterrupt(void)
+{
+  __disable();
+  __nop();
+
+}
+
 /*-------------------------------------------------------------------------------------
 |
 |   Description:

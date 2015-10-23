@@ -34,6 +34,12 @@ enum user_e {
     USER0, USER1, SUPER
 };
 
+typedef enum scheduler_status {	
+    SCHEDULER_WORKING, 
+	SCHEDULER_SUSPENDED
+	
+}scheduler_status_t;
+
 //! core definition
 typedef enum  {
     CORE0, CORE1, CORE2
