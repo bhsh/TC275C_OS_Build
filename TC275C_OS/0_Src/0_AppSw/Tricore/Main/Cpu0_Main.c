@@ -278,7 +278,7 @@ volatile uint32 ustack_end_address=(uint32)(_lc_ue_ustack_tc0);
 volatile uint32 ustack_used_size_in_byte;
 volatile uint32 ustack_address;
 
-volatile uint32 tick_begin;
+volatile uint32 tick_begin2;
 volatile uint32 tick_end;
 volatile uint32 ticks_in_10ns;
 
@@ -435,7 +435,7 @@ int core0_main (void)
     //Init_soft_interrupt(&SRC_GPSR01,IFX_CFG_ISR_PRIORITY_CPU0_SOFTWAR1);
     /* background endless loop */
 
-	//start_core0_os();
+	start_core0_os();
     while(1);
     while (1)
     {
@@ -451,9 +451,9 @@ int core0_main (void)
     	//trigger_soft_interrupt(&SRC_GPSR00);
     	//trigger_soft_interrupt(&SRC_GPSR01);
         //IfxStm_waitTicks(&MODULE_STM0, 10000000);  // 100ms 
-        tick_begin=IfxStm_getLower(&MODULE_STM0);
+        tick_begin2=IfxStm_getLower(&MODULE_STM0);
         while(0!=getMutex()){};  
-		ticks_in_10ns=IfxStm_getLower(&MODULE_STM0)-tick_begin;
+		ticks_in_10ns=IfxStm_getLower(&MODULE_STM0)-tick_begin2;
         
 		IfxPort_togglePin(&MODULE_P33, 8);
 		core0_global_count1++;

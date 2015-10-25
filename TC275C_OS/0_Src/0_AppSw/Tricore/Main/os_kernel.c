@@ -452,16 +452,16 @@ int pthread_cond_wait(pthread_cond_t *cond)//!< [in] condition pointer
     assert(cppn()==0); // CCPN must be 0, pthread_create cannot be called from ISR
     assert(cond!= NULL); // errno = EINVAL
 
-	if(cond->multi_semaphore <= 1)
-	{  
-	    cond->multi_semaphore = 0;
+	//if(cond->multi_semaphore <= 1)
+	//{  
+	//    cond->multi_semaphore = 0;
         dispatch_wait(&cond->blocked_threads, NULL);// add this thread to the list of blocked threads by this cond
-    }
-    else
-	{  
+    //}
+    //else
+	//{  
 	   /* cond->multi_semaphore > 1 */
-       cond->multi_semaphore--;
-	}	
+    //   cond->multi_semaphore--;
+	//}	
     return 0;
 }
 /*-------------------------------------------------------------------------------------
@@ -477,9 +477,11 @@ int pthread_cond_broadcast(pthread_cond_t *cond) //!< [in] condition pointer
 	uint32_t current_cpu_id = os_getCoreId();
 	uint32_t cond_core_id   = cond->core_id;
 
+#if 0
 	if(cond->multi_semaphore == 0)
 	{
         cond->multi_semaphore = 1;
+#endif
 		if (cond->blocked_threads != NULL)
 		{	 
 			 if((cond_core_id == current_cpu_id)&&(0 == cppn()))
@@ -566,11 +568,13 @@ int pthread_cond_broadcast(pthread_cond_t *cond) //!< [in] condition pointer
 				    }
 			  }		
 	    }
+#if 0
 	}
 	else
 	{
        cond->multi_semaphore++;
 	}
+#endif
 	return 0;// dummy to avoid warning
 }
 

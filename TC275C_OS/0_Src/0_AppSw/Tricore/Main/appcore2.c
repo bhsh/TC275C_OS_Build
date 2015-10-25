@@ -73,8 +73,8 @@ volatile int core2_os_interrupt_test_flag;
 |
 --------------------------------------------------------------------------------------*/
 void core2_os_idle(void* arg,task_ptr_t task) {
-    for (;;)
-    {
+    for (;;){
+
     	core2_os_thread_test_count_TASK0++;
     	delay_ms(200);
 

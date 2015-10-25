@@ -43,3 +43,5 @@ extern TsUTIL_ThruPutMeasurement SaOSTK_ThruPutData[E_MaxItems];
 
 extern uint32 OS_Measure_thread_Time(void);
 extern void OS_test1(uint32 time);
+extern void os_trace_begin(uint32 task_id);
+extern void os_trace_end(uint32 task_id);

@@ -2,9 +2,7 @@
 
 void CORE2_TASK1(pthread_config_t *pthread_config)
 {
-    pthread_config->type = 1;
-	pthread_config->period = 500;
-    pthread_config->time = 1000;
+ 
 }
 void CORE2_TASK2(pthread_config_t *pthread_config)
 {

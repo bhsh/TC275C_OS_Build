@@ -81,9 +81,10 @@ typedef struct {
 } pthread_mutex_t;
 
 typedef struct {
+	uint32_t task_id;//!< mutex lock status is one of <true | false> 
     uint32_t type;//!< mutex lock status is one of <true | false>
     uint32_t period;//!< mutex lock status is one of <true | false> 
-    uint32_t time;//!< mutex lock status is one of <true | false> 
+    uint32_t actived_task_id;
     
 } pthread_config_t;
 

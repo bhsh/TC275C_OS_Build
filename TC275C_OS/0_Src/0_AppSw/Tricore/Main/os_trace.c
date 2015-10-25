@@ -25,6 +25,10 @@
 #include "Src\Std\IfxSrc.h"
 
 #include "os_trace.h"
+
+
+volatile uint32 core0_thread_time[E_MaxItems];
+volatile uint32 tick_begin[E_MaxItems];
 /*-------------------------------------------------------------------------------------
 |
 |   Description:
@@ -158,4 +162,12 @@ void OS_test1(uint32 time)
    }	
 }
 
+void os_trace_begin(uint32 task_id)
+{
+  tick_begin[task_id] = OS_Measure_thread_Time();
+}
+void os_trace_end(uint32 task_id)
+{
+  core0_thread_time[task_id] = OS_Measure_thread_Time() - tick_begin[task_id];
+}
 
