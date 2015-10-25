@@ -30,11 +30,11 @@ enum task_e {
 #define CORE0_TASK0_ACTIVED    NO_TASK
 
 #define CORE0_TASK1_TYPE       TASK_PERIODIC
-#define CORE0_TASK1_PERIOD     (1000)  /* unit:ms */
+#define CORE0_TASK1_PERIOD     (300)  /* unit:ms */
 #define CORE0_TASK1_ACTIVED    NO_TASK
 
 #define CORE0_TASK2_TYPE       TASK_PERIODIC
-#define CORE0_TASK2_PERIOD     (1000)  /* unit:ms */
+#define CORE0_TASK2_PERIOD     (500)  /* unit:ms */
 #define CORE0_TASK2_ACTIVED    NO_TASK
 
 #define CORE0_TASK3_TYPE       TASK_EVENT

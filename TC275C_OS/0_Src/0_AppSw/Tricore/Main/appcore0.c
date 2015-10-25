@@ -84,10 +84,6 @@ volatile int core0_os_thread_test_count_TASK10=0;
 
 TsUTIL_ThruPutMeasurement core0_thread_execution_time[E_MaxItems];
 
-volatile uint32 Core0_CPU_Load_Background_Count;
-volatile uint32 Core0_CPU_Load_Background;
-volatile uint32 Core0_CPU_1ms_count;
-
 volatile uint32 tick_begin_test1;
 volatile uint32 tick_begin_test2;
 volatile uint32 tick_begin_test3;
@@ -121,7 +117,7 @@ int core0_math_test(int a,int b)
 
 void core0_os_idle(void* arg,task_ptr_t task) 
 {
-
+	thread_initialization();
 #if 0
     uint32 tick_begin;
     for (;;)
@@ -141,6 +137,8 @@ void core0_os_idle(void* arg,task_ptr_t task)
 			           (20);      //SRC_GPSR01.B.SRPN=20; 
     }
 #endif
+    task(&pthread_config);
+    thread_termination();
 }
 /*-------------------------------------------------------------------------------------
 |
@@ -155,7 +153,7 @@ void __interrupt(20) CPU0_SOFT1_Isr(void)
 {
 
 	interrupt_test_flag++;
-    pthread_cond_broadcast(&core0_os_cond4);
+    //pthread_cond_broadcast(&core0_os_cond4);
 }
 /*-------------------------------------------------------------------------------------
 |
@@ -176,6 +174,7 @@ void __interrupt(20) CPU0_SOFT1_Isr(void)
 --------------------------------------------------------------------------------------*/
 void core0_os_thread1(void* arg,task_ptr_t task) 
 {
+	thread_initialization();
 	#if 0
 	uint32 tick_begin;
     pthread_config_t pthread_config;
@@ -195,6 +194,8 @@ void core0_os_thread1(void* arg,task_ptr_t task)
 		task(&pthread_config);
     }
 #endif
+    task(&pthread_config);
+    thread_termination();
 }
 //#pragma align restore
 //#pragma tradeoff restore
@@ -210,6 +211,7 @@ void core0_os_thread1(void* arg,task_ptr_t task)
 --------------------------------------------------------------------------------------*/
 void core0_os_thread2(void* arg,task_ptr_t task)
 {
+	thread_initialization();
 	#if 0
 	uint32 tick_begin;
     pthread_config_t pthread_config;
@@ -228,6 +230,8 @@ void core0_os_thread2(void* arg,task_ptr_t task)
 		pthread_cond_broadcast(&core0_os_cond3);
     }
 #endif
+    task(&pthread_config);
+    thread_termination();
 }
 /*-------------------------------------------------------------------------------------
 |
@@ -476,7 +480,6 @@ void core0_os_thread10(void* arg,task_ptr_t task)
 	#endif
 
     task(&pthread_config);
-	
     thread_termination();
  }
 
@@ -495,7 +498,11 @@ void thread_done_before_task(pthread_config_t *pthread_config)
   }
   else if(pthread_config->type == TASK_PERIODIC)
   {
-	  pthread_cond_timedwait_np(pthread_config->period);
+	  pthread_cond_timedwait_np((uint16_t)(pthread_config->period));
+  }
+  else if(pthread_config->type == NO_DEFINITION)
+  {
+     /* Do nothing. */
   }
   /* trace */
   os_trace_begin(pthread_config->task_id);
@@ -532,9 +539,10 @@ const pthread_attr_t core0_os_th10_attr = { SUPER, CALL_DEPTH_OVERFLOW_AT_64};
 
 void start_core0_os(void) {
 
-    pthread_create_np(core0_os_th0, &core0_os_th0_attr, core0_os_idle, (void*) 0,NULL);
+    pthread_create_np(core0_os_th0, &core0_os_th0_attr, core0_os_idle, (void*) 0,CORE0_TASK0);
     pthread_create_np(core0_os_th1, &core0_os_th1_attr, core0_os_thread1, (void*) 1,CORE0_TASK1);	
     pthread_create_np(core0_os_th2, &core0_os_th2_attr, core0_os_thread2, (void*) 2,CORE0_TASK2);
+#if 0	
 
 	pthread_create_np(core0_os_th3, &core0_os_th3_attr, core0_os_thread3, (void*) 3,CORE0_TASK3);
 
@@ -546,7 +554,7 @@ void start_core0_os(void) {
     pthread_create_np(core0_os_th8, &core0_os_th8_attr, core0_os_thread8, (void*) 8,CORE0_TASK8);
     pthread_create_np(core0_os_th9, &core0_os_th9_attr, core0_os_thread9, (void*) 9,CORE0_TASK9);
 	pthread_create_np(core0_os_th10, &core0_os_th10_attr, core0_os_thread10,(void*) 10,CORE0_TASK10);
-#if 0
+
 #endif
 
 	pthread_start_np();

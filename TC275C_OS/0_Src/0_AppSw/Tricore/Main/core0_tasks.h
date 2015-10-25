@@ -2,7 +2,7 @@
 #include "os_kernel.h"
 
 
-
+void CORE0_TASK0(pthread_config_t *pthread_config);
 void CORE0_TASK1(pthread_config_t *pthread_config);
 void CORE0_TASK2(pthread_config_t *pthread_config);
 void CORE0_TASK3(pthread_config_t *pthread_config);
