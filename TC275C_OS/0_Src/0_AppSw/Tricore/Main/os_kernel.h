@@ -65,6 +65,30 @@ typedef enum
    /* Index 11 */  CORE_MAX_THREAD_NUM
 } thread_num_t;
 
+enum task_type{
+
+   NO_DEFINITION,
+   TASK_PERIODIC,
+   TASK_EVENT
+};
+
+enum task_e {
+	
+    TASK_ID0,
+    TASK_ID1,
+    TASK_ID2,
+    TASK_ID3,
+    TASK_ID4,
+    TASK_ID5,
+    TASK_ID6,
+    TASK_ID7,
+    TASK_ID8,
+    TASK_ID9,
+    TASK_ID10,
+    TASK_ID_MAX, 
+    NO_TASK
+};
+
 //! Call depth definition
 enum call_depth_overflow_e {
     CALL_DEPTH_OVERFLOW_AT_64 = 0,
