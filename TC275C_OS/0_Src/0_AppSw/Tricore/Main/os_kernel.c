@@ -60,7 +60,6 @@ uint16_t stm_tick_count;
 uint16_t core1_os_stm_tick_count;
 uint16_t core2_os_stm_tick_count;
 
-
 uint32_t core0_os_pthread_time_waiting;
 uint32_t core1_os_pthread_time_waiting;
 uint32_t core2_os_pthread_time_waiting;
@@ -282,6 +281,7 @@ static void list_delete_first(pthread_t *head) {
 |
 --------------------------------------------------------------------------------------*/
 //void(*core0_task_ptr)(pthread_config_t * const task)
+extern void get_thread_init_stack_address(uint32_t,uint32_t,uint32_t);
 int pthread_create_np(pthread_t thread, //!< [in] thread control block pointer.
         const pthread_attr_t *attr, //!<  [in] thread attribute. Can be NULL to use default.
         void(*start_routine)(void *,task_ptr_t),//!<  [in] thread function pointer
@@ -320,14 +320,16 @@ int pthread_create_np(pthread_t thread, //!< [in] thread control block pointer.
 	cx->l.a5 = core0_task_ptr;
     thread->arg = arg;
 
+	get_thread_init_stack_address(os_getCoreId(),(int)arg,(int)(thread->stack + *thread->stack));
+
     uint32_t i = thread->priority;
 	
-    if(os_getCoreId()==CORE0)
+    if(os_getCoreId()== CORE0)
     {   
        list_append(&core0_os_pthread_runnable_threads[i], thread, thread,
                   core0_os_pthread_runnable_threads[i]);
        __putbit(1,(int*)&core0_os_pthread_runnable,i); // mark current thread ready
-    }
+           }
     else if(os_getCoreId()==CORE1)
     {
        list_append(&core1_os_pthread_runnable_threads[i], thread, thread,
