@@ -1,12 +1,6 @@
-//#include "core0_tasks.h"
-//#include "os_kernel.h"
 
 #include "os_kernel.h"
-
-#include "os_trace.h"
 #include "os_interface.h"
-#include "core0_tasks.h"
-
 #include "shareappsw.h"
 
 typedef enum  {
@@ -15,15 +9,14 @@ typedef enum  {
 		
 }cpu_load_get_status_t;
 
-volatile int core0_os_thread_test_count_TASK[11];
-volatile uint32 Core0_CPU_Load_Background_Count;
-volatile uint32 Core0_CPU_Load_Background;
-volatile uint32 Core0_CPU_LOAD;
+#define  TOTAL_COUNT        (500000000)
+#define  TIME_PER_COUNT_NS  (60)
+#define  TASK_NUM           (11)
 
-cpu_load_get_status_t  cpu0_load_get_status = RUNNING;
-
-#define  TOTAL_COUNT        500000000
-#define  TIME_PER_COUNT_NS  60
+static volatile uint32 core0_os_thread_test_count_TASK[TASK_NUM];
+static volatile uint32 Core0_CPU_Load_Background_Count;
+static volatile uint32 Core0_CPU_LOAD;
+static cpu_load_get_status_t  cpu0_load_get_status = RUNNING;
 
 void CORE0_TASK0(pthread_config_t *pthread_config)
 {
