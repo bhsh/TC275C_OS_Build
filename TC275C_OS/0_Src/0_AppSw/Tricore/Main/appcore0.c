@@ -83,14 +83,8 @@ TsUTIL_ThruPutMeasurement core0_thread_execution_time[E_MaxItems];
 
  
 /*-------------------------------------------------------------------------------------
-|
-|   Description:
-|    
-|   Define thread 0 :void core0_os_idle(void* arg) 
-|
+|   Define thread 0 
 --------------------------------------------------------------------------------------*/
-
-
 int core0_math_test(int a,int b)
 {
 
@@ -120,11 +114,7 @@ void __interrupt(20) CPU0_SOFT1_Isr(void)
     //pthread_cond_broadcast(&core0_os_cond4);
 }
 /*-------------------------------------------------------------------------------------
-|
-|   Description:
-|    
-|   Define thread 1 :void core0_os_thread1(void* arg) 
-|
+|   Define thread 1 
 --------------------------------------------------------------------------------------*/
 void core0_os_thread1(void* arg,task_ptr_t task) 
 {
@@ -138,11 +128,7 @@ void core0_os_thread1(void* arg,task_ptr_t task)
 //#pragma endprotect
 
 /*-------------------------------------------------------------------------------------
-|
-|   Description:
-|    
-|   Define thread 2 :void core0_os_thread2(void* arg) 
-|
+|   Define thread 2 
 --------------------------------------------------------------------------------------*/
 void core0_os_thread2(void* arg,task_ptr_t task)
 {
@@ -151,11 +137,7 @@ void core0_os_thread2(void* arg,task_ptr_t task)
     thread_termination();
 }
 /*-------------------------------------------------------------------------------------
-|
-|   Description:
-|    
-|   Define thread 3 :void core0_os_thread3(void* arg) 
-|
+|   Define thread 3 
 --------------------------------------------------------------------------------------*/
 void core0_os_thread3(void* arg,task_ptr_t task) 
 {
@@ -165,11 +147,7 @@ void core0_os_thread3(void* arg,task_ptr_t task)
 }
 
 /*-------------------------------------------------------------------------------------
-|
-|   Description:
-|    
-|   Define thread 4 :void core0_os_thread4(void* arg) 
-|
+|   Define thread 4 
 --------------------------------------------------------------------------------------*/
 void core0_os_thread4(void* arg,task_ptr_t task)
 {
@@ -179,11 +157,7 @@ void core0_os_thread4(void* arg,task_ptr_t task)
 }
 
 /*-------------------------------------------------------------------------------------
-|
-|   Description:
-|    
-|   Define thread 5 :void core0_os_thread5(void* arg) 
-|
+|   Define thread 5 
 --------------------------------------------------------------------------------------*/
 void core0_os_thread5(void* arg,task_ptr_t task) 
 {
@@ -193,11 +167,7 @@ void core0_os_thread5(void* arg,task_ptr_t task)
 }
 
 /*-------------------------------------------------------------------------------------
-|
-|   Description:
-|    
-|   Define thread 6 :void core0_os_thread6(void* arg) 
-|
+|   Define thread 6 
 --------------------------------------------------------------------------------------*/
 void core0_os_thread6(void* arg,task_ptr_t task)
 {
@@ -207,11 +177,7 @@ void core0_os_thread6(void* arg,task_ptr_t task)
 }
 
 /*-------------------------------------------------------------------------------------
-|
-|   Description:
-|    
-|   Define thread 7 :void core0_os_thread7(void* arg) 
-|
+|   Define thread 7 
 --------------------------------------------------------------------------------------*/
 void core0_os_thread7(void* arg,task_ptr_t task) 
 {
@@ -221,11 +187,7 @@ void core0_os_thread7(void* arg,task_ptr_t task)
 }
 
 /*-------------------------------------------------------------------------------------
-|
-|   Description:
-|    
-|   Define thread 8 :void core0_os_thread8(void* arg) 
-|
+|   Define thread 8 
 --------------------------------------------------------------------------------------*/
 void core0_os_thread8(void* arg,task_ptr_t task) 
 {
@@ -235,11 +197,7 @@ void core0_os_thread8(void* arg,task_ptr_t task)
 }
 
 /*-------------------------------------------------------------------------------------
-|
-|   Description:
-|    
-|   Define thread 9 :void core0_os_thread9(void* arg) 
-|
+|   Define thread 9 
 --------------------------------------------------------------------------------------*/
 void core0_os_thread9(void* arg,task_ptr_t task) 
 {
@@ -249,11 +207,7 @@ void core0_os_thread9(void* arg,task_ptr_t task)
 }
 
 /*-------------------------------------------------------------------------------------
-|
-|   Description:
-|    
-|   Define thread 10 :void core0_os_thread10(void* arg) 
-|
+|   Define thread 10 
 --------------------------------------------------------------------------------------*/
 void core0_os_thread10(void* arg,task_ptr_t task) 
 {    
@@ -302,17 +256,6 @@ void thread_done_after_task(pthread_config_t *pthread_config)
   {
       /* Do nothing */
   }
-}
-
-uint32_t parse_stack_pointer_from_context(uint32_t task_id)
-{   
-	pthread_t thread;
-     switch(TASK_ID0)
-	{
-		case TASK_ID0:
-	     thread = core0_os_th0;
-		 break;
-	}
 }
 
 const pthread_attr_t core0_os_th0_attr = { SUPER, CALL_DEPTH_OVERFLOW_AT_64};
