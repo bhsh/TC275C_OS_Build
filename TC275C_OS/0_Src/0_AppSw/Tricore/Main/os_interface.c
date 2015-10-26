@@ -43,14 +43,7 @@ osu32_t os_getstmlower_count(void)
   return (osu32_t)(IfxStm_getLower(&MODULE_STM0)/10);
 }
 
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|   Test type: interrupt sync
-|   Define  a test interrupt :void __interrupt(20) CPU0_SOFT1_Isr(void)
-|   This is only a test interrupt
-|
---------------------------------------------------------------------------------------*/
+
 volatile osu32_t interrupt_test_flag;
 void __interrupt(20) CPU0_SOFT1_Isr(void) 
 {
@@ -58,4 +51,3 @@ void __interrupt(20) CPU0_SOFT1_Isr(void)
 	interrupt_test_flag++;
     //pthread_cond_broadcast(&core0_os_cond4);
 }
-

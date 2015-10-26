@@ -1,17 +1,17 @@
-#include "os_kernel.h"
+#include "os.h"
 
 
 
 typedef struct 
 {
-    uint32_t stack_init_address;
-    uint32_t stack_current_address;
-    uint32_t stack_used_size_byte;
-	uint32_t stack_used_percent;
+    osu32_t stack_init_address;
+    osu32_t stack_current_address;
+    osu32_t stack_used_size_byte;
+	osu32_t stack_used_percent;
 	
 } pthread_stack_t; 
 
 
 
-uint32_t get_stack_used_percent(uint32_t task_id, uint32_t pos);
+osu32_t get_stack_used_percent(osu32_t task_id, osu32_t pos);
 
