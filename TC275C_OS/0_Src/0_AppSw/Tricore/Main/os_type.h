@@ -19,6 +19,7 @@ typedef unsigned long long  osu64_t;
 //#define  false     (0)
 
 #define OS_EXTERN  extern 
+#define OS_INLINE  inline
 
 #endif
 

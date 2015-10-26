@@ -51,3 +51,8 @@ void __interrupt(20) CPU0_SOFT1_Isr(void)
 	interrupt_test_flag++;
     //pthread_cond_broadcast(&core0_os_cond4);
 }
+
+osu32_t osPort_togglePin(osu32_t pin_num)
+{
+    IfxPort_togglePin(&MODULE_P33, pin_num);
+}

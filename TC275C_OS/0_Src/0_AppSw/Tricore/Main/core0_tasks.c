@@ -1,23 +1,7 @@
 //#include "core0_tasks.h"
 //#include "os_kernel.h"
 
-
-#include <stdlib.h>
 #include "os_kernel.h"
-//#include "simio.h"
-#include <stdio.h>
-#include "Cpu0_Main.h"
-#include "SysSe/Bsp/Bsp.h"
-//#include "DemoApp.h"
-#include "communication.h"
-
-
-#include "Compilers.h"
-#include "Cpu\Std\IfxCpu_Intrinsics.h"
-#include "Port\Io\IfxPort_Io.h"
-#include "Stm\Std\IfxStm.h"
-#include "Src\Std\IfxSrc.h"
-
 
 #include "os_trace.h"
 #include "os_interface.h"
@@ -60,13 +44,13 @@ void CORE0_TASK0(pthread_config_t *pthread_config)
 void CORE0_TASK1(pthread_config_t *pthread_config)
 {
   core0_os_thread_test_count_TASK[pthread_config->task_id]++;
-  IfxPort_togglePin(&MODULE_P33, 9);
+  osPort_togglePin(9);
   delay_ms(50);
 }
 void CORE0_TASK2(pthread_config_t *pthread_config)
 {
   core0_os_thread_test_count_TASK[pthread_config->task_id]++;
-  IfxPort_togglePin(&MODULE_P33, 8);
+  osPort_togglePin(8);
   delay_ms(50);
 
 }
@@ -116,6 +100,7 @@ void CORE0_TASK10(pthread_config_t *pthread_config)
   Core0_CPU_Load_Background_Count = 0;
   /*<CPU load> can be got here. <Section ends> */
 	
-  IfxPort_togglePin(&MODULE_P33, 10);
+  //IfxPort_togglePin(&MODULE_P33, 10);
+  osPort_togglePin(10);
   //IfxStm_waitTicks(&MODULE_STM0, 50*100); // 500us delay
 }
