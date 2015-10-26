@@ -26,10 +26,10 @@
 #include "os_interface.h"
 
 
-static volatile osu32_t core0_thread_time[E_MaxItems];
-static volatile osu32_t core0_tick_begin[E_MaxItems];
-static volatile osu32_t core0_thread_timeslot[E_MaxItems];
-static volatile osu32_t core0_thread_switch_times[E_MaxItems];
+static volatile osu32_t core0_thread_time[CORE_MAX_THREAD_NUM];
+static volatile osu32_t core0_tick_begin[CORE_MAX_THREAD_NUM];
+static volatile osu32_t core0_thread_timeslot[CORE_MAX_THREAD_NUM];
+static volatile osu32_t core0_thread_switch_times[CORE_MAX_THREAD_NUM];
 static volatile osu32_t core0_thread_begin_timeslot;
 static volatile osu32_t core0_thread_end_timeslot;
 

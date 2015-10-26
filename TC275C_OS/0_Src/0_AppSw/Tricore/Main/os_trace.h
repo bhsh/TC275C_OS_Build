@@ -16,22 +16,6 @@
 
 #define TRACE_STATUS       ENABLE
 
-typedef enum
-{ 
-   /* Index 0   */ CORE0_IDLE,                        
-   /* Index 1   */ CORE0_THREAD1,                    
-   /* Index 2   */ CORE0_THREAD2,                  
-   /* Index 3   */ CORE0_THREAD3,                       
-   /* Index 4   */ CORE0_THREAD4,                    
-   /* Index 5   */ CORE0_THREAD5,                  
-   /* Index 6   */ CORE0_THREAD6,  
-   /* Index 7   */ CORE0_THREAD7,                    
-   /* Index 8   */ CORE0_THREAD8,                  
-   /* Index 9   */ CORE0_THREAD9,                       
-   /* Index 10  */ CORE0_THREAD10,                    
-
-   /* Index 11 */ E_MaxItems
-} TeOSTK_ThruPutMeasItem;
 
 #if 0	
 typedef struct
