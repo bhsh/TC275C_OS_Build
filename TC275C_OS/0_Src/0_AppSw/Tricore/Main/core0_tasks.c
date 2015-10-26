@@ -3,29 +3,12 @@
 #include "os_interface.h"
 #include "shareappsw.h"
 
-typedef enum  {
-	 FINISH,
-	 RUNNING
-		
-}cpu_load_get_status_t;
-
-#define  TOTAL_COUNT        (500000000)
-#define  TIME_PER_COUNT_NS  (60)
-#define  TASK_NUM           (11)
-
-static volatile uint32 core0_os_thread_test_count_TASK[TASK_NUM];
-static volatile uint32 Core0_CPU_Load_Background_Count;
-static volatile uint32 Core0_CPU_LOAD;
-static cpu_load_get_status_t  cpu0_load_get_status = RUNNING;
 
 void CORE0_TASK0(pthread_config_t *pthread_config)
 {
   //core0_os_thread_test_count_TASK[pthread_config->task_id]++;
-
-  while((Core0_CPU_Load_Background_Count < TOTAL_COUNT)&&(cpu0_load_get_status == RUNNING ))
-  {
-     Core0_CPU_Load_Background_Count++;
-  }
+  App_task_test_count(0);
+  App_stack_background_count();
   //delay_ms(200);
   
   /* Trigger a software interrupt for test only */
@@ -36,64 +19,47 @@ void CORE0_TASK0(pthread_config_t *pthread_config)
 }
 void CORE0_TASK1(pthread_config_t *pthread_config)
 {
-  core0_os_thread_test_count_TASK[pthread_config->task_id]++;
-  osPort_togglePin(9);
+  App_task_test_count(1);
+  App_flash_led_2();
   delay_ms(50);
 }
 void CORE0_TASK2(pthread_config_t *pthread_config)
 {
-  core0_os_thread_test_count_TASK[pthread_config->task_id]++;
-  osPort_togglePin(8);
+  App_task_test_count(2);
+  App_flash_led_1();
   delay_ms(50);
-
 }
 void CORE0_TASK3(pthread_config_t *pthread_config)
 {
-  core0_os_thread_test_count_TASK[pthread_config->task_id]++;
+  App_task_test_count(3);
 }
 void CORE0_TASK4(pthread_config_t *pthread_config)
 {
-  core0_os_thread_test_count_TASK[pthread_config->task_id]++;
+  App_task_test_count(4);
 }
 void CORE0_TASK5(pthread_config_t *pthread_config)
 {
-  core0_os_thread_test_count_TASK[pthread_config->task_id]++;
+  App_task_test_count(5);
 }
 void CORE0_TASK6(pthread_config_t *pthread_config)
 {
-  core0_os_thread_test_count_TASK[pthread_config->task_id]++;
+  App_task_test_count(6);
 }
 void CORE0_TASK7(pthread_config_t *pthread_config)
 {
-  core0_os_thread_test_count_TASK[pthread_config->task_id]++;
+  App_task_test_count(7);
 }
 void CORE0_TASK8(pthread_config_t *pthread_config)
 {
-  core0_os_thread_test_count_TASK[pthread_config->task_id]++;
+  App_task_test_count(8);
 }
 void CORE0_TASK9(pthread_config_t *pthread_config)
 {
-  core0_os_thread_test_count_TASK[pthread_config->task_id]++;
+  App_task_test_count(9);
 }
 void CORE0_TASK10(pthread_config_t *pthread_config)
 {
-  core0_os_thread_test_count_TASK[pthread_config->task_id]++;
-
-  /*<CPU load> can be got here. <Section begins> */
-  /* Core0_CPU_LOAD = (Core0_CPU_Load_Background_Count * 100)/(1000*1000); */
-  if(Core0_CPU_Load_Background_Count < TOTAL_COUNT)
-  {
-    Core0_CPU_LOAD = 1000 - (Core0_CPU_Load_Background_Count * TIME_PER_COUNT_NS)/(1000*1000);
-  }
-  else
-  {
-    Core0_CPU_LOAD = 0;
-  }
-  cpu0_load_get_status = RUNNING;
-  Core0_CPU_Load_Background_Count = 0;
-  /*<CPU load> can be got here. <Section ends> */
-	
-  //IfxPort_togglePin(&MODULE_P33, 10);
-  osPort_togglePin(10);
-  //IfxStm_waitTicks(&MODULE_STM0, 50*100); // 500us delay
+  App_task_test_count(10);
+  App_stack_calculated();
+  App_flash_led_4();
 }
