@@ -92,10 +92,9 @@ volatile uint32 tick_begin_test3;
 	                                               core0_pthread_init_config_database[(int)arg]; \
                                           for (;;)                                               \
                                           {                                                      \
-										  	thread_done_before_task(&pthread_config); 
-
-	                                         
-#define thread_termination();               thread_done_after_task(&pthread_config);  \
+								 		  	thread_done_before_task(&pthread_config); 
+#define thread_taskcallback();              task(&pthread_config);          	                                         
+#define thread_termination();               thread_done_after_task(&pthread_config);             \
 	                                      }
 
  
@@ -118,26 +117,7 @@ int core0_math_test(int a,int b)
 void core0_os_idle(void* arg,task_ptr_t task) 
 {
 	thread_initialization();
-#if 0
-    uint32 tick_begin;
-    for (;;)
-    {    	
-		
-        tick_begin = OS_Measure_thread_Time();
-		core0_os_thread_test_count_TASK0++;
-		Core0_CPU_Load_Background_Count++;
-
-		delay_ms(200);
-	   	core0_thread_time[(int) arg] = OS_Measure_thread_Time() - tick_begin;
-		
-        /* Trigger a software interrupt for test only */
-		SRC_GPSR01.U=  (1<<26)|   //SRC_GPSR01.B.SETR=1;
-	   		           (1<<10)|   //SRC_GPSR01.B.SRE=1;
-			           (0<<11)|   //SRC_GPSR01.B.TOS=0;
-			           (20);      //SRC_GPSR01.B.SRPN=20; 
-    }
-#endif
-    task(&pthread_config);
+    thread_taskcallback();
     thread_termination();
 }
 /*-------------------------------------------------------------------------------------
@@ -175,26 +155,7 @@ void __interrupt(20) CPU0_SOFT1_Isr(void)
 void core0_os_thread1(void* arg,task_ptr_t task) 
 {
 	thread_initialization();
-	#if 0
-	uint32 tick_begin;
-    pthread_config_t pthread_config;
-    pthread_config.task_id = (int)arg;
-    for (;;) 
-	{
-		EnterUTIL_TimeMeas(&core0_thread_execution_time[CORE0_THREAD1]);
-		tick_begin = OS_Measure_thread_Time();
-        core0_os_thread_test_count_TASK1++;	
-        pthread_cond_timedwait_np(300);
-
-		tick_begin_test3 = core0_math_test(tick_begin_test1,(tick_begin_test2+1));
-		IfxPort_togglePin(&MODULE_P33, 9);
-		
-		core0_thread_time[(int) arg] = OS_Measure_thread_Time() - tick_begin;
-		ExitUTIL_TimeMeas(&core0_thread_execution_time[CORE0_THREAD1]);
-		task(&pthread_config);
-    }
-#endif
-    task(&pthread_config);
+    thread_taskcallback();
     thread_termination();
 }
 //#pragma align restore
@@ -212,25 +173,7 @@ void core0_os_thread1(void* arg,task_ptr_t task)
 void core0_os_thread2(void* arg,task_ptr_t task)
 {
 	thread_initialization();
-	#if 0
-	uint32 tick_begin;
-    pthread_config_t pthread_config;
-	pthread_config.task_id = (int)arg;
-    for (;;) 
-	{
-		//EnterUTIL_TimeMeas(&core0_thread_execution_time[CORE0_THREAD2]);
-		tick_begin = OS_Measure_thread_Time();
-
-        core0_os_thread_test_count_TASK2++;
-        pthread_cond_timedwait_np(500);
-        IfxPort_togglePin(&MODULE_P33, 8);
-		core0_thread_time[(int) arg] = OS_Measure_thread_Time()-tick_begin;
-		//ExitUTIL_TimeMeas(&core0_thread_execution_time[CORE0_THREAD2]);
-		task(&pthread_config);
-		pthread_cond_broadcast(&core0_os_cond3);
-    }
-#endif
-    task(&pthread_config);
+    thread_taskcallback();
     thread_termination();
 }
 /*-------------------------------------------------------------------------------------
@@ -243,24 +186,7 @@ void core0_os_thread2(void* arg,task_ptr_t task)
 void core0_os_thread3(void* arg,task_ptr_t task) 
 {
     thread_initialization();
-#if 0
-	uint32 tick_begin;
-    pthread_config_t pthread_config;
-	pthread_config.task_id = (int)arg;
-    for (;;) {
-
-        core0_os_thread_test_count_TASK3++;
-	    pthread_cond_wait(&core0_os_cond3);
-
-		tick_begin=IfxStm_getLower(&MODULE_STM0);
-		IfxStm_waitTicks(&MODULE_STM0, 500*100); // 20us delay
-		core0_thread_time[(int) arg]=IfxStm_getLower(&MODULE_STM0)-tick_begin;
-
-	    pthread_cond_broadcast(&core0_os_cond4);
-//		task(&pthread_config);
-    }
-#endif 
-    task(&pthread_config);
+    thread_taskcallback();
     thread_termination();
 }
 
@@ -274,24 +200,7 @@ void core0_os_thread3(void* arg,task_ptr_t task)
 void core0_os_thread4(void* arg,task_ptr_t task)
 {
     thread_initialization();
-#if 0
-	uint32 tick_begin;
-    pthread_config_t pthread_config;
-	pthread_config.task_id = (int)arg;
-    for (;;) {
-
-        core0_os_thread_test_count_TASK4++;
-	    pthread_cond_wait(&core0_os_cond4);
-		
-		tick_begin=IfxStm_getLower(&MODULE_STM0);
-		IfxStm_waitTicks(&MODULE_STM0, 500*100); // 20us delay
-		core0_thread_time[(int) arg]=IfxStm_getLower(&MODULE_STM0)-tick_begin;
-		
-	    pthread_cond_broadcast(&core0_os_cond5);
-		//task(&pthread_config);
-    }
-#endif
-    task(&pthread_config);
+    thread_taskcallback();
     thread_termination();
 }
 
@@ -305,24 +214,7 @@ void core0_os_thread4(void* arg,task_ptr_t task)
 void core0_os_thread5(void* arg,task_ptr_t task) 
 {
 	thread_initialization();
-#if 0
-    uint32 tick_begin;
-    pthread_config_t pthread_config;
-	pthread_config.task_id = (int)arg;
-    for (;;) {
-
-        core0_os_thread_test_count_TASK5++;
-	    pthread_cond_wait(&core0_os_cond5);
-
-		tick_begin=IfxStm_getLower(&MODULE_STM0);
-		IfxStm_waitTicks(&MODULE_STM0, 500*100); // 500us delay
-		core0_thread_time[(int) arg]=IfxStm_getLower(&MODULE_STM0)-tick_begin;
-
-	    pthread_cond_broadcast(&core0_os_cond6);
-		//task(&pthread_config);
-    }
-#endif
-    task(&pthread_config);
+    thread_taskcallback();
     thread_termination();
 }
 
@@ -336,25 +228,7 @@ void core0_os_thread5(void* arg,task_ptr_t task)
 void core0_os_thread6(void* arg,task_ptr_t task)
 {
 	thread_initialization();
-#if 0
-	uint32 tick_begin;
-    pthread_config_t pthread_config;
-	pthread_config.task_id = (int)arg;
-    for (;;) {
-
-        core0_os_thread_test_count_TASK6++;
-		pthread_cond_wait(&core0_os_cond6);
-
-		tick_begin=IfxStm_getLower(&MODULE_STM0);
-		IfxStm_waitTicks(&MODULE_STM0, 500*100); // 500us delay
-		core0_thread_time[(int) arg]=IfxStm_getLower(&MODULE_STM0)-tick_begin;
-
-	    pthread_cond_broadcast(&core0_os_cond7);
-
-		//task(&pthread_config);
-    }
-#endif
-    task(&pthread_config);
+    thread_taskcallback();
     thread_termination();
 }
 
@@ -368,25 +242,7 @@ void core0_os_thread6(void* arg,task_ptr_t task)
 void core0_os_thread7(void* arg,task_ptr_t task) 
 {
 	thread_initialization();
-#if 0
-	uint32 tick_begin;
-	pthread_config_t pthread_config;
-	pthread_config.task_id = (int)arg;
-    for (;;) {
-
-        core0_os_thread_test_count_TASK7++;
-		pthread_cond_wait(&core0_os_cond7);
-
-		tick_begin=IfxStm_getLower(&MODULE_STM0);
-		IfxStm_waitTicks(&MODULE_STM0, 500*100); // 500us delay
-		core0_thread_time[(int) arg]=IfxStm_getLower(&MODULE_STM0)-tick_begin;
-
-	    pthread_cond_broadcast(&core0_os_cond8);
-		
-		//task(&pthread_config);
-    }
-#endif
-    task(&pthread_config);
+    thread_taskcallback();
     thread_termination();
 }
 
@@ -400,26 +256,7 @@ void core0_os_thread7(void* arg,task_ptr_t task)
 void core0_os_thread8(void* arg,task_ptr_t task) 
 {
 	thread_initialization()
-#if 0
-	uint32 tick_begin;
-    pthread_config_t pthread_config;
-    pthread_config.task_id = (int)arg;
-	for (;;) {
-
-        core0_os_thread_test_count_TASK8++;
-	    pthread_cond_wait(&core0_os_cond8);
-
-		tick_begin=IfxStm_getLower(&MODULE_STM0);
-		IfxStm_waitTicks(&MODULE_STM0, 500*100); // 500us delay
-		core0_thread_time[(int) arg]=IfxStm_getLower(&MODULE_STM0)-tick_begin;
-
-	    pthread_cond_broadcast(&core0_os_cond9);
-		
-		//task(&pthread_config);
-    }
-#endif
-
-    task(&pthread_config);
+    thread_taskcallback();
     thread_termination();
 }
 
@@ -433,25 +270,7 @@ void core0_os_thread8(void* arg,task_ptr_t task)
 void core0_os_thread9(void* arg,task_ptr_t task) 
 {
 	thread_initialization();
-#if 0
-	uint32 tick_begin;
-    pthread_config_t pthread_config;
-	pthread_config.task_id = (int)arg;
-	for (;;) {
-
-        core0_os_thread_test_count_TASK9++;
-
-	    pthread_cond_wait(&core0_os_cond9);
-
-		tick_begin=IfxStm_getLower(&MODULE_STM0);
-		IfxStm_waitTicks(&MODULE_STM0, 500*100); // 500us delay
-		core0_thread_time[(int) arg]=IfxStm_getLower(&MODULE_STM0)-tick_begin;
-
-		//task(&pthread_config);
-	    //pthread_cond_broadcast(&core0_os_cond10);
-    }
-#endif
-    task(&pthread_config);
+    thread_taskcallback();
     thread_termination();
 }
 
@@ -465,21 +284,7 @@ void core0_os_thread9(void* arg,task_ptr_t task)
 void core0_os_thread10(void* arg,task_ptr_t task) 
 {    
 	thread_initialization();
-    #if 0
-		core0_os_thread_test_count_TASK10++;
-
-		//pthread_cond_wait(&core0_os_cond10);
-		pthread_cond_timedwait_np(1000);
-		IfxPort_togglePin(&MODULE_P33, 10);
-		tick_begin=IfxStm_getLower(&MODULE_STM0);
-		IfxStm_waitTicks(&MODULE_STM0, 500*100); // 500us delay
-
-		//task(&pthread_config);
-	    //pthread_cond_broadcast(&core0_os_cond11);
-	    //pthread_other_core_cond_broadcast(&core0_os_cond11,CORE0);
-	#endif
-
-    task(&pthread_config);
+    thread_taskcallback();
     thread_termination();
  }
 
