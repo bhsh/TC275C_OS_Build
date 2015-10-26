@@ -8,16 +8,12 @@
 |
 --------------------------------------------------------------------------------------*/
 #include <stdlib.h>
-#include "os_kernel.h"
 
-
-#include "os_trace.h"
-#include "os_interface.h"
 #include "core0_tasks.h"
-
 #include "task_config.h"
 #include "kernel_abstract.h"
 
+#include "os_trace.h"
 
 #pragma align 16
 
