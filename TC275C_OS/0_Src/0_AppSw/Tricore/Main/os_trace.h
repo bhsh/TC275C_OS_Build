@@ -8,6 +8,11 @@
 |
 --------------------------------------------------------------------------------------*/
 
+#define  ENABLE    (1)
+#define  DISABLE   (0)
+
+#define TRACE_STATUS       ENABLE
+
 typedef enum
 { 
    /* Index 0   */ CORE0_IDLE,                        
@@ -40,8 +45,6 @@ typedef struct
 extern void EnterUTIL_TimeMeas( TsUTIL_ThruPutMeasurement *LpUTIL_MeasData );
 extern void ExitUTIL_TimeMeas( TsUTIL_ThruPutMeasurement *LpUTIL_MeasData );
 extern TsUTIL_ThruPutMeasurement SaOSTK_ThruPutData[E_MaxItems];
-
-extern uint32 OS_Measure_thread_Time(void);
 extern void OS_test1(uint32 time);
-extern void os_trace_begin(uint32 task_id);
-extern void os_trace_end(uint32 task_id);
+extern void os_trace_task_time_begin(uint32 task_id);
+extern void os_trace_task_time_end(uint32 task_id);

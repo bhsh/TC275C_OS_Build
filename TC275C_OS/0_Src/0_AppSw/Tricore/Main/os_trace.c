@@ -28,22 +28,28 @@
 
 
 volatile uint32 core0_thread_time[E_MaxItems];
-volatile uint32 tick_begin[E_MaxItems];
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|               OS_Measure_thread_Time
-|
---------------------------------------------------------------------------------------*/
-uint32 OS_Measure_thread_Time(void)
-{
-  return (uint32)(IfxStm_getLower(&MODULE_STM0)/100);
-}
+volatile uint32 core0_tick_begin[E_MaxItems];
+
+volatile uint32 core0_thread_timeslot[E_MaxItems];
+volatile uint32 core0_thread_switch_times[E_MaxItems];
+
+volatile uint32 core0_thread_begin_timeslot;
+volatile uint32 core0_thread_end_timeslot;
 
 /*-------------------------------------------------------------------------------------
 |
 |   Description:
-|               OS_Measure_thread_Time
+|               os_trace_time_us
+|
+--------------------------------------------------------------------------------------*/
+static uint32 os_trace_time(void)
+{
+  return (uint32)(IfxStm_getLower(&MODULE_STM0)/10);
+}
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|               os_trace_time_us
 |
 --------------------------------------------------------------------------------------*/
 uint32 Get_Free_Running_Timer_1usRes(void)
@@ -77,7 +83,7 @@ static uint32 CalcUTIL_TimeDiffWord(uint32 LfUTIL_CurrentTime,
 /*-------------------------------------------------------------------------------------
 |
 |   Description:
-|               OS_Measure_thread_Time
+|               os_trace_time_us
 |
 --------------------------------------------------------------------------------------*/
 void EnterUTIL_TimeMeas( TsUTIL_ThruPutMeasurement *LpUTIL_MeasData )
@@ -120,7 +126,7 @@ void EnterUTIL_TimeMeas( TsUTIL_ThruPutMeasurement *LpUTIL_MeasData )
 /*-------------------------------------------------------------------------------------
 |
 |   Description:
-|               OS_Measure_thread_Time
+|               os_trace_time_us
 |
 --------------------------------------------------------------------------------------*/
 void ExitUTIL_TimeMeas( TsUTIL_ThruPutMeasurement *LpUTIL_MeasData )
@@ -162,12 +168,21 @@ void OS_test1(uint32 time)
    }	
 }
 
-void os_trace_begin(uint32 task_id)
+void os_trace_task_time_begin(uint32 task_id)
 {
-  tick_begin[task_id] = OS_Measure_thread_Time();
+  core0_tick_begin[task_id] = os_trace_time();
+  core0_thread_begin_timeslot = core0_tick_begin[task_id];
+  core0_thread_switch_times[task_id] = core0_thread_begin_timeslot - core0_thread_end_timeslot;
 }
-void os_trace_end(uint32 task_id)
+void os_trace_task_time_end(uint32 task_id)
 {
-  core0_thread_time[task_id] = OS_Measure_thread_Time() - tick_begin[task_id];
+  core0_thread_time[task_id] = os_trace_time() - core0_tick_begin[task_id];
 }
+
+void os_trace_thread_timeslot(uint32 task_id)
+{
+  core0_thread_timeslot[task_id] = os_trace_time();  
+  core0_thread_end_timeslot = core0_thread_timeslot[task_id];
+}
+
 

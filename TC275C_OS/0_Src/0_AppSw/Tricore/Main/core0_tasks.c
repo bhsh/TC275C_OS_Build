@@ -23,6 +23,8 @@
 #include "os_interface.h"
 #include "core0_tasks.h"
 
+#include "shareappsw.h"
+
 typedef enum  {
 	 FINISH,
 	 RUNNING
@@ -100,6 +102,7 @@ void CORE0_TASK10(pthread_config_t *pthread_config)
 {
   core0_os_thread_test_count_TASK[pthread_config->task_id]++;
 
+  /*<CPU load> can be got here. <Section begins> */
   /* Core0_CPU_LOAD = (Core0_CPU_Load_Background_Count * 100)/(1000*1000); */
   if(Core0_CPU_Load_Background_Count < TOTAL_COUNT)
   {
@@ -111,6 +114,7 @@ void CORE0_TASK10(pthread_config_t *pthread_config)
   }
   cpu0_load_get_status = RUNNING;
   Core0_CPU_Load_Background_Count = 0;
+  /*<CPU load> can be got here. <Section ends> */
 	
   IfxPort_togglePin(&MODULE_P33, 10);
   //IfxStm_waitTicks(&MODULE_STM0, 50*100); // 500us delay

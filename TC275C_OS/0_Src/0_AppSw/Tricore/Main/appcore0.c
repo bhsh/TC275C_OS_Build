@@ -70,23 +70,7 @@ pthread_cond_t core0_os_cond[TASK_ID10] =
      CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER
   };
 
-volatile int core0_os_thread_test_count_TASK0=0;
-volatile int core0_os_thread_test_count_TASK1=0;
-volatile int core0_os_thread_test_count_TASK2=0;
-volatile int core0_os_thread_test_count_TASK3=0;
-volatile int core0_os_thread_test_count_TASK4=0;
-volatile int core0_os_thread_test_count_TASK5=0;
-volatile int core0_os_thread_test_count_TASK6=0;
-volatile int core0_os_thread_test_count_TASK7=0;
-volatile int core0_os_thread_test_count_TASK8=0;
-volatile int core0_os_thread_test_count_TASK9=0;
-volatile int core0_os_thread_test_count_TASK10=0;
-
 TsUTIL_ThruPutMeasurement core0_thread_execution_time[E_MaxItems];
-
-volatile uint32 tick_begin_test1;
-volatile uint32 tick_begin_test2;
-volatile uint32 tick_begin_test3;
 
 #define thread_initialization();          pthread_config_t pthread_config =                      \
 	                                               core0_pthread_init_config_database[(int)arg]; \
@@ -135,16 +119,6 @@ void __interrupt(20) CPU0_SOFT1_Isr(void)
 	interrupt_test_flag++;
     //pthread_cond_broadcast(&core0_os_cond4);
 }
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|    
-|   test code  that is used to test the blocked time function of core0 os
-|   threads from 0-10 is used.
-|
-|
---------------------------------------------------------------------------------------*/
-
 /*-------------------------------------------------------------------------------------
 |
 |   Description:
@@ -255,7 +229,7 @@ void core0_os_thread7(void* arg,task_ptr_t task)
 --------------------------------------------------------------------------------------*/
 void core0_os_thread8(void* arg,task_ptr_t task) 
 {
-	thread_initialization()
+	thread_initialization();
     thread_taskcallback();
     thread_termination();
 }
@@ -310,13 +284,13 @@ void thread_done_before_task(pthread_config_t *pthread_config)
      /* Do nothing. */
   }
   /* trace */
-  os_trace_begin(pthread_config->task_id);
+  os_trace_task_time_begin(pthread_config->task_id);
 }
 
 void thread_done_after_task(pthread_config_t *pthread_config)
 { 	
   /* Trace */
-  os_trace_end(pthread_config->task_id);
+  os_trace_task_time_end(pthread_config->task_id);
 
   if(pthread_config->type == TASK_EVENT)
   {
@@ -328,6 +302,17 @@ void thread_done_after_task(pthread_config_t *pthread_config)
   {
       /* Do nothing */
   }
+}
+
+uint32_t parse_stack_pointer_from_context(uint32_t task_id)
+{   
+	pthread_t thread;
+     switch(TASK_ID0)
+	{
+		case TASK_ID0:
+	     thread = core0_os_th0;
+		 break;
+	}
 }
 
 const pthread_attr_t core0_os_th0_attr = { SUPER, CALL_DEPTH_OVERFLOW_AT_64};
