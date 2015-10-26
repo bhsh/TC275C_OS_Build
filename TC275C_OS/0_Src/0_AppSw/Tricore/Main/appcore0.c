@@ -76,13 +76,32 @@ const pthread_config_t os_pthread_init_config_database[MAX_CORE_NUM][TASK_ID_MAX
   
 };
 
-pthread_cond_t core0_os_cond_def[11] =
+pthread_cond_t os_pthread_cond[MAX_CORE_NUM][TASK_ID_MAX] =
   { 
-     CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,
-	 CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,
-     CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,
-     CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,
-     CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER
+  	 {
+      CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,
+	  CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,
+      CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,
+      CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,
+      CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,
+      CORE0_PTHREAD_COND_INITIALIZER
+     },
+  	 {
+      CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,
+	  CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,
+      CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,
+      CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,
+      CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,
+      CORE1_PTHREAD_COND_INITIALIZER
+     },
+  	 {
+      CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,
+	  CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,
+      CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,
+      CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,
+      CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,
+      CORE2_PTHREAD_COND_INITIALIZER
+     }	  
   };
 
 /*-------------------------------------------------------------------------------------
@@ -235,11 +254,11 @@ void start_core0_os(void) {
 }
 
 
-void thread_done_before_task(pthread_config_t *pthread_config)
+void thread_done_before_task(pthread_config_t *pthread_config,core_id_e core_id )
 { 
   if(pthread_config->type == TASK_EVENT)
   {
-      pthread_cond_wait(&core0_os_cond_def[pthread_config->task_id]);
+      pthread_cond_wait(&os_pthread_cond[core_id][pthread_config->task_id]);
   }
   else if(pthread_config->type == TASK_PERIODIC)
   {
@@ -253,7 +272,7 @@ void thread_done_before_task(pthread_config_t *pthread_config)
   os_trace_task_time_begin(pthread_config->task_id);
 }
 
-void thread_done_after_task(pthread_config_t *pthread_config)
+void thread_done_after_task(pthread_config_t *pthread_config,core_id_e core_id )
 { 	
   /* Trace */
   os_trace_task_time_end(pthread_config->task_id);
@@ -261,7 +280,7 @@ void thread_done_after_task(pthread_config_t *pthread_config)
   if(pthread_config->type == TASK_EVENT)
   {
       /* Active thread */
-	  pthread_cond_broadcast(&core0_os_cond_def[pthread_config->actived_task_id]);
+	  pthread_cond_broadcast(&os_pthread_cond[core_id][pthread_config->actived_task_id]);
   }
   else if((pthread_config->type == TASK_PERIODIC)||
   	      (pthread_config->type == NO_DEFINITION))

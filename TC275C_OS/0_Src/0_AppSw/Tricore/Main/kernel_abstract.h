@@ -4,18 +4,18 @@
 
 #include "os_kernel.h"
 
-
-#define thread_initialization();          pthread_config_t pthread_config =                            \
-	                                      os_pthread_init_config_database[os_getCoreId()][(int)arg];   \
+#define thread_initialization();          core_id_e        current_core_id = os_getCoreId() ;          \
+                                          pthread_config_t pthread_config =                            \
+	                                      os_pthread_init_config_database[current_core_id][(int)arg];  \
                                           for (;;)                                                     \
                                           {                                                            \
-								 		  	thread_done_before_task(&pthread_config); 
+								 		  	thread_done_before_task(&pthread_config,current_core_id); 
 #define thread_taskcallback();              task(&pthread_config);          	                                         
-#define thread_termination();               thread_done_after_task(&pthread_config);                   \
+#define thread_termination();               thread_done_after_task(&pthread_config,current_core_id);                   \
 	                                      }
 
-extern pthread_cond_t core0_os_cond_def[11];										  
-extern void thread_done_before_task(pthread_config_t *pthread_config);
-extern void thread_done_after_task(pthread_config_t *pthread_config);
+OS_EXTERN pthread_cond_t os_pthread_cond[MAX_CORE_NUM][TASK_ID_MAX];										  
+OS_EXTERN void thread_done_before_task(pthread_config_t*,core_id_e);
+OS_EXTERN void thread_done_after_task(pthread_config_t*,core_id_e);
 
 #endif
