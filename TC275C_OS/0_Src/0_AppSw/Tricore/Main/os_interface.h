@@ -8,6 +8,7 @@
 |
 --------------------------------------------------------------------------------------*/
 
+#include "os_type.h"
 
-
-extern void OS_wait_in_us(uint32 time);
+extern void os_wait_in_us(osu32_t time);
+extern osu32_t os_getstmlower_count(void);

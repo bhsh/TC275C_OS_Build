@@ -8,6 +8,8 @@
 |
 --------------------------------------------------------------------------------------*/
 
+#include "os_type.h"
+
 
 #include <stdlib.h>
 #include "os_kernel.h"
@@ -25,17 +27,35 @@
 #include "Stm\Std\IfxStm.h"
 #include "Src\Std\IfxSrc.h"
 
-#include "os_interface.h"
+//#include "os_interface.h"
 
 /*-------------------------------------------------------------------------------------
 |
-|   Description:
-|               os_trace_time_us
-|
 --------------------------------------------------------------------------------------*/
-void OS_wait_in_us(uint32 time)
+void os_wait_in_us(osu32_t time)
 {
   IfxStm_waitTicks(&MODULE_STM0, time*100);
 }
 
+
+osu32_t os_getstmlower_count(void)
+{
+  return (osu32_t)(IfxStm_getLower(&MODULE_STM0)/10);
+}
+
+/*-------------------------------------------------------------------------------------
+|
+|   Description:
+|   Test type: interrupt sync
+|   Define  a test interrupt :void __interrupt(20) CPU0_SOFT1_Isr(void)
+|   This is only a test interrupt
+|
+--------------------------------------------------------------------------------------*/
+volatile osu32_t interrupt_test_flag;
+void __interrupt(20) CPU0_SOFT1_Isr(void) 
+{
+
+	interrupt_test_flag++;
+    //pthread_cond_broadcast(&core0_os_cond4);
+}
 

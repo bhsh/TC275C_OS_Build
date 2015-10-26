@@ -8,33 +8,30 @@
 |
 --------------------------------------------------------------------------------------*/
 
-#include <stdlib.h>
-#include "os_kernel.h"
+//#include <stdlib.h>
+//#include "os_kernel.h"
 //#include "simio.h"
-#include <stdio.h>
-#include "Cpu0_Main.h"
-#include "SysSe/Bsp/Bsp.h"
+//#include <stdio.h>
+//#include "Cpu0_Main.h"
+//#include "SysSe/Bsp/Bsp.h"
 //#include "DemoApp.h"
-#include "communication.h"
+//#include "communication.h"
 
 
-#include "Compilers.h"
-#include "Cpu\Std\IfxCpu_Intrinsics.h"
-#include "Port\Io\IfxPort_Io.h"
-#include "Stm\Std\IfxStm.h"
-#include "Src\Std\IfxSrc.h"
+//#include "Compilers.h"
+//#include "Cpu\Std\IfxCpu_Intrinsics.h"
+//#include "Port\Io\IfxPort_Io.h"
 
 #include "os_trace.h"
+#include "os_interface.h"
 
 
-volatile uint32 core0_thread_time[E_MaxItems];
-volatile uint32 core0_tick_begin[E_MaxItems];
-
-volatile uint32 core0_thread_timeslot[E_MaxItems];
-volatile uint32 core0_thread_switch_times[E_MaxItems];
-
-volatile uint32 core0_thread_begin_timeslot;
-volatile uint32 core0_thread_end_timeslot;
+static volatile osu32_t core0_thread_time[E_MaxItems];
+static volatile osu32_t core0_tick_begin[E_MaxItems];
+static volatile osu32_t core0_thread_timeslot[E_MaxItems];
+static volatile osu32_t core0_thread_switch_times[E_MaxItems];
+static volatile osu32_t core0_thread_begin_timeslot;
+static volatile osu32_t core0_thread_end_timeslot;
 
 /*-------------------------------------------------------------------------------------
 |
@@ -42,10 +39,11 @@ volatile uint32 core0_thread_end_timeslot;
 |               os_trace_time_us
 |
 --------------------------------------------------------------------------------------*/
-static uint32 os_trace_time(void)
+static osu32_t os_trace_time(void)
 {
-  return (uint32)(IfxStm_getLower(&MODULE_STM0)/10);
+  return (osu32_t)(os_getstmlower_count()/10);
 }
+#if 0
 /*-------------------------------------------------------------------------------------
 |
 |   Description:
@@ -156,11 +154,11 @@ void ExitUTIL_TimeMeas( TsUTIL_ThruPutMeasurement *LpUTIL_MeasData )
    }
 }
 
+#endif
 
-
-void OS_test1(uint32 time)
+void OS_test1(osu32_t time)
 {
-   uint32 i,j,m;
+   osu32_t i,j,m;
    for(i=0;i<time;i++)
    {
        for(j=0;j<time;j++)
@@ -168,18 +166,18 @@ void OS_test1(uint32 time)
    }	
 }
 
-void os_trace_task_time_begin(uint32 task_id)
+void os_trace_task_time_begin(osu32_t task_id)
 {
   core0_tick_begin[task_id] = os_trace_time();
   core0_thread_begin_timeslot = core0_tick_begin[task_id];
   core0_thread_switch_times[task_id] = core0_thread_begin_timeslot - core0_thread_end_timeslot;
 }
-void os_trace_task_time_end(uint32 task_id)
+void os_trace_task_time_end(osu32_t task_id)
 {
   core0_thread_time[task_id] = os_trace_time() - core0_tick_begin[task_id];
 }
 
-void os_trace_thread_timeslot(uint32 task_id)
+void os_trace_thread_timeslot(osu32_t task_id)
 {
   core0_thread_timeslot[task_id] = os_trace_time();  
   core0_thread_end_timeslot = core0_thread_timeslot[task_id];

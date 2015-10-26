@@ -1,7 +1,7 @@
 
 
 
-
+#include "os_type.h"
 #include "stack_manager.h"
 #include <stdlib.h>
 //#include "simio.h"

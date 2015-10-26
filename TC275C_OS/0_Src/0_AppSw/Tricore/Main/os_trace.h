@@ -8,8 +8,11 @@
 |
 --------------------------------------------------------------------------------------*/
 
-#define  ENABLE    (1)
-#define  DISABLE   (0)
+#ifndef OS_TRACE_H_
+#define OS_TRACE_H_
+
+#include "os.h"
+
 
 #define TRACE_STATUS       ENABLE
 
@@ -29,7 +32,8 @@ typedef enum
 
    /* Index 11 */ E_MaxItems
 } TeOSTK_ThruPutMeasItem;
-	
+
+#if 0	
 typedef struct
 {
    uint32 f_t_AvgExecTime;
@@ -45,6 +49,9 @@ typedef struct
 extern void EnterUTIL_TimeMeas( TsUTIL_ThruPutMeasurement *LpUTIL_MeasData );
 extern void ExitUTIL_TimeMeas( TsUTIL_ThruPutMeasurement *LpUTIL_MeasData );
 extern TsUTIL_ThruPutMeasurement SaOSTK_ThruPutData[E_MaxItems];
-extern void OS_test1(uint32 time);
-extern void os_trace_task_time_begin(uint32 task_id);
-extern void os_trace_task_time_end(uint32 task_id);
+#endif
+extern void OS_test1(osu32_t time);
+extern void os_trace_task_time_begin(osu32_t task_id);
+extern void os_trace_task_time_end(osu32_t task_id);
+
+#endif
