@@ -10,7 +10,7 @@
                                           for (;;)                                                     \
                                           {                                                            \
 								 		  	thread_done_before_task(&pthread_config,current_core_id); 
-#define thread_taskcallback();              task(&pthread_config);          	                                         
+#define thread_taskcallback();              task(&pthread_config,current_core_id);          	                                         
 #define thread_termination();               thread_done_after_task(&pthread_config,current_core_id);                   \
 	                                      }
 

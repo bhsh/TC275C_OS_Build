@@ -8,7 +8,7 @@
 #ifndef OS_KERNEL_CFG_H_
 #define OS_KERNEL_CFG_H_
 
-
+#include "os_type.h"
 
 #define PTHREAD_PRIO_MAX 32               //!< Maximal priority thread level [0,31]
 #define PTHREAD_DEFAULT_STACK_SIZE 256/4  //!< Default stack size is 256 bytes

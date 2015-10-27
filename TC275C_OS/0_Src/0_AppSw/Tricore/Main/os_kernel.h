@@ -140,7 +140,7 @@ typedef struct {
     pthread_t blocked_threads; //!< list threads waiting for condition
 } pthread_cond_t;
 
-typedef void (*task_ptr_t)(pthread_config_t * const pthread_config);
+typedef void (*task_ptr_t)(pthread_config_t * const pthread_config,uint32_t current_core_id);
 
 #define CORE0_PTHREAD_COND_INITIALIZER {CORE0,0,NULL}
 #define CORE1_PTHREAD_COND_INITIALIZER {CORE1,0,NULL}
