@@ -69,4 +69,8 @@ void  App_share_flash_led_4(void)
 {
    osPort_togglePin(LED_4);
 }
+void App_share_trigger_software_interrupt1(void)
+{
+   os_trigger_software_interrupt1();
+}
 

@@ -56,3 +56,10 @@ osu32_t osPort_togglePin(osu32_t pin_num)
 {
     IfxPort_togglePin(&MODULE_P33, pin_num);
 }
+void os_trigger_software_interrupt1(void)
+{
+  SRC_GPSR01.U=  (1<<26)|   //SRC_GPSR01.B.SETR=1;
+  		         (1<<10)|   //SRC_GPSR01.B.SRE=1;
+  	             (0<<11)|   //SRC_GPSR01.B.TOS=0;
+  	             (20);      //SRC_GPSR01.B.SRPN=20; 
+}
