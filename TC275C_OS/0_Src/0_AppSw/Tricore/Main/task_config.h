@@ -3,27 +3,36 @@
 #ifndef THREAD_CONFIG_H_
 #define THREAD_CONFIG_H_
 
-      
-#define MAX_CORE_NUM         (3)
-
 #define THREAD_NO_DEFINITION (0)
 #define THREAD_PERIODIC      (1)
 #define THREAD_EVENT         (2)
 
-#define THREAD_ID0      0
-#define THREAD_ID1      1
-#define THREAD_ID2      2
-#define THREAD_ID3      3
-#define THREAD_ID4      4
-#define THREAD_ID5      5
-#define THREAD_ID6      6
-#define THREAD_ID7      7
-#define THREAD_ID8      8
-#define THREAD_ID9      9
-#define THREAD_ID10     10
-#define THREAD_ID_MAX   11
-#define NO_THREAD       12
+typedef enum  {
 
+	 CORE_ID0,
+	 CORE_ID1,
+	 CORE_ID2,
+	 CORE_MAX_ID_NUM
+
+}OS_CORE_ID_t;
+
+typedef enum  {
+
+	 THREAD_ID0,
+	 THREAD_ID1,
+	 THREAD_ID2,
+	 THREAD_ID3,
+	 THREAD_ID4,
+	 THREAD_ID5,
+	 THREAD_ID6,
+	 THREAD_ID7,
+	 THREAD_ID8,
+	 THREAD_ID9,
+	 THREAD_ID10,
+	 THREAD_MAX_ID_NUM,
+	 NO_THREAD
+ 
+}OS_THREAD_ID_t;
 
 /* core 0*/
 /* 0 thread config initialization */ 

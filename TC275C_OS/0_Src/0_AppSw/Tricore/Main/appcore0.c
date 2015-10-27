@@ -32,7 +32,7 @@ PTHREAD_CONTROL_BLOCK(core0_os_th10,10,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
 
 #pragma align restore
 
-const pthread_config_t os_pthread_init_config_database[MAX_CORE_NUM][THREAD_ID_MAX] =
+const pthread_config_t os_pthread_init_config_database[CORE_MAX_ID_NUM][THREAD_MAX_ID_NUM] =
 {
     {
 	  {THREAD_ID0,  CORE0_TASK0_TYPE,  CORE0_TASK0_PERIOD,  CORE0_TASK0_ACTIVED },
@@ -76,7 +76,7 @@ const pthread_config_t os_pthread_init_config_database[MAX_CORE_NUM][THREAD_ID_M
   
 };
 
-pthread_cond_t os_pthread_cond[MAX_CORE_NUM][THREAD_ID_MAX] =
+pthread_cond_t os_pthread_cond[CORE_MAX_ID_NUM][THREAD_MAX_ID_NUM] =
   { 
   	 {
       CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,
@@ -104,9 +104,6 @@ pthread_cond_t os_pthread_cond[MAX_CORE_NUM][THREAD_ID_MAX] =
      }	  
   };
 
-/*-------------------------------------------------------------------------------------
-|   Define thread 0 
---------------------------------------------------------------------------------------*/
 DEFINE_OS_THREAD(0,0)
 DEFINE_OS_THREAD(0,1)
 DEFINE_OS_THREAD(0,2)
