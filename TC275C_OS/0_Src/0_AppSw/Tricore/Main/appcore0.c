@@ -9,13 +9,14 @@
 --------------------------------------------------------------------------------------*/
 
 #include "os_type.h"
+#include "os.h"
 #include <stdlib.h>
 
 #include "core0_tasks.h"
 #include "thread_config.h"
-
 #include "kernel_abstract.h"
 #include "os_trace.h"
+
 
 #pragma align 16
 

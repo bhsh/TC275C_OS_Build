@@ -7,23 +7,14 @@
 |                 Multicore OS based on Aurix 275C app kit and TASKING 4.3 compiler
 |
 --------------------------------------------------------------------------------------*/
-
+#include "os_type.h"
+#include "os.h"
 #include <stdlib.h>
-#include "os_kernel.h"
-//#include "simio.h"
-#include <stdio.h>
-#include "Cpu0_Main.h"
-#include "SysSe/Bsp/Bsp.h"
-//#include "DemoApp.h"
-#include "communication.h"
 
-
-#include "Compilers.h"
-#include "Cpu\Std\IfxCpu_Intrinsics.h"
-#include "Port\Io\IfxPort_Io.h"
-#include "Stm\Std\IfxStm.h"
-#include "Src\Std\IfxSrc.h"
 #include "core2_tasks.h"
+#include "thread_config.h"
+#include "kernel_abstract.h"
+//#include "os_trace.h"
 
 #pragma align 16
 PTHREAD_CONTROL_BLOCK(core2_th0,0,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
@@ -39,269 +30,23 @@ PTHREAD_CONTROL_BLOCK(core2_th9,9,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
 PTHREAD_CONTROL_BLOCK(core2_th10,10,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
 #pragma align restore
 
-pthread_cond_t core2_os_cond1   = CORE2_PTHREAD_COND_INITIALIZER;
-pthread_cond_t core2_os_cond2   = CORE2_PTHREAD_COND_INITIALIZER;
-pthread_cond_t core2_os_cond3   = CORE2_PTHREAD_COND_INITIALIZER;
-pthread_cond_t core2_os_cond4   = CORE2_PTHREAD_COND_INITIALIZER;
-pthread_cond_t core2_os_cond5   = CORE2_PTHREAD_COND_INITIALIZER;
-pthread_cond_t core2_os_cond6   = CORE2_PTHREAD_COND_INITIALIZER;
-pthread_cond_t core2_os_cond7   = CORE2_PTHREAD_COND_INITIALIZER;
-pthread_cond_t core2_os_cond8   = CORE2_PTHREAD_COND_INITIALIZER;
-pthread_cond_t core2_os_cond9   = CORE2_PTHREAD_COND_INITIALIZER;
-pthread_cond_t core2_os_cond10  = CORE2_PTHREAD_COND_INITIALIZER;
-
-volatile int core2_os_thread_test_count_TASK0;
-volatile int core2_os_thread_test_count_TASK1;
-volatile int core2_os_thread_test_count_TASK2;
-volatile int core2_os_thread_test_count_TASK3;
-volatile int core2_os_thread_test_count_TASK4;
-volatile int core2_os_thread_test_count_TASK5;
-volatile int core2_os_thread_test_count_TASK6;
-volatile int core2_os_thread_test_count_TASK7;
-volatile int core2_os_thread_test_count_TASK8;
-volatile int core2_os_thread_test_count_TASK9;
-volatile int core2_os_thread_test_count_TASK10;
-
-volatile int core2_os_interrupt_test_flag;
-
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|   Test type: interrupt sync
-|   Define  a test interrupt :void __interrupt(20) CPU0_SOFT1_Isr(void)
-|   This is only a test interrupt
-|
---------------------------------------------------------------------------------------*/
-void core2_os_idle(void* arg,task_ptr_t task) {
-    for (;;){
-
-    	core2_os_thread_test_count_TASK0++;
-    	delay_ms(200);
-
-		/* A software interrupt is issued now!!! */
-		SRC_GPSR21.U=(1<<26)|   /* SRC_GPSR21.B.SETR=1; */
-			         (1<<10)|   /* SRC_GPSR21.B.SRE=1;  */
-			         (2<<11)|   /* SRC_GPSR21.B.TOS=2;  */
-			         (22);      /* SRC_GPSR21.B.SRPN=22; */ 
-    }
-}
-
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|   Test type: interrupt sync
-|   Define  a test interrupt :void __interrupt(22) CPU2_SOFT1_Isr(void)
-|   This is only a test interrupt
-|
---------------------------------------------------------------------------------------*/
-void __interrupt(22) CPU2_SOFT1_Isr(void) 
-{
-	/* The counter records the times that the interrupt is entered. */
-	core2_os_interrupt_test_flag++;
+	DEFINE_OS_THREAD(2,0)
+	DEFINE_OS_THREAD(2,1)
+	DEFINE_OS_THREAD(2,2)
+	DEFINE_OS_THREAD(2,3)
+	DEFINE_OS_THREAD(2,4)
+	DEFINE_OS_THREAD(2,5)
+	DEFINE_OS_THREAD(2,6)
+	DEFINE_OS_THREAD(2,7)
+	DEFINE_OS_THREAD(2,8)
+	DEFINE_OS_THREAD(2,9)
+	DEFINE_OS_THREAD(2,10)
 	
-	/* Active the threads that are blocked by core2_os_cond16. */
-	/* The thread is actived in a high level interrupt. */
-    pthread_cond_broadcast(&core2_os_cond3);
-}
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|   Test type: period thread
-|   Define  a test interrupt :void core2_os_thread1(void* arg)
-|   This is only a test interrupt
-|
---------------------------------------------------------------------------------------*/
-void core2_os_thread1(void* arg,task_ptr_t task) {
-
-    pthread_config_t pthread_config;
-    for (;;) {
-
-        core2_os_thread_test_count_TASK1++;
-
-        pthread_cond_timedwait_np(300);
-		IfxPort_togglePin(&MODULE_P33, 10);
-		
-    }
-}
-
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|   Test type: period thread
-|   Define  the thread :void core2_os_thread2(void* arg)
-|   This is only a test task
-|
---------------------------------------------------------------------------------------*/
-void core2_os_thread2(void* arg,task_ptr_t task) {
-    for (;;) {
-
-        core2_os_thread_test_count_TASK2++;
-
-        pthread_cond_timedwait_np(200);
-    }
-}
-
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|   Test type: interrut sync
-|   Define  a test interrupt :void core2_os_thread2(void* arg)
-|   This is only a test task
-|
---------------------------------------------------------------------------------------*/
-void core2_os_thread3(void* arg,task_ptr_t task) {
-    for (;;) {
-		
-        core2_os_thread_test_count_TASK3++;
-        pthread_cond_wait(&core2_os_cond3);
-
-		/* What is really done by thread3 finally. */
-		pthread_cond_broadcast(&core2_os_cond4);    }
-}
-
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|   Test type: thread sync
-|   Define  a test thread :void core2_os_thread4(void* arg)
-|   This is only a test task
-|
---------------------------------------------------------------------------------------*/
-void core2_os_thread4(void* arg,task_ptr_t task) {
-    for (;;) {
-		
-        core2_os_thread_test_count_TASK4++;
-        pthread_cond_wait(&core2_os_cond4);
-
-		/* What is really done by thread4 finally. */
-		pthread_cond_broadcast(&core2_os_cond5);
-    }
-}
-
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|   Test type: thread sync
-|   Define  a test thread :void core2_os_thread5(void* arg)
-|   This is only a test task
-|
---------------------------------------------------------------------------------------*/
-void core2_os_thread5(void* arg,task_ptr_t task) {
-    for (;;) {
-		
-        core2_os_thread_test_count_TASK5++;
-        pthread_cond_wait(&core2_os_cond5);
-
-		/* What is really done by thread5 finally. */
-		pthread_cond_broadcast(&core2_os_cond6);    
-	}
-}
-
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|   Test type: thread sync
-|   Define  a test thread :void core2_os_thread6(void* arg)
-|   This is only a test task
-|
---------------------------------------------------------------------------------------*/
-void core2_os_thread6(void* arg,task_ptr_t task) {
-    for (;;) {
-		
-        core2_os_thread_test_count_TASK6++;
-        pthread_cond_wait(&core2_os_cond6);
-
-		/* What is really done by thread6 finally. */
-		pthread_cond_broadcast(&core2_os_cond7);
-	}
-}
-
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|   Test type: thread sync
-|   Define  a test thread :void core2_os_thread7(void* arg)
-|   This is only a test task
-|
---------------------------------------------------------------------------------------*/
-void core2_os_thread7(void* arg,task_ptr_t task) {
-    for (;;) {
-		
-        core2_os_thread_test_count_TASK7++;
-        pthread_cond_wait(&core2_os_cond7);
-
-		/* What is really done by thread7 finally. */
-		pthread_cond_broadcast(&core2_os_cond8);
-    }
-}
-
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|   Test type: thread sync
-|   Define  a test thread :void core2_os_thread8(void* arg)
-|   This is only a test task
-|
---------------------------------------------------------------------------------------*/
-void core2_os_thread8(void* arg,task_ptr_t task) {
-    for (;;) {
-		
-        core2_os_thread_test_count_TASK8++;
-        pthread_cond_wait(&core2_os_cond8);
-
-		/* What is really done by thread8 finally. */
-		pthread_cond_broadcast(&core2_os_cond9);    
-	}
-}
-
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|   Test type: thread sync
-|   Define  a test thread :void core2_os_thread9(void* arg)
-|   This is only a test task
-|
---------------------------------------------------------------------------------------*/
-void core2_os_thread9(void* arg,task_ptr_t task) {
-    for (;;) {
-		
-        core2_os_thread_test_count_TASK9++;
-        pthread_cond_wait(&core2_os_cond9);
-
-	    /* What is really done by thread9 finally. */
-		pthread_cond_broadcast(&core2_os_cond10);    
-	}
-}
-
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|   Test type: thread sync
-|   Define  a test thread :void core2_os_thread10(void* arg)
-|   This is only a test task
-|
---------------------------------------------------------------------------------------*/
-void core2_os_thread10(void* arg,task_ptr_t task) {
-    for (;;) {
-		
-        core2_os_thread_test_count_TASK10++;
-        pthread_cond_wait(&core2_os_cond10);
-    }
-}
-
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|  
-|   Define the start API :void start_core2_os(void)
-|   
-|
---------------------------------------------------------------------------------------*/
 void start_core2_os(void)
 {
 
 	/* Create threads...  */
-    pthread_create_np(core2_th0, NULL, core2_os_idle,    (void*) 0,NULL);
+    pthread_create_np(core2_th0, NULL, core2_os_thread0, (void*) 0,CORE2_TASK0);
     pthread_create_np(core2_th1, NULL, core2_os_thread1, (void*) 1,CORE2_TASK1);
     pthread_create_np(core2_th2, NULL, core2_os_thread2, (void*) 2,CORE2_TASK2);
 	pthread_create_np(core2_th3, NULL, core2_os_thread3, (void*) 3,CORE2_TASK3);

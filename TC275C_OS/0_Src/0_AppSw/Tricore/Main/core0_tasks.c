@@ -1,5 +1,6 @@
 
-#include "os_kernel.h"
+#include "os_type.h"
+#include "os.h"
 #include "shareappsw.h"
 
 

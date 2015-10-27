@@ -1,5 +1,12 @@
-#include "core1_tasks.h"
+#include "os_type.h"
+#include "os.h"
+#include "shareappsw.h"
 
+void CORE1_TASK0(pthread_config_t *pthread_config,osu32_t current_core_id)
+{
+
+
+}
 void CORE1_TASK1(pthread_config_t *pthread_config,osu32_t current_core_id)
 {
 

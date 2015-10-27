@@ -84,6 +84,7 @@ typedef struct {
     pthread_t blocked_threads; //!< list threads waiting for mutex
 } pthread_mutex_t;
 
+#if 0
 typedef struct {
 	uint32_t task_id;//!< mutex lock status is one of <true | false> 
     uint32_t type;//!< mutex lock status is one of <true | false>
@@ -91,7 +92,7 @@ typedef struct {
     uint32_t actived_task_id;
     
 } pthread_config_t;
-
+#endif
 //! Description of a thread conditional variable.
 typedef struct {
     const uint32_t core_id;//!< cond status is one of <true | false>
@@ -99,7 +100,8 @@ typedef struct {
     pthread_t blocked_threads; //!< list threads waiting for condition
 } pthread_cond_t;
 
-typedef void (*task_ptr_t)(pthread_config_t * const pthread_config,uint32_t current_core_id);
+#include "os_type.h"
+#include "os.h"
 
 #define CORE0_PTHREAD_COND_INITIALIZER {CORE0,0,NULL}
 #define CORE1_PTHREAD_COND_INITIALIZER {CORE1,0,NULL}

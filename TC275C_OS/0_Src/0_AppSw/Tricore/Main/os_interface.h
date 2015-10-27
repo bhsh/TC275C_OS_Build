@@ -18,4 +18,6 @@ OS_EXTERN void    os_wait_in_us(osu32_t time);
 OS_EXTERN osu32_t os_getstmlower_count(void);
 OS_EXTERN void    osPort_togglePin(osu8_t pin_num);
 OS_EXTERN void    os_trigger_software_interrupt1(void);
+OS_EXTERN void    os_trigger_software_interrupt2(void);
+OS_EXTERN void    os_trigger_software_interrupt3(void);
 OS_EXTERN osu32_t os_get_curr_coreid(void);

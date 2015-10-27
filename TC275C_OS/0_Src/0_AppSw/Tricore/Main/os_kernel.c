@@ -280,7 +280,6 @@ static void list_delete_first(pthread_t *head) {
 |             create threads from users
 |
 --------------------------------------------------------------------------------------*/
-//void(*core0_task_ptr)(pthread_config_t * const task)
 extern void get_thread_init_stack_address(uint32_t,uint32_t,uint32_t);
 int pthread_create_np(pthread_t thread, //!< [in] thread control block pointer.
         const pthread_attr_t *attr, //!<  [in] thread attribute. Can be NULL to use default.

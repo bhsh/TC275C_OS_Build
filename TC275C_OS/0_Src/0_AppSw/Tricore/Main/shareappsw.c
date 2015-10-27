@@ -1,5 +1,6 @@
 #include "os_type.h"
 #include "os_interface.h"
+#include "stack_manager.h"
 
 #define LED_1    (8)
 #define LED_2    (9)
@@ -15,12 +16,12 @@ typedef enum  {
 
 	 FINISH,
 	 RUNNING	
-}cpu_load_get_status_t;
+}APP_SHARE_CPU_LOAD_LOGIC_STATUS_t;
 
 static volatile unsigned int App_share_var_task_test_count[APP_MAX_CORE_USED][TASK_NUM];
 static volatile unsigned int App_share_var_CPU_Load_Backg_Count[APP_MAX_CORE_USED];
 static volatile unsigned int App_share_var_CPU_load[APP_MAX_CORE_USED];
-static cpu_load_get_status_t App_share_var_state_machine_state[APP_MAX_CORE_USED] = { RUNNING, RUNNING, RUNNING };
+static APP_SHARE_CPU_LOAD_LOGIC_STATUS_t App_share_var_state_machine_state[APP_MAX_CORE_USED] = { RUNNING, RUNNING, RUNNING };
 
 void App_share_func_stack_background_count(unsigned int channel)
 {
