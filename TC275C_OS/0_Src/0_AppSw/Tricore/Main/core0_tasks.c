@@ -6,7 +6,7 @@
 void CORE0_TASK0(pthread_config_t *pthread_config,osu32_t current_core_id)
 {
   //core0_os_thread_test_count_TASK[pthread_config->task_id]++;
-  App_share_task_test_count(0);
+  App_share_task_test_count(current_core_id,pthread_config->task_id);
   App_share_stack_background_count();
   //delay_ms(200);
   
@@ -18,47 +18,47 @@ void CORE0_TASK0(pthread_config_t *pthread_config,osu32_t current_core_id)
 }
 void CORE0_TASK1(pthread_config_t *pthread_config,osu32_t current_core_id)
 {
-  App_share_task_test_count(1);
+  App_share_task_test_count(current_core_id,pthread_config->task_id);
   App_share_flash_led_1();
   delay_ms(50);
 }
 void CORE0_TASK2(pthread_config_t *pthread_config,osu32_t current_core_id)
 {
-  App_share_task_test_count(2);
+  App_share_task_test_count(current_core_id,pthread_config->task_id);
   App_share_flash_led_2();
   delay_ms(50);
 }
 void CORE0_TASK3(pthread_config_t *pthread_config,osu32_t current_core_id)
 {
-  App_share_task_test_count(3);
+  App_share_task_test_count(current_core_id,pthread_config->task_id);
 }
 void CORE0_TASK4(pthread_config_t *pthread_config,osu32_t current_core_id)
 {
-  App_share_task_test_count(4);
+  App_share_task_test_count(current_core_id,pthread_config->task_id);
 }
 void CORE0_TASK5(pthread_config_t *pthread_config,osu32_t current_core_id)
 {
-  App_share_task_test_count(5);
+  App_share_task_test_count(current_core_id,pthread_config->task_id);
 }
 void CORE0_TASK6(pthread_config_t *pthread_config,osu32_t current_core_id)
 {
-  App_share_task_test_count(6);
+  App_share_task_test_count(current_core_id,pthread_config->task_id);
 }
 void CORE0_TASK7(pthread_config_t *pthread_config,osu32_t current_core_id)
 {
-  App_share_task_test_count(7);
+  App_share_task_test_count(current_core_id,pthread_config->task_id);
 }
 void CORE0_TASK8(pthread_config_t *pthread_config,osu32_t current_core_id)
 {
-  App_share_task_test_count(8);
+  App_share_task_test_count(current_core_id,pthread_config->task_id);
 }
 void CORE0_TASK9(pthread_config_t *pthread_config,osu32_t current_core_id)
 {
-  App_share_task_test_count(9);
+  App_share_task_test_count(current_core_id,pthread_config->task_id);
 }
 void CORE0_TASK10(pthread_config_t *pthread_config,osu32_t current_core_id)
 {
-  App_share_task_test_count(10);
+  App_share_task_test_count(current_core_id,pthread_config->task_id);
   App_share_stack_calculated();
   App_share_flash_led_4();
 }

@@ -17,7 +17,7 @@ typedef enum  {
 		
 }cpu_load_get_status_t;
 
-static volatile unsigned int core0_thread_test_count[TASK_NUM];
+static volatile unsigned int App_task_test_count[APP_MAX_CORE][TASK_NUM];
 static volatile unsigned int Core0_CPU_Load_Background_Count;
 static volatile unsigned int Core0_CPU_LOAD;
 static cpu_load_get_status_t cpu0_load_get_status = RUNNING;
@@ -46,9 +46,9 @@ void App_share_stack_calculated(void)
   /*<CPU load> can be got here. <Section ends> */
 }
 
-void App_share_task_test_count(unsigned int channel)
+void App_share_task_test_count(unsigned int current_core_id,unsigned int channel)
 {
-  core0_thread_test_count[channel]++;
+  App_task_test_count[current_core_id][channel]++;
 }
 void  App_share_flash_led_1(void)
 {
