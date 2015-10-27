@@ -11,8 +11,8 @@
 
 #include "core0_tasks.h"
 #include "task_config.h"
-#include "kernel_abstract.h"
 
+#include "kernel_abstract.h"
 #include "os_trace.h"
 
 #pragma align 16
@@ -107,109 +107,17 @@ pthread_cond_t os_pthread_cond[MAX_CORE_NUM][TASK_ID_MAX] =
 /*-------------------------------------------------------------------------------------
 |   Define thread 0 
 --------------------------------------------------------------------------------------*/
-void core0_os_idle(void* arg,task_ptr_t task) 
-{
-	thread_initialization();
-    thread_taskcallback();
-    thread_termination();
-}
-/*-------------------------------------------------------------------------------------
-|   Define thread 1 
---------------------------------------------------------------------------------------*/
-void core0_os_thread1(void* arg,task_ptr_t task) 
-{
-	thread_initialization();
-    thread_taskcallback();
-    thread_termination();
-}
-/*-------------------------------------------------------------------------------------
-|   Define thread 2 
---------------------------------------------------------------------------------------*/
-void core0_os_thread2(void* arg,task_ptr_t task)
-{
-	thread_initialization();
-    thread_taskcallback();
-    thread_termination();
-}
-/*-------------------------------------------------------------------------------------
-|   Define thread 3 
---------------------------------------------------------------------------------------*/
-void core0_os_thread3(void* arg,task_ptr_t task) 
-{
-    thread_initialization();
-    thread_taskcallback();
-    thread_termination();
-}
-
-/*-------------------------------------------------------------------------------------
-|   Define thread 4 
---------------------------------------------------------------------------------------*/
-void core0_os_thread4(void* arg,task_ptr_t task)
-{
-    thread_initialization();
-    thread_taskcallback();
-    thread_termination();
-}
-
-/*-------------------------------------------------------------------------------------
-|   Define thread 5 
---------------------------------------------------------------------------------------*/
-void core0_os_thread5(void* arg,task_ptr_t task) 
-{
-	thread_initialization();
-    thread_taskcallback();
-    thread_termination();
-}
-
-/*-------------------------------------------------------------------------------------
-|   Define thread 6 
---------------------------------------------------------------------------------------*/
-void core0_os_thread6(void* arg,task_ptr_t task)
-{
-	thread_initialization();
-    thread_taskcallback();
-    thread_termination();
-}
-
-/*-------------------------------------------------------------------------------------
-|   Define thread 7 
---------------------------------------------------------------------------------------*/
-void core0_os_thread7(void* arg,task_ptr_t task) 
-{
-	thread_initialization();
-    thread_taskcallback();
-    thread_termination();
-}
-
-/*-------------------------------------------------------------------------------------
-|   Define thread 8 
---------------------------------------------------------------------------------------*/
-void core0_os_thread8(void* arg,task_ptr_t task) 
-{
-	thread_initialization();
-    thread_taskcallback();
-    thread_termination();
-}
-
-/*-------------------------------------------------------------------------------------
-|   Define thread 9 
---------------------------------------------------------------------------------------*/
-void core0_os_thread9(void* arg,task_ptr_t task) 
-{
-	thread_initialization();
-    thread_taskcallback();
-    thread_termination();
-}
-
-/*-------------------------------------------------------------------------------------
-|   Define thread 10 
---------------------------------------------------------------------------------------*/
-void core0_os_thread10(void* arg,task_ptr_t task) 
-{    
-	thread_initialization();
-    thread_taskcallback();
-    thread_termination();
-}
+DEFINE_OS_THREAD(0,0)
+DEFINE_OS_THREAD(0,1)
+DEFINE_OS_THREAD(0,2)
+DEFINE_OS_THREAD(0,3)
+DEFINE_OS_THREAD(0,4)
+DEFINE_OS_THREAD(0,5)
+DEFINE_OS_THREAD(0,6)
+DEFINE_OS_THREAD(0,7)
+DEFINE_OS_THREAD(0,8)
+DEFINE_OS_THREAD(0,9)
+DEFINE_OS_THREAD(0,10)
 /*-------------------------------------------------------------------------------------
 |
 |   Description:
@@ -231,7 +139,7 @@ const pthread_attr_t core0_os_th10_attr = { SUPER, CALL_DEPTH_OVERFLOW_AT_64};
 
 void start_core0_os(void) {
 
-    pthread_create_np(core0_os_th0, &core0_os_th0_attr, core0_os_idle, (void*) 0,CORE0_TASK0);
+    pthread_create_np(core0_os_th0, &core0_os_th0_attr, core0_os_thread0, (void*) 0,CORE0_TASK0);
     pthread_create_np(core0_os_th1, &core0_os_th1_attr, core0_os_thread1, (void*) 1,CORE0_TASK1);	
     pthread_create_np(core0_os_th2, &core0_os_th2_attr, core0_os_thread2, (void*) 2,CORE0_TASK2);
 #if 0	

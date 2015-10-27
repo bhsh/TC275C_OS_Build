@@ -65,13 +65,6 @@ typedef enum
    /* Index 11 */  CORE_MAX_THREAD_NUM
 } thread_num_t;
 
-enum task_type{
-
-   NO_DEFINITION,
-   TASK_PERIODIC,
-   TASK_EVENT
-};
-
 enum task_e {
 	
     TASK_ID0,

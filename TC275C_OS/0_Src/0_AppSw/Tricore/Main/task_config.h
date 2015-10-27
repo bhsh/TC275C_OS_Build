@@ -5,6 +5,13 @@
 
 #include "os.h"
 
+enum task_type{
+
+   NO_DEFINITION,
+   TASK_PERIODIC,
+   TASK_EVENT
+};
+
 /* core 0*/
 /* 0 TASK config initialization */ 
 #define CORE0_TASK0_TYPE       NO_DEFINITION             
