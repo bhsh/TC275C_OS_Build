@@ -1,0 +1,86 @@
+/*-----------------------------------------------------------------------------------
+|
+|   File name:    Appcore0.c
+|   Created on:   Aug 26, 2015
+|   Author:       Yanpeng.xi
+|   Description:
+|                 Multicore OS based on Aurix 275C app kit and TASKING 4.3 compiler
+|
+--------------------------------------------------------------------------------------*/
+
+#include "os_type.h"
+#include "os.h"
+#include <stdlib.h>
+
+#include "core0_tasks.h"
+
+#include "thread_config.h"
+#include "kernel_abstract.h"
+#include "os_trace.h"
+
+
+#pragma align 16
+
+// period threads...
+PTHREAD_CONTROL_BLOCK(core0_os_th0,0,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+PTHREAD_CONTROL_BLOCK(core0_os_th1,1,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+PTHREAD_CONTROL_BLOCK(core0_os_th2,2,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+PTHREAD_CONTROL_BLOCK(core0_os_th3,3,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+PTHREAD_CONTROL_BLOCK(core0_os_th4,4,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+PTHREAD_CONTROL_BLOCK(core0_os_th5,5,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+PTHREAD_CONTROL_BLOCK(core0_os_th6,6,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+PTHREAD_CONTROL_BLOCK(core0_os_th7,7,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+PTHREAD_CONTROL_BLOCK(core0_os_th8,8,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+PTHREAD_CONTROL_BLOCK(core0_os_th9,9,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+PTHREAD_CONTROL_BLOCK(core0_os_th10,10,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)
+
+#pragma align restore
+
+	DEFINE_OS_THREAD(0,0)
+	DEFINE_OS_THREAD(0,1)
+	DEFINE_OS_THREAD(0,2)
+	DEFINE_OS_THREAD(0,3)
+	DEFINE_OS_THREAD(0,4)
+	DEFINE_OS_THREAD(0,5)
+	DEFINE_OS_THREAD(0,6)
+	DEFINE_OS_THREAD(0,7)
+	DEFINE_OS_THREAD(0,8)
+	DEFINE_OS_THREAD(0,9)
+	DEFINE_OS_THREAD(0,10)
+
+const pthread_attr_t core0_os_th0_attr = { SUPER, CALL_DEPTH_OVERFLOW_AT_64};
+const pthread_attr_t core0_os_th1_attr = { SUPER, CALL_DEPTH_OVERFLOW_AT_64};
+const pthread_attr_t core0_os_th2_attr = { SUPER, CALL_DEPTH_OVERFLOW_AT_64};
+const pthread_attr_t core0_os_th3_attr = { SUPER, CALL_DEPTH_OVERFLOW_AT_64};
+const pthread_attr_t core0_os_th4_attr = { SUPER, CALL_DEPTH_OVERFLOW_AT_64};
+const pthread_attr_t core0_os_th5_attr = { SUPER, CALL_DEPTH_OVERFLOW_AT_64};
+const pthread_attr_t core0_os_th6_attr = { SUPER, CALL_DEPTH_OVERFLOW_AT_64};
+const pthread_attr_t core0_os_th7_attr = { SUPER, CALL_DEPTH_OVERFLOW_AT_64};
+const pthread_attr_t core0_os_th8_attr = { SUPER, CALL_DEPTH_OVERFLOW_AT_64};
+const pthread_attr_t core0_os_th9_attr = { SUPER, CALL_DEPTH_OVERFLOW_AT_64};
+const pthread_attr_t core0_os_th10_attr = { SUPER, CALL_DEPTH_OVERFLOW_AT_64};
+
+void start_core0_os(void) {
+
+    pthread_create_np(core0_os_th0, &core0_os_th0_attr, core0_os_thread0, (void*) 0,CORE0_TASK0);
+    pthread_create_np(core0_os_th1, &core0_os_th1_attr, core0_os_thread1, (void*) 1,CORE0_TASK1);	
+    pthread_create_np(core0_os_th2, &core0_os_th2_attr, core0_os_thread2, (void*) 2,CORE0_TASK2);
+#if 0	
+
+	pthread_create_np(core0_os_th3, &core0_os_th3_attr, core0_os_thread3, (void*) 3,CORE0_TASK3);
+
+	pthread_create_np(core0_os_th4, &core0_os_th4_attr, core0_os_thread4, (void*) 4,CORE0_TASK4);
+	pthread_create_np(core0_os_th5, &core0_os_th5_attr, core0_os_thread5, (void*) 5,CORE0_TASK5);
+
+	pthread_create_np(core0_os_th6, &core0_os_th6_attr, core0_os_thread6, (void*) 6,CORE0_TASK6);
+	pthread_create_np(core0_os_th7, &core0_os_th7_attr, core0_os_thread7, (void*) 7,CORE0_TASK7);
+    pthread_create_np(core0_os_th8, &core0_os_th8_attr, core0_os_thread8, (void*) 8,CORE0_TASK8);
+    pthread_create_np(core0_os_th9, &core0_os_th9_attr, core0_os_thread9, (void*) 9,CORE0_TASK9);
+
+#endif
+	pthread_create_np(core0_os_th10, &core0_os_th10_attr, core0_os_thread10,(void*) 10,CORE0_TASK10);
+
+	pthread_start_np();
+}
+
+

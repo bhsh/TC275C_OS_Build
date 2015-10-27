@@ -79,6 +79,12 @@ typedef struct pthread_s {
     uint32_t stack[1]; //!< Stack. The size 1 is only a dummy. Memory allocation is done via \ref PTHREAD_CONTROL_BLOCK
 }*pthread_t;
 
+typedef struct {
+    const uint32_t core_id;//!< cond status is one of <true | false>
+    uint32_t  multi_semaphore;
+    pthread_t blocked_threads; //!< list threads waiting for condition
+} pthread_cond_t;
+
 //! Description of a thread mutex.
 typedef struct {
     uint32_t lock;//!< mutex lock status is one of <true | false>
@@ -87,11 +93,7 @@ typedef struct {
 } pthread_mutex_t;
 
 //! Description of a thread conditional variable.
-typedef struct {
-    const uint32_t core_id;//!< cond status is one of <true | false>
-    uint32_t  multi_semaphore;
-    pthread_t blocked_threads; //!< list threads waiting for condition
-} pthread_cond_t;
+
 
 #include "os_type.h"
 #include "os.h"
