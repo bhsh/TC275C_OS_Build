@@ -1,4 +1,4 @@
-
+#include "os_type.h"
 #include "os_interface.h"
 
 #define LED_1    (8)

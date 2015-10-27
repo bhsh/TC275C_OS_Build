@@ -11,8 +11,6 @@
 #ifndef OS_TRACE_H_
 #define OS_TRACE_H_
 
-#include "os_type.h"
-
 extern void OS_test1(osu32_t time);
 extern void os_trace_task_time_begin(osu32_t current_core_id,osu32_t thread_id);
 extern void os_trace_task_time_end(osu32_t current_core_id,osu32_t thread_id);

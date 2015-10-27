@@ -7,6 +7,8 @@
 |                 Multicore OS based on Aurix 275C app kit and TASKING 4.3 compiler
 |
 --------------------------------------------------------------------------------------*/
+
+#include "os_type.h"
 #include <stdlib.h>
 
 #include "core0_tasks.h"
@@ -104,17 +106,17 @@ pthread_cond_t os_pthread_cond[CORE_MAX_ID_NUM][THREAD_MAX_ID_NUM] =
      }	  
   };
 
-DEFINE_OS_THREAD(0,0)
-DEFINE_OS_THREAD(0,1)
-DEFINE_OS_THREAD(0,2)
-DEFINE_OS_THREAD(0,3)
-DEFINE_OS_THREAD(0,4)
-DEFINE_OS_THREAD(0,5)
-DEFINE_OS_THREAD(0,6)
-DEFINE_OS_THREAD(0,7)
-DEFINE_OS_THREAD(0,8)
-DEFINE_OS_THREAD(0,9)
-DEFINE_OS_THREAD(0,10)
+	DEFINE_OS_THREAD(0,0)
+	DEFINE_OS_THREAD(0,1)
+	DEFINE_OS_THREAD(0,2)
+	DEFINE_OS_THREAD(0,3)
+	DEFINE_OS_THREAD(0,4)
+	DEFINE_OS_THREAD(0,5)
+	DEFINE_OS_THREAD(0,6)
+	DEFINE_OS_THREAD(0,7)
+	DEFINE_OS_THREAD(0,8)
+	DEFINE_OS_THREAD(0,9)
+	DEFINE_OS_THREAD(0,10)
 
 const pthread_attr_t core0_os_th0_attr = { SUPER, CALL_DEPTH_OVERFLOW_AT_64};
 const pthread_attr_t core0_os_th1_attr = { SUPER, CALL_DEPTH_OVERFLOW_AT_64};

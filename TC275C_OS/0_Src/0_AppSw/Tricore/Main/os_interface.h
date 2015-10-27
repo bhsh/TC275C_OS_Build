@@ -8,8 +8,6 @@
 |
 --------------------------------------------------------------------------------------*/
 
-#include "os_type.h"
-
 inline osu32_t os_getUstack_address(void)
 {  
    osu32_t *res;
