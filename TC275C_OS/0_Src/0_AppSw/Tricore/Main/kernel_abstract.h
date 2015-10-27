@@ -22,7 +22,7 @@
                                                }
                                                 
 
-OS_EXTERN pthread_cond_t os_pthread_cond[MAX_CORE_NUM][TASK_ID_MAX];										  
+OS_EXTERN pthread_cond_t os_pthread_cond[MAX_CORE_NUM][THREAD_ID_MAX];										  
 OS_EXTERN void thread_done_before_task(pthread_config_t*,core_id_e);
 OS_EXTERN void thread_done_after_task(pthread_config_t*,core_id_e);
 
