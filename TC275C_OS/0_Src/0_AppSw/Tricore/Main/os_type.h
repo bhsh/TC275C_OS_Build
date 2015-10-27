@@ -21,5 +21,7 @@ typedef unsigned long long  osu64_t;
 #define OS_EXTERN  extern 
 #define OS_INLINE  inline
 
+//#define NULL (void*)0
+
 #endif
 

@@ -10,7 +10,7 @@
 #include <stdlib.h>
 
 #include "core0_tasks.h"
-#include "task_config.h"
+#include "thread_config.h"
 
 #include "kernel_abstract.h"
 #include "os_trace.h"
