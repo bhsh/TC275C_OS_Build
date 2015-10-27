@@ -65,9 +65,6 @@ uint32_t core1_os_pthread_time_waiting;
 uint32_t core2_os_pthread_time_waiting;
 
 //pthread_cond_t *core0_cond = NULL;
-//pthread_cond_t core1_cond  = PTHREAD_COND_INITIALIZER;
-//pthread_cond_t core2_cond  = PTHREAD_COND_INITIALIZER;
-
 allthreads_status_t core0_allthreads_status = ALLTHREADS_WORKING;
 allthreads_status_t core1_allthreads_status = ALLTHREADS_WORKING;
 allthreads_status_t core2_allthreads_status = ALLTHREADS_WORKING;

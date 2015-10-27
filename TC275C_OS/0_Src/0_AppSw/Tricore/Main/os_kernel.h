@@ -10,8 +10,9 @@
 
 #include "os_kernel_cfg.h"
 
-#define PTHREAD_COND_INITIALIZER {false,NULL}
-#define PTHREAD_MUTEX_INITIALIZER {false,NULL}
+#define CORE0_PTHREAD_COND_INITIALIZER {CORE0,0,NULL}
+#define CORE1_PTHREAD_COND_INITIALIZER {CORE1,0,NULL}
+#define CORE2_PTHREAD_COND_INITIALIZER {CORE2,0,NULL}
 
 #define PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_stacksize) static struct { \
     pthread_t next,prev;\
@@ -46,7 +47,8 @@ typedef enum  {
 	CORE1, 
 	CORE2,
 	MAX_CORE_NUM
-}core_id_e;
+	
+}CORE_ID_t;
 
 //! Call depth definition
 enum call_depth_overflow_e {
@@ -84,15 +86,6 @@ typedef struct {
     pthread_t blocked_threads; //!< list threads waiting for mutex
 } pthread_mutex_t;
 
-#if 0
-typedef struct {
-	uint32_t task_id;//!< mutex lock status is one of <true | false> 
-    uint32_t type;//!< mutex lock status is one of <true | false>
-    uint32_t period;//!< mutex lock status is one of <true | false> 
-    uint32_t actived_task_id;
-    
-} pthread_config_t;
-#endif
 //! Description of a thread conditional variable.
 typedef struct {
     const uint32_t core_id;//!< cond status is one of <true | false>
@@ -102,10 +95,6 @@ typedef struct {
 
 #include "os_type.h"
 #include "os.h"
-
-#define CORE0_PTHREAD_COND_INITIALIZER {CORE0,0,NULL}
-#define CORE1_PTHREAD_COND_INITIALIZER {CORE1,0,NULL}
-#define CORE2_PTHREAD_COND_INITIALIZER {CORE2,0,NULL}
 
 int pthread_create_np(pthread_t, const pthread_attr_t *, void(*)(void *,task_ptr_t),
         void *,task_ptr_t);
@@ -261,7 +250,6 @@ int pthread_mutex_unlock(pthread_mutex_t *mutex) ;
 int pthread_cond_wait(pthread_cond_t *cond);//!< [in] condition pointer
 int pthread_cond_broadcast(pthread_cond_t *cond); //!< [in] condition pointer
 //! Wait on a condition
-//int pthread_other_core_cond_broadcast(pthread_cond_t *cond,core_id_e actived_core_id); //!< [in] condition pointer
 int pthread_cond_timedwait_np(uint16_t reltime); //!< [in] relative time are the relative time STM_TIM4 ticks.NOT PORTABLE.
 
 

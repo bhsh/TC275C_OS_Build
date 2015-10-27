@@ -156,7 +156,7 @@ void start_core0_os(void) {
 }
 
 
-void thread_done_before_task(pthread_config_t *pthread_config,core_id_e core_id )
+void thread_done_before_task(pthread_config_t *pthread_config,CORE_ID_t core_id )
 { 
   if(pthread_config->type == THREAD_EVENT)
   {
@@ -174,7 +174,7 @@ void thread_done_before_task(pthread_config_t *pthread_config,core_id_e core_id 
   os_trace_task_time_begin(core_id,pthread_config->task_id);
 }
 
-void thread_done_after_task(pthread_config_t *pthread_config,core_id_e core_id )
+void thread_done_after_task(pthread_config_t *pthread_config,CORE_ID_t core_id )
 { 	
   /* Trace */
   os_trace_task_time_end(core_id,pthread_config->task_id);

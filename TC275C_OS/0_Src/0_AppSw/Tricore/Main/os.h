@@ -3,9 +3,6 @@
 #ifndef OS_H_
 #define OS_H_
 
-
-//! core definition
-
 typedef struct {
 	osu32_t task_id;
     osu32_t type;
