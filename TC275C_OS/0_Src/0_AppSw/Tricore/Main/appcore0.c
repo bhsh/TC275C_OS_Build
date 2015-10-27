@@ -115,13 +115,7 @@ DEFINE_OS_THREAD(0,7)
 DEFINE_OS_THREAD(0,8)
 DEFINE_OS_THREAD(0,9)
 DEFINE_OS_THREAD(0,10)
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|   Test type: start OS
-|   Define OS API :void start_core0_os(void) 
-|
---------------------------------------------------------------------------------------*/
+
 const pthread_attr_t core0_os_th0_attr = { SUPER, CALL_DEPTH_OVERFLOW_AT_64};
 const pthread_attr_t core0_os_th1_attr = { SUPER, CALL_DEPTH_OVERFLOW_AT_64};
 const pthread_attr_t core0_os_th2_attr = { SUPER, CALL_DEPTH_OVERFLOW_AT_64};
