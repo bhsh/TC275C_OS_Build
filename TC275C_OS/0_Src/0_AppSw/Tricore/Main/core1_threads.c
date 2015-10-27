@@ -10,7 +10,6 @@
 #include "os_type.h"
 #include "os.h"
 #include <stdlib.h>
-
 #include "core1_tasks.h"
 //#include "thread_config.h"
 
