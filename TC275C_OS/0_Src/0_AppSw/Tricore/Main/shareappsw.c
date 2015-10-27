@@ -6,70 +6,70 @@
 #define LED_3    (10)
 #define LED_4    (11)
 
-#define  TOTAL_COUNT        (500000000)
-#define  TIME_PER_COUNT_NS  (60)
-#define  TASK_NUM           (11)
-#define  APP_MAX_CORE       (3)
+#define  TOTAL_COUNT             (500000000)
+#define  TIME_PER_COUNT_NS       (60)
+#define  TASK_NUM                (11)
+#define  APP_MAX_CORE_USED       (3)
 
 typedef enum  {
+
 	 FINISH,
-	 RUNNING
-		
+	 RUNNING	
 }cpu_load_get_status_t;
 
-static volatile unsigned int App_task_test_count[APP_MAX_CORE][TASK_NUM];
-static volatile unsigned int Core0_CPU_Load_Background_Count;
-static volatile unsigned int Core0_CPU_LOAD;
-static cpu_load_get_status_t cpu0_load_get_status = RUNNING;
+static volatile unsigned int App_share_var_task_test_count[APP_MAX_CORE_USED][TASK_NUM];
+static volatile unsigned int App_share_var_CPU_Load_Backg_Count[APP_MAX_CORE_USED];
+static volatile unsigned int App_share_var_CPU_load[APP_MAX_CORE_USED];
+static cpu_load_get_status_t App_share_var_state_machine_state[APP_MAX_CORE_USED] = { RUNNING, RUNNING, RUNNING };
 
-void App_share_stack_background_count(void)
+void App_share_func_stack_background_count(unsigned int channel)
 {
-  while((Core0_CPU_Load_Background_Count < TOTAL_COUNT)&&(cpu0_load_get_status == RUNNING ))
+  while((App_share_var_CPU_Load_Backg_Count[channel] < TOTAL_COUNT)&&(App_share_var_state_machine_state[channel] == RUNNING ))
   {
-     Core0_CPU_Load_Background_Count++;
+     App_share_var_CPU_Load_Backg_Count[channel]++;
   }
 }
-void App_share_stack_calculated(void)
+void App_share_func_stack_calculated(unsigned int channel)
 {
   /*<CPU load> can be got here. <Section begins> */
   /* Core0_CPU_LOAD = (Core0_CPU_Load_Background_Count * 100)/(1000*1000); */
-  if(Core0_CPU_Load_Background_Count < TOTAL_COUNT)
+  if(App_share_var_CPU_Load_Backg_Count[channel] < TOTAL_COUNT)
   {
-    Core0_CPU_LOAD = 1000 - (Core0_CPU_Load_Background_Count * TIME_PER_COUNT_NS)/(1000*1000);
+    App_share_var_CPU_load[channel] = 1000 - (App_share_var_CPU_Load_Backg_Count[channel] * TIME_PER_COUNT_NS)/(1000*1000);
   }
   else
   {
-    Core0_CPU_LOAD = 0;
+    App_share_var_CPU_load[channel] = 0;
   }
-  cpu0_load_get_status = RUNNING;
-  Core0_CPU_Load_Background_Count = 0;
+  App_share_var_state_machine_state[channel] = RUNNING;
+  App_share_var_CPU_Load_Backg_Count[channel] = 0;
   /*<CPU load> can be got here. <Section ends> */
 }
 
-void App_share_task_test_count(unsigned int current_core_id,unsigned int channel)
+void App_share_func_task_test_count(unsigned int current_core_id,unsigned int channel)
 {
-  App_task_test_count[current_core_id][channel]++;
+  App_share_var_task_test_count[current_core_id][channel]++;
 }
-void  App_share_flash_led_1(void)
+void  App_share_func_flash_led_1(void)
 {
    osPort_togglePin(LED_1);
 }
 
-void  App_share_flash_led_2(void)
+void  App_share_func_flash_led_2(void)
 {
    osPort_togglePin(LED_2);
 }
 
-void  App_share_flash_led_3(void)
+void  App_share_func_flash_led_3(void)
 {
    osPort_togglePin(LED_3);
 }
 
-void  App_share_flash_led_4(void)
+void  App_share_func_flash_led_4(void)
 {
    osPort_togglePin(LED_4);
 }
-void App_share_trigger_software_interrupt1(void)
+void App_share_func_trigger_software_interrupt1(void)
 {
    os_trigger_software_interrupt1();
 }
