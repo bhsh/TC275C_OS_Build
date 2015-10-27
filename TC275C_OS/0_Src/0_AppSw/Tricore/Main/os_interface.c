@@ -13,11 +13,9 @@
 
 #include <stdlib.h>
 #include "os_kernel.h"
-//#include "simio.h"
 #include <stdio.h>
 #include "Cpu0_Main.h"
 #include "SysSe/Bsp/Bsp.h"
-//#include "DemoApp.h"
 #include "communication.h"
 
 
@@ -27,7 +25,7 @@
 #include "Stm\Std\IfxStm.h"
 #include "Src\Std\IfxSrc.h"
 
-//#include "os_interface.h"
+#include "os_interface.h"
 
 /*-------------------------------------------------------------------------------------
 |
@@ -52,7 +50,7 @@ void __interrupt(20) CPU0_SOFT1_Isr(void)
     //pthread_cond_broadcast(&core0_os_cond4);
 }
 
-osu32_t osPort_togglePin(osu32_t pin_num)
+void osPort_togglePin(osu8_t pin_num)
 {
     IfxPort_togglePin(&MODULE_P33, pin_num);
 }
@@ -62,4 +60,11 @@ void os_trigger_software_interrupt1(void)
   		         (1<<10)|   //SRC_GPSR01.B.SRE=1;
   	             (0<<11)|   //SRC_GPSR01.B.TOS=0;
   	             (20);      //SRC_GPSR01.B.SRPN=20; 
+}
+
+osu32_t os_get_curr_coreid(void)
+{
+   osu32_t core_id;
+   core_id=__mfcr(CPU_CORE_ID);
+   return (core_id&0x7);
 }

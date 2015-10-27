@@ -16,7 +16,8 @@ inline osu32_t os_getUstack_address(void)
    __asm volatile ("mov.aa %0, a10": "=a" (res) : :"a10");
    return (osu32_t)res;
 }
-OS_EXTERN void os_wait_in_us(osu32_t time);
+OS_EXTERN void    os_wait_in_us(osu32_t time);
 OS_EXTERN osu32_t os_getstmlower_count(void);
-OS_EXTERN osu32_t osPort_togglePin(osu32_t pin_num);
-OS_EXTERN void os_trigger_software_interrupt1(void);
+OS_EXTERN void    osPort_togglePin(osu8_t pin_num);
+OS_EXTERN void    os_trigger_software_interrupt1(void);
+OS_EXTERN osu32_t os_get_curr_coreid(void);

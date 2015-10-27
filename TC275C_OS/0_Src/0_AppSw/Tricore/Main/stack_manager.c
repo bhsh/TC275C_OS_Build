@@ -1,11 +1,14 @@
 
 
-#include "stack_manager.h"
+#include "os_type.h"
 #include "os_interface.h"
 
 #define STACK_MAX_MEASURE_POS         (10)
 #define TIME_UNIT_SWITCH              (1000)
-#define PTHREAD_STACK_SIZE_IN_BYTE    (PTHREAD_DEFAULT_STACK_SIZE*4)
+#define PTHREAD_STACK_SIZE_IN_BYTE    (256)
+
+#define MAX_CORE_NUM    (3)
+#define MAX_THREAD_NUM  (11)
 
 typedef struct 
 {
@@ -16,11 +19,11 @@ typedef struct
 	
 } pthread_stack_t; 
 
-static pthread_stack_t pthread_stack[MAX_CORE_NUM][CORE_MAX_THREAD_NUM][STACK_MAX_MEASURE_POS];
+static pthread_stack_t pthread_stack[MAX_CORE_NUM][MAX_THREAD_NUM][STACK_MAX_MEASURE_POS];
 
 osu32_t get_stack_used_percent(osu32_t thread_id, osu32_t pos)
 {
-	osu32_t current_cpu_id = os_getCoreId();
+	osu32_t current_cpu_id = os_get_curr_coreid();
 
 	pthread_stack[current_cpu_id][thread_id][pos].stack_current_address = os_getUstack_address();
 
