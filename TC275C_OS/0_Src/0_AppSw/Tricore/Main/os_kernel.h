@@ -48,40 +48,6 @@ typedef enum  {
 	MAX_CORE_NUM
 }core_id_e;
 
-typedef enum
-{ 
-   /* Index 0   */ CORE_IDLE,                        
-   /* Index 1   */ CORE_THREAD1,                    
-   /* Index 2   */ CORE_THREAD2,                  
-   /* Index 3   */ CORE_THREAD3,                       
-   /* Index 4   */ CORE_THREAD4,                    
-   /* Index 5   */ CORE_THREAD5,                  
-   /* Index 6   */ CORE_THREAD6,  
-   /* Index 7   */ CORE_THREAD7,                    
-   /* Index 8   */ CORE_THREAD8,                  
-   /* Index 9   */ CORE_THREAD9,                       
-   /* Index 10  */ CORE_THREAD10,                    
-
-   /* Index 11 */  CORE_MAX_THREAD_NUM
-} thread_num_t;
-
-enum task_e {
-	
-    TASK_ID0,
-    TASK_ID1,
-    TASK_ID2,
-    TASK_ID3,
-    TASK_ID4,
-    TASK_ID5,
-    TASK_ID6,
-    TASK_ID7,
-    TASK_ID8,
-    TASK_ID9,
-    TASK_ID10,
-    TASK_ID_MAX, 
-    NO_TASK
-};
-
 //! Call depth definition
 enum call_depth_overflow_e {
     CALL_DEPTH_OVERFLOW_AT_64 = 0,

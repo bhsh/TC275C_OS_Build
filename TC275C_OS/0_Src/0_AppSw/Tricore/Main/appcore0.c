@@ -76,7 +76,7 @@ const pthread_config_t os_pthread_init_config_database[MAX_CORE_NUM][THREAD_ID_M
   
 };
 
-pthread_cond_t os_pthread_cond[MAX_CORE_NUM][TASK_ID_MAX] =
+pthread_cond_t os_pthread_cond[MAX_CORE_NUM][THREAD_ID_MAX] =
   { 
   	 {
       CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,
