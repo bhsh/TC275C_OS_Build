@@ -269,13 +269,13 @@ void thread_done_before_task(pthread_config_t *pthread_config,core_id_e core_id 
      /* Do nothing. */
   }
   /* trace */
-  os_trace_task_time_begin(pthread_config->task_id);
+  os_trace_task_time_begin(core_id,pthread_config->task_id);
 }
 
 void thread_done_after_task(pthread_config_t *pthread_config,core_id_e core_id )
 { 	
   /* Trace */
-  os_trace_task_time_end(pthread_config->task_id);
+  os_trace_task_time_end(core_id,pthread_config->task_id);
 
   if(pthread_config->type == TASK_EVENT)
   {
