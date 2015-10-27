@@ -1,6 +1,4 @@
 
-
-#include "os_type.h"
 #include "os_interface.h"
 
 #define STACK_MAX_MEASURE_POS         (10)

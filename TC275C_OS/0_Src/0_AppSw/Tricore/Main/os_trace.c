@@ -1,5 +1,4 @@
 
-#include "os_trace.h"
 #include "os_interface.h"
 
 
