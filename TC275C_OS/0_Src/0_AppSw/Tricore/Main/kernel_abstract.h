@@ -23,6 +23,9 @@
 	                                               thread_taskcallback();                                           \
 	                                               thread_termination();                                            \
                                                }
+#define PTHREAD_CREATION_BLOCK(thread_var,thread_attr,thread_name,thread_id,callback_task_name)  \
+	           pthread_create_np(thread_var,thread_attr,thread_name,thread_id,callback_task_name);
+
 OS_EXTERN pthread_cond_t os_pthread_cond[CORE_MAX_ID_NUM][THREAD_MAX_ID_NUM];	
 OS_EXTERN const pthread_config_t os_pthread_init_config_database[CORE_MAX_ID_NUM][THREAD_MAX_ID_NUM];
 OS_EXTERN void thread_done_before_task(pthread_config_t*,CORE_ID_t);

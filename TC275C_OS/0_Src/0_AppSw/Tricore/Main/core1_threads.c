@@ -51,19 +51,19 @@ void start_core1_os(void)
 {
 
 	/* Create threads...  */
-    pthread_create_np(core1_th0, NULL, core1_os_thread0, (void*) 0,CORE1_TASK0);
-    pthread_create_np(core1_th1, NULL, core1_os_thread1, (void*) 1,CORE1_TASK1);
-    pthread_create_np(core1_th2, NULL, core1_os_thread2, (void*) 2,CORE1_TASK2);
+    PTHREAD_CREATION_BLOCK(core1_th0, NULL, core1_os_thread0, (void*) 0,CORE1_TASK0);
+    PTHREAD_CREATION_BLOCK(core1_th1, NULL, core1_os_thread1, (void*) 1,CORE1_TASK1);
+    PTHREAD_CREATION_BLOCK(core1_th2, NULL, core1_os_thread2, (void*) 2,CORE1_TASK2);
 
 
-	pthread_create_np(core1_th3, NULL, core1_os_thread3, (void*) 3,CORE1_TASK3);
-	pthread_create_np(core1_th4, NULL, core1_os_thread4, (void*) 4,CORE1_TASK4);
-	pthread_create_np(core1_th5, NULL, core1_os_thread5, (void*) 5,CORE1_TASK5);
-	pthread_create_np(core1_th6, NULL, core1_os_thread6, (void*) 6,CORE1_TASK6);
-	pthread_create_np(core1_th7, NULL, core1_os_thread7, (void*) 7,CORE1_TASK7);
-	pthread_create_np(core1_th8, NULL, core1_os_thread8, (void*) 8,CORE1_TASK8);
-    pthread_create_np(core1_th9, NULL, core1_os_thread9, (void*) 9,CORE1_TASK9);
-	pthread_create_np(core1_th10, NULL, core1_os_thread10, (void*) 10,CORE1_TASK10);
+	PTHREAD_CREATION_BLOCK(core1_th3, NULL, core1_os_thread3, (void*) 3,CORE1_TASK3);
+	PTHREAD_CREATION_BLOCK(core1_th4, NULL, core1_os_thread4, (void*) 4,CORE1_TASK4);
+	PTHREAD_CREATION_BLOCK(core1_th5, NULL, core1_os_thread5, (void*) 5,CORE1_TASK5);
+	PTHREAD_CREATION_BLOCK(core1_th6, NULL, core1_os_thread6, (void*) 6,CORE1_TASK6);
+	PTHREAD_CREATION_BLOCK(core1_th7, NULL, core1_os_thread7, (void*) 7,CORE1_TASK7);
+	PTHREAD_CREATION_BLOCK(core1_th8, NULL, core1_os_thread8, (void*) 8,CORE1_TASK8);
+    PTHREAD_CREATION_BLOCK(core1_th9, NULL, core1_os_thread9, (void*) 9,CORE1_TASK9);
+	PTHREAD_CREATION_BLOCK(core1_th10, NULL, core1_os_thread10, (void*) 10,CORE1_TASK10);
 
 	/* Start the core1 OS scheduler now and never return!!! */
 	pthread_start_np();
