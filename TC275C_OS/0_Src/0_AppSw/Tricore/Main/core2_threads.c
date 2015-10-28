@@ -47,20 +47,20 @@ void start_core2_os(void)
 {
 
 	/* Create threads...  */
-    PTHREAD_CREATION_BLOCK(core2_th0, NULL, core2_os_thread0, (void*) 0,CORE2_TASK0);
-    PTHREAD_CREATION_BLOCK(core2_th1, NULL, core2_os_thread1, (void*) 1,CORE2_TASK1);
-    PTHREAD_CREATION_BLOCK(core2_th2, NULL, core2_os_thread2, (void*) 2,CORE2_TASK2);
-	PTHREAD_CREATION_BLOCK(core2_th3, NULL, core2_os_thread3, (void*) 3,CORE2_TASK3);
-	PTHREAD_CREATION_BLOCK(core2_th4, NULL, core2_os_thread4, (void*) 4,CORE2_TASK4);
-	PTHREAD_CREATION_BLOCK(core2_th5, NULL, core2_os_thread5, (void*) 5,CORE2_TASK5);
-	PTHREAD_CREATION_BLOCK(core2_th6, NULL, core2_os_thread6, (void*) 6,CORE2_TASK6);
-	PTHREAD_CREATION_BLOCK(core2_th7, NULL, core2_os_thread7, (void*) 7,CORE2_TASK7);
-	PTHREAD_CREATION_BLOCK(core2_th8, NULL, core2_os_thread8, (void*) 8,CORE2_TASK8);
-    PTHREAD_CREATION_BLOCK(core2_th9, NULL, core2_os_thread9, (void*) 9,CORE2_TASK9);
-	PTHREAD_CREATION_BLOCK(core2_th10, NULL, core2_os_thread10, (void*) 10,CORE2_TASK10);
+    PTHREAD_CREATION_BLOCK(core2_th0, &os_thread_attr[CORE_ID2][THREAD_ID0], core2_os_thread0, (void*) 0,CORE2_TASK0);
+    PTHREAD_CREATION_BLOCK(core2_th1, &os_thread_attr[CORE_ID2][THREAD_ID1], core2_os_thread1, (void*) 1,CORE2_TASK1);
+    PTHREAD_CREATION_BLOCK(core2_th2, &os_thread_attr[CORE_ID2][THREAD_ID2], core2_os_thread2, (void*) 2,CORE2_TASK2);
+	PTHREAD_CREATION_BLOCK(core2_th3, &os_thread_attr[CORE_ID2][THREAD_ID3], core2_os_thread3, (void*) 3,CORE2_TASK3);
+	PTHREAD_CREATION_BLOCK(core2_th4, &os_thread_attr[CORE_ID2][THREAD_ID4], core2_os_thread4, (void*) 4,CORE2_TASK4);
+	PTHREAD_CREATION_BLOCK(core2_th5, &os_thread_attr[CORE_ID2][THREAD_ID5], core2_os_thread5, (void*) 5,CORE2_TASK5);
+	PTHREAD_CREATION_BLOCK(core2_th6, &os_thread_attr[CORE_ID2][THREAD_ID6], core2_os_thread6, (void*) 6,CORE2_TASK6);
+	PTHREAD_CREATION_BLOCK(core2_th7, &os_thread_attr[CORE_ID2][THREAD_ID7], core2_os_thread7, (void*) 7,CORE2_TASK7);
+	PTHREAD_CREATION_BLOCK(core2_th8, &os_thread_attr[CORE_ID2][THREAD_ID8], core2_os_thread8, (void*) 8,CORE2_TASK8);
+    PTHREAD_CREATION_BLOCK(core2_th9, &os_thread_attr[CORE_ID2][THREAD_ID9], core2_os_thread9, (void*) 9,CORE2_TASK9);
+	PTHREAD_CREATION_BLOCK(core2_th10, &os_thread_attr[CORE_ID2][THREAD_ID10], core2_os_thread10, (void*) 10,CORE2_TASK10);
 
 	/* Start the core2 OS scheduler now and never return!!! */
-	pthread_start_np();
+	PTHREAD_START_BLOCK()
 }
 
 

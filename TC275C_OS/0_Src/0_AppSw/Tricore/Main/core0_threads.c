@@ -47,61 +47,6 @@ PTHREAD_DEFINITION_BLOCK(0,8)
 PTHREAD_DEFINITION_BLOCK(0,9)
 PTHREAD_DEFINITION_BLOCK(0,10)
 
-const pthread_attr_t core0_os_th0_attr = { SUPER, CALL_DEPTH_OVERFLOW_AT_64};
-const pthread_attr_t core0_os_th1_attr = { SUPER, CALL_DEPTH_OVERFLOW_AT_64};
-const pthread_attr_t core0_os_th2_attr = { SUPER, CALL_DEPTH_OVERFLOW_AT_64};
-const pthread_attr_t core0_os_th3_attr = { SUPER, CALL_DEPTH_OVERFLOW_AT_64};
-const pthread_attr_t core0_os_th4_attr = { SUPER, CALL_DEPTH_OVERFLOW_AT_64};
-const pthread_attr_t core0_os_th5_attr = { SUPER, CALL_DEPTH_OVERFLOW_AT_64};
-const pthread_attr_t core0_os_th6_attr = { SUPER, CALL_DEPTH_OVERFLOW_AT_64};
-const pthread_attr_t core0_os_th7_attr = { SUPER, CALL_DEPTH_OVERFLOW_AT_64};
-const pthread_attr_t core0_os_th8_attr = { SUPER, CALL_DEPTH_OVERFLOW_AT_64};
-const pthread_attr_t core0_os_th9_attr = { SUPER, CALL_DEPTH_OVERFLOW_AT_64};
-const pthread_attr_t core0_os_th10_attr = { SUPER, CALL_DEPTH_OVERFLOW_AT_64};
-
-const pthread_attr_t os_thread_attr[CORE_MAX_ID_NUM][THREAD_MAX_ID_NUM] =
-	{
-      { { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
-        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
-        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
-        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
-        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
-        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
-        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
-        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
-        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
-        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
-        { SUPER, CALL_DEPTH_OVERFLOW_AT_64}
-	  },
-      {
-	  	{ SUPER, CALL_DEPTH_OVERFLOW_AT_64},
-        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
-        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
-        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
-        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
-        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
-        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
-        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
-        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
-        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
-        { SUPER, CALL_DEPTH_OVERFLOW_AT_64}
-	  },
-	  {
-	  	{ SUPER, CALL_DEPTH_OVERFLOW_AT_64},
-        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
-        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
-        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
-        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
-        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
-        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
-        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
-        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
-        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
-        { SUPER, CALL_DEPTH_OVERFLOW_AT_64}
-	  }
-	};
-
-
 
 
 
@@ -125,7 +70,7 @@ void start_core0_os(void) {
 #endif
 	PTHREAD_CREATION_BLOCK(core0_os_th10, &os_thread_attr[CORE_ID0][THREAD_ID10], core0_os_thread10,(void*) 10,CORE0_TASK10);
 
-	pthread_start_np();
+	PTHREAD_START_BLOCK();
 }
 
 
