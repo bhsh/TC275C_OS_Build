@@ -17,7 +17,7 @@
 #define thread_termination();               thread_done_after_task(&pthread_config,current_core_id);   \
 	                                      }
 
-#define DEFINE_OS_THREAD(core_id,thread_id)    void core##core_id##_os_thread##thread_id(void* arg,task_ptr_t task) \
+#define PTHREAD_DEFINITION_BLOCK(core_id,thread_id)    void core##core_id##_os_thread##thread_id(void* arg,task_ptr_t task) \
 	                                           {                                                                    \
 	                                               thread_initialization();                                         \
 	                                               thread_taskcallback();                                           \
