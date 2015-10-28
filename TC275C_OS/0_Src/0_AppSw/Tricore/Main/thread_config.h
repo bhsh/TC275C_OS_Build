@@ -144,6 +144,8 @@
 #define CORE2_TASK10_PERIOD    (1000)
 #define CORE2_TASK10_ACTIVED   NO_THREAD
 
+
+#if (THREAD_GLOBAL_CONFIG_DEFINITION == ENABLE)
 #include "os.h"
 const pthread_config_t os_pthread_init_config_database[CORE_MAX_ID_NUM][THREAD_MAX_ID_NUM] =
 {
@@ -254,5 +256,6 @@ void thread_done_before_task(pthread_config_t *pthread_config,CORE_ID_t core_id 
   /* trace */
   os_trace_task_time_begin(core_id,pthread_config->task_id);
 }
+#endif
 #endif
 

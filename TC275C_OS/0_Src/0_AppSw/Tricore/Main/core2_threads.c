@@ -8,16 +8,14 @@
 |
 --------------------------------------------------------------------------------------*/
 
-
+#define  THREAD_GLOBAL_CONFIG_DEFINITION DISABLE
 #include "os_type.h"
 #include "os.h"
 #include <stdlib.h>
-
 #include "core2_tasks.h"
-//#include "thread_config.h"
+#include "thread_config.h"
 #include "os_thread_type.h"
 #include "kernel_abstract.h"
-//#include "os_trace.h"
 
 #pragma align 16
 PTHREAD_CONTROL_BLOCK(core2_th0,0,SCHED_FIFO,PTHREAD_DEFAULT_STACK_SIZE)

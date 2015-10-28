@@ -7,12 +7,12 @@
 |                 Multicore OS based on Aurix 275C app kit and TASKING 4.3 compiler
 |
 --------------------------------------------------------------------------------------*/
+#define  THREAD_GLOBAL_CONFIG_DEFINITION DISABLE
 #include "os_type.h"
 #include "os.h"
 #include <stdlib.h>
 #include "core1_tasks.h"
-//#include "thread_config.h"
-
+#include "thread_config.h"
 #include "os_thread_type.h"
 #include "kernel_abstract.h"
 
