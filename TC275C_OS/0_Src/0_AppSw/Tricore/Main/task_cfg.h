@@ -4,7 +4,6 @@
 
 /* core 0*/
 /* 0 thread config initialization */ 
-
 #define CORE0_TASK0_SWITCH         ON
 #define CORE0_TASK0_TYPE           NO_DEFINITION             
 #define CORE0_TASK0_PERIOD         (0)  /* unit:ms */
