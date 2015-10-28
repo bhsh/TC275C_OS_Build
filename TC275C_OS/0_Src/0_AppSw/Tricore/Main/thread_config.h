@@ -4,7 +4,9 @@
 #define THREAD_CONFIG_H_
 
 #include "os_thread_type.h"
+//#include "task_cfg.h"
 
+#if 1
 /* core 0*/
 /* 0 thread config initialization */ 
 #define CORE0_TASK0_TYPE       THREAD_NO_DEFINITION             
@@ -143,8 +145,7 @@
 #define CORE2_TASK10_TYPE      THREAD_PERIODIC
 #define CORE2_TASK10_PERIOD    (1000)
 #define CORE2_TASK10_ACTIVED   NO_THREAD
-
-
+#endif
 #if (THREAD_GLOBAL_CONFIG_DEFINITION == ENABLE)
 #include "os.h"
 OS_CONST pthread_config_t os_pthread_init_config_database[CORE_MAX_ID_NUM][THREAD_MAX_ID_NUM] =

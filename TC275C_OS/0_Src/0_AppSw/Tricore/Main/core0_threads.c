@@ -47,9 +47,6 @@ PTHREAD_DEFINITION_BLOCK(0,8)
 PTHREAD_DEFINITION_BLOCK(0,9)
 PTHREAD_DEFINITION_BLOCK(0,10)
 
-
-
-
 void start_core0_os(void) {
 
     PTHREAD_CREATION_BLOCK(core0_os_th0, &os_thread_attr[CORE_ID0][THREAD_ID0], core0_os_thread0, (void*) 0,CORE0_TASK0);
