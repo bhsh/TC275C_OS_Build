@@ -6,6 +6,11 @@
 #include "os_thread_type.h"
 #include "task_cfg.h"
 
+
+
+#define  CORE0_THREAD0_ID    CORE0_TASK0_ACTIVED
+
+
 #if (THREAD_GLOBAL_CONFIG_DEFINITION == ENABLE)
 #include "os.h"
 OS_CONST pthread_config_t os_pthread_init_config_database[CORE_MAX_ID_NUM][THREAD_MAX_ID_NUM] =

@@ -51,19 +51,17 @@ void start_core1_os(void)
 {
 
 	/* Create threads...  */
-    PTHREAD_CREATION_BLOCK(core1_th0, &os_thread_attr[CORE_ID1][THREAD_ID0], core1_os_thread0, (void*) 0,CORE1_TASK0);
-    PTHREAD_CREATION_BLOCK(core1_th1, &os_thread_attr[CORE_ID1][THREAD_ID1], core1_os_thread1, (void*) 1,CORE1_TASK1);
-    PTHREAD_CREATION_BLOCK(core1_th2, &os_thread_attr[CORE_ID1][THREAD_ID2], core1_os_thread2, (void*) 2,CORE1_TASK2);
-
-
-	PTHREAD_CREATION_BLOCK(core1_th3, &os_thread_attr[CORE_ID1][THREAD_ID3], core1_os_thread3, (void*) 3,CORE1_TASK3);
-	PTHREAD_CREATION_BLOCK(core1_th4, &os_thread_attr[CORE_ID1][THREAD_ID4], core1_os_thread4, (void*) 4,CORE1_TASK4);
-	PTHREAD_CREATION_BLOCK(core1_th5, &os_thread_attr[CORE_ID1][THREAD_ID5], core1_os_thread5, (void*) 5,CORE1_TASK5);
-	PTHREAD_CREATION_BLOCK(core1_th6, &os_thread_attr[CORE_ID1][THREAD_ID6], core1_os_thread6, (void*) 6,CORE1_TASK6);
-	PTHREAD_CREATION_BLOCK(core1_th7, &os_thread_attr[CORE_ID1][THREAD_ID7], core1_os_thread7, (void*) 7,CORE1_TASK7);
-	PTHREAD_CREATION_BLOCK(core1_th8, &os_thread_attr[CORE_ID1][THREAD_ID8], core1_os_thread8, (void*) 8,CORE1_TASK8);
-    PTHREAD_CREATION_BLOCK(core1_th9, &os_thread_attr[CORE_ID1][THREAD_ID9], core1_os_thread9, (void*) 9,CORE1_TASK9);
-	PTHREAD_CREATION_BLOCK(core1_th10, &os_thread_attr[CORE_ID1][THREAD_ID10], core1_os_thread10, (void*) 10,CORE1_TASK10);
+    PTHREAD_CREATION_BLOCK(core1_th0, &os_thread_attr[CORE_ID1][THREAD_ID0], core1_os_thread0,  (void*)os_pthread_init_config_database[CORE_ID1][THREAD_ID0].task_id,CORE1_TASK0);
+    PTHREAD_CREATION_BLOCK(core1_th1, &os_thread_attr[CORE_ID1][THREAD_ID1], core1_os_thread1,  (void*)os_pthread_init_config_database[CORE_ID1][THREAD_ID1].task_id,CORE1_TASK1);
+    PTHREAD_CREATION_BLOCK(core1_th2, &os_thread_attr[CORE_ID1][THREAD_ID2], core1_os_thread2,  (void*)os_pthread_init_config_database[CORE_ID1][THREAD_ID2].task_id,CORE1_TASK2);
+	PTHREAD_CREATION_BLOCK(core1_th3, &os_thread_attr[CORE_ID1][THREAD_ID3], core1_os_thread3,  (void*)os_pthread_init_config_database[CORE_ID1][THREAD_ID3].task_id,CORE1_TASK3);
+	PTHREAD_CREATION_BLOCK(core1_th4, &os_thread_attr[CORE_ID1][THREAD_ID4], core1_os_thread4,  (void*)os_pthread_init_config_database[CORE_ID1][THREAD_ID4].task_id,CORE1_TASK4);
+	PTHREAD_CREATION_BLOCK(core1_th5, &os_thread_attr[CORE_ID1][THREAD_ID5], core1_os_thread5,  (void*)os_pthread_init_config_database[CORE_ID1][THREAD_ID5].task_id,CORE1_TASK5);
+	PTHREAD_CREATION_BLOCK(core1_th6, &os_thread_attr[CORE_ID1][THREAD_ID6], core1_os_thread6,  (void*)os_pthread_init_config_database[CORE_ID1][THREAD_ID6].task_id,CORE1_TASK6);
+	PTHREAD_CREATION_BLOCK(core1_th7, &os_thread_attr[CORE_ID1][THREAD_ID7], core1_os_thread7,  (void*)os_pthread_init_config_database[CORE_ID1][THREAD_ID7].task_id,CORE1_TASK7);
+	PTHREAD_CREATION_BLOCK(core1_th8, &os_thread_attr[CORE_ID1][THREAD_ID8], core1_os_thread8,  (void*)os_pthread_init_config_database[CORE_ID1][THREAD_ID8].task_id,CORE1_TASK8);
+    PTHREAD_CREATION_BLOCK(core1_th9, &os_thread_attr[CORE_ID1][THREAD_ID9], core1_os_thread9,  (void*)os_pthread_init_config_database[CORE_ID1][THREAD_ID9].task_id,CORE1_TASK9);
+	PTHREAD_CREATION_BLOCK(core1_th10,&os_thread_attr[CORE_ID1][THREAD_ID10],core1_os_thread10, (void*)os_pthread_init_config_database[CORE_ID1][THREAD_ID10].task_id,CORE1_TASK10);
 
 	/* Start the core1 OS scheduler now and never return!!! */
 	PTHREAD_START_BLOCK()
