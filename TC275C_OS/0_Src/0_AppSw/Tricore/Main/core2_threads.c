@@ -13,7 +13,7 @@
 #include "os.h"
 #include <stdlib.h>
 #include "core2_tasks.h"
-#include "thread_config.h"
+#include "thread_cfg.h"
 #include "os_thread_type.h"
 #include "kernel_abstract.h"
 
