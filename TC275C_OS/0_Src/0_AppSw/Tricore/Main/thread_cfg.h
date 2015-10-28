@@ -93,7 +93,6 @@
 /**********************************************************************/
 /* Stack size...                                                      */
 /**********************************************************************/
-
 /* Core 0...*/
 #define  CORE0_THREAD0_STACK_SIZE        CORE0_TASK0_STACK_SIZE    
 #define  CORE0_THREAD1_STACK_SIZE        CORE0_TASK1_STACK_SIZE 
@@ -105,7 +104,7 @@
 #define  CORE0_THREAD7_STACK_SIZE        CORE0_TASK7_STACK_SIZE 
 #define  CORE0_THREAD8_STACK_SIZE        CORE0_TASK8_STACK_SIZE 
 #define  CORE0_THREAD9_STACK_SIZE        CORE0_TASK9_STACK_SIZE 
-#define  CORE0_THREAD10_STACK_SIZEE      CORE0_TASK10_STACK_SIZE
+#define  CORE0_THREAD10_STACK_SIZE       CORE0_TASK10_STACK_SIZE
 
 #if (THREAD_GLOBAL_CONFIG_DEFINITION == ENABLE)
 #include "os.h"
