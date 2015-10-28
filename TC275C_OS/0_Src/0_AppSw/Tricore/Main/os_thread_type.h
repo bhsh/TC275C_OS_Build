@@ -2,9 +2,9 @@
 #ifndef OS_THREAD_H_ 
 #define OS_THREAD_H_
 
-#define THREAD_NO_DEFINITION (0)
-#define THREAD_PERIODIC      (1)
-#define THREAD_EVENT         (2)
+#define NO_DEFINITION (0)
+#define PERIODIC      (1)
+#define EVENT  (2)
 
 typedef enum  {
 
