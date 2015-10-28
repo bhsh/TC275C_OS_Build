@@ -45,7 +45,6 @@ PTHREAD_DEFINITION_BLOCK(2,10)
 	
 void start_core2_os(void)
 {
-
 	/* Create threads...  */
     PTHREAD_CREATION_BLOCK(core2_th0, &os_thread_attr[CORE_ID2][THREAD_ID0], core2_os_thread0, (void*) 0,CORE2_TASK0);
     PTHREAD_CREATION_BLOCK(core2_th1, &os_thread_attr[CORE_ID2][THREAD_ID1], core2_os_thread1, (void*) 1,CORE2_TASK1);
