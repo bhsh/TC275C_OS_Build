@@ -60,6 +60,49 @@ const pthread_attr_t core0_os_th8_attr = { SUPER, CALL_DEPTH_OVERFLOW_AT_64};
 const pthread_attr_t core0_os_th9_attr = { SUPER, CALL_DEPTH_OVERFLOW_AT_64};
 const pthread_attr_t core0_os_th10_attr = { SUPER, CALL_DEPTH_OVERFLOW_AT_64};
 
+const pthread_attr_t os_thread_attr[CORE_MAX_ID_NUM][THREAD_MAX_ID_NUM] =
+	{
+      { { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
+        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
+        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
+        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
+        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
+        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
+        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
+        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
+        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
+        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
+        { SUPER, CALL_DEPTH_OVERFLOW_AT_64}
+	  },
+      {
+	  	{ SUPER, CALL_DEPTH_OVERFLOW_AT_64},
+        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
+        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
+        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
+        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
+        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
+        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
+        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
+        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
+        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
+        { SUPER, CALL_DEPTH_OVERFLOW_AT_64}
+	  },
+	  {
+	  	{ SUPER, CALL_DEPTH_OVERFLOW_AT_64},
+        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
+        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
+        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
+        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
+        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
+        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
+        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
+        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
+        { SUPER, CALL_DEPTH_OVERFLOW_AT_64},
+        { SUPER, CALL_DEPTH_OVERFLOW_AT_64}
+	  }
+	};
+
+
 void start_core0_os(void) {
 
     pthread_create_np(core0_os_th0, &core0_os_th0_attr, core0_os_thread0, (void*) 0,CORE0_TASK0);
