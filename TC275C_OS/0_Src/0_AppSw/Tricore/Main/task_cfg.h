@@ -4,6 +4,24 @@
 
 /* core 0*/
 /* 0 thread config initialization */ 
+
+#define CORE0_TASK0_SWITCH ON
+#define CORE0_TASK1_SWITCH ON
+#define CORE0_TASK2_SWITCH ON
+#define CORE0_TASK3_SWITCH ON
+#define CORE0_TASK4_SWITCH ON
+#define CORE0_TASK5_SWITCH ON
+#define CORE0_TASK6_SWITCH ON
+#define CORE0_TASK7_SWITCH ON
+#define CORE0_TASK8_SWITCH ON
+#define CORE0_TASK9_SWITCH ON
+#define CORE0_TASK10_SWITCH ON
+#define CORE0_TASK11_SWITCH ON
+#define CORE0_TASK12_SWITCH ON
+#define CORE0_TASK13_SWITCH ON
+#define CORE0_TASK14_SWITCH ON
+
+#if (CORE0_TASK0_SWITCH == ON)
 #define CORE0_TASK0_TYPE           NO_DEFINITION             
 #define CORE0_TASK0_PERIOD         (0)  /* unit:ms */
 #define CORE0_TASK0_ACTIVED        NO_THREAD
@@ -11,6 +29,7 @@
 #define CORE0_TASK0_MODE           SUPER
 #define CORE0_TASK0_STACK_SIZE     PTHREAD_DEFAULT_STACK_SIZE
 #define CORE0_TASK0_CALL_DEPTH     CALL_DEPTH_OVERFLOW_AT_64  
+#endif
 
 #define CORE0_TASK1_TYPE           PERIODIC
 #define CORE0_TASK1_PERIOD         (300)  /* unit:ms */
