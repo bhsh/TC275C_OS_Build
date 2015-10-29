@@ -4,6 +4,7 @@
 #define OS_H_
 
 typedef struct {
+    osu32_t core_id;
 	osu32_t task_id;
     osu32_t type;
     osu32_t period;
@@ -11,6 +12,6 @@ typedef struct {
     
 } pthread_config_t;
 
-typedef void (*task_ptr_t)(pthread_config_t * const pthread_config,osu32_t current_core_id);
+typedef void (*task_ptr_t)(pthread_config_t * const pthread_config);
 
 #endif

@@ -7,14 +7,13 @@
 #include "os_kernel.h"
 
 
-#define core1_thread_initialization();    CORE_ID_t        current_core_id = os_getCoreId() ;                \
-                                          pthread_config_t pthread_config =                                  \
-	                                      core1_pthread_init_config_database[(int)arg];                      \
-                                          for (;;)                                                           \
-                                          {                                                                  \
-								 		  	core1_thread_done_before_task(&pthread_config,current_core_id); 
-#define core1_thread_taskcallback();        task(&pthread_config,current_core_id);          	                                         
-#define core1_thread_termination();         core1_thread_done_after_task(&pthread_config,current_core_id);   \
+#define core1_thread_initialization();    pthread_config_t pthread_config =                  \
+	                                      core1_pthread_init_config_database[(int)arg];      \
+                                          for (;;)                                           \
+                                          {                                                  \
+								 		  	core1_thread_done_before_task(&pthread_config); 
+#define core1_thread_taskcallback();        task(&pthread_config);          	                                         
+#define core1_thread_termination();         core1_thread_done_after_task(&pthread_config);   \
 	                                      }
 
 #define CORE1_PTHREAD_DEFINITION_BLOCK(thread_id)    void core1_os_thread##thread_id(void* arg,task_ptr_t task) \
