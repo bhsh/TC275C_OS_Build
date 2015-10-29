@@ -1948,7 +1948,7 @@ pthread_cond_t core1_pthread_cond[CORE0_THREAD_MAX_ID_NUM] =
    	  
   };
 
-OS_CONST pthread_attr_t core0_thread_attr[CORE1_THREAD_MAX_ID_NUM] =
+OS_CONST pthread_attr_t core1_thread_attr[CORE1_THREAD_MAX_ID_NUM] =
 	{ 
 #if (CORE1_THREAD0_SWITCH == ON)
 	  	{ CORE1_THREAD0_MODE, CORE1_THREAD0_CALL_DEPTH},
