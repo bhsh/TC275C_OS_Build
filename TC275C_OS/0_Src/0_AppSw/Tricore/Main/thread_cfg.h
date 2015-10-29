@@ -1640,7 +1640,8 @@ OS_CONST pthread_config_t core0_pthread_init_config_database[CORE0_THREAD_MAX_ID
    };
 
 #include "os_kernel.h"
-pthread_cond_t os_pthread_cond[CORE_MAX_ID_NUM][THREAD_MAX_ID_NUM] =
+
+pthread_cond_t core0_pthread_cond[CORE0_THREAD_MAX_ID_NUM] =
   { 
 
 #if (CORE0_THREAD0_SWITCH == ON)
@@ -2267,7 +2268,7 @@ void thread_done_after_task(pthread_config_t *pthread_config,CORE_ID_t core_id )
   if(pthread_config->type == EVENT)
   {
       /* Active thread */
-	  pthread_cond_broadcast(&os_pthread_cond[core_id][pthread_config->actived_task_id]);
+	  pthread_cond_broadcast(&core0_pthread_cond[pthread_config->actived_task_id]);
   }
   else if((pthread_config->type == PERIODIC)||
   	      (pthread_config->type == NO_DEFINITION))
@@ -2280,7 +2281,7 @@ void thread_done_before_task(pthread_config_t *pthread_config,CORE_ID_t core_id 
 { 
   if(pthread_config->type == EVENT)
   {
-      pthread_cond_wait(&os_pthread_cond[core_id][pthread_config->task_id]);
+      pthread_cond_wait(&core0_pthread_cond[pthread_config->task_id]);
   }
   else if(pthread_config->type == PERIODIC)
   {
