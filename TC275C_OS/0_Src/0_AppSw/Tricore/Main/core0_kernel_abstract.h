@@ -23,7 +23,12 @@
 			                                               core0_thread_termination();    \
 		                                               }
 
-#define CORE0_PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_stacksize) PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_stacksize)  
+#define __CORE0_PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_stacksize) PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_stacksize)  
+
+#define CORE0_PTHREAD_CONTROL_BLOCK(thread_id)  __CORE0_PTHREAD_CONTROL_BLOCK(core0_os_th##thread_id, \
+	                                                                          CORE0_THREAD##thread_id##_PRIORITY, \
+	                                                                          SCHED_FIFO, \
+	                                                                          CORE0_THREAD##thread_id##_STACK_SIZE)
 
 #define __CORE0_PTHREAD_CREATION_BLOCK(thread_var,thread_attr,thread_name,thread_id,callback_task_name)  \
 	           pthread_create_np(thread_var,thread_attr,thread_name,thread_id,callback_task_name);
