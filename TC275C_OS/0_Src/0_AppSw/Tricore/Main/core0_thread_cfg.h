@@ -4,7 +4,7 @@
 #define THREAD_CONFIG_H_
 
 #include "os_thread_type.h"
-#include "task_cfg.h"
+#include "core0_task_cfg.h"
 
 
 #define	 CORE0_THREAD0_SWITCH	CORE0_TASK0_SWITCH
@@ -2260,7 +2260,7 @@ OS_CONST pthread_attr_t core0_thread_attr[CORE0_THREAD_MAX_ID_NUM] =
 #include "os_kernel.h"
 #include "os_trace.h"
 
-void thread_done_after_task(pthread_config_t *pthread_config,CORE_ID_t core_id )
+void core0_thread_done_after_task(pthread_config_t *pthread_config,CORE_ID_t core_id )
 { 	
   /* Trace */
   os_trace_task_time_end(core_id,pthread_config->task_id);
@@ -2277,7 +2277,7 @@ void thread_done_after_task(pthread_config_t *pthread_config,CORE_ID_t core_id )
   }
 }
 
-void thread_done_before_task(pthread_config_t *pthread_config,CORE_ID_t core_id )
+void core0_thread_done_before_task(pthread_config_t *pthread_config,CORE_ID_t core_id )
 { 
   if(pthread_config->type == EVENT)
   {

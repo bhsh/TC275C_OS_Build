@@ -13,9 +13,9 @@
 #include "os.h"
 #include <stdlib.h>
 #include "core2_tasks.h"
-#include "thread_cfg.h"
+#include "core2_thread_cfg.h"
 #include "os_thread_type.h"
-#include "kernel_abstract.h"
+#include "core2_kernel_abstract.h"
 
 #pragma align 16
 PTHREAD_CONTROL_BLOCK(core2_th0, CORE2_THREAD0_PRIORITY,SCHED_FIFO,CORE2_THREAD0_STACK_SIZE)

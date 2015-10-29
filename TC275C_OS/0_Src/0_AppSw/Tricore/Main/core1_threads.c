@@ -12,9 +12,9 @@
 #include "os.h"
 #include <stdlib.h>
 #include "core1_tasks.h"
-#include "thread_cfg.h"
+#include "core1_thread_cfg.h"
 #include "os_thread_type.h"
-#include "kernel_abstract.h"
+#include "core1_kernel_abstract.h"
 
 #pragma align 16
 
