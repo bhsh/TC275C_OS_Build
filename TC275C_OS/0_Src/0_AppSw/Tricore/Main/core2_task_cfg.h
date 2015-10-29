@@ -2,6 +2,8 @@
 #ifndef TASK_CFG_H_
 #define TASK_CFG_H_
 
+#define  CORE2_OS_SWITCH        OFF
+
 #define	 CORE2_TASK0_SWITCH	    ON
 #define	 CORE2_TASK1_SWITCH 	ON
 #define	 CORE2_TASK2_SWITCH 	ON

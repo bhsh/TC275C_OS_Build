@@ -630,6 +630,8 @@ CORE2_PTHREAD_DEFINITION_BLOCK(100)
 
 void start_core2_os(void) {
 
+
+#if (CORE2_OS_SWITCH == ON)
 #if (CORE2_THREAD0_SWITCH == ON) 
     CORE2_PTHREAD_CREATION_BLOCK(core2_os_th0, &core2_thread_attr[CORE2_THREAD_ID0], core2_os_thread0, (void*)core2_pthread_init_config_database[CORE2_THREAD_ID0].task_id,CORE2_TASK0);
 #endif
@@ -938,5 +940,6 @@ void start_core2_os(void) {
 #endif
 
 	CORE2_PTHREAD_START_BLOCK();
+#endif
 }
 
