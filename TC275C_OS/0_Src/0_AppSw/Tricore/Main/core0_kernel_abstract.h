@@ -25,6 +25,12 @@
 #define CORE0_PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_stacksize) PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_stacksize)  
 #define CORE0_PTHREAD_CREATION_BLOCK(thread_var,thread_attr,thread_name,thread_id,callback_task_name)  \
 	           pthread_create_np(thread_var,thread_attr,thread_name,thread_id,callback_task_name);
+#define CORE0_PTHREAD_CREATION_BLOCK2(thread_id)  CORE0_PTHREAD_CREATION_BLOCK(core0_os_th##thread_id, \
+	                                                                          &core0_thread_attr[CORE0_THREAD_ID##thread_id],\
+	                                                                          core0_os_thread##thread_id,\
+	                                                                          (void*)core0_pthread_init_config_database[CORE0_THREAD_ID##thread_id].task_id, \
+	                                                                          CORE0_TASK##thread_id)
+                                          //(core0_os_th1, &core0_thread_attr[CORE0_THREAD_ID1], core0_os_thread1, (void*)core0_pthread_init_config_database[CORE0_THREAD_ID1].task_id,CORE0_TASK1);
 #define CORE0_PTHREAD_START_BLOCK() pthread_start_np();
 
 #endif

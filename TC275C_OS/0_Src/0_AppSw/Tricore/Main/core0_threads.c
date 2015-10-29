@@ -634,7 +634,7 @@ void start_core0_os(void) {
 
 #if (CORE0_OS_SWITCH == ON)
 #if (CORE0_THREAD0_SWITCH == ON) 
-    CORE0_PTHREAD_CREATION_BLOCK(core0_os_th0, &core0_thread_attr[CORE0_THREAD_ID0], core0_os_thread0, (void*)core0_pthread_init_config_database[CORE0_THREAD_ID0].task_id,CORE0_TASK0);
+    CORE0_PTHREAD_CREATION_BLOCK2(0);
 #endif
 #if (CORE0_THREAD1_SWITCH == ON) 
     CORE0_PTHREAD_CREATION_BLOCK(core0_os_th1, &core0_thread_attr[CORE0_THREAD_ID1], core0_os_thread1, (void*)core0_pthread_init_config_database[CORE0_THREAD_ID1].task_id,CORE0_TASK1);	
