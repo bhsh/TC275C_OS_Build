@@ -13,8 +13,8 @@
 #include <stdlib.h>
 #include "core1_tasks.h"
 #include "core1_thread_cfg.h"
-#include "os_thread_type.h"
 #include "core1_kernel_abstract.h"
+#include "os_trace.h"
 
 #pragma align 16
 

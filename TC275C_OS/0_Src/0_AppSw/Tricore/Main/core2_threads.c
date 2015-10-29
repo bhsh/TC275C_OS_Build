@@ -14,8 +14,8 @@
 #include <stdlib.h>
 #include "core2_tasks.h"
 #include "core2_thread_cfg.h"
-#include "os_thread_type.h"
 #include "core2_kernel_abstract.h"
+#include "os_trace.h"
 
 #pragma align 16
 
