@@ -8,7 +8,6 @@
 |
 --------------------------------------------------------------------------------------*/
 
-#define  THREAD_GLOBAL_CONFIG_DEFINITION DISABLE
 #include "os_type.h"
 #include "os.h"
 #include <stdlib.h>

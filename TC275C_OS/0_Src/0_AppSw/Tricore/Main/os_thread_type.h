@@ -5,6 +5,8 @@
 #define NO_DEFINITION (0)
 #define PERIODIC      (1)
 #define EVENT         (2)
+#define NO_TASK       (0xFF)
+#define NO_THREAD     NO_TASK
 
 #define LEVEL_0       (0)
 #define LEVEL_1       (1)

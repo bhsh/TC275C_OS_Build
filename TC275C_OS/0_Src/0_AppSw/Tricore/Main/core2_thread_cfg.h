@@ -1330,7 +1330,6 @@
 #define CORE2_THREAD100_CALL_DEPTH   CORE2_TASK100_CALL_DEPTH
 #endif
 
-#if (THREAD_GLOBAL_CONFIG_DEFINITION == ENABLE)
 #include "os.h"
 OS_CONST pthread_config_t core2_pthread_init_config_database[CORE2_THREAD_MAX_ID_NUM] =
 {
@@ -1636,6 +1635,7 @@ OS_CONST pthread_config_t core2_pthread_init_config_database[CORE2_THREAD_MAX_ID
 #endif
 #if (CORE2_THREAD100_SWITCH == ON) 
 	  {CORE2_THREAD_ID100, CORE2_THREAD100_TYPE, CORE2_THREAD100_PERIOD, CORE2_THREAD100_ACTIVED },
+#endif	  	
    };
 
 #include "os_kernel.h"
@@ -2293,6 +2293,6 @@ void core2_thread_done_before_task(pthread_config_t *pthread_config,CORE_ID_t co
   /* trace */
   os_trace_task_time_begin(core_id,pthread_config->task_id);
 }
-#endif
+
 #endif
 
