@@ -413,7 +413,6 @@
 #define	 CORE0_THREAD_ID100		 CORE0_TASK_ID100
 #endif
 #define	 CORE0_THREAD_MAX_ID_NUM CORE0_TASK_MAX_ID_NUM
-#define	 CORE0_NO_THREAD         CORE0_NO_TASK
 
 
 /* core 0*/
@@ -2360,6 +2359,9 @@ OS_CONST pthread_attr_t core0_thread_attr[CORE0_THREAD_MAX_ID_NUM] =
 #include "os_kernel.h"
 #include "os_trace.h"
 
+//extern pthread_cond_t core0_pthread_cond[CORE0_THREAD_MAX_ID_NUM];
+extern pthread_cond_t core1_pthread_cond[CORE1_THREAD_MAX_ID_NUM];
+extern pthread_cond_t core2_pthread_cond[CORE2_THREAD_MAX_ID_NUM];
 void core0_thread_done_after_task(pthread_config_t *pthread_config)
 { 	
   /* Trace */
@@ -2402,7 +2404,7 @@ void core0_thread_done_before_task(pthread_config_t *pthread_config)
      /* Do nothing. */
   }
   /* trace */
-  os_trace_task_time_begin(pthread_config->core_id,pthread_config->task_id);
+  os_trace_task_time_begin(pthread_config->current_task_core_id,pthread_config->task_id);
 }
 
 #endif
