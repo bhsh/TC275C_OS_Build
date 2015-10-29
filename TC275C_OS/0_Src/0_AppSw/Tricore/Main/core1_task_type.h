@@ -3,7 +3,7 @@
 #define CRRE1_TASK_TYPE_H_
 
 
-#define  CORE1_OS_SWITCH        OFF
+#define  CORE1_OS_SWITCH        ON
 
 #define	 CORE1_TASK0_SWITCH	    ON
 #define	 CORE1_TASK1_SWITCH 	ON

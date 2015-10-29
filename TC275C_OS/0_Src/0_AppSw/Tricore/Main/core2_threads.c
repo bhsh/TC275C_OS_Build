@@ -633,313 +633,313 @@ void start_core2_os(void) {
 
 #if (CORE2_OS_SWITCH == ON)
 #if (CORE2_THREAD0_SWITCH == ON) 
-    CORE2_PTHREAD_CREATION_BLOCK(core2_os_th0, &core2_thread_attr[CORE2_THREAD_ID0], core2_os_thread0, (void*)core2_pthread_init_config_database[CORE2_THREAD_ID0].task_id,CORE2_TASK0);
+    CORE2_PTHREAD_CREATION_BLOCK(0)
 #endif
 #if (CORE2_THREAD1_SWITCH == ON) 
-    CORE2_PTHREAD_CREATION_BLOCK(core2_os_th1, &core2_thread_attr[CORE2_THREAD_ID1], core2_os_thread1, (void*)core2_pthread_init_config_database[CORE2_THREAD_ID1].task_id,CORE2_TASK1);	
+    CORE2_PTHREAD_CREATION_BLOCK(1)
 #endif
 #if (CORE2_THREAD2_SWITCH == ON) 
-    CORE2_PTHREAD_CREATION_BLOCK(core2_os_th2, &core2_thread_attr[CORE2_THREAD_ID2], core2_os_thread2, (void*)core2_pthread_init_config_database[CORE2_THREAD_ID2].task_id,CORE2_TASK2);
+    CORE2_PTHREAD_CREATION_BLOCK(2)
 #endif
 #if 0
 #if (CORE2_THREAD3_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th3, &core2_thread_attr[CORE2_THREAD_ID3], core2_os_thread3, (void*)core2_pthread_init_config_database[CORE2_THREAD_ID3].task_id,CORE2_TASK3);
+    CORE2_PTHREAD_CREATION_BLOCK(3)
 #endif
 #if (CORE2_THREAD4_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th4, &core2_thread_attr[CORE2_THREAD_ID4], core2_os_thread4, (void*)core2_pthread_init_config_database[CORE2_THREAD_ID4].task_id,CORE2_TASK4);
+    CORE2_PTHREAD_CREATION_BLOCK(4)
 #endif
 #if (CORE2_THREAD5_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th5, &core2_thread_attr[CORE2_THREAD_ID5], core2_os_thread5, (void*)core2_pthread_init_config_database[CORE2_THREAD_ID5].task_id,CORE2_TASK5);
+    CORE2_PTHREAD_CREATION_BLOCK(5)
 #endif
 #if (CORE2_THREAD6_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th6, &core2_thread_attr[CORE2_THREAD_ID6], core2_os_thread6, (void*)core2_pthread_init_config_database[CORE2_THREAD_ID6].task_id,CORE2_TASK6);
+    CORE2_PTHREAD_CREATION_BLOCK(6)
 #endif
 #if (CORE2_THREAD7_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th7, &core2_thread_attr[CORE2_THREAD_ID7], core2_os_thread7, (void*)core2_pthread_init_config_database[CORE2_THREAD_ID7].task_id,CORE2_TASK7);
+    CORE2_PTHREAD_CREATION_BLOCK(7)
 #endif
 #if (CORE2_THREAD8_SWITCH == ON) 
-    CORE2_PTHREAD_CREATION_BLOCK(core2_os_th8, &core2_thread_attr[CORE2_THREAD_ID8], core2_os_thread8, (void*)core2_pthread_init_config_database[CORE2_THREAD_ID8].task_id,CORE2_TASK8);
+    CORE2_PTHREAD_CREATION_BLOCK(8)
 #endif
 #if (CORE2_THREAD9_SWITCH == ON) 
-    CORE2_PTHREAD_CREATION_BLOCK(core2_os_th9, &core2_thread_attr[CORE2_THREAD_ID9], core2_os_thread9, (void*)core2_pthread_init_config_database[CORE2_THREAD_ID9].task_id,CORE2_TASK9);
+    CORE2_PTHREAD_CREATION_BLOCK(9)
 #endif
 #endif
 
 #if (CORE2_THREAD10_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th10, &core2_thread_attr[CORE2_THREAD_ID10], core2_os_thread10,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID10].task_id,CORE2_TASK10);
+    CORE2_PTHREAD_CREATION_BLOCK(10)
 #endif
 #if (CORE2_THREAD11_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th11, &core2_thread_attr[CORE2_THREAD_ID11], core2_os_thread11,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID11].task_id,CORE2_TASK11);
+    CORE2_PTHREAD_CREATION_BLOCK(11)
 #endif
 #if (CORE2_THREAD12_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th12, &core2_thread_attr[CORE2_THREAD_ID12], core2_os_thread12,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID12].task_id,CORE2_TASK12);
+    CORE2_PTHREAD_CREATION_BLOCK(12)
 #endif
 #if (CORE2_THREAD13_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th13, &core2_thread_attr[CORE2_THREAD_ID13], core2_os_thread13,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID13].task_id,CORE2_TASK13);
+    CORE2_PTHREAD_CREATION_BLOCK(13)
 #endif
 #if (CORE2_THREAD14_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th14, &core2_thread_attr[CORE2_THREAD_ID14], core2_os_thread14,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID14].task_id,CORE2_TASK14);
+    CORE2_PTHREAD_CREATION_BLOCK(14)
 #endif
 #if (CORE2_THREAD15_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th15, &core2_thread_attr[CORE2_THREAD_ID15], core2_os_thread15,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID15].task_id,CORE2_TASK15);
+    CORE2_PTHREAD_CREATION_BLOCK(15)
 #endif
 #if (CORE2_THREAD16_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th16, &core2_thread_attr[CORE2_THREAD_ID16], core2_os_thread16,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID16].task_id,CORE2_TASK16);
+    CORE2_PTHREAD_CREATION_BLOCK(16)
 #endif
 #if (CORE2_THREAD17_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th17, &core2_thread_attr[CORE2_THREAD_ID17], core2_os_thread17,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID17].task_id,CORE2_TASK17);
+    CORE2_PTHREAD_CREATION_BLOCK(17)
 #endif
 #if (CORE2_THREAD18_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th18, &core2_thread_attr[CORE2_THREAD_ID18], core2_os_thread18,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID18].task_id,CORE2_TASK18);
+    CORE2_PTHREAD_CREATION_BLOCK(18)
 #endif
 #if (CORE2_THREAD19_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th19, &core2_thread_attr[CORE2_THREAD_ID19], core2_os_thread19,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID19].task_id,CORE2_TASK19);
+    CORE2_PTHREAD_CREATION_BLOCK(19)
 #endif
 #if (CORE2_THREAD20_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th20, &core2_thread_attr[CORE2_THREAD_ID20], core2_os_thread20,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID20].task_id,CORE2_TASK20);
+    CORE2_PTHREAD_CREATION_BLOCK(20)
 #endif
 #if (CORE2_THREAD21_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th21, &core2_thread_attr[CORE2_THREAD_ID21], core2_os_thread21,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID21].task_id,CORE2_TASK21);
+    CORE2_PTHREAD_CREATION_BLOCK(21)
 #endif
 #if (CORE2_THREAD22_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th22, &core2_thread_attr[CORE2_THREAD_ID22], core2_os_thread22,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID22].task_id,CORE2_TASK22);
+    CORE2_PTHREAD_CREATION_BLOCK(22)
 #endif
 #if (CORE2_THREAD23_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th23, &core2_thread_attr[CORE2_THREAD_ID23], core2_os_thread23,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID23].task_id,CORE2_TASK23);
+    CORE2_PTHREAD_CREATION_BLOCK(23)
 #endif
 #if (CORE2_THREAD24_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th24, &core2_thread_attr[CORE2_THREAD_ID24], core2_os_thread24,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID24].task_id,CORE2_TASK24);
+    CORE2_PTHREAD_CREATION_BLOCK(24)
 #endif
 #if (CORE2_THREAD25_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th25, &core2_thread_attr[CORE2_THREAD_ID25], core2_os_thread25,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID25].task_id,CORE2_TASK25);
+    CORE2_PTHREAD_CREATION_BLOCK(25)
 #endif
 #if (CORE2_THREAD26_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th26, &core2_thread_attr[CORE2_THREAD_ID26], core2_os_thread26,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID26].task_id,CORE2_TASK26);
+    CORE2_PTHREAD_CREATION_BLOCK(26)
 #endif
 #if (CORE2_THREAD27_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th27, &core2_thread_attr[CORE2_THREAD_ID27], core2_os_thread27,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID27].task_id,CORE2_TASK27);
+    CORE2_PTHREAD_CREATION_BLOCK(27)
 #endif
 #if (CORE2_THREAD28_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th28, &core2_thread_attr[CORE2_THREAD_ID28], core2_os_thread28,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID28].task_id,CORE2_TASK28);
+    CORE2_PTHREAD_CREATION_BLOCK(28)
 #endif
 #if (CORE2_THREAD29_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th29, &core2_thread_attr[CORE2_THREAD_ID29], core2_os_thread29,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID29].task_id,CORE2_TASK29)
+    CORE2_PTHREAD_CREATION_BLOCK(29)
 #endif
 #if (CORE2_THREAD30_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th30, &core2_thread_attr[CORE2_THREAD_ID30], core2_os_thread30,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID30].task_id,CORE2_TASK30);
+    CORE2_PTHREAD_CREATION_BLOCK(30)
 #endif
 #if (CORE2_THREAD31_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th31, &core2_thread_attr[CORE2_THREAD_ID31], core2_os_thread31,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID31].task_id,CORE2_TASK31);
+    CORE2_PTHREAD_CREATION_BLOCK(31)
 #endif
 #if (CORE2_THREAD32_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th32, &core2_thread_attr[CORE2_THREAD_ID32], core2_os_thread32,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID32].task_id,CORE2_TASK32);
+    CORE2_PTHREAD_CREATION_BLOCK(32)
 #endif
 #if (CORE2_THREAD33_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th33, &core2_thread_attr[CORE2_THREAD_ID33], core2_os_thread33,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID33].task_id,CORE2_TASK33);
+    CORE2_PTHREAD_CREATION_BLOCK(33)
 #endif
 #if (CORE2_THREAD34_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th34, &core2_thread_attr[CORE2_THREAD_ID34], core2_os_thread34,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID34].task_id,CORE2_TASK34);
+    CORE2_PTHREAD_CREATION_BLOCK(34)
 #endif
 #if (CORE2_THREAD35_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th35, &core2_thread_attr[CORE2_THREAD_ID35], core2_os_thread35,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID35].task_id,CORE2_TASK35);
+    CORE2_PTHREAD_CREATION_BLOCK(35)
 #endif
 #if (CORE2_THREAD36_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th36, &core2_thread_attr[CORE2_THREAD_ID36], core2_os_thread36,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID36].task_id,CORE2_TASK36);
+    CORE2_PTHREAD_CREATION_BLOCK(36)
 #endif
 #if (CORE2_THREAD37_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th37, &core2_thread_attr[CORE2_THREAD_ID37], core2_os_thread37,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID37].task_id,CORE2_TASK37);
+    CORE2_PTHREAD_CREATION_BLOCK(37)
 #endif
 #if (CORE2_THREAD38_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th38, &core2_thread_attr[CORE2_THREAD_ID38], core2_os_thread38,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID38].task_id,CORE2_TASK38);
+    CORE2_PTHREAD_CREATION_BLOCK(38)
 #endif
 #if (CORE2_THREAD39_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th39, &core2_thread_attr[CORE2_THREAD_ID39], core2_os_thread39,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID39].task_id,CORE2_TASK39)
+    CORE2_PTHREAD_CREATION_BLOCK(39)
 #endif
 #if (CORE2_THREAD40_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th40, &core2_thread_attr[CORE2_THREAD_ID40], core2_os_thread40,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID40].task_id,CORE2_TASK40);
+    CORE2_PTHREAD_CREATION_BLOCK(40)
 #endif
 #if (CORE2_THREAD41_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th41, &core2_thread_attr[CORE2_THREAD_ID41], core2_os_thread41,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID41].task_id,CORE2_TASK41);
+    CORE2_PTHREAD_CREATION_BLOCK(41)
 #endif
 #if (CORE2_THREAD42_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th42, &core2_thread_attr[CORE2_THREAD_ID42], core2_os_thread42,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID42].task_id,CORE2_TASK42);
+    CORE2_PTHREAD_CREATION_BLOCK(42)
 #endif
 #if (CORE2_THREAD43_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th43, &core2_thread_attr[CORE2_THREAD_ID43], core2_os_thread43,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID43].task_id,CORE2_TASK43);
+    CORE2_PTHREAD_CREATION_BLOCK(43)
 #endif
 #if (CORE2_THREAD44_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th44, &core2_thread_attr[CORE2_THREAD_ID44], core2_os_thread44,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID44].task_id,CORE2_TASK44);
+    CORE2_PTHREAD_CREATION_BLOCK(44)
 #endif
 #if (CORE2_THREAD45_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th45, &core2_thread_attr[CORE2_THREAD_ID45], core2_os_thread45,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID45].task_id,CORE2_TASK45);
+    CORE2_PTHREAD_CREATION_BLOCK(45)
 #endif
 #if (CORE2_THREAD46_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th46, &core2_thread_attr[CORE2_THREAD_ID46], core2_os_thread46,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID46].task_id,CORE2_TASK46);
+    CORE2_PTHREAD_CREATION_BLOCK(46)
 #endif
 #if (CORE2_THREAD47_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th47, &core2_thread_attr[CORE2_THREAD_ID47], core2_os_thread47,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID47].task_id,CORE2_TASK47);
+    CORE2_PTHREAD_CREATION_BLOCK(47)
 #endif
 #if (CORE2_THREAD48_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th48, &core2_thread_attr[CORE2_THREAD_ID48], core2_os_thread48,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID48].task_id,CORE2_TASK48);
+    CORE2_PTHREAD_CREATION_BLOCK(48)
 #endif
 #if (CORE2_THREAD49_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th49, &core2_thread_attr[CORE2_THREAD_ID49], core2_os_thread49,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID49].task_id,CORE2_TASK49)
+    CORE2_PTHREAD_CREATION_BLOCK(49)
 #endif
 #if (CORE2_THREAD50_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th50, &core2_thread_attr[CORE2_THREAD_ID50], core2_os_thread50,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID50].task_id,CORE2_TASK50);
+    CORE2_PTHREAD_CREATION_BLOCK(50)
 #endif
 #if (CORE2_THREAD51_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th51, &core2_thread_attr[CORE2_THREAD_ID51], core2_os_thread51,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID51].task_id,CORE2_TASK51);
+    CORE2_PTHREAD_CREATION_BLOCK(51)
 #endif
 #if (CORE2_THREAD52_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th52, &core2_thread_attr[CORE2_THREAD_ID52], core2_os_thread52,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID52].task_id,CORE2_TASK52);
+    CORE2_PTHREAD_CREATION_BLOCK(52)
 #endif
 #if (CORE2_THREAD53_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th53, &core2_thread_attr[CORE2_THREAD_ID53], core2_os_thread53,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID53].task_id,CORE2_TASK53);
+    CORE2_PTHREAD_CREATION_BLOCK(53)
 #endif
 #if (CORE2_THREAD54_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th54, &core2_thread_attr[CORE2_THREAD_ID54], core2_os_thread54,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID54].task_id,CORE2_TASK54);
+    CORE2_PTHREAD_CREATION_BLOCK(54)
 #endif
 #if (CORE2_THREAD55_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th55, &core2_thread_attr[CORE2_THREAD_ID55], core2_os_thread55,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID55].task_id,CORE2_TASK55);
+    CORE2_PTHREAD_CREATION_BLOCK(55)
 #endif
 #if (CORE2_THREAD56_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th56, &core2_thread_attr[CORE2_THREAD_ID56], core2_os_thread56,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID56].task_id,CORE2_TASK56);
+    CORE2_PTHREAD_CREATION_BLOCK(56)
 #endif
 #if (CORE2_THREAD57_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th57, &core2_thread_attr[CORE2_THREAD_ID57], core2_os_thread57,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID57].task_id,CORE2_TASK57);
+    CORE2_PTHREAD_CREATION_BLOCK(57)
 #endif
 #if (CORE2_THREAD58_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th58, &core2_thread_attr[CORE2_THREAD_ID58], core2_os_thread58,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID58].task_id,CORE2_TASK58);
+    CORE2_PTHREAD_CREATION_BLOCK(58)
 #endif
 #if (CORE2_THREAD59_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th59, &core2_thread_attr[CORE2_THREAD_ID59], core2_os_thread59,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID59].task_id,CORE2_TASK59)
+    CORE2_PTHREAD_CREATION_BLOCK(59)
 #endif
 #if (CORE2_THREAD60_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th60, &core2_thread_attr[CORE2_THREAD_ID60], core2_os_thread60,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID60].task_id,CORE2_TASK60);
+    CORE2_PTHREAD_CREATION_BLOCK(60)
 #endif
 #if (CORE2_THREAD61_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th61, &core2_thread_attr[CORE2_THREAD_ID61], core2_os_thread61,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID61].task_id,CORE2_TASK61);
+    CORE2_PTHREAD_CREATION_BLOCK(61)
 #endif
 #if (CORE2_THREAD62_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th62, &core2_thread_attr[CORE2_THREAD_ID62], core2_os_thread62,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID62].task_id,CORE2_TASK62);
+    CORE2_PTHREAD_CREATION_BLOCK(62)
 #endif
 #if (CORE2_THREAD63_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th63, &core2_thread_attr[CORE2_THREAD_ID63], core2_os_thread63,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID63].task_id,CORE2_TASK63);
+    CORE2_PTHREAD_CREATION_BLOCK(63)
 #endif
 #if (CORE2_THREAD64_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th64, &core2_thread_attr[CORE2_THREAD_ID64], core2_os_thread64,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID64].task_id,CORE2_TASK64);
+    CORE2_PTHREAD_CREATION_BLOCK(64)
 #endif
 #if (CORE2_THREAD65_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th65, &core2_thread_attr[CORE2_THREAD_ID65], core2_os_thread65,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID65].task_id,CORE2_TASK65);
+    CORE2_PTHREAD_CREATION_BLOCK(65)
 #endif
 #if (CORE2_THREAD66_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th66, &core2_thread_attr[CORE2_THREAD_ID66], core2_os_thread66,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID66].task_id,CORE2_TASK66);
+    CORE2_PTHREAD_CREATION_BLOCK(66)
 #endif
 #if (CORE2_THREAD67_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th67, &core2_thread_attr[CORE2_THREAD_ID67], core2_os_thread67,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID67].task_id,CORE2_TASK67);
+    CORE2_PTHREAD_CREATION_BLOCK(67)
 #endif
 #if (CORE2_THREAD68_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th68, &core2_thread_attr[CORE2_THREAD_ID68], core2_os_thread68,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID68].task_id,CORE2_TASK68);
+    CORE2_PTHREAD_CREATION_BLOCK(68)
 #endif
 #if (CORE2_THREAD69_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th69, &core2_thread_attr[CORE2_THREAD_ID69], core2_os_thread69,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID69].task_id,CORE2_TASK69)
+    CORE2_PTHREAD_CREATION_BLOCK(69)
 #endif
 #if (CORE2_THREAD70_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th70, &core2_thread_attr[CORE2_THREAD_ID70], core2_os_thread70,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID70].task_id,CORE2_TASK70);
+    CORE2_PTHREAD_CREATION_BLOCK(70)
 #endif
 #if (CORE2_THREAD71_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th71, &core2_thread_attr[CORE2_THREAD_ID71], core2_os_thread71,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID71].task_id,CORE2_TASK71);
+    CORE2_PTHREAD_CREATION_BLOCK(71)
 #endif
 #if (CORE2_THREAD72_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th72, &core2_thread_attr[CORE2_THREAD_ID72], core2_os_thread72,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID72].task_id,CORE2_TASK72);
+    CORE2_PTHREAD_CREATION_BLOCK(72)
 #endif
 #if (CORE2_THREAD73_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th73, &core2_thread_attr[CORE2_THREAD_ID73], core2_os_thread73,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID73].task_id,CORE2_TASK73);
+    CORE2_PTHREAD_CREATION_BLOCK(73)
 #endif
 #if (CORE2_THREAD74_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th74, &core2_thread_attr[CORE2_THREAD_ID74], core2_os_thread74,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID74].task_id,CORE2_TASK74);
+    CORE2_PTHREAD_CREATION_BLOCK(74)
 #endif
 #if (CORE2_THREAD75_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th75, &core2_thread_attr[CORE2_THREAD_ID75], core2_os_thread75,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID75].task_id,CORE2_TASK75);
+    CORE2_PTHREAD_CREATION_BLOCK(75)
 #endif
 #if (CORE2_THREAD76_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th76, &core2_thread_attr[CORE2_THREAD_ID76], core2_os_thread76,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID76].task_id,CORE2_TASK76);
+    CORE2_PTHREAD_CREATION_BLOCK(76)
 #endif
 #if (CORE2_THREAD77_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th77, &core2_thread_attr[CORE2_THREAD_ID77], core2_os_thread77,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID77].task_id,CORE2_TASK77);
+    CORE2_PTHREAD_CREATION_BLOCK(77)
 #endif
 #if (CORE2_THREAD78_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th78, &core2_thread_attr[CORE2_THREAD_ID78], core2_os_thread78,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID78].task_id,CORE2_TASK78);
+    CORE2_PTHREAD_CREATION_BLOCK(78)
 #endif
 #if (CORE2_THREAD79_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th79, &core2_thread_attr[CORE2_THREAD_ID79], core2_os_thread79,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID79].task_id,CORE2_TASK79)
+    CORE2_PTHREAD_CREATION_BLOCK(79)
 #endif
 #if (CORE2_THREAD80_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th80, &core2_thread_attr[CORE2_THREAD_ID80], core2_os_thread80,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID80].task_id,CORE2_TASK80);
+    CORE2_PTHREAD_CREATION_BLOCK(80)
 #endif
 #if (CORE2_THREAD81_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th81, &core2_thread_attr[CORE2_THREAD_ID81], core2_os_thread81,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID81].task_id,CORE2_TASK81);
+    CORE2_PTHREAD_CREATION_BLOCK(81)
 #endif
 #if (CORE2_THREAD82_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th82, &core2_thread_attr[CORE2_THREAD_ID82], core2_os_thread82,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID82].task_id,CORE2_TASK82);
+    CORE2_PTHREAD_CREATION_BLOCK(82)
 #endif
 #if (CORE2_THREAD83_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th83, &core2_thread_attr[CORE2_THREAD_ID83], core2_os_thread83,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID83].task_id,CORE2_TASK83);
+    CORE2_PTHREAD_CREATION_BLOCK(83)
 #endif
 #if (CORE2_THREAD84_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th84, &core2_thread_attr[CORE2_THREAD_ID84], core2_os_thread84,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID84].task_id,CORE2_TASK84);
+    CORE2_PTHREAD_CREATION_BLOCK(84)
 #endif
 #if (CORE2_THREAD85_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th85, &core2_thread_attr[CORE2_THREAD_ID85], core2_os_thread85,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID85].task_id,CORE2_TASK85);
+    CORE2_PTHREAD_CREATION_BLOCK(85)
 #endif
 #if (CORE2_THREAD86_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th86, &core2_thread_attr[CORE2_THREAD_ID86], core2_os_thread86,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID86].task_id,CORE2_TASK86);
+    CORE2_PTHREAD_CREATION_BLOCK(86)
 #endif
 #if (CORE2_THREAD87_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th87, &core2_thread_attr[CORE2_THREAD_ID87], core2_os_thread87,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID87].task_id,CORE2_TASK87);
+    CORE2_PTHREAD_CREATION_BLOCK(87)
 #endif
 #if (CORE2_THREAD88_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th88, &core2_thread_attr[CORE2_THREAD_ID88], core2_os_thread88,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID88].task_id,CORE2_TASK88);
+    CORE2_PTHREAD_CREATION_BLOCK(88)
 #endif
 #if (CORE2_THREAD89_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th89, &core2_thread_attr[CORE2_THREAD_ID89], core2_os_thread89,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID89].task_id,CORE2_TASK89)
+    CORE2_PTHREAD_CREATION_BLOCK(89)
 #endif
 #if (CORE2_THREAD90_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th90, &core2_thread_attr[CORE2_THREAD_ID90], core2_os_thread90,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID90].task_id,CORE2_TASK90);
+    CORE2_PTHREAD_CREATION_BLOCK(90)
 #endif
 #if (CORE2_THREAD91_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th91, &core2_thread_attr[CORE2_THREAD_ID91], core2_os_thread91,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID91].task_id,CORE2_TASK91);
+    CORE2_PTHREAD_CREATION_BLOCK(91)
 #endif
 #if (CORE2_THREAD92_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th92, &core2_thread_attr[CORE2_THREAD_ID92], core2_os_thread92,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID92].task_id,CORE2_TASK92);
+    CORE2_PTHREAD_CREATION_BLOCK(92)
 #endif
 #if (CORE2_THREAD93_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th93, &core2_thread_attr[CORE2_THREAD_ID93], core2_os_thread93,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID93].task_id,CORE2_TASK93);
+    CORE2_PTHREAD_CREATION_BLOCK(93)
 #endif
 #if (CORE2_THREAD94_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th94, &core2_thread_attr[CORE2_THREAD_ID94], core2_os_thread94,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID94].task_id,CORE2_TASK94);
+    CORE2_PTHREAD_CREATION_BLOCK(94)
 #endif
 #if (CORE2_THREAD95_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th95, &core2_thread_attr[CORE2_THREAD_ID95], core2_os_thread95,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID95].task_id,CORE2_TASK95);
+    CORE2_PTHREAD_CREATION_BLOCK(95)
 #endif
 #if (CORE2_THREAD96_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th96, &core2_thread_attr[CORE2_THREAD_ID96], core2_os_thread96,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID96].task_id,CORE2_TASK96);
+    CORE2_PTHREAD_CREATION_BLOCK(96)
 #endif
 #if (CORE2_THREAD97_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th97, &core2_thread_attr[CORE2_THREAD_ID97], core2_os_thread97,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID97].task_id,CORE2_TASK97);
+    CORE2_PTHREAD_CREATION_BLOCK(97)
 #endif
 #if (CORE2_THREAD98_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th98, &core2_thread_attr[CORE2_THREAD_ID98], core2_os_thread98,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID98].task_id,CORE2_TASK98);
+    CORE2_PTHREAD_CREATION_BLOCK(98)
 #endif
 #if (CORE2_THREAD99_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th99, &core2_thread_attr[CORE2_THREAD_ID99], core2_os_thread99,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID99].task_id,CORE2_TASK99)
+    CORE2_PTHREAD_CREATION_BLOCK(99)
 #endif
 #if (CORE2_THREAD100_SWITCH == ON) 
-	CORE2_PTHREAD_CREATION_BLOCK(core2_os_th100, &core2_thread_attr[CORE2_THREAD_ID100], core2_os_thread100,(void*)core2_pthread_init_config_database[CORE2_THREAD_ID100].task_id,CORE2_TASK100);
+    CORE2_PTHREAD_CREATION_BLOCK(100)
 #endif
 
-	CORE2_PTHREAD_START_BLOCK();
+	CORE2_PTHREAD_START_BLOCK()
 #endif
 }
 
