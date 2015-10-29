@@ -1333,9 +1333,8 @@
 
 #if (THREAD_GLOBAL_CONFIG_DEFINITION == ENABLE)
 #include "os.h"
-OS_CONST pthread_config_t os_pthread_init_config_database[CORE_MAX_ID_NUM][THREAD_MAX_ID_NUM] =
+OS_CONST pthread_config_t core0_pthread_init_config_database[CORE0_THREAD_MAX_ID_NUM] =
 {
-    {
 #if (CORE0_THREAD0_SWITCH == ON) 	
 	  {CORE0_THREAD_ID0,  CORE0_THREAD0_TYPE,  CORE0_THREAD0_PERIOD,  CORE0_THREAD0_ACTIVED  },
 #endif
@@ -1638,18 +1637,12 @@ OS_CONST pthread_config_t os_pthread_init_config_database[CORE_MAX_ID_NUM][THREA
 #endif
 #if (CORE0_THREAD100_SWITCH == ON) 
 	  {CORE0_THREAD_ID100, CORE0_THREAD100_TYPE, CORE0_THREAD100_PERIOD, CORE0_THREAD100_ACTIVED },
-	},
-	{
+   };
 
-	},
-	{
-	}
-  
-};
 #include "os_kernel.h"
 pthread_cond_t os_pthread_cond[CORE_MAX_ID_NUM][THREAD_MAX_ID_NUM] =
   { 
-  	 {
+
 #if (CORE0_THREAD0_SWITCH == ON)
 	  CORE0_PTHREAD_COND_INITIALIZER,
 #endif
@@ -1953,18 +1946,11 @@ pthread_cond_t os_pthread_cond[CORE_MAX_ID_NUM][THREAD_MAX_ID_NUM] =
 #if (CORE0_THREAD100_SWITCH == ON)
 	  CORE0_PTHREAD_COND_INITIALIZER,
 #endif
-   
-     },
-  	 {
-
-     },
-  	 {
-     }	  
+   	  
   };
 
-OS_CONST pthread_attr_t core0_thread_attr[THREAD_MAX_ID_NUM] =
-	{
-      { 
+OS_CONST pthread_attr_t core0_thread_attr[CORE0_THREAD_MAX_ID_NUM] =
+	{ 
 #if (CORE0_THREAD0_SWITCH == ON)
 	  	{ CORE0_THREAD0_MODE, CORE0_THREAD0_CALL_DEPTH},
 #endif
@@ -2268,11 +2254,6 @@ OS_CONST pthread_attr_t core0_thread_attr[THREAD_MAX_ID_NUM] =
 #if (CORE0_THREAD100_SWITCH == ON)
         { CORE0_THREAD100_MODE, CORE0_THREAD100_CALL_DEPTH},
 #endif
-	  },
-      {
-	  },
-	  {
-	  }
 	};
 
 #include "os_kernel.h"
