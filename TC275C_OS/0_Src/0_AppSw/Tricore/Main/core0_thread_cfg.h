@@ -2264,7 +2264,7 @@ void core0_thread_done_after_task(pthread_config_t *pthread_config,CORE_ID_t cor
   /* Trace */
   os_trace_task_time_end(core_id,pthread_config->task_id);
 
-  if(pthread_config->type == EVENT)
+  if(pthread_config->actived_task_id != NO_ACTIVED_THREAD)
   {
       /* Active thread */
 	  pthread_cond_broadcast(&core0_pthread_cond[pthread_config->actived_task_id]);

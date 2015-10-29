@@ -411,7 +411,6 @@ typedef enum  {
 	 CORE1_TASK_ID100,
 #endif	
 	 CORE1_TASK_MAX_ID_NUM,
-	 CORE1_NO_ACTIVED_TASK
 }CORE1_TASK_ID_t;
 
 /* core 0 */

@@ -413,7 +413,6 @@
 #define	 CORE1_THREAD_ID100		 CORE1_TASK_ID100
 #endif
 #define	 CORE1_THREAD_MAX_ID_NUM CORE1_TASK_MAX_ID_NUM
-#define	 CORE1_NO_THREAD         CORE1_NO_TASK
 
 
 /* core 1*/
@@ -1638,7 +1637,7 @@ OS_CONST pthread_config_t core1_pthread_init_config_database[CORE1_THREAD_MAX_ID
 
 #include "os_kernel.h"
 
-pthread_cond_t core1_pthread_cond[CORE0_THREAD_MAX_ID_NUM] =
+pthread_cond_t core1_pthread_cond[CORE1_THREAD_MAX_ID_NUM] =
   { 
 
 #if (CORE0_THREAD0_SWITCH == ON)
@@ -2262,7 +2261,7 @@ void core1_thread_done_after_task(pthread_config_t *pthread_config,CORE_ID_t cor
   /* Trace */
   os_trace_task_time_end(core_id,pthread_config->task_id);
 
-  if(pthread_config->type == EVENT)
+  if(pthread_config->actived_task_id != NO_ACTIVED_THREAD)
   {
       /* Active thread */
 	  pthread_cond_broadcast(&core1_pthread_cond[pthread_config->actived_task_id]);
