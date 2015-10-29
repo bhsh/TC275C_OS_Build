@@ -1,33 +1,31 @@
 
-#ifndef KERNEL_ABSTRACT_H_
-#define KERNEL_ABSTRACT_H_
+#ifndef CORE1_KERNEL_ABSTRACT_H_
+#define CORE1_KERNEL_ABSTRACT_H_
 
 #include "os_type.h"
 #include "os.h"
 #include "os_kernel.h"
 
 
-#define thread_initialization();          CORE_ID_t        current_core_id = os_getCoreId() ;          \
-                                          pthread_config_t pthread_config =                            \
-	                                      core0_pthread_init_config_database[(int)arg];                \
-                                          for (;;)                                                     \
-                                          {                                                            \
-								 		  	thread_done_before_task(&pthread_config,current_core_id); 
-#define thread_taskcallback();              task(&pthread_config,current_core_id);          	                                         
-#define thread_termination();               thread_done_after_task(&pthread_config,current_core_id);   \
+#define core1_thread_initialization();    CORE_ID_t        current_core_id = os_getCoreId() ;                \
+                                          pthread_config_t pthread_config =                                  \
+	                                      core1_pthread_init_config_database[(int)arg];                      \
+                                          for (;;)                                                           \
+                                          {                                                                  \
+								 		  	core1_thread_done_before_task(&pthread_config,current_core_id); 
+#define core1_thread_taskcallback();        task(&pthread_config,current_core_id);          	                                         
+#define core1_thread_termination();         core1_thread_done_after_task(&pthread_config,current_core_id);   \
 	                                      }
 
-#define PTHREAD_DEFINITION_BLOCK(core_id,thread_id)    void core##core_id##_os_thread##thread_id(void* arg,task_ptr_t task) \
-			                                           {                                                                    \
-			                                               thread_initialization();                                         \
-			                                               thread_taskcallback();                                           \
-			                                               thread_termination();                                            \
+#define CORE1_PTHREAD_DEFINITION_BLOCK(thread_id)    void core1_os_thread##thread_id(void* arg,task_ptr_t task) \
+			                                           {                                                        \
+			                                               core1_thread_initialization();                       \
+			                                               core1_thread_taskcallback();                         \
+			                                               core1_thread_termination();                          \
 		                                               }
-#define PTHREAD_CREATION_BLOCK(thread_var,thread_attr,thread_name,thread_id,callback_task_name)  \
+#define CORE1_PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_stacksize) PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_stacksize)  
+#define CORE1_PTHREAD_CREATION_BLOCK(thread_var,thread_attr,thread_name,thread_id,callback_task_name)  \
 	           pthread_create_np(thread_var,thread_attr,thread_name,thread_id,callback_task_name);
-#define PTHREAD_START_BLOCK() pthread_start_np();
-
-OS_EXTERN void thread_done_before_task(pthread_config_t*,CORE_ID_t);
-OS_EXTERN void thread_done_after_task(pthread_config_t*,CORE_ID_t);
+#define CORE1_PTHREAD_START_BLOCK() pthread_start_np();
 
 #endif

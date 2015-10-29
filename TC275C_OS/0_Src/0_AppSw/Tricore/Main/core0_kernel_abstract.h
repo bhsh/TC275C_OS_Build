@@ -1,6 +1,6 @@
 
-#ifndef KERNEL_ABSTRACT_H_
-#define KERNEL_ABSTRACT_H_
+#ifndef CORE0_KERNEL_ABSTRACT_H_
+#define CORE0_KERNEL_ABSTRACT_H_
 
 #include "os_type.h"
 #include "os.h"
