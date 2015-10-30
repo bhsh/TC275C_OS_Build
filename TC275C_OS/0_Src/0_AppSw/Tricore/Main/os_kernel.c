@@ -222,22 +222,21 @@ inline void update_stm0_compare1_ticks(uint32 tick_ms)
     //IfxPort_togglePin(&MODULE_P33, 10);
 }
 
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|             list_append 
-|             add one node into a list 
-|
---------------------------------------------------------------------------------------*/
-inline void list_append(pthread_t *head, pthread_t elem, pthread_t list_prev,
-        pthread_t elem_next) {
+/****************************************************************************/
+/* DESCRIPTION: <EVERY CORE> Append an element at the end of a list         */
+/****************************************************************************/
+inline void list_append(pthread_t *head, /* <*head> list head pointer */
+                           pthread_t  elem,  /* <elem> list element pointer */
+                           pthread_t  list_prev, /* <list_prev> list_prev  pointer */
+                           pthread_t  elem_next) /* <elem_next> elem_next  pointer */
+{
     assert(head != NULL);
     assert(elem != NULL);
 
     pthread_t list = *head;
     if (list == NULL) {
         elem->next = elem_next;
-    	//elem->next = elem;
+    	/* elem->next = elem; */
         elem->prev = elem;
         *head = elem;
     } else {
@@ -246,16 +245,12 @@ inline void list_append(pthread_t *head, pthread_t elem, pthread_t list_prev,
         list->prev->next = elem;
         list->prev = list_prev;
     }
-}
+} /* End of list_append function */
 
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|             static void list_delete_first(pthread_t *head) 
-|             delete one node in a list
-|
---------------------------------------------------------------------------------------*/
-static void list_delete_first(pthread_t *head) {
+/****************************************************************************/
+/* DESCRIPTION: <EVERY CORE> Delete the first element of a list             */
+/****************************************************************************/
+static void list_delete_first(pthread_t *head) { /* <*head> list head pointer */
     assert(head);
 
     pthread_t old = *head;
@@ -265,24 +260,20 @@ static void list_delete_first(pthread_t *head) {
         old->prev->next = new;
         new->prev = old->prev;
         if (new->next == new)
-            new->next = NULL; // if the list has only one element than set ->next = NULL
+            new->next = NULL; /* If the list has only one element than set ->next = NULL */
     }
     *head = new;
-}
+} /* End of list_delete_first function */
 
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|             pthread_create_np 
-|             create threads from users
-|
---------------------------------------------------------------------------------------*/
+/****************************************************************************/
+/* DESCRIPTION: <EVERY CORE> Create threads                                 */
+/****************************************************************************/
 extern void get_thread_init_stack_address(uint32_t,uint32_t,uint32_t);
-int pthread_create_np(pthread_t thread, //!< [in] thread control block pointer.
-        const pthread_attr_t *attr, //!<  [in] thread attribute. Can be NULL to use default.
-        void(*start_routine)(void *,task_ptr_t),//!<  [in] thread function pointer
-        void *arg,
-        task_ptr_t core0_task_ptr)
+int pthread_create_np(pthread_t thread, /* <thread> Thread control block pointer */
+                            const pthread_attr_t *attr, /* <*attr> Thread attribute. Can be NULL to use default */
+                            void(*start_routine)(void *,task_ptr_t),/* <*start_routine> Thread function pointer */
+                            void *arg,  /* <*arg> 1st argument of thread */
+                            task_ptr_t core0_task_ptr) /* <*arg> 2nd argument of thread */
 {
 
     const pthread_attr_t default_attr = PTHREAD_DEFAULT_ATTR;
@@ -297,21 +288,21 @@ int pthread_create_np(pthread_t thread, //!< [in] thread control block pointer.
     __mtcr(CPU_FCX, fcx - 2);
 
     cx = cx_to_addr(fcx);
-    cx->u.psw = 0 << 12 // Protection Register Set PRS=0
-            | attr->mode << 10 // I/O Privilege
-            | 0 << 9 // Current task uses a user stack IS=0
-            | 0 << 8 // Write permission to global registers A0, A1, A8, A9 is disabled
-            | 1L << 7 // Call depth counting is enabled CDE=1
-            | attr->call_depth_overflow; // Call Depth Overflow
-    cx->u.a10 = thread->stack + *thread->stack; // stack grow down
-    cx->u.a11 = 0; // New task has no return address
-    cx->u.pcxi = 0; // No previous context;
+    cx->u.psw = 0 << 12          /* <EVERY CORE> Protection Register Set PRS=0 */
+            | attr->mode << 10   /* <EVERY CORE> I/O Privilege */
+            | 0 << 9             /* <EVERY CORE> Current task uses a user stack IS=0 */
+            | 0 << 8             /* <EVERY CORE> Write permission to global registers A0, A1, A8, A9 is disabled */
+            | 1L << 7            /* <EVERY CORE> Call depth counting is enabled CDE=1 */
+            | attr->call_depth_overflow; /* <EVERY CORE>  Call Depth Overflow */
+    cx->u.a10 = thread->stack + *thread->stack; /* <EVERY CORE> Stack grow down */
+    cx->u.a11 = 0;  /* <EVERY CORE> New task has no return address */
+    cx->u.pcxi = 0; /* <EVERY CORE> No previous context; */
     cx--;
-    cx->l.pcxi = 0L << 22 // Previous CPU Priority Number PCPN=0 TriCore:0L << 24
-            | 1L << 21 // Previous Interrupt Enable PIE=1        TriCore:| 1L << 23 different PCXI between Aurix and TriCores
-            | 1L << 20 // Upper Context Tag.                     TriCore:| 1L << 22
-            | fcx; // Previous Context Pointer is the upper context
-    cx->l.pc = start_routine; // init new task start address
+    cx->l.pcxi = 0L << 22 /* <EVERY CORE> Previous CPU Priority Number PCPN=0 TriCore:  0L << 24  different PCXI between */
+            | 1L << 21    /* <EVERY CORE> Previous Interrupt Enable PIE=1     TriCore:| 1L << 23  Aurix and TriCores     */
+            | 1L << 20    /* <EVERY CORE> Upper Context Tag.                  TriCore:| 1L << 22                         */
+            | fcx;        /* <EVERY CORE> Previous Context Pointer is the upper context                                  */
+    cx->l.pc = start_routine; /* <EVERY CORE> init new thread start address */ 
     cx->l.a4 = arg;
 	cx->l.a5 = core0_task_ptr;
     thread->arg = arg;
@@ -324,22 +315,22 @@ int pthread_create_np(pthread_t thread, //!< [in] thread control block pointer.
     {   
        list_append(&core0_os_pthread_runnable_threads[i], thread, thread,
                   core0_os_pthread_runnable_threads[i]);
-       __putbit(1,(int*)&core0_os_pthread_runnable,i); // mark current thread ready
+       __putbit(1,(int*)&core0_os_pthread_runnable,i); /* <CORE0> Mark current thread ready */
            }
     else if(os_getCoreId()==CORE1)
     {
        list_append(&core1_os_pthread_runnable_threads[i], thread, thread,
                   core1_os_pthread_runnable_threads[i]);
-       __putbit(1,(int*)&core1_os_pthread_runnable,i); // mark current thread ready
+       __putbit(1,(int*)&core1_os_pthread_runnable,i); /* <CORE1> Mark current thread ready */
     }
 	else if(os_getCoreId()==CORE2)
 	{
        list_append(&core2_os_pthread_runnable_threads[i], thread, thread,
                   core2_os_pthread_runnable_threads[i]);
-       __putbit(1,(int*)&core2_os_pthread_runnable,i); // mark current thread ready
+       __putbit(1,(int*)&core2_os_pthread_runnable,i); /* <CORE2> Mark current thread ready */
 	}
-    return 0;
-}
+    return 0; /* Dummy to avoid warning */
+} /* End of pthread_create_np function */
 
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Lock an resource.This is an OS API that is     */
@@ -347,7 +338,7 @@ int pthread_create_np(pthread_t thread, //!< [in] thread control block pointer.
 /****************************************************************************/
 int pthread_mutex_lock(pthread_mutex_t *mutex) /* <*mutex> mutex pointer */
 {
-    assert(cppn()==0); // CCPN must be 0, function cannot be called from ISR
+    assert(cppn()==0); /* CCPN must be 0, function cannot be called from ISR */
     assert (mutex != NULL); /* Make sure there is one mutex argument. If no, __debug() will be entered */
 
 	if(os_getCoreId()==0)
