@@ -19,10 +19,6 @@
 #define PTHREAD_COND_TIMEDWAIT_SIZE 32    //!< Number of conditions that can wait for a period to be elapsed
 #define PTHREAD_USER_INT_LEVEL 13         //!< Maximal interrupt level for routines that are managed by the library
 
-typedef unsigned int   uint32_t;    // 4 byte unsigned; prefix: uw
-typedef unsigned short uint16_t;
-typedef unsigned long long uint64_t;
-
 #define USHRT_MAX 0xffff
 
 /** \\brief  FE00, , type: Ifx_CPU_PCXI, Previous Context Information Register */
@@ -39,12 +35,5 @@ typedef unsigned long long uint64_t;
 #define false 0
 #define true  1
 
-
-
-//#define PCXI	0xfe00	/* Previous Context Information Register  */
 //#define NULL (void*)0
-
-
-
-
 #endif /* OS_KERNEL_CFG_H_ */

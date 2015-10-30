@@ -2394,7 +2394,7 @@ void core2_thread_done_before_task(pthread_config_t *pthread_config)
   }
   else if(pthread_config->type == PERIODIC)
   {
-	  pthread_cond_timedwait_np((uint16_t)(pthread_config->period));
+	  pthread_cond_timedwait_np((osu16_t)(pthread_config->period));
   }
   else if(pthread_config->type == NO_DEFINITION)
   {
