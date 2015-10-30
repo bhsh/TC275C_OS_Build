@@ -1069,7 +1069,7 @@ void __interrupt(12) __vector_table(VECTOR_TABLE0) core2_kernel_tick_isr(void)
 /*                       activation when the activation source is located   */
 /*                       in interrupt                                       */
 /****************************************************************************/
-void __interrupt(9) __vector_table(VECTOR_TABLE0) core0_kernel_soft_isr(void)
+void __interrupt(CORE0_KERNEL_SOFT_INT_LEVEL) __vector_table(VECTOR_TABLE0) core0_kernel_soft_isr(void)
 {
     __asm("; setup parameter and jump to os_kernel \n"
             " mov.aa a4,%0 \n"
@@ -1084,7 +1084,7 @@ void __interrupt(9) __vector_table(VECTOR_TABLE0) core0_kernel_soft_isr(void)
 /*                       activation when the activation source is located   */
 /*                       in interrupt                                       */
 /****************************************************************************/
-void __interrupt(8) __vector_table(VECTOR_TABLE0) core1_kernel_soft_isr(void)
+void __interrupt(CORE1_KERNEL_SOFT_INT_LEVEL) __vector_table(VECTOR_TABLE0) core1_kernel_soft_isr(void)
 {
     __asm("; setup parameter and jump to os_kernel \n"
             " mov.aa a4,%0 \n"
@@ -1099,7 +1099,7 @@ void __interrupt(8) __vector_table(VECTOR_TABLE0) core1_kernel_soft_isr(void)
 /*                       activation when the activation source is located   */
 /*                       in interrupt                                       */
 /****************************************************************************/
-void __interrupt(7) __vector_table(VECTOR_TABLE0) core2_kernel_soft_isr(void)
+void __interrupt(CORE2_KERNEL_SOFT_INT_LEVEL) __vector_table(VECTOR_TABLE0) core2_kernel_soft_isr(void)
 {
     __asm("; setup parameter and jump to os_kernel \n"
             " mov.aa a4,%0 \n"

@@ -29,6 +29,7 @@
 #define PTHREAD_SWAP_HANDLER 0            /* <EVERY CORE> No swap handler installed */
 #define PTHREAD_COND_TIMEDWAIT_SIZE 32    /* <EVERY CORE> Number of conditions that can wait for a period to be elapsed */
 #define PTHREAD_USER_INT_LEVEL 13         /* Maximal interrupt level for routines that are managed by the library */
+
 #define USHRT_MAX 0xFFFF
 
 /****************************************************************************/
@@ -40,8 +41,12 @@
 #define CPU_ICR     0xFE2C  /* <EVERY CORE> FE2C,ICR, Interrupt Control Register             */
 #define CPU_CORE_ID 0xFE1C  /* <EVERY CORE> FE1C,CORE_ID, CORE ID                            */
 
-#define VECTOR_TABLE0  0
-#define VECTOR_TABLE1  1
-#define VECTOR_TABLE2  2
+#define VECTOR_TABLE0  0    /* The vector table of core 0 is used */
+#define VECTOR_TABLE1  1    /* The vector table of core 1 is used */
+#define VECTOR_TABLE2  2    /* The vector table of core 2 is used */
+
+#define CORE0_KERNEL_SOFT_INT_LEVEL  9
+#define CORE1_KERNEL_SOFT_INT_LEVEL  8
+#define CORE2_KERNEL_SOFT_INT_LEVEL  7
 
 #endif /* OS_KERNEL_CFG_H_ */
