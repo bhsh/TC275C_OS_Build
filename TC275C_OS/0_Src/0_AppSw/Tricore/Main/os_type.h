@@ -23,10 +23,10 @@ typedef long long  os64_t;
 #define  true      (1)
 #define  false     (0)
 
-
 #define OS_EXTERN  extern 
 #define OS_INLINE  inline
 #define OS_CONST   const
+#define OS_STATIC  static
 
 //#define OS_NULL (void*)0
 

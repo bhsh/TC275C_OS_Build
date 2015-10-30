@@ -47,31 +47,31 @@ allthreads_status_t core2_allthreads_status;
 /****************************************************************************/
 /* Static Variable Definitions                                              */
 /****************************************************************************/
-static osu32_t  core0_mutex;
-static osu32_t  core1_mutex;
-static osu32_t  core2_mutex;
-static osu16_t  core0_os_stm_tick_count;
-static osu16_t  core1_os_stm_tick_count;
-static osu16_t  core2_os_stm_tick_count;
-static osu32_t  core0_os_pthread_time_waiting;
-static osu32_t  core1_os_pthread_time_waiting;
-static osu32_t  core2_os_pthread_time_waiting;
-static pthread_t core0_os_blocked_threads;
-static pthread_t core1_os_blocked_threads;
-static pthread_t core2_os_blocked_threads;
-static osu16_t  stm_ticks[PTHREAD_COND_TIMEDWAIT_SIZE]=
+OS_STATIC osu32_t  core0_mutex;
+OS_STATIC osu32_t  core1_mutex;
+OS_STATIC osu32_t  core2_mutex;
+OS_STATIC osu16_t  core0_os_stm_tick_count;
+OS_STATIC osu16_t  core1_os_stm_tick_count;
+OS_STATIC osu16_t  core2_os_stm_tick_count;
+OS_STATIC osu32_t  core0_os_pthread_time_waiting;
+OS_STATIC osu32_t  core1_os_pthread_time_waiting;
+OS_STATIC osu32_t  core2_os_pthread_time_waiting;
+OS_STATIC pthread_t core0_os_blocked_threads;
+OS_STATIC pthread_t core1_os_blocked_threads;
+OS_STATIC pthread_t core2_os_blocked_threads;
+OS_STATIC osu16_t  stm_ticks[PTHREAD_COND_TIMEDWAIT_SIZE]=
 { 
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                      
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,  
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                     
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX 	
 };
-static pthread_cond_t  *stm_cond[PTHREAD_COND_TIMEDWAIT_SIZE]=
+OS_STATIC pthread_cond_t  *stm_cond[PTHREAD_COND_TIMEDWAIT_SIZE]=
 {
     NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,                     
     NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL                     
 };
-static pthread_cond_t  core0_os_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
+OS_STATIC pthread_cond_t  core0_os_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
 {  
     CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,                     
     CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,    
@@ -82,19 +82,19 @@ static pthread_cond_t  core0_os_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
     CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,                     
     CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER   
 };
-static osu16_t  core1_os_stm_ticks[PTHREAD_COND_TIMEDWAIT_SIZE]=
+OS_STATIC osu16_t  core1_os_stm_ticks[PTHREAD_COND_TIMEDWAIT_SIZE]=
 {
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                      
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,  
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                     
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX 
 };
-static pthread_cond_t  *core1_os_stm_cond[PTHREAD_COND_TIMEDWAIT_SIZE]=
+OS_STATIC pthread_cond_t  *core1_os_stm_cond[PTHREAD_COND_TIMEDWAIT_SIZE]=
 {
     NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,                     
     NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL  
 };
-static pthread_cond_t  core1_os_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
+OS_STATIC pthread_cond_t  core1_os_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
 {  
     CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,                     
     CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,    
@@ -105,19 +105,19 @@ static pthread_cond_t  core1_os_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
     CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,                     
     CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER   
 };
-static osu16_t  core2_os_stm_ticks[PTHREAD_COND_TIMEDWAIT_SIZE] =
+OS_STATIC osu16_t  core2_os_stm_ticks[PTHREAD_COND_TIMEDWAIT_SIZE] =
 {
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                      
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,  
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                     
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX 				    
 };
-static pthread_cond_t  *core2_os_stm_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
+OS_STATIC pthread_cond_t  *core2_os_stm_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
 {
     NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,                     
     NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL 
 };
-static pthread_cond_t  core2_os_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
+OS_STATIC pthread_cond_t  core2_os_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
 {  
     CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,                     
     CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,    
@@ -132,10 +132,10 @@ static pthread_cond_t  core2_os_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
 /****************************************************************************/
 /* Extern Variable Definitions                                              */
 /****************************************************************************/
-extern osu32_t  stm0CompareValue;
-extern osu32_t  stm1CompareValue;
-extern osu32_t  stm2CompareValue;
-extern osu32_t  stm0CompareValue2;
+OS_EXTERN osu32_t  stm0CompareValue;
+OS_EXTERN osu32_t  stm1CompareValue;
+OS_EXTERN osu32_t  stm2CompareValue;
+OS_EXTERN osu32_t  stm0CompareValue2;
 
 /****************************************************************************/
 /* Function Prototype Definitions                                           */
@@ -240,7 +240,7 @@ OS_INLINE void list_append(pthread_t *head, /* <*head> list head pointer */
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Delete the first element of a list             */
 /****************************************************************************/
-static void list_delete_first(pthread_t *head) { /* <*head> list head pointer */
+OS_STATIC void list_delete_first(pthread_t *head) { /* <*head> list head pointer */
     assert(head);
 
     pthread_t old = *head;
@@ -613,7 +613,7 @@ OS_INLINE void dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t
 /*    <EVERY CORE> Only reschedule all threads that have been actived       */
 /*    without changing the scheduling table                                 */
 /****************************************************************************/
-static void trapsystem(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
+OS_STATIC void trapsystem(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
     os32_t tin, i;
     pthread_t thread, tmp;
 

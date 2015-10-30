@@ -18,28 +18,26 @@
 /****************************************************************************/
 /* Macro Definitions                                                        */
 /****************************************************************************/
-#define PTHREAD_PRIO_MAX 32               //!< Maximal priority thread level [0,31]
-#define PTHREAD_DEFAULT_STACK_SIZE 256/4  //!< Default stack size is 256 bytes
-#define PTHREAD_MEMORY_QUALIFIER          //!< None or global a8, a9 which are reserved for RTOS
-#define PTHREAD_DEFAULT_ATTR {SUPER, CALL_DEPTH_OVERFLOW_AT_64} //!< Default thread attributes: Supervisor mode, call depth = 64, default stack size
-#define PTHREAD_SWAP_HANDLER 0            //!< 0 = no swap handler installed
-#define PTHREAD_COND_TIMEDWAIT_SIZE 32    //!< Number of conditions that can wait for a period to be elapsed
-#define PTHREAD_USER_INT_LEVEL 13         //!< Maximal interrupt level for routines that are managed by the library
 
-#define USHRT_MAX 0xffff
+/****************************************************************************/
+/* Configuration Definitions Of Os Kernel                                   */
+/****************************************************************************/
+#define PTHREAD_PRIO_MAX 32               /* <EVERY CORE> Maximal priority thread level [0,31] */
+#define PTHREAD_DEFAULT_STACK_SIZE 256/4  /* <EVERY CORE> Default stack size is 256 bytes */
+#define PTHREAD_MEMORY_QUALIFIER          /* <EVERY CORE> None or global a8, a9 which are reserved for RTOS */
+#define PTHREAD_DEFAULT_ATTR {SUPER, CALL_DEPTH_OVERFLOW_AT_64} /* <EVERY CORE> Default thread attributes: Supervisor mode, call depth = 64 */
+#define PTHREAD_SWAP_HANDLER 0            /* <EVERY CORE> No swap handler installed */
+#define PTHREAD_COND_TIMEDWAIT_SIZE 32    /* <EVERY CORE> Number of conditions that can wait for a period to be elapsed */
+#define PTHREAD_USER_INT_LEVEL 13         /* Maximal interrupt level for routines that are managed by the library */
+#define USHRT_MAX 0xFFFF
 
-/** \\brief  FE00, , type: Ifx_CPU_PCXI, Previous Context Information Register */
-#define CPU_PCXI 0xFE00
-/** \\brief  FE04, , type: Ifx_CPU_PSW, Program Status Word */
-#define CPU_PSW 0xFE04
-/** \\brief  FE38, , type: Ifx_CPU_FCX, Free CSA List Head Pointer */
-#define CPU_FCX 0xFE38
-/** \\brief  FE2C, , type: Ifx_CPU_ICR, Interrupt Control Register */
-#define CPU_ICR 0xFE2C
+/****************************************************************************/
+/* Macro Definitions                                                        */
+/****************************************************************************/
+#define CPU_PCXI    0xFE00  /* FE00,PCXI, Previous Context Information Register */
+#define CPU_PSW     0xFE04  /* FE04,PSW, Program Status Word                    */
+#define CPU_FCX     0xFE38  /* FE38,FCX, Free CSA List Head Pointer             */
+#define CPU_ICR     0xFE2C  /* FE2C,ICR, Interrupt Control Register             */
+#define CPU_CORE_ID 0xFE1C  /* FE1C,CORE_ID, CORE ID                            */
 
-#define CPU_CORE_ID 0xFE1C
-
-
-
-//#define NULL (void*)0
 #endif /* OS_KERNEL_CFG_H_ */
