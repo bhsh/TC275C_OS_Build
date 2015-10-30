@@ -9,6 +9,11 @@ typedef unsigned short      osu16_t;
 typedef unsigned int        osu32_t;     
 typedef unsigned long long  osu64_t; 
 
+typedef char       os8_t; 
+typedef short      os16_t;
+typedef int        os32_t;     
+typedef long long  os64_t; 
+
 #define  ENABLE    (1)
 #define  DISABLE   (0)
 
