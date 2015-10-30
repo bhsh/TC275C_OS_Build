@@ -1,10 +1,11 @@
-/*
- * os_kernel_cfg.h
- *
- *  Created on: Aug 26, 2015
- *      Author: tz68d9
- */
-
+/****************************************************************************/
+/* FILE NAME:    os_kernel_cfg.h                                            */
+/* CREATE ON:    Aug 26, 2015                                               */
+/* AUTHER:       Yanpeng.xi                                                 */
+/* DESCRIPTION:  The h file includes configuration parameter of os kernel   */
+/* COMMENT:      Multicore OS based on Aurix 275C app kit and TASKING 4.3   */
+/*               compiler                                                   */
+/****************************************************************************/
 #ifndef OS_KERNEL_CFG_H_
 #define OS_KERNEL_CFG_H_
 

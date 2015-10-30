@@ -244,7 +244,7 @@ inline context_t *cx_to_addr(osu32_t cx) {
 } /* End of cx_to_addr function */
 
 /****************************************************************************/
-/* DESCRIPTION: <EVERY CORE> Transfer address                               */
+/* DESCRIPTION: <EVERY CORE> Delay                                          */
 /****************************************************************************/
 inline void delay_ms(osu32_t _milliseconds) {
     __asm( "  mov.u d15,#1000 \n"
