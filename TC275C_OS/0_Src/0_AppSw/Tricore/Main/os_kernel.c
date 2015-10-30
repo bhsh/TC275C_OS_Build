@@ -805,14 +805,14 @@ OS_INLINE void os_kernel_in_tick(void)
 	if(release_count!=0)
 	{
 	   assert(cond_buffer[0] != NULL);
-	    if(release_count>1)
-		   {
-		        while(--release_count)
-			   {
-		          dispatch_signal_in_tick(&cond_buffer[release_count]->blocked_threads,NULL);
-			   }
-		   }
-	  assert(cond_buffer[0] != NULL);
+	   if(release_count>1)
+	   {
+          while(--release_count)
+	     {
+            dispatch_signal_in_tick(&cond_buffer[release_count]->blocked_threads,NULL);
+	     }
+	   }
+	   assert(cond_buffer[0] != NULL);
 		
 	   cond   =cond_buffer[0];  /* <EVERY CORE> Get the current condition */
 
@@ -911,11 +911,11 @@ os32_t pthread_cond_timedwait_np(osu16_t reltime) //!< [in] relative time are th
 } /* End of pthread_cond_timedwait_np function */
 
 /****************************************************************************/
-/* DESCRIPTION: <EVERY CORE> The API(os_suspend_allthreads) can be used     */
+/* DESCRIPTION: <EVERY CORE> The API(pthread_suspend_allthreads) can be used*/
 /*              inside threads to suspend all that happend after the API is */
 /*              called.This is an OS API that is provided to os user        */
 /****************************************************************************/
-void os_suspend_allthreads(void)
+void pthread_suspend_allthreads(void)
 {
 	/* Because the scheduler logic is located in stm tick interrupt, and */
    osu32_t current_cpu_id = os_getCoreId();
@@ -935,16 +935,16 @@ void os_suspend_allthreads(void)
    {
    	  core2_allthreads_status = ALLTHREADS_SUSPENDED;
    }
-} /* End of os_suspend_allthreads function */
+} /* End of pthread_suspend_allthreads function */
 
 /****************************************************************************/
-/* DESCRIPTION: <EVERY CORE> The API(os_restore_allthreads) can be used     */
+/* DESCRIPTION: <EVERY CORE> The API(pthread_restore_allthreads) can be used*/
 /*              inside threads to restore all threads that are suspended.   */
 /*              After the API is called all thread that are suspended by    */
 /*              os_restore_allthreads can be restore immediately This is    */
 /*              an OS API that is provided to os user                       */
 /****************************************************************************/
-void os_restore_allthreads(void)
+void pthread_restore_allthreads(void)
 {
    osu32_t current_cpu_id = os_getCoreId();
 
@@ -975,16 +975,17 @@ void os_restore_allthreads(void)
 	   if(core2_os_pthread_running->priority < 
 	   	  ((PTHREAD_PRIO_MAX-1) - __clz(core2_os_pthread_runnable))) dispatch_only(NULL,NULL);     
    }
-} /* End of os_restore_allthreads function */
+} /* End of pthread_restore_allthreads function */
 
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> The API(os_disable_allinterrupts) can be used   */
 /*              inside threads to disable all interrupts.This is an OS API  */
 /*              that is provided to os user                                 */
 /****************************************************************************/
-void os_disable_allinterrupts(void)
+void pthread_disable_allinterrupts(void) 
 {
-  __asm volatile ("enable" : : : "memory");
+  __asm volatile ("disable" : : : "memory");
+  __asm volatile ("nop" : : : "memory");
 } /* End of os_disable_allinterrupts function */
 
 /****************************************************************************/
@@ -992,10 +993,9 @@ void os_disable_allinterrupts(void)
 /*              inside threads to enable all interrupts.This is an OS API   */
 /*              that is provided to os user                                 */
 /****************************************************************************/
-void os_enable_allinterrupt(void)
+void pthread_enable_allinterrupt(void)
 {
-  __asm volatile ("disable" : : : "memory");
-  __asm volatile ("nop" : : : "memory");
+  __asm volatile ("enable" : : : "memory");
 } /* End of os_enable_allinterrupt function */
 
 /****************************************************************************/
