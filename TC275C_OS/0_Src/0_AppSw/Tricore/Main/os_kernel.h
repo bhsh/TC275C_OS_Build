@@ -227,7 +227,7 @@ inline void pthread_start_np(void) {
 } /* End of pthread_start_np function */
 
 /****************************************************************************/
-/* DESCRIPTION: <EVERY CORE> Transfer address                               */
+/* DESCRIPTION: <EVERY CORE> Transfer address from cx mode to physical mode */
 /****************************************************************************/
 inline context_t *cx_to_addr(osu32_t cx) {
     osu32_t seg_nr = __extru(cx, 16, 4);

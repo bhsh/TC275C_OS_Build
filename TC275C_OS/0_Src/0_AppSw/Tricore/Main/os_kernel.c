@@ -259,10 +259,10 @@ static void list_delete_first(pthread_t *head) { /* <*head> list head pointer */
 /* DESCRIPTION: <EVERY CORE> Create threads                                 */
 /****************************************************************************/
 os32_t pthread_create_np(pthread_t thread, /* <thread> Thread control block pointer */
-                            const pthread_attr_t *attr, /* <*attr> Thread attribute. Can be NULL to use default */
-                            void(*start_routine)(void *,task_ptr_t),/* <*start_routine> Thread function pointer */
-                            void *arg,  /* <*arg> 1st argument of thread */
-                            task_ptr_t core0_task_ptr) /* <*arg> 2nd argument of thread */
+                               const pthread_attr_t *attr, /* <*attr> Thread attribute. Can be NULL to use default */
+                               void(*start_routine)(void *,task_ptr_t),/* <*start_routine> Thread function pointer */
+                               void *arg,  /* <*arg> 1st argument of thread */
+                               task_ptr_t core0_task_ptr) /* <*arg> 2nd argument of thread */
 {
 
     const pthread_attr_t default_attr = PTHREAD_DEFAULT_ATTR;
