@@ -321,32 +321,34 @@ os32_t pthread_mutex_lock(pthread_mutex_t *mutex) /* <*mutex> mutex pointer */
 
 	if(os_getCoreId()==0)
 	{
-        if (mutex->owner == core0_os_pthread_running) // errno = EDEADLK
-            return -1;
+        if (mutex->owner == core0_os_pthread_running) return -1;
 
-        while (true == __swap(&mutex->lock, true)) { // swap out if already looked by another thread
-             dispatch_wait(&mutex->blocked_threads, NULL); // block this thread
+		/* <CORE0> Swap out if already looked by another thread */
+        while (true == __swap(&mutex->lock, true)) 
+		{  
+           dispatch_wait(&mutex->blocked_threads, NULL); /* <CORE0> Block this thread */
         }
         mutex->owner = core0_os_pthread_running;
 	}
 	else if(os_getCoreId()==1)
 	{
-
-        if (mutex->owner == core1_os_pthread_running) // errno = EDEADLK
-            return -1;
-
-        while (true == __swap(&mutex->lock, true)) { // swap out if already looked by another thread
-             dispatch_wait(&mutex->blocked_threads, NULL); // block this thread
+        if (mutex->owner == core1_os_pthread_running) return -1;
+		
+		/* <CORE1> Swap out if already looked by another thread */
+        while (true == __swap(&mutex->lock, true))
+		{ 
+           dispatch_wait(&mutex->blocked_threads, NULL); /* <CORE1> Block this thread */
         }
         mutex->owner = core1_os_pthread_running;
 	}
 	else if(os_getCoreId()==2)
 	{
-        if (mutex->owner == core2_os_pthread_running) // errno = EDEADLK
-            return -1;
+        if (mutex->owner == core2_os_pthread_running) return -1;
 
-        while (true == __swap(&mutex->lock, true)) { // swap out if already looked by another thread
-             dispatch_wait(&mutex->blocked_threads, NULL); // block this thread
+		/* <CORE2> Swap out if already looked by another thread */
+        while (true == __swap(&mutex->lock, true))
+	    { 
+           dispatch_wait(&mutex->blocked_threads, NULL); /* <CORE2> Block this thread */
         }
         mutex->owner = core2_os_pthread_running;
 	}
