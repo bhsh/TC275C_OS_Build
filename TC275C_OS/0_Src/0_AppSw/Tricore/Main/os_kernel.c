@@ -547,22 +547,22 @@ OS_INLINE void dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t
 	
     if(current_core_id == CORE0_ID)
 	{
-       while (thread != NULL) 
-	   {
+      while (thread != NULL) 
+	  {
         tmp = thread->next;
         i = thread->priority;
         list_append(&core0_os_pthread_runnable_threads[i], thread, thread,
                       core0_os_pthread_runnable_threads[i]);
         __putbit(1,(os32_t*)&core0_os_pthread_runnable,i);
-        if (thread == last_thread)break;
+        if (thread == last_thread) break;
         thread = tmp;
-       }
-       *blocked_threads_ptr = tmp;
-	 }
-	 else if(current_core_id== CORE1_ID)
-	 {
-       while (thread != NULL) 
-	   {
+      }
+      *blocked_threads_ptr = tmp;
+	}
+	else if(current_core_id== CORE1_ID)
+	{
+      while (thread != NULL) 
+	  {
         tmp = thread->next;
         i = thread->priority;
           list_append(&core1_os_pthread_runnable_threads[i], thread, thread,
@@ -570,13 +570,13 @@ OS_INLINE void dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t
         __putbit(1,(os32_t*)&core1_os_pthread_runnable,i);
         if (thread == last_thread)break;
         thread = tmp;
-       }
-       *blocked_threads_ptr = tmp;
-	 }
-	 else if(current_core_id == CORE2_ID)
-	 {
-       while (thread != NULL) 
-	   {
+      }
+      *blocked_threads_ptr = tmp;
+	}
+	else if(current_core_id == CORE2_ID)
+	{
+      while (thread != NULL) 
+	  {
         tmp = thread->next;
         i = thread->priority;
           list_append(&core2_os_pthread_runnable_threads[i], thread, thread,
@@ -584,9 +584,9 @@ OS_INLINE void dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t
         __putbit(1,(os32_t*)&core2_os_pthread_runnable,i);
         if (thread == last_thread)break;
         thread = tmp;
-       }
-       *blocked_threads_ptr = tmp;
-	 }
+      }
+      *blocked_threads_ptr = tmp;
+	}
 }/* End of dispatch_signal_in_tick functio */
 
 /****************************************************************************/
@@ -781,7 +781,7 @@ OS_INLINE void os_kernel_in_tick(void)
   	     if(core1_os_stm_ticks[index] == core1_os_tick_count)
   	    {		
   		  cond_buffer[release_count] = core1_os_stm_cond[index];
-  		  core1_os_stm_ticks[index] = USHRT_MAX;   /* <CORE0> Free place in array */    
+  		  core1_os_stm_ticks[index] = USHRT_MAX;   /* <CORE1> Free place in array */    
   		  __putbit(0,(os32_t*)&core1_os_pthread_time_waiting,index); 
   		  release_count++;
   	    }
@@ -797,7 +797,7 @@ OS_INLINE void os_kernel_in_tick(void)
     	if(core2_os_stm_ticks[index] == core2_os_tick_count)
     	{		
     	  cond_buffer[release_count] = core2_os_stm_cond[index];
-    	  core2_os_stm_ticks[index] = USHRT_MAX;  
+    	  core2_os_stm_ticks[index] = USHRT_MAX;  /* <CORE2> Free place in array */
     	  __putbit(0,(os32_t*)&core2_os_pthread_time_waiting,index); 
     	  release_count++;
     	}
