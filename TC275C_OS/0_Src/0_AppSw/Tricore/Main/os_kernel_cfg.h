@@ -20,7 +20,7 @@
 /****************************************************************************/
 
 /****************************************************************************/
-/* Configuration Definitions Of Os Kernel                                   */
+/* Configuration Definitions For Os Kernel                                  */
 /****************************************************************************/
 #define PTHREAD_PRIO_MAX 32               /* <EVERY CORE> Maximal priority thread level [0,31] */
 #define PTHREAD_DEFAULT_STACK_SIZE 256/4  /* <EVERY CORE> Default stack size is 256 bytes */
@@ -34,10 +34,10 @@
 /****************************************************************************/
 /* Macro Definitions                                                        */
 /****************************************************************************/
-#define CPU_PCXI    0xFE00  /* FE00,PCXI, Previous Context Information Register */
-#define CPU_PSW     0xFE04  /* FE04,PSW, Program Status Word                    */
-#define CPU_FCX     0xFE38  /* FE38,FCX, Free CSA List Head Pointer             */
-#define CPU_ICR     0xFE2C  /* FE2C,ICR, Interrupt Control Register             */
-#define CPU_CORE_ID 0xFE1C  /* FE1C,CORE_ID, CORE ID                            */
+#define CPU_PCXI    0xFE00  /* <EVERY CORE> FE00,PCXI, Previous Context Information Register */
+#define CPU_PSW     0xFE04  /* <EVERY CORE> FE04,PSW, Program Status Word                    */
+#define CPU_FCX     0xFE38  /* <EVERY CORE> FE38,FCX, Free CSA List Head Pointer             */
+#define CPU_ICR     0xFE2C  /* <EVERY CORE> FE2C,ICR, Interrupt Control Register             */
+#define CPU_CORE_ID 0xFE1C  /* <EVERY CORE> FE1C,CORE_ID, CORE ID                            */
 
 #endif /* OS_KERNEL_CFG_H_ */

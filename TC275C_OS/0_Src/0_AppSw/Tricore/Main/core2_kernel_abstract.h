@@ -2,8 +2,6 @@
 #ifndef CORE2_KERNEL_ABSTRACT_H_
 #define CORE2_KERNEL_ABSTRACT_H_
 
-#include "os_type.h"
-#include "os.h"
 #include "os_kernel.h"
 
 
