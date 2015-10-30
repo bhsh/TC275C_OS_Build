@@ -89,18 +89,11 @@ typedef struct { /* <struct><pthread_cond_t> Describe the thread condition */
     pthread_t blocked_threads; /* list threads waiting for condition */
 } pthread_cond_t;
 
-//! Description of a thread mutex.
-typedef struct {
-    osu32_t lock;//!< mutex lock status is one of <true | false>
-    pthread_t owner; //!< owner thread
-    pthread_t blocked_threads; //!< list threads waiting for mutex
+typedef struct { /* <struct><pthread_mutex_t> Description of a thread mutex */
+    osu32_t lock;/* mutex lock status is one of <true | false> */
+    pthread_t owner; /* < owner thread */
+    pthread_t blocked_threads; /* list threads waiting for mutex */
 } pthread_mutex_t;
-
-//! Description of a thread conditional variable.
-
-
-#include "os_type.h"
-#include "os.h"
 
 os32_t pthread_create_np(pthread_t, const pthread_attr_t *, void(*)(void *,task_ptr_t),
         void *,task_ptr_t);
