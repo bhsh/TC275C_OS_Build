@@ -2,7 +2,7 @@
 /* FILE NAME:    os_kernel.c                                                */
 /* CREATE ON:    Aug 26, 2015                                               */
 /* AUTHER:       Yanpeng.xi                                                 */
-/* DESCRIPTION:  The c file include the kernel logic of AURIX 3-core os     */
+/* DESCRIPTION:  The c file includes the kernel logic of AURIX 3-core os    */
 /* COMMENT:      Multicore OS based on Aurix 275C app kit and TASKING 4.3   */
 /*               compiler                                                   */
 /****************************************************************************/

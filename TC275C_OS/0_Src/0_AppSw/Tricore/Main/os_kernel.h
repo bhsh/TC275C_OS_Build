@@ -1,10 +1,12 @@
-/*
- * os_kernel.h
- *
- *  Created on: Aug 26, 2015
- *      Author: tz68d9
- */
-
+/****************************************************************************/
+/* FILE NAME:    os_kernel.h                                                */
+/* CREATE ON:    Aug 26, 2015                                               */
+/* AUTHER:       Yanpeng.xi                                                 */
+/* DESCRIPTION:  The h file includes type definitions for os kernel and     */
+/*               function statements for os user                            */
+/* COMMENT:      Multicore OS based on Aurix 275C app kit and TASKING 4.3   */
+/*               compiler                                                   */
+/****************************************************************************/
 #ifndef OS_KERNEL_H_
 #define OS_KERNEL_H_
 
@@ -13,11 +15,13 @@
 /****************************************************************************/
 #include "os_kernel_cfg.h"
 
-
+/****************************************************************************/
+/* Macro Definitions                                                        */
+/****************************************************************************/
+#define __fCPU 200
 #define CORE0_PTHREAD_COND_INITIALIZER {CORE0,0,NULL}
 #define CORE1_PTHREAD_COND_INITIALIZER {CORE1,0,NULL}
 #define CORE2_PTHREAD_COND_INITIALIZER {CORE2,0,NULL}
-
 #define PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_stacksize) static struct { \
     pthread_t next,prev;\
     osu32_t lcx; \
@@ -28,7 +32,6 @@
     } _##_name = {0,(pthread_t)&_##_name,0,_priority,_policy,NULL,{_stacksize+1}};\
     \
     pthread_t _name = (pthread_t)&_##_name;
-
 
 /****************************************************************************/
 /* Type Definitions                                                         */
@@ -223,14 +226,17 @@ inline void pthread_start_np(void) {
     __asm(" rfe");       /* <EVERY CORE>restore the upper context  */
 } /* End of pthread_start_np function */
 
-
-
+/****************************************************************************/
+/* DESCRIPTION: <EVERY CORE> Transfer address                               */
+/****************************************************************************/
 inline context_t *cx_to_addr(osu32_t cx) {
     osu32_t seg_nr = __extru(cx, 16, 4);
     return (context_t *) __insert(seg_nr << 28, cx, 6, 16);
-}
+} /* End of cx_to_addr function */
 
-#define __fCPU 200
+/****************************************************************************/
+/* DESCRIPTION: <EVERY CORE> Transfer address                               */
+/****************************************************************************/
 inline void delay_ms(osu32_t _milliseconds) {
     __asm( "  mov.u d15,#1000 \n"
             "  mov.a a15,d15  \n"
@@ -241,13 +247,15 @@ inline void delay_ms(osu32_t _milliseconds) {
             ::"a"((_milliseconds*__fCPU)/2): "a15","d15");
 }
 
-//! Insert NEZ.A instruction
+/****************************************************************************/
+/* DESCRIPTION: <EVERY CORE> Insert NEZ.A instruction                       */
+/****************************************************************************/
 inline osu32_t neza(void *p) {
     os32_t ret;
     __asm("nez.a %0,%1":"=d"(ret):"a"(p));
     return ret;
-}
-
+} /* End of neza */
+ 
 /****************************************************************************/
 /* Function Prototype Definitions(The functions are called by threads)      */
 /****************************************************************************/
