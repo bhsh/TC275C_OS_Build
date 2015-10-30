@@ -735,7 +735,7 @@ OS_STATIC void os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_thread)
 		 /* <CORE2> Unlock core2_mutex */
 		 core_returnMutex(&core2_mutex);		
 	}
-     pthread_start_np();
+    pthread_start_np();
 } /* End of os_kernel function */
 
 /****************************************************************************/
@@ -985,8 +985,8 @@ void pthread_restore_allthreads(void)
 /****************************************************************************/
 void pthread_disable_allinterrupts(void) 
 {
-  __asm volatile ("disable" : : : "memory");
-  __asm volatile ("nop" : : : "memory");
+    __asm volatile ("disable" : : : "memory");
+    __asm volatile ("nop" : : : "memory");
 } /* End of os_disable_allinterrupts function */
 
 /****************************************************************************/
@@ -996,8 +996,17 @@ void pthread_disable_allinterrupts(void)
 /****************************************************************************/
 void pthread_enable_allinterrupt(void)
 {
-  __asm volatile ("enable" : : : "memory");
-} /* End of os_enable_allinterrupt function */
+    __asm volatile ("enable" : : : "memory");
+}   /* End of os_enable_allinterrupt function */
+
+/****************************************************************************/
+/* DESCRIPTION: <EVERY CORE> The API(os_enable_allinterrupt) can be used    */
+/*              inside threads to enable all interrupts.This is an OS API   */
+/****************************************************************************/
+void pthread_obtain_os_tick(os32_t core_id)
+{
+     
+}  /* End of os_enable_allinterrupt function */
 
 /****************************************************************************/
 /* DESCRIPTION:  <CORE0> software interrupt 0 that is used for thread       */
