@@ -170,10 +170,10 @@ OS_INLINE void core_returnMutex(osu32_t *mutex)
 /****************************************************************************/
 OS_INLINE void core0_kernel_update_os_tick(void) 
 {
-    osu32_t stmTicks;
+    osu32_t core0_ticks;
 
-    stmTicks= (osu32_t)(stm0CompareValue*1);
-    IfxStm_updateCompare (&MODULE_STM0, IfxStm_Comparator_0, IfxStm_getCompare (&MODULE_STM0, IfxStm_Comparator_0) + stmTicks);
+    core0_ticks = (osu32_t)(stm0CompareValue*1);
+    IfxStm_updateCompare (&MODULE_STM0, IfxStm_Comparator_0, IfxStm_getCompare (&MODULE_STM0, IfxStm_Comparator_0) + core0_ticks);
     /* IfxPort_togglePin(&MODULE_P33, 8); */
 } /* End of core0_kernel_update_os_tick function */
 
@@ -182,10 +182,10 @@ OS_INLINE void core0_kernel_update_os_tick(void)
 /****************************************************************************/
 OS_INLINE void core1_kernel_update_os_tick(void)
 {
-    osu32_t stmTicks;
+    osu32_t core1_ticks;
 	
-    stmTicks= (osu32_t) (stm1CompareValue * 1);
-    IfxStm_updateCompare (&MODULE_STM1, IfxStm_Comparator_0, IfxStm_getCompare (&MODULE_STM1, IfxStm_Comparator_0) + stmTicks);
+    core1_ticks = (osu32_t) (stm1CompareValue * 1);
+    IfxStm_updateCompare (&MODULE_STM1, IfxStm_Comparator_0, IfxStm_getCompare (&MODULE_STM1, IfxStm_Comparator_0) + core1_ticks);
     /* IfxPort_togglePin(&MODULE_P33, 9); */
 } /* End of core1_kernel_update_os_tick function */
 
@@ -194,9 +194,10 @@ OS_INLINE void core1_kernel_update_os_tick(void)
 /****************************************************************************/
 OS_INLINE void core2_kernel_update_os_tick(void)
 {
-    osu32_t stmTicks;
-    stmTicks= (osu32_t) (stm2CompareValue * 1);
-    IfxStm_updateCompare (&MODULE_STM2, IfxStm_Comparator_0, IfxStm_getCompare (&MODULE_STM2, IfxStm_Comparator_0) + stmTicks);
+    osu32_t core2_ticks;
+	
+    core2_ticks = (osu32_t) (stm2CompareValue * 1);
+    IfxStm_updateCompare (&MODULE_STM2, IfxStm_Comparator_0, IfxStm_getCompare (&MODULE_STM2, IfxStm_Comparator_0) + core2_ticks);
     /* IfxPort_togglePin(&MODULE_P33, 10); */
 } /* End of core2_kernel_update_os_tick function */
 
