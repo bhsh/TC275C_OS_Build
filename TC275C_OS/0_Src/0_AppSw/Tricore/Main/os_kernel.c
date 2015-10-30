@@ -952,35 +952,35 @@ void pthread_suspend_allthreads(void)
 /****************************************************************************/
 void pthread_restore_allthreads(void)
 {
-   osu32_t current_core_id = os_getCoreId();
+    osu32_t current_core_id = os_getCoreId();
 
-   if((current_core_id == CORE0_ID)&&
-   	  (core0_allthreads_status == ALLTHREADS_SUSPENDED))
-   {  
+    if((current_core_id == CORE0_ID)&&
+   	   (core0_allthreads_status == ALLTHREADS_SUSPENDED))
+    {  
 	  core0_allthreads_status = ALLTHREADS_WORKING;
 	  
 	  /* <CORE0> If there is thread higher than the current thread, switch the context. else keep */
 	  if(core0_os_pthread_running->priority < 
 	  	 ((PTHREAD_PRIO_MAX-1) - __clz(core0_os_pthread_runnable))) dispatch_only(NULL,NULL);     
-   }
-   else if((current_core_id == CORE1_ID)&&
-   	       (core1_allthreads_status == ALLTHREADS_SUSPENDED))
-   {
-	   core1_allthreads_status = ALLTHREADS_WORKING;
+    }
+    else if((current_core_id == CORE1_ID)&&
+   	        (core1_allthreads_status == ALLTHREADS_SUSPENDED))
+    {
+	  core1_allthreads_status = ALLTHREADS_WORKING;
 	   
-	   /* <CORE1> If there is thread higher than the current thread, switch the context. else keep */
-	   if(core1_os_pthread_running->priority < 
-	   	  ((PTHREAD_PRIO_MAX-1) - __clz(core1_os_pthread_runnable))) dispatch_only(NULL,NULL);     
-   }
-   else if((current_core_id == CORE2_ID)&&
+	  /* <CORE1> If there is thread higher than the current thread, switch the context. else keep */
+	  if(core1_os_pthread_running->priority < 
+	   	 ((PTHREAD_PRIO_MAX-1) - __clz(core1_os_pthread_runnable))) dispatch_only(NULL,NULL);     
+    }
+    else if((current_core_id == CORE2_ID)&&
    	       (core2_allthreads_status == ALLTHREADS_SUSPENDED))
-   {
-	   core2_allthreads_status = ALLTHREADS_WORKING;
+    {
+	  core2_allthreads_status = ALLTHREADS_WORKING;
 	   
-	   /* <CORE2> If there is thread higher than the current thread, switch the context. else keep */
-	   if(core2_os_pthread_running->priority < 
-	   	  ((PTHREAD_PRIO_MAX-1) - __clz(core2_os_pthread_runnable))) dispatch_only(NULL,NULL);     
-   }
+	  /* <CORE2> If there is thread higher than the current thread, switch the context. else keep */
+	  if(core2_os_pthread_running->priority < 
+	   	 ((PTHREAD_PRIO_MAX-1) - __clz(core2_os_pthread_runnable))) dispatch_only(NULL,NULL);     
+    }
 } /* End of pthread_restore_allthreads function */
 
 /****************************************************************************/
@@ -1010,21 +1010,21 @@ void pthread_enable_allinterrupt(void)
 /****************************************************************************/
 osu16_t pthread_obtain_os_tick(os32_t core_id)
 {
-   osu16_t core_curr_tick = 0;
+    osu16_t core_curr_tick = 0;
 
-   if(core_id == CORE0_ID)
-   {
+    if(core_id == CORE0_ID)
+    {
       core_curr_tick = core0_os_tick_count;
-   }
-   else if(core_id == CORE1_ID)
-   {
+    }
+    else if(core_id == CORE1_ID)
+    {
       core_curr_tick = core1_os_tick_count;
-   }
-   else if(core_id == CORE2_ID)
-   {
+    }
+    else if(core_id == CORE2_ID)
+    {
       core_curr_tick = core2_os_tick_count;
-   }
-   return core_curr_tick;
+    }
+    return core_curr_tick;
 }  /* End of os_enable_allinterrupt function */
 
 /****************************************************************************/
@@ -1034,15 +1034,15 @@ osu16_t pthread_obtain_os_tick(os32_t core_id)
 /****************************************************************************/
 void __interrupt(CORE0_KERNEL_TICK_INT_LEVEL) __vector_table(VECTOR_TABLE0) core0_kernel_tick_isr(void)
 {  
-   /* <CORE0> OS tick ranges from 0-0xffff */
-   core0_os_tick_count = ( core0_os_tick_count + 1)%0xFFFF;  
+    /* <CORE0> OS tick ranges from 0-0xffff */
+    core0_os_tick_count = ( core0_os_tick_count + 1)%0xFFFF;  
 
-   /* <CORE0> Update the os tick of core0 */
-   core0_kernel_update_os_tick(); 
+    /* <CORE0> Update the os tick of core0 */
+    core0_kernel_update_os_tick(); 
 
-   /* <CORE0> Call the scheduler part in the interrupt to deal with the */
-   /* periodic thread activation of core0 */   
-   os_kernel_in_tick();
+    /* <CORE0> Call the scheduler part in the interrupt to deal with the */
+    /* periodic thread activation of core0 */   
+    os_kernel_in_tick();
 } /* End of core1_kernel_tick_isr intterrupt */
 
 /****************************************************************************/
@@ -1052,15 +1052,15 @@ void __interrupt(CORE0_KERNEL_TICK_INT_LEVEL) __vector_table(VECTOR_TABLE0) core
 /****************************************************************************/
 void __interrupt(CORE1_KERNEL_TICK_INT_LEVEL) __vector_table(VECTOR_TABLE0) core1_kernel_tick_isr(void)
 { 
-   /* <CORE1> OS tick ranges from 0-0xffff */
-   core1_os_tick_count = ( core1_os_tick_count + 1)%0xFFFF; 
+    /* <CORE1> OS tick ranges from 0-0xffff */
+    core1_os_tick_count = ( core1_os_tick_count + 1)%0xFFFF; 
 
-   /* <CORE1> Update the os tick of core1 */
-   core1_kernel_update_os_tick();  
+    /* <CORE1> Update the os tick of core1 */
+    core1_kernel_update_os_tick();  
 
-   /* <CORE1> Call the scheduler part in the interrupt to deal with the */
-   /* periodic thread activation of core1 */   
-   os_kernel_in_tick();
+    /* <CORE1> Call the scheduler part in the interrupt to deal with the */
+    /* periodic thread activation of core1 */   
+    os_kernel_in_tick();
 
 } /* End of core1_kernel_tick_isr interrupt */
 
@@ -1071,15 +1071,15 @@ void __interrupt(CORE1_KERNEL_TICK_INT_LEVEL) __vector_table(VECTOR_TABLE0) core
 /****************************************************************************/
 void __interrupt(CORE2_KERNEL_TICK_INT_LEVEL) __vector_table(VECTOR_TABLE0) core2_kernel_tick_isr(void)
 {  
-   /* <CORE2> OS tick ranges from 0-0xffff */
-   core2_os_tick_count = (core2_os_tick_count + 1)%0xFFFF; 
+    /* <CORE2> OS tick ranges from 0-0xffff */
+    core2_os_tick_count = (core2_os_tick_count + 1)%0xFFFF; 
 
-   /* <CORE2> Update the os tick of core2 */
-   core2_kernel_update_os_tick(); 
+    /* <CORE2> Update the os tick of core2 */
+    core2_kernel_update_os_tick(); 
 
-   /* <CORE2> Call the scheduler part in the interrupt to deal with the */
-   /* periodic thread activation of core2 */
-   os_kernel_in_tick();
+    /* <CORE2> Call the scheduler part in the interrupt to deal with the */
+    /* periodic thread activation of core2 */
+    os_kernel_in_tick();
 
 } /* End of core2_kernel_tick_isr interrupt */
 
