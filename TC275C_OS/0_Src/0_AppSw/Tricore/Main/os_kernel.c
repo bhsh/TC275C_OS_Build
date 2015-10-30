@@ -324,36 +324,36 @@ os32_t pthread_mutex_lock(pthread_mutex_t *mutex) /* <*mutex> mutex pointer */
 
 	if(current_core_id == CORE0_ID)
 	{
-        if (mutex->owner == core0_os_pthread_running) return -1;
+      if (mutex->owner == core0_os_pthread_running) return -1;
 
-		/* <CORE0> Swap out if already looked by another thread */
-        while (true == __swap(&mutex->lock, true)) 
-		{  
-           dispatch_wait(&mutex->blocked_threads, NULL); /* <CORE0> Block this thread */
-        }
-        mutex->owner = core0_os_pthread_running;
+	  /* <CORE0> Swap out if already looked by another thread */
+      while (true == __swap(&mutex->lock, true)) 
+	  {  
+        dispatch_wait(&mutex->blocked_threads, NULL); /* <CORE0> Block this thread */
+      }
+      mutex->owner = core0_os_pthread_running;
 	}
 	else if(current_core_id == CORE1_ID)
 	{
-        if (mutex->owner == core1_os_pthread_running) return -1;
-		
-		/* <CORE1> Swap out if already looked by another thread */
-        while (true == __swap(&mutex->lock, true))
-		{ 
-           dispatch_wait(&mutex->blocked_threads, NULL); /* <CORE1> Block this thread */
-        }
-        mutex->owner = core1_os_pthread_running;
+      if (mutex->owner == core1_os_pthread_running) return -1;
+	
+	  /* <CORE1> Swap out if already looked by another thread */
+      while (true == __swap(&mutex->lock, true))
+	  { 
+        dispatch_wait(&mutex->blocked_threads, NULL); /* <CORE1> Block this thread */
+      }
+      mutex->owner = core1_os_pthread_running;
 	}
 	else if(current_core_id == CORE2_ID)
 	{
-        if (mutex->owner == core2_os_pthread_running) return -1;
+      if (mutex->owner == core2_os_pthread_running) return -1;
 
-		/* <CORE2> Swap out if already looked by another thread */
-        while (true == __swap(&mutex->lock, true))
-	    { 
-           dispatch_wait(&mutex->blocked_threads, NULL); /* <CORE2> Block this thread */
-        }
-        mutex->owner = core2_os_pthread_running;
+	  /* <CORE2> Swap out if already looked by another thread */
+      while (true == __swap(&mutex->lock, true))
+	  { 
+        dispatch_wait(&mutex->blocked_threads, NULL); /* <CORE2> Block this thread */
+      }
+      mutex->owner = core2_os_pthread_running;
 	}
     return 0;/* Dummy to avoid warning */
 } /* End of pthread_mutex_lock function */
@@ -371,33 +371,33 @@ os32_t pthread_mutex_unlock(pthread_mutex_t *mutex) /* <*mutex> mutex pointer */
 	
 	if(current_core_id == CORE0_ID)
 	{
-        if (mutex->owner != core0_os_pthread_running) return -1;
+      if (mutex->owner != core0_os_pthread_running) return -1;
 
-        pthread_t threads = mutex->blocked_threads;
-        mutex->owner = NULL;
-        mutex->lock = false;
-        mutex->blocked_threads = NULL;
-        if (threads != NULL) dispatch_signal(&threads, NULL);
+      pthread_t threads = mutex->blocked_threads;
+      mutex->owner = NULL;
+      mutex->lock = false;
+      mutex->blocked_threads = NULL;
+      if (threads != NULL) dispatch_signal(&threads, NULL);
 	}
 	else if(current_core_id == CORE1_ID)
 	{
-        if (mutex->owner != core1_os_pthread_running) return -1;
+      if (mutex->owner != core1_os_pthread_running) return -1;
 
-        pthread_t threads = mutex->blocked_threads;
-        mutex->owner = NULL;
-        mutex->lock = false;
-        mutex->blocked_threads = NULL;
-        if (threads != NULL) dispatch_signal(&threads, NULL);
+      pthread_t threads = mutex->blocked_threads;
+      mutex->owner = NULL;
+      mutex->lock = false;
+      mutex->blocked_threads = NULL;
+      if (threads != NULL) dispatch_signal(&threads, NULL);
 	}
 	else if(current_core_id == CORE2_ID)
 	{
-        if (mutex->owner != core2_os_pthread_running) return -1;
+      if (mutex->owner != core2_os_pthread_running) return -1;
 
-        pthread_t threads = mutex->blocked_threads;
-        mutex->owner = NULL;
-        mutex->lock = false;
-        mutex->blocked_threads = NULL;
-        if (threads != NULL) dispatch_signal(&threads, NULL);
+      pthread_t threads = mutex->blocked_threads;
+      mutex->owner = NULL;
+      mutex->lock = false;
+      mutex->blocked_threads = NULL;
+      if (threads != NULL) dispatch_signal(&threads, NULL);
 	}
     return 0; /* Dummy to avoid warning */
 } /* End of pthread_mutex_unlock function */
@@ -454,67 +454,67 @@ os32_t pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition pointer
 		{
 	      if(cond_core_id == CORE0_ID)
 	      { 
-			 while(0!=core_getMutex(&core0_mutex)){};
+			while(0!=core_getMutex(&core0_mutex)){};
 			 
-    	     core0_os_blocked_threads=NULL;
+    	    core0_os_blocked_threads=NULL;
 			 
-    	     /* blocked_threads_prev_temp=cond->blocked_threads->prev; */
-    	     list_append(&core0_os_blocked_threads, cond->blocked_threads,
-                          cond->blocked_threads->prev, cond->blocked_threads->next);
+    	    /* blocked_threads_prev_temp=cond->blocked_threads->prev; */
+    	    list_append(&core0_os_blocked_threads, cond->blocked_threads,
+                         cond->blocked_threads->prev, cond->blocked_threads->next);
 
-			 /* locked_threads=cond->blocked_threads; */
-             cond->blocked_threads = NULL;
+			/* locked_threads=cond->blocked_threads; */
+            cond->blocked_threads = NULL;
 
-             /* <CORE0> The software interrupt 0 of core0 is used.   */
-			 SRC_GPSR00.U=(1<<26)| /* SRC_GPSR00.B.SETR=1; <Set request>                     */
-		                  (1<<10)| /* SRC_GPSR00.B.SRE=1;  <Service Request Enable>          */
-		                  (0<<11)| /* SRC_GPSR00.B.TOS=0;  <TOS=CPU0>                        */
-		                  (9);     /* SRC_GPSR00.B.SRPN=9; <Service Request Priority Number> */
+            /* <CORE0> The software interrupt 0 of core0 is used.   */
+			SRC_GPSR00.U=(1<<26)| /* SRC_GPSR00.B.SETR=1; <Set request>                     */
+		                 (1<<10)| /* SRC_GPSR00.B.SRE=1;  <Service Request Enable>          */
+		                 (0<<11)| /* SRC_GPSR00.B.TOS=0;  <TOS=CPU0>                        */
+		                 (9);     /* SRC_GPSR00.B.SRPN=9; <Service Request Priority Number> */
 
-			 /* core_returnMutex(&core0_mutex); */
-           }
-		   else if(cond_core_id == CORE1_ID)
-		   { 
-             while(0!=core_getMutex(&core1_mutex)){};
+			/* core_returnMutex(&core0_mutex); */
+          }
+		  else if(cond_core_id == CORE1_ID)
+		  { 
+            while(0!=core_getMutex(&core1_mutex)){};
 			
-    	     core1_os_blocked_threads=NULL;
+    	    core1_os_blocked_threads=NULL;
 			 
-    	     /* blocked_threads_prev_temp=cond->blocked_threads->prev; */
-    	     list_append(&core1_os_blocked_threads, cond->blocked_threads,
-                            cond->blocked_threads->prev, cond->blocked_threads->next);
+    	    /* blocked_threads_prev_temp=cond->blocked_threads->prev; */
+    	    list_append(&core1_os_blocked_threads, cond->blocked_threads,
+                           cond->blocked_threads->prev, cond->blocked_threads->next);
 
-             /* locked_threads=cond->blocked_threads; */
-             cond->blocked_threads = NULL;
+            /* locked_threads=cond->blocked_threads; */
+            cond->blocked_threads = NULL;
 
-             /* <CORE1>  The software interrupt 0 of core1 is used.   */
-			 SRC_GPSR10.U=(1<<26)| /* SRC_GPSR10.B.SETR=1;  <Set request>                     */
-		                  (1<<10)| /* SRC_GPSR10.B.SRE=1;   <Service Request Enable>          */
-		                  (1<<11)| /* SRC_GPSR10.B.TOS=0;   <TOS=CPU1>                        */
-		                  (8);     /* SRC_GPSR10.B.SRPN=8;  <Service Request Priority Number> */     
-		                  
-			 /* core_returnMutex(&core1_mutex); */
-		   }
-		   else if(cond_core_id == CORE2_ID)
-		   { 
-             while(0!=core_getMutex(&core2_mutex)){};
+            /* <CORE1>  The software interrupt 0 of core1 is used.   */
+			SRC_GPSR10.U=(1<<26)| /* SRC_GPSR10.B.SETR=1;  <Set request>                     */
+		                 (1<<10)| /* SRC_GPSR10.B.SRE=1;   <Service Request Enable>          */
+		                 (1<<11)| /* SRC_GPSR10.B.TOS=0;   <TOS=CPU1>                        */
+		                 (8);     /* SRC_GPSR10.B.SRPN=8;  <Service Request Priority Number> */     
+		                 
+			/* core_returnMutex(&core1_mutex); */
+		  }
+		  else if(cond_core_id == CORE2_ID)
+		  { 
+            while(0!=core_getMutex(&core2_mutex)){};
 			 
-    	     core2_os_blocked_threads=NULL;
+    	    core2_os_blocked_threads=NULL;
 			 
-    	     /* blocked_threads_prev_temp=cond->blocked_threads->prev; */
-    	     list_append(&core2_os_blocked_threads, cond->blocked_threads,
-                               cond->blocked_threads->prev, cond->blocked_threads->next);
+    	    /* blocked_threads_prev_temp=cond->blocked_threads->prev; */
+    	    list_append(&core2_os_blocked_threads, cond->blocked_threads,
+                              cond->blocked_threads->prev, cond->blocked_threads->next);
 
-			 /* locked_threads=cond->blocked_threads; */
-             cond->blocked_threads = NULL;
+			/* locked_threads=cond->blocked_threads; */
+            cond->blocked_threads = NULL;
 
-             /* <CORE2> The software interrupt 0 of core2 is used.   */
-			 SRC_GPSR20.U=(1<<26)| /* SRC_GPSR20.B.SETR=1;  <Set request>                     */               
-		                  (1<<10)| /* SRC_GPSR20.B.SRE=1;   <Service Request Enable>          */
-		                  (2<<11)| /* SRC_GPSR20.B.TOS=2;   <TOS=CPU2>                        */
-		                  (7);     /* SRC_GPSR20.B.SRPN=7;  <Service Request Priority Number> */
-		                  
-		     /* core_returnMutex(&core2_mutex); */
-		   }
+            /* <CORE2> The software interrupt 0 of core2 is used.   */
+			SRC_GPSR20.U=(1<<26)| /* SRC_GPSR20.B.SETR=1;  <Set request>                     */               
+		                 (1<<10)| /* SRC_GPSR20.B.SRE=1;   <Service Request Enable>          */
+		                 (2<<11)| /* SRC_GPSR20.B.TOS=2;   <TOS=CPU2>                        */
+		                 (7);     /* SRC_GPSR20.B.SRPN=7;  <Service Request Priority Number> */
+		                 
+		    /* core_returnMutex(&core2_mutex); */
+		  }
 		}		
       }
 #if 0
