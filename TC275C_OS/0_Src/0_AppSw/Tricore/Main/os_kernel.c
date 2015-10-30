@@ -988,14 +988,14 @@ void os_restore_allthreads(void)
 } /* End of os_restore_allthreads function */
 
 /****************************************************************************/
-/* DESCRIPTION: <EVERY CORE> The API(os_dsable_allinterrupts) can be used   */
+/* DESCRIPTION: <EVERY CORE> The API(os_disable_allinterrupts) can be used   */
 /*              inside threads to disable all interrupts.This is an OS API  */
 /*              that is provided to os user                                 */
 /****************************************************************************/
-void os_dsable_allinterrupts(void)
+void os_disable_allinterrupts(void)
 {
    __enable();
-} /* End of os_dsable_allinterrupts function */
+} /* End of os_disable_allinterrupts function */
 
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> The API(os_enable_allinterrupt) can be used    */
