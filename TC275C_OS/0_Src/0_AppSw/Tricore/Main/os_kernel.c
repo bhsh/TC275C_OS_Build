@@ -859,13 +859,12 @@ inline void schedule_in_tick(void)
 	 }
 }
 
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|           pthread_cond_timedwait_np(optimized)
-|           time block
-|           
---------------------------------------------------------------------------------------*/
+/****************************************************************************/
+/* DESCRIPTION: <EVERY CORE> The API(pthread_cond_timedwait_np) can be used */
+/*              inside threads to let the current thread blocked in for     */
+/*              reltime(unit ms).This is an OS API that is provided to os   */
+/*              user                                                        */
+/****************************************************************************/
 int pthread_cond_timedwait_np(uint16_t reltime) //!< [in] relative time are the relative time STM_TIM4 ticks.NOT PORTABLE.
 {
 	uint16_t new_tick_count;
@@ -873,81 +872,83 @@ int pthread_cond_timedwait_np(uint16_t reltime) //!< [in] relative time are the 
 	uint32_t task_id = 0;
 	pthread_cond_t *cond;
 	
-    assert(cppn()==0); // CCPN must be 0, pthread_create cannot be called from ISR
+    assert(cppn()==0); /* CCPN must be 0, pthread_cond_timedwait_np cannot be called from ISR */
 
 	if(os_getCoreId()==CORE0)
 	{	  	
-	  new_tick_count           = stm_tick_count + 1;
-	  set_count                = ((uint16_t)(new_tick_count + reltime))%0xFFFF;  // set_count ranges from 0-0xFFFE
+	  new_tick_count  = stm_tick_count + 1;
+	  set_count = ((uint16_t)(new_tick_count + reltime))%0xFFFF;  /* <CORE0> set_count ranges from 0 to 0xFFFE */
 
-      /* Search the empty position. */
+      /* <CORE0> Search the empty position. */
       while((stm_ticks[task_id] != USHRT_MAX)&&(task_id < PTHREAD_COND_TIMEDWAIT_SIZE ))
 	  {
         task_id++;
 	  }
-	  /* There is not any empty position now. the call is returned. */
+	  
+	  /* <CORE0> There is not any empty position now. the call is returned. */
 	  if(task_id == PTHREAD_COND_TIMEDWAIT_SIZE ) return 0;
  
       cond = &core0_os_cond[task_id];
-	  __putbit(1,(int*)&core0_os_pthread_time_waiting,task_id); // mark current thread ready
-      stm_ticks[task_id]       = set_count;                                      // load the current tick set(lconfig 1.)
-      stm_cond[task_id]        = cond;                                           // load the cond.(lconfig 2.)
+	  __putbit(1,(int*)&core0_os_pthread_time_waiting,task_id); /* <CORE0> mark current thread ready */
+	  
+      stm_ticks[task_id] = set_count;     /* <CORE0> Load the current tick set(lconfig 1.) */ 
+      stm_cond[task_id] = cond;           /* <CORE0> Load the cond.(lconfig 2.) */            
 
-      int err = dispatch_wait(&cond->blocked_threads, NULL);// swap out with mutex unlocked
+      int err = dispatch_wait(&cond->blocked_threads, NULL);
 	}
 	else if(os_getCoreId()==CORE1)
 	{ 
-	  new_tick_count           = core1_os_stm_tick_count + 1;
-	  set_count                = ((uint16_t)(new_tick_count + reltime))%0xFFFF;  // set_count ranges from 0-0xFFFE
+	  new_tick_count = core1_os_stm_tick_count + 1;
+	  set_count = ((uint16_t)(new_tick_count + reltime))%0xFFFF;  /* <CORE1> set_count ranges from 0 to 0xFFFE */
 
-      /* Search the empty position. */
+      /* <CORE1> Search the empty position. */
       while((core1_os_stm_ticks[task_id] != USHRT_MAX)&&(task_id < PTHREAD_COND_TIMEDWAIT_SIZE ))
 	  {
         task_id++;
 	  }
-	  /* There is not any empty position now. the call is returned. */
+	  
+	  /* <CORE1> There is not any empty position now. the call is returned. */
 	  if(task_id == PTHREAD_COND_TIMEDWAIT_SIZE ) return 0;
 
       cond = &core1_os_cond[task_id];
-	  __putbit(1,(int*)&core1_os_pthread_time_waiting,task_id); // mark current thread ready
+	  __putbit(1,(int*)&core1_os_pthread_time_waiting,task_id); /* <CORE1> mark current thread ready */
 	  
-	  core1_os_stm_ticks[task_id]       = set_count;                                      // load the current tick set(lconfig 1.)
-      core1_os_stm_cond[task_id]        = cond;                                           // load the cond.(lconfig 2.)
+	  core1_os_stm_ticks[task_id] = set_count;  /* <CORE1> Load the current tick set(lconfig 1.) */    
+      core1_os_stm_cond[task_id] = cond;        /* <CORE1> Load the cond.(lconfig 2.) */              
 	
-      int err = dispatch_wait(&cond->blocked_threads, NULL);// swap out with mutex unlocked
+      int err = dispatch_wait(&cond->blocked_threads, NULL);
 
 	}
 	else if(os_getCoreId()==CORE2)
 	{
-	  new_tick_count           = core2_os_stm_tick_count + 1;
-	  set_count                = ((uint16_t)(new_tick_count + reltime))%0xFFFF;  // set_count ranges from 0-0xFFFE
+	  new_tick_count  = core2_os_stm_tick_count + 1;
+	  set_count = ((uint16_t)(new_tick_count + reltime))%0xFFFF;  /* <CORE2> set_count ranges from 0 to 0xFFFE */
 
-      /* Search the empty position. */
+      /* <CORE2> Search the empty position. */
       while((core2_os_stm_ticks[task_id] != USHRT_MAX)&&(task_id < PTHREAD_COND_TIMEDWAIT_SIZE ))
 	  {
         task_id++;
 	  }
-	  /* There is not any empty position now. the call is returned. */
+	  
+	  /* <CORE2> There is not any empty position now. the call is returned. */
 	  if(task_id == PTHREAD_COND_TIMEDWAIT_SIZE ) return 0;
 
       cond = &core2_os_cond[task_id];
-	  __putbit(1,(int*)&core2_os_pthread_time_waiting,task_id); // mark current thread ready
+	  __putbit(1,(int*)&core2_os_pthread_time_waiting,task_id); /* <CORE2> mark current thread ready */
 
-	  core2_os_stm_ticks[task_id]       = set_count;                                      // load the current tick set(lconfig 1.)
-      core2_os_stm_cond[task_id]        = cond;                                           // load the cond.(lconfig 2.)
+	  core2_os_stm_ticks[task_id] = set_count;  /* <CORE2> Load the current tick set(lconfig 1.) */
+      core2_os_stm_cond[task_id] = cond;        /* <CORE2> Load the cond.(lconfig 2.) */
 
-      int err = dispatch_wait(&cond->blocked_threads, NULL);// swap out with mutex unlocked
+      int err = dispatch_wait(&cond->blocked_threads, NULL);
 	}
     return 0;
-}
+} /* End of pthread_cond_timedwait_np function */
 
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|           Suspend_AllThreads
-|           time block
-|           
---------------------------------------------------------------------------------------*/
+/****************************************************************************/
+/* DESCRIPTION: <EVERY CORE> The API(os_suspend_allthreads) can be used     */
+/*              inside threads to suspend all that happend after the API is */
+/*              called.This is an OS API that is provided to os user        */
+/****************************************************************************/
 void os_suspend_allthreads(void)
 {
 	/* Because the scheduler logic is located in stm tick interrupt, and */
@@ -986,14 +987,15 @@ void os_suspend_allthreads(void)
 		   	    /* Do nothing. */
 	   }	
    }
-}
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|           Restore_AllThreads
-|           time block
-|           
---------------------------------------------------------------------------------------*/
+} /* End of os_suspend_allthreads function */
+
+/****************************************************************************/
+/* DESCRIPTION: <EVERY CORE> The API(os_restore_allthreads) can be used     */
+/*              inside threads to restore all threads that are suspended.   */
+/*              After the API is called all thread that are suspended by    */
+/*              os_restore_allthreads can be restore immediately This is    */
+/*              an OS API that is provided to os user                       */
+/****************************************************************************/
 void os_restore_allthreads(void)
 {
 	/* Because the scheduler logic is located in stm tick interrupt, and */
@@ -1059,62 +1061,66 @@ void os_restore_allthreads(void)
 	   }	
    }
  
-}
+} /* End of os_restore_allthreads function */
 
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|           os_dsable_allinterrupts
-|           time block
-|           
---------------------------------------------------------------------------------------*/
+/****************************************************************************/
+/* DESCRIPTION: <EVERY CORE> The API(os_dsable_allinterrupts) can be used   */
+/*              inside threads to disable all interrupts.This is an OS API  */
+/*              that is provided to os user                                 */
+/****************************************************************************/
 void os_dsable_allinterrupts(void)
 {
    __enable();
-}
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|           os_enable_allinterrupt
-|           time block
-|           
---------------------------------------------------------------------------------------*/
+} /* End of os_dsable_allinterrupts function */
+
+/****************************************************************************/
+/* DESCRIPTION: <EVERY CORE> The API(os_enable_allinterrupt) can be used    */
+/*              inside threads to enable all interrupts.This is an OS API   */
+/*              that is provided to os user                                 */
+/****************************************************************************/
 void os_enable_allinterrupt(void)
 {
   __disable();
   __nop();
 
-}
+} /* End of os_enable_allinterrupt function */
 
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|           Ifx_STM0_compare1_Isr
-|           the stm0 interrupt is used for core0
-|           
---------------------------------------------------------------------------------------*/
-
+/****************************************************************************/
+/* DESCRIPTION:  <CORE0> software interrupt 0 that is used for thread       */
+/*                       activation when the activation source is located   */
+/*                       in interrupt                                       */
+/****************************************************************************/
 void __interrupt(10) __vector_table(0) Ifx_STM0_Isr(void)
 {  
-   stm_tick_count=(stm_tick_count+1)%0xFFFF;   // os tick from 0-0xffff
-   update_stm0_ticks();                        // update the tick, this line cannot be changed now. 
-   schedule_in_tick();
+   /* <CORE0> OS tick ranges from 0-0xffff */
+   stm_tick_count=(stm_tick_count+1)%0xFFFF;  
 
-}
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|           Ifx_STM0_compare1_Isr
-|           the stm1 interrupt is used for core1
-|           
---------------------------------------------------------------------------------------*/
+   /* <CORE0> Update the os tick of core0 */
+   update_stm0_ticks(); 
+
+   /* <CORE0> Call the scheduler part in the interrupt to deal with the */
+   /* periodic thread activation of core0 */   
+   schedule_in_tick();
+} /* End of Ifx_STM0_Isr intterrupt */
+
+/****************************************************************************/
+/* DESCRIPTION:  <CORE1> software interrupt 1 that is used for thread       */
+/*                       activation when the activation source is located   */
+/*                       in interrupt                                       */
+/****************************************************************************/
 void __interrupt(11) __vector_table(0) Ifx_STM1_Isr(void)
-{
-   core1_os_stm_tick_count=(core1_os_stm_tick_count+1)%0xFFFF;   // os tick from 0-0xffff
-   update_stm1_ticks();                                          // update the tick, this line cannot be changed now. 
+{ 
+   /* <CORE1> OS tick ranges from 0-0xffff */
+   core1_os_stm_tick_count=(core1_os_stm_tick_count+1)%0xFFFF; 
+
+   /* <CORE1> Update the os tick of core1 */
+   update_stm1_ticks();  
+
+   /* <CORE1> Call the scheduler part in the interrupt to deal with the */
+   /* periodic thread activation of core1 */   
    schedule_in_tick();
 
-}
+} /* End of Ifx_STM1_Isr intterrupt */
 
 /****************************************************************************/
 /* DESCRIPTION:  <CORE2> software interrupt 0 that is used for thread       */
@@ -1130,10 +1136,10 @@ void __interrupt(12) __vector_table(0) Ifx_STM2_Isr(void)
    update_stm2_ticks(); 
 
    /* <CORE2> Call the scheduler part in the interrupt to deal with the */
-   /* periodic thread activation */
+   /* periodic thread activation of core2 */
    schedule_in_tick();
 
-} /* End of Ifx_STM2_Isr intterrupt*/
+} /* End of Ifx_STM2_Isr intterrupt */
 
 /****************************************************************************/
 /* DESCRIPTION:  <CORE0> software interrupt 0 that is used for thread       */
