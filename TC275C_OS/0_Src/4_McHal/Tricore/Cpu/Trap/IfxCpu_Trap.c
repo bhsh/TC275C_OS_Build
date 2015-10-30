@@ -135,9 +135,9 @@ void IfxCpu_Trap_assertion(uint32 tin)
     __debug();
     __asm("rfe");
 }
-extern void Os_Kernel_Trap_systemCall_Core0(uint32 tin);
-extern void Os_Kernel_Trap_systemCall_Core1(uint32 tin);
-extern void Os_Kernel_Trap_systemCall_Core2(uint32 tin);
+extern void core0_kernel_trap_systemcall(uint32 tin);
+extern void core1_kernel_trap_systemcall(uint32 tin);
+extern void core2_kernel_trap_systemcall(uint32 tin);
 
 
 void IfxCpu_Trap_systemCall_Cpu3(uint32 tin)
@@ -194,7 +194,7 @@ void IfxCpu_Trap_vectorTable0(void)
     IfxCpu_Tsr_CallTSR(IfxCpu_Trap_contextManagementError);
     IfxCpu_Tsr_CallTSR(IfxCpu_Trap_busError);
     IfxCpu_Tsr_CallTSR(IfxCpu_Trap_assertion);
-    IfxCpu_Tsr_CallTSR(Os_Kernel_Trap_systemCall_Core0);
+    IfxCpu_Tsr_CallTSR(core0_kernel_trap_systemcall);
     IfxCpu_Tsr_CallTSR(IfxCpu_Trap_nonMaskableInterrupt);
 }
 
@@ -220,7 +220,7 @@ void IfxCpu_Trap_vectorTable1(void)
     IfxCpu_Tsr_CallTSR(IfxCpu_Trap_contextManagementError);
     IfxCpu_Tsr_CallTSR(IfxCpu_Trap_busError);
     IfxCpu_Tsr_CallTSR(IfxCpu_Trap_assertion);
-    IfxCpu_Tsr_CallTSR(Os_Kernel_Trap_systemCall_Core1);
+    IfxCpu_Tsr_CallTSR(core1_kernel_trap_systemcall);
     IfxCpu_Tsr_CallTSR(IfxCpu_Trap_nonMaskableInterrupt);
 }
 
@@ -248,7 +248,7 @@ void IfxCpu_Trap_vectorTable2(void)
     IfxCpu_Tsr_CallTSR(IfxCpu_Trap_contextManagementError);
     IfxCpu_Tsr_CallTSR(IfxCpu_Trap_busError);
     IfxCpu_Tsr_CallTSR(IfxCpu_Trap_assertion);
-    IfxCpu_Tsr_CallTSR(Os_Kernel_Trap_systemCall_Core2);
+    IfxCpu_Tsr_CallTSR(core2_kernel_trap_systemcall);
     IfxCpu_Tsr_CallTSR(IfxCpu_Trap_nonMaskableInterrupt);
 }
 

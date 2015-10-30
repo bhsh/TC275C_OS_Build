@@ -1174,18 +1174,18 @@ void __interrupt(21) __vector_table(0) Ifx_STM0_compare1_Isr(void)
 /****************************************************************************/
 /* DESCRIPTION: <CORE0>  Trap vector table entry to trap class 6 handler    */
 /****************************************************************************/
-void Os_Kernel_Trap_systemCall_Core0(osu32_t tin)
+void core0_kernel_trap_systemcall(osu32_t tin)
 {
     __asm(  " mtcr #ICR,%0    \n"
             " isync           \n"
             " jg os_kernel     "
             ::"d"(1 << 15 | PTHREAD_USER_INT_LEVEL),"a"(os_kernel):"a4","a5","d15");
-} /* End of Os_Kernel_Trap_systemCall_Core0 function */
+} /* End of core0_kernel_trap_systemcall function */
 
 /****************************************************************************/
 /* DESCRIPTION: <CORE1>  Trap vector table entry to trap class 6 handler    */
 /****************************************************************************/
-void Os_Kernel_Trap_systemCall_Core1(osu32_t tin)
+void core1_kernel_trap_systemcall(osu32_t tin)
 {
 	/* Add the kernel of OS */
 	/* Kernel begins        */
@@ -1193,18 +1193,18 @@ void Os_Kernel_Trap_systemCall_Core1(osu32_t tin)
             " isync           \n"
             " jg os_kernel     "
             ::"d"(1 << 15 | PTHREAD_USER_INT_LEVEL),"a"(os_kernel):"a4","a5","d15");
-} /* End of Os_Kernel_Trap_systemCall_Core1 function */
+} /* End of core1_kernel_trap_systemcall function */
 
 /****************************************************************************/
 /* DESCRIPTION: <CORE2>  Trap vector table entry to trap class 6 handler    */
 /****************************************************************************/
-void Os_Kernel_Trap_systemCall_Core2(osu32_t tin)
+void core2_kernel_trap_systemcall(osu32_t tin)
 {
     __asm(  " mtcr #ICR,%0    \n"
             " isync           \n"
             " jg os_kernel     "
             ::"d"(1 << 15 | PTHREAD_USER_INT_LEVEL),"a"(os_kernel):"a4","a5","d15");
-} /* End of Os_Kernel_Trap_systemCall_Core2 function */
+} /* End of core2_kernel_trap_systemcall function */
 
 
 
