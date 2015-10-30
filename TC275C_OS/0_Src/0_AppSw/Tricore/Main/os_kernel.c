@@ -748,11 +748,11 @@ OS_STATIC void os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_thread) 
 } /* End of os_kernel function */
 
 /****************************************************************************/
-/* DESCRIPTION: <EVERY CORE> The API(schedule_in_tick) is used inside the   */
+/* DESCRIPTION: <EVERY CORE> The API(os_kernel_in_tick) is used inside the   */
 /*              tick interrupts of STM0,STM1 and STM2 to deal with periodic */
 /*              thread scheduling events                                    */
 /****************************************************************************/
-OS_INLINE void schedule_in_tick(void)
+OS_INLINE void os_kernel_in_tick(void)
 {
      pthread_cond_t  *cond;
 	 pthread_cond_t  *cond_buffer[PTHREAD_COND_TIMEDWAIT_SIZE];
@@ -833,7 +833,7 @@ OS_INLINE void schedule_in_tick(void)
 	          " jg os_kernel  "
 	          ::"a"(&cond->blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(os_kernel):"a4","a5","d15");
 	 }
-} /* End of schedule_in_tick function */
+} /* End of os_kernel_in_tick function */
 
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> The API(pthread_cond_timedwait_np) can be used */
@@ -1076,7 +1076,7 @@ void __interrupt(10) __vector_table(VECTOR_TABLE0) core0_kernel_tick_isr(void)
 
    /* <CORE0> Call the scheduler part in the interrupt to deal with the */
    /* periodic thread activation of core0 */   
-   schedule_in_tick();
+   os_kernel_in_tick();
 } /* End of core1_kernel_tick_isr intterrupt */
 
 /****************************************************************************/
@@ -1094,7 +1094,7 @@ void __interrupt(11) __vector_table(VECTOR_TABLE0) core1_kernel_tick_isr(void)
 
    /* <CORE1> Call the scheduler part in the interrupt to deal with the */
    /* periodic thread activation of core1 */   
-   schedule_in_tick();
+   os_kernel_in_tick();
 
 } /* End of core1_kernel_tick_isr interrupt */
 
@@ -1113,7 +1113,7 @@ void __interrupt(12) __vector_table(VECTOR_TABLE0) core2_kernel_tick_isr(void)
 
    /* <CORE2> Call the scheduler part in the interrupt to deal with the */
    /* periodic thread activation of core2 */
-   schedule_in_tick();
+   os_kernel_in_tick();
 
 } /* End of core2_kernel_tick_isr interrupt */
 
