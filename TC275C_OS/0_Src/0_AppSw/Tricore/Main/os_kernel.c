@@ -202,18 +202,6 @@ OS_INLINE void core2_kernel_update_os_tick(void)
 } /* End of core2_kernel_update_os_tick function */
 
 /****************************************************************************/
-/* DESCRIPTION: <CORE0> Update stm0 compare1                                */
-/****************************************************************************/
-OS_INLINE void update_stm0_compare1_ticks(osu32_t tick_ms)
-{
-    osu32_t stmTicks;
-
-    stmTicks = (osu32_t) ( stm0CompareValue2 * tick_ms);
-    IfxStm_updateCompare (&MODULE_STM0, IfxStm_Comparator_1, IfxStm_getCompare (&MODULE_STM0, IfxStm_Comparator_1) + stmTicks);
-    /* IfxPort_togglePin(&MODULE_P33, 10); */
-} /* End of update_stm0_compare1_ticks function */
-
-/****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Append an element at the end of a list         */
 /****************************************************************************/
 OS_INLINE void list_append(pthread_t *head, /* <*head> list head pointer */
@@ -1109,15 +1097,6 @@ void __interrupt(CORE2_KERNEL_SOFT_INT_LEVEL) __vector_table(VECTOR_TABLE0) core
             " jg os_kernel"
             ::"a"(&core2_os_blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(os_kernel):"a4","a5","d15");
 } /* End of core2_kernel_soft_isr interrupt */
-
-/****************************************************************************/
-/* DESCRIPTION: STM0 compare1 interrupt event                               */
-/****************************************************************************/
-void __interrupt(21) __vector_table(VECTOR_TABLE0) Ifx_STM0_compare1_Isr(void)
-{ 
-	 /* Unit:ms ,the max is 0xFFFFFFFF/100000=42949ms(42.949s */
- 	update_stm0_compare1_ticks(1000);
-} /* End of Ifx_STM0_compare1_Isr interrupt */
 
 /****************************************************************************/
 /* DESCRIPTION: <CORE0>  Trap vector table entry to trap class 6 handler    */
