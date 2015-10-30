@@ -603,7 +603,8 @@ OS_INLINE void dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t
 /*    <EVERY CORE> Only reschedule all threads that have been actived       */
 /*    without changing the scheduling table                                 */
 /****************************************************************************/
-OS_STATIC void os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
+OS_STATIC void os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_thread) 
+{
     os32_t tin, i;
     pthread_t thread, tmp;
 
@@ -918,23 +919,23 @@ os32_t pthread_cond_timedwait_np(osu16_t reltime) //!< [in] relative time are th
 void pthread_suspend_allthreads(void)
 {
 	/* Because the scheduler logic is located in stm tick interrupt, and */
-   osu32_t current_cpu_id = os_getCoreId();
-
-   if((current_cpu_id == CORE0)&&
-   	 (core0_allthreads_status == ALLTHREADS_WORKING))
-   {	
-      core0_allthreads_status = ALLTHREADS_SUSPENDED;
-   }
-   else if((current_cpu_id == CORE1)&&
-   	      (core1_allthreads_status == ALLTHREADS_WORKING))
-   {
-      core1_allthreads_status = ALLTHREADS_SUSPENDED;
-   }
-   else if((current_cpu_id == CORE2)&&
-   	      (core2_allthreads_status == ALLTHREADS_WORKING))
-   {
-   	  core2_allthreads_status = ALLTHREADS_SUSPENDED;
-   }
+    osu32_t current_cpu_id = os_getCoreId();
+ 
+    if((current_cpu_id == CORE0)&&
+    	 (core0_allthreads_status == ALLTHREADS_WORKING))
+    {	
+       core0_allthreads_status = ALLTHREADS_SUSPENDED;
+    }
+    else if((current_cpu_id == CORE1)&&
+    	      (core1_allthreads_status == ALLTHREADS_WORKING))
+    {
+       core1_allthreads_status = ALLTHREADS_SUSPENDED;
+    }
+    else if((current_cpu_id == CORE2)&&
+    	      (core2_allthreads_status == ALLTHREADS_WORKING))
+    {
+    	  core2_allthreads_status = ALLTHREADS_SUSPENDED;
+    }
 } /* End of pthread_suspend_allthreads function */
 
 /****************************************************************************/
