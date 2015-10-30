@@ -167,3 +167,724 @@ HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.debug,
 !MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.dsf.ui', id='AUTOGEN:::org.eclipse.cdt.dsf.debug.ui.disassemblyRulerActions/org.eclipse.debug.ui.actions.RulerAddBreakpointAction'
 !SUBENTRY 1 org.eclipse.ui 2 0 2015-08-29 21:22:48.603
 !MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.dsf.ui', id='org.eclipse.cdt.dsf.debug.ui.disassembly.commands.rulerToggleBreakpoint'
+
+!ENTRY org.eclipse.ui 4 0 2015-09-21 22:55:45.407
+!MESSAGE Unhandled event loop exception
+!STACK 0
+java.lang.IllegalStateException: The service has been unregistered
+	at org.eclipse.osgi.internal.serviceregistry.ServiceRegistrationImpl.unregister(ServiceRegistrationImpl.java:209)
+	at org.eclipse.ui.internal.Workbench.shutdown(Workbench.java:3042)
+	at org.eclipse.ui.internal.Workbench.busyClose(Workbench.java:1123)
+	at org.eclipse.ui.internal.Workbench.access$15(Workbench.java:1040)
+	at org.eclipse.ui.internal.Workbench$25.run(Workbench.java:1284)
+	at org.eclipse.swt.custom.BusyIndicator.showWhile(BusyIndicator.java:70)
+	at org.eclipse.ui.internal.Workbench.close(Workbench.java:1282)
+	at org.eclipse.ui.internal.Workbench.close(Workbench.java:1254)
+	at org.eclipse.ui.internal.WorkbenchWindow.busyClose(WorkbenchWindow.java:727)
+	at org.eclipse.ui.internal.WorkbenchWindow.access$0(WorkbenchWindow.java:715)
+	at org.eclipse.ui.internal.WorkbenchWindow$6.run(WorkbenchWindow.java:867)
+	at org.eclipse.swt.custom.BusyIndicator.showWhile(BusyIndicator.java:70)
+	at org.eclipse.ui.internal.WorkbenchWindow.close(WorkbenchWindow.java:865)
+	at org.eclipse.jface.window.Window.handleShellCloseEvent(Window.java:741)
+	at org.eclipse.jface.window.Window$3.shellClosed(Window.java:687)
+	at org.eclipse.swt.widgets.TypedListener.handleEvent(TypedListener.java:98)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:84)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1053)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1077)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1062)
+	at org.eclipse.swt.widgets.Decorations.closeWidget(Decorations.java:309)
+	at org.eclipse.swt.widgets.Decorations.WM_CLOSE(Decorations.java:1694)
+	at org.eclipse.swt.widgets.Control.windowProc(Control.java:4530)
+	at org.eclipse.swt.widgets.Canvas.windowProc(Canvas.java:341)
+	at org.eclipse.swt.widgets.Decorations.windowProc(Decorations.java:1627)
+	at org.eclipse.swt.widgets.Shell.windowProc(Shell.java:2069)
+	at org.eclipse.swt.widgets.Display.windowProc(Display.java:4976)
+	at org.eclipse.swt.internal.win32.OS.DefWindowProcW(Native Method)
+	at org.eclipse.swt.internal.win32.OS.DefWindowProc(OS.java:2541)
+	at org.eclipse.swt.widgets.Shell.callWindowProc(Shell.java:498)
+	at org.eclipse.swt.widgets.Control.windowProc(Control.java:4623)
+	at org.eclipse.swt.widgets.Canvas.windowProc(Canvas.java:341)
+	at org.eclipse.swt.widgets.Decorations.windowProc(Decorations.java:1627)
+	at org.eclipse.swt.widgets.Shell.windowProc(Shell.java:2069)
+	at org.eclipse.swt.widgets.Display.windowProc(Display.java:4976)
+	at org.eclipse.swt.internal.win32.OS.DispatchMessageW(Native Method)
+	at org.eclipse.swt.internal.win32.OS.DispatchMessage(OS.java:2546)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3756)
+	at org.eclipse.ui.internal.Workbench.runEventLoop(Workbench.java:2701)
+	at org.eclipse.ui.internal.Workbench.runUI(Workbench.java:2665)
+	at org.eclipse.ui.internal.Workbench.access$4(Workbench.java:2499)
+	at org.eclipse.ui.internal.Workbench$7.run(Workbench.java:679)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:668)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:124)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:196)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:110)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:79)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:353)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:180)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:629)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:584)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1438)
+!SESSION 2015-09-23 09:22:34.539 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_45
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86 -data E:\OS\TASKING_TC275C_OS
+
+!ENTRY org.eclipse.ui 2 0 2015-09-23 09:22:37.830
+!MESSAGE Warnings while parsing the viewer contributions from the 'org.eclipse.ui.popupMenus' extension point
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-09-23 09:22:37.830
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.CBreakpointPropertiesRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-09-23 09:22:37.830
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.EnableDisableBreakpointRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-09-23 09:22:37.830
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.ui.actions.RulerCreateBreakpointInteractiveAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-09-23 09:22:37.830
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.asm.CBreakpointPropertiesRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-09-23 09:22:37.830
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.asm.EnableDisableBreakpointRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-09-23 09:22:37.830
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.ui.actions.asm.RulerCreateBreakpointInteractiveAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-09-23 09:22:37.830
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.dsf.ui', id='AUTOGEN:::org.eclipse.cdt.dsf.debug.ui.disassemblyRulerActions/org.eclipse.debug.ui.actions.RulerAddBreakpointAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-09-23 09:22:37.830
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.dsf.ui', id='org.eclipse.cdt.dsf.debug.ui.disassembly.commands.rulerToggleBreakpoint'
+
+!ENTRY org.eclipse.ui.workbench 2 0 2015-09-23 09:22:40.467
+!MESSAGE A handler conflict occurred.  This may disable some commands.
+!SUBENTRY 1 org.eclipse.ui.workbench 2 0 2015-09-23 09:22:40.467
+!MESSAGE Conflict for 'org.eclipse.cdt.debug.ui.localCShortcut.run':
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.run,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@81ad47,
+	expression=,sourcePriority=0)
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.run,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@1ef09c0,
+	expression=,sourcePriority=0)
+
+!ENTRY org.eclipse.ui.workbench 2 0 2015-09-23 09:22:40.467
+!MESSAGE A handler conflict occurred.  This may disable some commands.
+!SUBENTRY 1 org.eclipse.ui.workbench 2 0 2015-09-23 09:22:40.467
+!MESSAGE Conflict for 'org.eclipse.cdt.debug.ui.localCShortcut.debug':
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.debug,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@1e843ef,
+	expression=,sourcePriority=0)
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.debug,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@1af49b,
+	expression=,sourcePriority=0)
+!SESSION 2015-09-23 12:38:19.587 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_45
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86 -data E:\OS\TASKING_TC275C_OS
+
+!ENTRY org.eclipse.ui 2 0 2015-09-23 12:38:23.098
+!MESSAGE Warnings while parsing the viewer contributions from the 'org.eclipse.ui.popupMenus' extension point
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-09-23 12:38:23.098
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.CBreakpointPropertiesRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-09-23 12:38:23.098
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.EnableDisableBreakpointRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-09-23 12:38:23.098
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.ui.actions.RulerCreateBreakpointInteractiveAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-09-23 12:38:23.098
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.asm.CBreakpointPropertiesRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-09-23 12:38:23.098
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.asm.EnableDisableBreakpointRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-09-23 12:38:23.098
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.ui.actions.asm.RulerCreateBreakpointInteractiveAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-09-23 12:38:23.098
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.dsf.ui', id='AUTOGEN:::org.eclipse.cdt.dsf.debug.ui.disassemblyRulerActions/org.eclipse.debug.ui.actions.RulerAddBreakpointAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-09-23 12:38:23.098
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.dsf.ui', id='org.eclipse.cdt.dsf.debug.ui.disassembly.commands.rulerToggleBreakpoint'
+
+!ENTRY org.eclipse.ui.workbench 2 0 2015-09-23 12:38:28.636
+!MESSAGE A handler conflict occurred.  This may disable some commands.
+!SUBENTRY 1 org.eclipse.ui.workbench 2 0 2015-09-23 12:38:28.636
+!MESSAGE Conflict for 'org.eclipse.cdt.debug.ui.localCShortcut.run':
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.run,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@7507df,
+	expression=,sourcePriority=0)
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.run,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@1b13a8,
+	expression=,sourcePriority=0)
+
+!ENTRY org.eclipse.ui.workbench 2 0 2015-09-23 12:38:28.636
+!MESSAGE A handler conflict occurred.  This may disable some commands.
+!SUBENTRY 1 org.eclipse.ui.workbench 2 0 2015-09-23 12:38:28.636
+!MESSAGE Conflict for 'org.eclipse.cdt.debug.ui.localCShortcut.debug':
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.debug,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@114761c,
+	expression=,sourcePriority=0)
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.debug,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@1feb805,
+	expression=,sourcePriority=0)
+!SESSION 2015-09-24 12:04:29.028 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_45
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86 -data E:\OS\TASKING_TC275C_OS
+
+!ENTRY org.eclipse.ui 2 0 2015-09-24 12:04:31.680
+!MESSAGE Warnings while parsing the viewer contributions from the 'org.eclipse.ui.popupMenus' extension point
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-09-24 12:04:31.680
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.CBreakpointPropertiesRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-09-24 12:04:31.680
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.EnableDisableBreakpointRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-09-24 12:04:31.680
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.ui.actions.RulerCreateBreakpointInteractiveAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-09-24 12:04:31.680
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.asm.CBreakpointPropertiesRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-09-24 12:04:31.680
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.asm.EnableDisableBreakpointRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-09-24 12:04:31.680
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.ui.actions.asm.RulerCreateBreakpointInteractiveAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-09-24 12:04:31.680
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.dsf.ui', id='AUTOGEN:::org.eclipse.cdt.dsf.debug.ui.disassemblyRulerActions/org.eclipse.debug.ui.actions.RulerAddBreakpointAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-09-24 12:04:31.680
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.dsf.ui', id='org.eclipse.cdt.dsf.debug.ui.disassembly.commands.rulerToggleBreakpoint'
+
+!ENTRY org.eclipse.ui.workbench 2 0 2015-09-24 12:04:36.095
+!MESSAGE A handler conflict occurred.  This may disable some commands.
+!SUBENTRY 1 org.eclipse.ui.workbench 2 0 2015-09-24 12:04:36.095
+!MESSAGE Conflict for 'org.eclipse.cdt.debug.ui.localCShortcut.run':
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.run,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@3827c,
+	expression=,sourcePriority=0)
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.run,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@9b40b3,
+	expression=,sourcePriority=0)
+
+!ENTRY org.eclipse.ui.workbench 2 0 2015-09-24 12:04:36.095
+!MESSAGE A handler conflict occurred.  This may disable some commands.
+!SUBENTRY 1 org.eclipse.ui.workbench 2 0 2015-09-24 12:04:36.095
+!MESSAGE Conflict for 'org.eclipse.cdt.debug.ui.localCShortcut.debug':
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.debug,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@1d30c6f,
+	expression=,sourcePriority=0)
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.debug,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@115433e,
+	expression=,sourcePriority=0)
+!SESSION 2015-09-24 13:43:06.480 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_45
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY org.eclipse.ui 2 0 2015-09-24 13:43:09.257
+!MESSAGE Warnings while parsing the viewer contributions from the 'org.eclipse.ui.popupMenus' extension point
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-09-24 13:43:09.257
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.CBreakpointPropertiesRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-09-24 13:43:09.257
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.EnableDisableBreakpointRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-09-24 13:43:09.257
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.ui.actions.RulerCreateBreakpointInteractiveAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-09-24 13:43:09.257
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.asm.CBreakpointPropertiesRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-09-24 13:43:09.257
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.asm.EnableDisableBreakpointRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-09-24 13:43:09.257
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.ui.actions.asm.RulerCreateBreakpointInteractiveAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-09-24 13:43:09.257
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.dsf.ui', id='AUTOGEN:::org.eclipse.cdt.dsf.debug.ui.disassemblyRulerActions/org.eclipse.debug.ui.actions.RulerAddBreakpointAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-09-24 13:43:09.257
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.dsf.ui', id='org.eclipse.cdt.dsf.debug.ui.disassembly.commands.rulerToggleBreakpoint'
+
+!ENTRY org.eclipse.ui.workbench 2 0 2015-09-24 13:43:11.503
+!MESSAGE A handler conflict occurred.  This may disable some commands.
+!SUBENTRY 1 org.eclipse.ui.workbench 2 0 2015-09-24 13:43:11.503
+!MESSAGE Conflict for 'org.eclipse.cdt.debug.ui.localCShortcut.run':
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.run,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@349b95,
+	expression=,sourcePriority=0)
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.run,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@16996c3,
+	expression=,sourcePriority=0)
+
+!ENTRY org.eclipse.ui.workbench 2 0 2015-09-24 13:43:11.503
+!MESSAGE A handler conflict occurred.  This may disable some commands.
+!SUBENTRY 1 org.eclipse.ui.workbench 2 0 2015-09-24 13:43:11.503
+!MESSAGE Conflict for 'org.eclipse.cdt.debug.ui.localCShortcut.debug':
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.debug,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@8d2277,
+	expression=,sourcePriority=0)
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.debug,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@1897dab,
+	expression=,sourcePriority=0)
+!SESSION 2015-10-12 16:23:15.397 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_45
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY org.eclipse.ui 2 0 2015-10-12 16:23:27.831
+!MESSAGE Warnings while parsing the viewer contributions from the 'org.eclipse.ui.popupMenus' extension point
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-12 16:23:27.831
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.CBreakpointPropertiesRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-12 16:23:27.831
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.EnableDisableBreakpointRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-12 16:23:27.831
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.ui.actions.RulerCreateBreakpointInteractiveAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-12 16:23:27.831
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.asm.CBreakpointPropertiesRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-12 16:23:27.831
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.asm.EnableDisableBreakpointRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-12 16:23:27.831
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.ui.actions.asm.RulerCreateBreakpointInteractiveAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-12 16:23:27.831
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.dsf.ui', id='AUTOGEN:::org.eclipse.cdt.dsf.debug.ui.disassemblyRulerActions/org.eclipse.debug.ui.actions.RulerAddBreakpointAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-12 16:23:27.831
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.dsf.ui', id='org.eclipse.cdt.dsf.debug.ui.disassembly.commands.rulerToggleBreakpoint'
+
+!ENTRY org.eclipse.ui.workbench 2 0 2015-10-12 16:23:36.427
+!MESSAGE A handler conflict occurred.  This may disable some commands.
+!SUBENTRY 1 org.eclipse.ui.workbench 2 0 2015-10-12 16:23:36.427
+!MESSAGE Conflict for 'org.eclipse.cdt.debug.ui.localCShortcut.run':
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.run,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@16fe690,
+	expression=,sourcePriority=0)
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.run,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@e7ecd,
+	expression=,sourcePriority=0)
+
+!ENTRY org.eclipse.ui.workbench 2 0 2015-10-12 16:23:36.459
+!MESSAGE A handler conflict occurred.  This may disable some commands.
+!SUBENTRY 1 org.eclipse.ui.workbench 2 0 2015-10-12 16:23:36.459
+!MESSAGE Conflict for 'org.eclipse.cdt.debug.ui.localCShortcut.debug':
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.debug,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@5dbdf8,
+	expression=,sourcePriority=0)
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.debug,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@12c44a8,
+	expression=,sourcePriority=0)
+!SESSION 2015-10-13 15:49:09.806 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_45
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY org.eclipse.ui 2 0 2015-10-13 15:49:19.088
+!MESSAGE Warnings while parsing the viewer contributions from the 'org.eclipse.ui.popupMenus' extension point
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-13 15:49:19.088
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.CBreakpointPropertiesRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-13 15:49:19.088
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.EnableDisableBreakpointRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-13 15:49:19.088
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.ui.actions.RulerCreateBreakpointInteractiveAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-13 15:49:19.088
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.asm.CBreakpointPropertiesRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-13 15:49:19.088
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.asm.EnableDisableBreakpointRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-13 15:49:19.088
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.ui.actions.asm.RulerCreateBreakpointInteractiveAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-13 15:49:19.088
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.dsf.ui', id='AUTOGEN:::org.eclipse.cdt.dsf.debug.ui.disassemblyRulerActions/org.eclipse.debug.ui.actions.RulerAddBreakpointAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-13 15:49:19.088
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.dsf.ui', id='org.eclipse.cdt.dsf.debug.ui.disassembly.commands.rulerToggleBreakpoint'
+
+!ENTRY org.eclipse.ui.workbench 2 0 2015-10-13 15:49:36.420
+!MESSAGE A handler conflict occurred.  This may disable some commands.
+!SUBENTRY 1 org.eclipse.ui.workbench 2 0 2015-10-13 15:49:36.420
+!MESSAGE Conflict for 'org.eclipse.cdt.debug.ui.localCShortcut.run':
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.run,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@140ff5e,
+	expression=,sourcePriority=0)
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.run,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@901445,
+	expression=,sourcePriority=0)
+
+!ENTRY org.eclipse.ui.workbench 2 0 2015-10-13 15:49:36.498
+!MESSAGE A handler conflict occurred.  This may disable some commands.
+!SUBENTRY 1 org.eclipse.ui.workbench 2 0 2015-10-13 15:49:36.498
+!MESSAGE Conflict for 'org.eclipse.cdt.debug.ui.localCShortcut.debug':
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.debug,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@1e1ce6a,
+	expression=,sourcePriority=0)
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.debug,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@119cf6f,
+	expression=,sourcePriority=0)
+!SESSION 2015-10-16 13:29:37.851 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_45
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY org.eclipse.ui 2 0 2015-10-16 13:29:50.128
+!MESSAGE Warnings while parsing the viewer contributions from the 'org.eclipse.ui.popupMenus' extension point
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-16 13:29:50.128
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.CBreakpointPropertiesRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-16 13:29:50.128
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.EnableDisableBreakpointRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-16 13:29:50.128
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.ui.actions.RulerCreateBreakpointInteractiveAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-16 13:29:50.128
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.asm.CBreakpointPropertiesRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-16 13:29:50.128
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.asm.EnableDisableBreakpointRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-16 13:29:50.128
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.ui.actions.asm.RulerCreateBreakpointInteractiveAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-16 13:29:50.128
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.dsf.ui', id='AUTOGEN:::org.eclipse.cdt.dsf.debug.ui.disassemblyRulerActions/org.eclipse.debug.ui.actions.RulerAddBreakpointAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-16 13:29:50.128
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.dsf.ui', id='org.eclipse.cdt.dsf.debug.ui.disassembly.commands.rulerToggleBreakpoint'
+
+!ENTRY org.eclipse.ui.workbench 2 0 2015-10-16 13:30:04.763
+!MESSAGE A handler conflict occurred.  This may disable some commands.
+!SUBENTRY 1 org.eclipse.ui.workbench 2 0 2015-10-16 13:30:04.763
+!MESSAGE Conflict for 'org.eclipse.cdt.debug.ui.localCShortcut.run':
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.run,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@1c8f62c,
+	expression=,sourcePriority=0)
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.run,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@1a374be,
+	expression=,sourcePriority=0)
+
+!ENTRY org.eclipse.ui.workbench 2 0 2015-10-16 13:30:04.763
+!MESSAGE A handler conflict occurred.  This may disable some commands.
+!SUBENTRY 1 org.eclipse.ui.workbench 2 0 2015-10-16 13:30:04.763
+!MESSAGE Conflict for 'org.eclipse.cdt.debug.ui.localCShortcut.debug':
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.debug,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@236278,
+	expression=,sourcePriority=0)
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.debug,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@fff386,
+	expression=,sourcePriority=0)
+!SESSION 2015-10-17 20:01:34.486 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_45
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY org.eclipse.ui 2 0 2015-10-17 20:01:40.911
+!MESSAGE Warnings while parsing the viewer contributions from the 'org.eclipse.ui.popupMenus' extension point
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-17 20:01:40.911
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.CBreakpointPropertiesRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-17 20:01:40.911
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.EnableDisableBreakpointRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-17 20:01:40.911
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.ui.actions.RulerCreateBreakpointInteractiveAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-17 20:01:40.911
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.asm.CBreakpointPropertiesRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-17 20:01:40.911
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.asm.EnableDisableBreakpointRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-17 20:01:40.911
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.ui.actions.asm.RulerCreateBreakpointInteractiveAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-17 20:01:40.911
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.dsf.ui', id='AUTOGEN:::org.eclipse.cdt.dsf.debug.ui.disassemblyRulerActions/org.eclipse.debug.ui.actions.RulerAddBreakpointAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-17 20:01:40.911
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.dsf.ui', id='org.eclipse.cdt.dsf.debug.ui.disassembly.commands.rulerToggleBreakpoint'
+
+!ENTRY org.eclipse.ui.workbench 2 0 2015-10-17 20:01:56.455
+!MESSAGE A handler conflict occurred.  This may disable some commands.
+!SUBENTRY 1 org.eclipse.ui.workbench 2 0 2015-10-17 20:01:56.455
+!MESSAGE Conflict for 'org.eclipse.cdt.debug.ui.localCShortcut.run':
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.run,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@13809e7,
+	expression=,sourcePriority=0)
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.run,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@196f6a2,
+	expression=,sourcePriority=0)
+
+!ENTRY org.eclipse.ui.workbench 2 0 2015-10-17 20:01:56.456
+!MESSAGE A handler conflict occurred.  This may disable some commands.
+!SUBENTRY 1 org.eclipse.ui.workbench 2 0 2015-10-17 20:01:56.456
+!MESSAGE Conflict for 'org.eclipse.cdt.debug.ui.localCShortcut.debug':
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.debug,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@3ecf5c,
+	expression=,sourcePriority=0)
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.debug,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@7507df,
+	expression=,sourcePriority=0)
+!SESSION 2015-10-19 20:32:06.653 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_45
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY org.eclipse.ui 2 0 2015-10-19 20:32:18.571
+!MESSAGE Warnings while parsing the viewer contributions from the 'org.eclipse.ui.popupMenus' extension point
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-19 20:32:18.571
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.CBreakpointPropertiesRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-19 20:32:18.571
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.EnableDisableBreakpointRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-19 20:32:18.571
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.ui.actions.RulerCreateBreakpointInteractiveAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-19 20:32:18.571
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.asm.CBreakpointPropertiesRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-19 20:32:18.571
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.asm.EnableDisableBreakpointRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-19 20:32:18.571
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.ui.actions.asm.RulerCreateBreakpointInteractiveAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-19 20:32:18.571
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.dsf.ui', id='AUTOGEN:::org.eclipse.cdt.dsf.debug.ui.disassemblyRulerActions/org.eclipse.debug.ui.actions.RulerAddBreakpointAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-19 20:32:18.571
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.dsf.ui', id='org.eclipse.cdt.dsf.debug.ui.disassembly.commands.rulerToggleBreakpoint'
+
+!ENTRY org.eclipse.ui.workbench 2 0 2015-10-19 20:32:29.225
+!MESSAGE A handler conflict occurred.  This may disable some commands.
+!SUBENTRY 1 org.eclipse.ui.workbench 2 0 2015-10-19 20:32:29.225
+!MESSAGE Conflict for 'org.eclipse.cdt.debug.ui.localCShortcut.run':
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.run,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@193ea79,
+	expression=,sourcePriority=0)
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.run,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@89079a,
+	expression=,sourcePriority=0)
+
+!ENTRY org.eclipse.ui.workbench 2 0 2015-10-19 20:32:29.225
+!MESSAGE A handler conflict occurred.  This may disable some commands.
+!SUBENTRY 1 org.eclipse.ui.workbench 2 0 2015-10-19 20:32:29.225
+!MESSAGE Conflict for 'org.eclipse.cdt.debug.ui.localCShortcut.debug':
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.debug,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@a14b74,
+	expression=,sourcePriority=0)
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.debug,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@ee3b6d,
+	expression=,sourcePriority=0)
+!SESSION 2015-10-20 20:28:38.644 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_45
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY org.eclipse.ui 2 0 2015-10-20 20:28:49.034
+!MESSAGE Warnings while parsing the viewer contributions from the 'org.eclipse.ui.popupMenus' extension point
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-20 20:28:49.034
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.CBreakpointPropertiesRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-20 20:28:49.034
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.EnableDisableBreakpointRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-20 20:28:49.034
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.ui.actions.RulerCreateBreakpointInteractiveAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-20 20:28:49.034
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.asm.CBreakpointPropertiesRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-20 20:28:49.034
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.asm.EnableDisableBreakpointRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-20 20:28:49.034
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.ui.actions.asm.RulerCreateBreakpointInteractiveAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-20 20:28:49.034
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.dsf.ui', id='AUTOGEN:::org.eclipse.cdt.dsf.debug.ui.disassemblyRulerActions/org.eclipse.debug.ui.actions.RulerAddBreakpointAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-20 20:28:49.034
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.dsf.ui', id='org.eclipse.cdt.dsf.debug.ui.disassembly.commands.rulerToggleBreakpoint'
+
+!ENTRY org.eclipse.ui.workbench 2 0 2015-10-20 20:29:03.136
+!MESSAGE A handler conflict occurred.  This may disable some commands.
+!SUBENTRY 1 org.eclipse.ui.workbench 2 0 2015-10-20 20:29:03.136
+!MESSAGE Conflict for 'org.eclipse.cdt.debug.ui.localCShortcut.run':
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.run,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@500561,
+	expression=,sourcePriority=0)
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.run,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@1608e21,
+	expression=,sourcePriority=0)
+
+!ENTRY org.eclipse.ui.workbench 2 0 2015-10-20 20:29:03.136
+!MESSAGE A handler conflict occurred.  This may disable some commands.
+!SUBENTRY 1 org.eclipse.ui.workbench 2 0 2015-10-20 20:29:03.136
+!MESSAGE Conflict for 'org.eclipse.cdt.debug.ui.localCShortcut.debug':
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.debug,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@1ec5821,
+	expression=,sourcePriority=0)
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.debug,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@86d8fb,
+	expression=,sourcePriority=0)
+!SESSION 2015-10-23 15:27:07.041 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_45
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY org.eclipse.ui 2 0 2015-10-23 15:27:18.195
+!MESSAGE Warnings while parsing the viewer contributions from the 'org.eclipse.ui.popupMenus' extension point
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-23 15:27:18.195
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.CBreakpointPropertiesRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-23 15:27:18.195
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.EnableDisableBreakpointRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-23 15:27:18.195
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.ui.actions.RulerCreateBreakpointInteractiveAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-23 15:27:18.195
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.asm.CBreakpointPropertiesRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-23 15:27:18.195
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.asm.EnableDisableBreakpointRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-23 15:27:18.195
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.ui.actions.asm.RulerCreateBreakpointInteractiveAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-23 15:27:18.195
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.dsf.ui', id='AUTOGEN:::org.eclipse.cdt.dsf.debug.ui.disassemblyRulerActions/org.eclipse.debug.ui.actions.RulerAddBreakpointAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-23 15:27:18.195
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.dsf.ui', id='org.eclipse.cdt.dsf.debug.ui.disassembly.commands.rulerToggleBreakpoint'
+
+!ENTRY org.eclipse.ui.workbench 2 0 2015-10-23 15:27:31.159
+!MESSAGE A handler conflict occurred.  This may disable some commands.
+!SUBENTRY 1 org.eclipse.ui.workbench 2 0 2015-10-23 15:27:31.159
+!MESSAGE Conflict for 'org.eclipse.cdt.debug.ui.localCShortcut.run':
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.run,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@5a8c93,
+	expression=,sourcePriority=0)
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.run,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@1ed3315,
+	expression=,sourcePriority=0)
+
+!ENTRY org.eclipse.ui.workbench 2 0 2015-10-23 15:27:31.159
+!MESSAGE A handler conflict occurred.  This may disable some commands.
+!SUBENTRY 1 org.eclipse.ui.workbench 2 0 2015-10-23 15:27:31.159
+!MESSAGE Conflict for 'org.eclipse.cdt.debug.ui.localCShortcut.debug':
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.debug,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@d4a7e4,
+	expression=,sourcePriority=0)
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.debug,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@7350b0,
+	expression=,sourcePriority=0)
+!SESSION 2015-10-26 13:46:03.517 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_45
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY org.eclipse.ui 2 0 2015-10-26 13:46:15.560
+!MESSAGE Warnings while parsing the viewer contributions from the 'org.eclipse.ui.popupMenus' extension point
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-26 13:46:15.560
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.CBreakpointPropertiesRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-26 13:46:15.560
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.EnableDisableBreakpointRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-26 13:46:15.560
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.ui.actions.RulerCreateBreakpointInteractiveAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-26 13:46:15.560
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.asm.CBreakpointPropertiesRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-26 13:46:15.560
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.asm.EnableDisableBreakpointRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-26 13:46:15.560
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.ui.actions.asm.RulerCreateBreakpointInteractiveAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-26 13:46:15.560
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.dsf.ui', id='AUTOGEN:::org.eclipse.cdt.dsf.debug.ui.disassemblyRulerActions/org.eclipse.debug.ui.actions.RulerAddBreakpointAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-26 13:46:15.560
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.dsf.ui', id='org.eclipse.cdt.dsf.debug.ui.disassembly.commands.rulerToggleBreakpoint'
+
+!ENTRY org.eclipse.ui.workbench 2 0 2015-10-26 13:46:30.084
+!MESSAGE A handler conflict occurred.  This may disable some commands.
+!SUBENTRY 1 org.eclipse.ui.workbench 2 0 2015-10-26 13:46:30.084
+!MESSAGE Conflict for 'org.eclipse.cdt.debug.ui.localCShortcut.run':
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.run,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@10b7e5a,
+	expression=,sourcePriority=0)
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.run,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@1e1ce6a,
+	expression=,sourcePriority=0)
+
+!ENTRY org.eclipse.ui.workbench 2 0 2015-10-26 13:46:30.084
+!MESSAGE A handler conflict occurred.  This may disable some commands.
+!SUBENTRY 1 org.eclipse.ui.workbench 2 0 2015-10-26 13:46:30.084
+!MESSAGE Conflict for 'org.eclipse.cdt.debug.ui.localCShortcut.debug':
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.debug,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@1408060,
+	expression=,sourcePriority=0)
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.debug,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@a78f3c,
+	expression=,sourcePriority=0)
+!SESSION 2015-10-27 20:17:56.712 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_45
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY org.eclipse.ui 2 0 2015-10-27 20:18:02.687
+!MESSAGE Warnings while parsing the viewer contributions from the 'org.eclipse.ui.popupMenus' extension point
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-27 20:18:02.687
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.CBreakpointPropertiesRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-27 20:18:02.687
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.EnableDisableBreakpointRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-27 20:18:02.687
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.ui.actions.RulerCreateBreakpointInteractiveAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-27 20:18:02.687
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.asm.CBreakpointPropertiesRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-27 20:18:02.687
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.asm.EnableDisableBreakpointRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-27 20:18:02.687
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.ui.actions.asm.RulerCreateBreakpointInteractiveAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-27 20:18:02.687
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.dsf.ui', id='AUTOGEN:::org.eclipse.cdt.dsf.debug.ui.disassemblyRulerActions/org.eclipse.debug.ui.actions.RulerAddBreakpointAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-27 20:18:02.687
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.dsf.ui', id='org.eclipse.cdt.dsf.debug.ui.disassembly.commands.rulerToggleBreakpoint'
+
+!ENTRY org.eclipse.ui.workbench 2 0 2015-10-27 20:18:13.296
+!MESSAGE A handler conflict occurred.  This may disable some commands.
+!SUBENTRY 1 org.eclipse.ui.workbench 2 0 2015-10-27 20:18:13.296
+!MESSAGE Conflict for 'org.eclipse.cdt.debug.ui.localCShortcut.run':
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.run,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@b47204,
+	expression=,sourcePriority=0)
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.run,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@16ccc97,
+	expression=,sourcePriority=0)
+
+!ENTRY org.eclipse.ui.workbench 2 0 2015-10-27 20:18:13.296
+!MESSAGE A handler conflict occurred.  This may disable some commands.
+!SUBENTRY 1 org.eclipse.ui.workbench 2 0 2015-10-27 20:18:13.296
+!MESSAGE Conflict for 'org.eclipse.cdt.debug.ui.localCShortcut.debug':
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.debug,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@16bd4df,
+	expression=,sourcePriority=0)
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.debug,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@48a051,
+	expression=,sourcePriority=0)
+!SESSION 2015-10-30 09:20:49.319 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.8.0_45
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY org.eclipse.ui 2 0 2015-10-30 09:20:53.765
+!MESSAGE Warnings while parsing the viewer contributions from the 'org.eclipse.ui.popupMenus' extension point
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-30 09:20:53.765
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.CBreakpointPropertiesRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-30 09:20:53.765
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.EnableDisableBreakpointRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-30 09:20:53.765
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.CEditorRulerActions/org.eclipse.cdt.debug.ui.actions.RulerCreateBreakpointInteractiveAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-30 09:20:53.765
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.asm.CBreakpointPropertiesRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-30 09:20:53.765
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.internal.ui.actions.asm.EnableDisableBreakpointRulerActionDelegate'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-30 09:20:53.765
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.debug.ui', id='AUTOGEN:::org.eclipse.cdt.debug.ui.AsmEditorRulerActions/org.eclipse.cdt.debug.ui.actions.asm.RulerCreateBreakpointInteractiveAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-30 09:20:53.780
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.dsf.ui', id='AUTOGEN:::org.eclipse.cdt.dsf.debug.ui.disassemblyRulerActions/org.eclipse.debug.ui.actions.RulerAddBreakpointAction'
+!SUBENTRY 1 org.eclipse.ui 2 0 2015-10-30 09:20:53.780
+!MESSAGE invalid keybinding: Cannot bind to an incomplete key sequence: plug-in='org.eclipse.cdt.dsf.ui', id='org.eclipse.cdt.dsf.debug.ui.disassembly.commands.rulerToggleBreakpoint'
+
+!ENTRY org.eclipse.ui.workbench 2 0 2015-10-30 09:21:04.545
+!MESSAGE A handler conflict occurred.  This may disable some commands.
+!SUBENTRY 1 org.eclipse.ui.workbench 2 0 2015-10-30 09:21:04.545
+!MESSAGE Conflict for 'org.eclipse.cdt.debug.ui.localCShortcut.run':
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.run,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@5d55d5,
+	expression=,sourcePriority=0)
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.run,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@113a118,
+	expression=,sourcePriority=0)
+
+!ENTRY org.eclipse.ui.workbench 2 0 2015-10-30 09:21:04.545
+!MESSAGE A handler conflict occurred.  This may disable some commands.
+!SUBENTRY 1 org.eclipse.ui.workbench 2 0 2015-10-30 09:21:04.545
+!MESSAGE Conflict for 'org.eclipse.cdt.debug.ui.localCShortcut.debug':
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.debug,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@1c1020a,
+	expression=,sourcePriority=0)
+HandlerActivation(commandId=org.eclipse.cdt.debug.ui.localCShortcut.debug,
+	handler=org.eclipse.debug.internal.ui.launchConfigurations.LaunchShortcutExtension$LaunchCommandHandler@162658b,
+	expression=,sourcePriority=0)

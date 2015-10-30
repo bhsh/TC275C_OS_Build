@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workbench progressCount="12" version="2.0">
 <workbenchAdvisor/>
-<window height="728" maximized="true" width="1024" x="200" y="110">
+<window height="689" maximized="true" width="1024" x="113" y="71">
 <fastViewData fastViewLocation="1024"/>
 <perspectiveBar>
 <itemSize x="160"/>
@@ -20,11 +20,13 @@
 <coolItem id="group.nav" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ui.workbench.navigate" itemType="typeToolBarContribution" x="190" y="22"/>
 <coolItem id="group.editor" itemType="typeGroupMarker"/>
+<coolItem id="org.eclipse.ui.DefaultTextEditor" itemType="typePlaceholder" x="-1" y="-1"/>
+<coolItem id="org.eclipse.cdt.make.editor" itemType="typePlaceholder" x="-1" y="-1"/>
 <coolItem id="org.eclipse.cdt.ui.editor.CEditor" itemType="typeToolBarContribution" x="-1" y="-1"/>
 <coolItem id="group.help" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ui.workbench.help" itemType="typeToolBarContribution" x="-1" y="-1"/>
 </coolbarLayout>
-<page aggregateWorkingSetId="Aggregate for window 1440771518490" focus="true" label="Workspace - TASKING C/C++">
+<page aggregateWorkingSetId="Aggregate for window 1442971359765" focus="true" label="Workspace - TASKING C/C++">
 <editors>
 <editorArea activeWorkbook="DefaultEditorWorkbook">
 <info part="DefaultEditorWorkbook">
@@ -40,49 +42,139 @@
 <part id="7"/>
 <part id="8"/>
 <part id="9"/>
+<part id="10"/>
+<part id="11"/>
+<part id="12"/>
+<part id="13"/>
+<part id="14"/>
+<part id="15"/>
+<part id="16"/>
+<part id="17"/>
+<part id="18"/>
+<part id="19"/>
+<part id="20"/>
+<part id="21"/>
+<part id="22"/>
+<part id="23"/>
+<part id="24"/>
+<part id="25"/>
+<part id="26"/>
+<part id="27"/>
 </presentation>
 </folder>
 </info>
 </editorArea>
-<editor id="org.eclipse.cdt.ui.editor.CEditor" name="IfxGtm_Trig.c" partName="IfxGtm_Trig.c" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/4_McHal/Tricore/Gtm/Trig/IfxGtm_Trig.c" title="IfxGtm_Trig.c" tooltip="TC275C_OS/0_Src/4_McHal/Tricore/Gtm/Trig/IfxGtm_Trig.c" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/4_McHal/Tricore/Gtm/Trig/IfxGtm_Trig.c"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="18120" selectionTopPixel="2385"/>
-</editor>
-<editor activePart="true" focus="true" id="org.eclipse.cdt.ui.editor.CEditor" name="Cpu0_Main.c" partName="Cpu0_Main.c" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu0_Main.c" title="Cpu0_Main.c" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu0_Main.c" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu0_Main.c"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1135" selectionTopPixel="299"/>
-</editor>
-<editor id="org.eclipse.cdt.ui.editor.CEditor" name="Cpu2_Main.c" partName="Cpu2_Main.c" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu2_Main.c" title="Cpu2_Main.c" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu2_Main.c" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu2_Main.c"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="89"/>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="Cpu0_Main.h" partName="Cpu0_Main.h" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu0_Main.h" title="Cpu0_Main.h" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu0_Main.h" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu0_Main.h"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1652" selectionTopPixel="270"/>
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="Cpu1_Main.c" partName="Cpu1_Main.c" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu1_Main.c" title="Cpu1_Main.c" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu1_Main.c" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu1_Main.c"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1639" selectionTopPixel="674"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="525" selectionTopPixel="0"/>
 </editor>
-<editor id="org.eclipse.cdt.ui.editor.CEditor" name="DemoApp.c" partName="DemoApp.c" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/0_AppSw/Tricore/DemoApp/DemoApp.c" title="DemoApp.c" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/DemoApp/DemoApp.c" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/0_AppSw/Tricore/DemoApp/DemoApp.c"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="6073" selectionTopPixel="2564"/>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="Cpu2_Main.c" partName="Cpu2_Main.c" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu2_Main.c" title="Cpu2_Main.c" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu2_Main.c" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu2_Main.c"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="711" selectionTopPixel="0"/>
 </editor>
-<editor id="com.tasking.lsl.editor.LSLSourceEditor" name="Lcf_Tasking.lsl" partName="Lcf_Tasking.lsl" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/1_ToolEnv/0_Build/1_Config/Lcf_Tasking.lsl" title="Lcf_Tasking.lsl" tooltip="TC275C_OS/1_ToolEnv/0_Build/1_Config/Lcf_Tasking.lsl" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/1_ToolEnv/0_Build/1_Config/Lcf_Tasking.lsl"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="7530" selectionTopPixel="3361"/>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="appcore1.c" partName="appcore1.c" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/0_AppSw/Tricore/Main/appcore1.c" title="appcore1.c" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/appcore1.c" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/appcore1.c"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="0"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="appcore2.c" partName="appcore2.c" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/0_AppSw/Tricore/Main/appcore2.c" title="appcore2.c" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/appcore2.c" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/appcore2.c"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="4" selectionTopPixel="0"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="os_kernel.c" partName="os_kernel.c" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/0_AppSw/Tricore/Main/os_kernel.c" title="os_kernel.c" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/os_kernel.c" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/os_kernel.c"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="543" selectionTopPixel="0"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="os_kernel.h" partName="os_kernel.h" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/0_AppSw/Tricore/Main/os_kernel.h" title="os_kernel.h" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/os_kernel.h" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/os_kernel.h"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="0"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="cstart.c" partName="cstart.c" path="E:/OS/TASKING_TC275C_OS/TC275_test/cstart.c" title="cstart.c" tooltip="TC275_test/cstart.c" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275_test/cstart.c"/>
+<editorState selectionHorizontalPixel="0" selectionLength="13" selectionOffset="37145" selectionTopPixel="12939"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="IfxCpu_CStart0.c" partName="IfxCpu_CStart0.c" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/4_McHal/Tricore/Cpu/CStart/IfxCpu_CStart0.c" title="IfxCpu_CStart0.c" tooltip="TC275C_OS/0_Src/4_McHal/Tricore/Cpu/CStart/IfxCpu_CStart0.c" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/4_McHal/Tricore/Cpu/CStart/IfxCpu_CStart0.c"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="0"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="IfxScuCcu.h" partName="IfxScuCcu.h" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/4_McHal/Tricore/Scu/Std/IfxScuCcu.h" title="IfxScuCcu.h" tooltip="TC275C_OS/0_Src/4_McHal/Tricore/Scu/Std/IfxScuCcu.h" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/4_McHal/Tricore/Scu/Std/IfxScuCcu.h"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="53079" selectionTopPixel="13185"/>
 </editor>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="Compilers.h" partName="Compilers.h" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/Compilers.h" title="Compilers.h" tooltip="TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/Compilers.h" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/Compilers.h"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1609" selectionTopPixel="419"/>
+<editorState selectionHorizontalPixel="0" selectionLength="10" selectionOffset="1239" selectionTopPixel="105"/>
 </editor>
-<editor id="org.eclipse.cdt.ui.editor.CEditor" name="CompilerTasking.h" partName="CompilerTasking.h" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/CompilerTasking.h" title="CompilerTasking.h" tooltip="TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/CompilerTasking.h" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/CompilerTasking.h"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="4060" selectionTopPixel="1049"/>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="IfxScu_cfg.c" partName="IfxScu_cfg.c" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/4_McHal/Tricore/_Impl/IfxScu_cfg.c" title="IfxScu_cfg.c" tooltip="TC275C_OS/0_Src/4_McHal/Tricore/_Impl/IfxScu_cfg.c" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/4_McHal/Tricore/_Impl/IfxScu_cfg.c"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="4" selectionTopPixel="0"/>
 </editor>
-<editor id="org.eclipse.cdt.ui.editor.CEditor" name="CompilerGnuc.c" partName="CompilerGnuc.c" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/CompilerGnuc.c" title="CompilerGnuc.c" tooltip="TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/CompilerGnuc.c" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/CompilerGnuc.c"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1071" selectionTopPixel="945"/>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="IfxScu_cfg.h" partName="IfxScu_cfg.h" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/4_McHal/Tricore/_Impl/IfxScu_cfg.h" title="IfxScu_cfg.h" tooltip="TC275C_OS/0_Src/4_McHal/Tricore/_Impl/IfxScu_cfg.h" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/4_McHal/Tricore/_Impl/IfxScu_cfg.h"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="72376" selectionTopPixel="20732"/>
 </editor>
-<editor id="org.eclipse.cdt.ui.editor.CEditor" name="communication.h" partName="communication.h" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/0_AppSw/Tricore/DemoApp/communication.h" title="communication.h" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/DemoApp/communication.h" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/0_AppSw/Tricore/DemoApp/communication.h"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="132" selectionTopPixel="0"/>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="os_kernel_cfg.h" partName="os_kernel_cfg.h" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/0_AppSw/Tricore/Main/os_kernel_cfg.h" title="os_kernel_cfg.h" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/os_kernel_cfg.h" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/os_kernel_cfg.h"/>
+<editorState selectionHorizontalPixel="0" selectionLength="4" selectionOffset="1792" selectionTopPixel="450"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="os_trace.c" partName="os_trace.c" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/0_AppSw/Tricore/Main/os_trace.c" title="os_trace.c" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/os_trace.c" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/os_trace.c"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2187" selectionTopPixel="990"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="os_interface.c" partName="os_interface.c" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/0_AppSw/Tricore/Main/os_interface.c" title="os_interface.c" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/os_interface.c" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/os_interface.c"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="676" selectionTopPixel="115"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="TC275_test.c" partName="TC275_test.c" path="E:/OS/TASKING_TC275C_OS/TC275_test/TC275_test.c" title="TC275_test.c" tooltip="TC275_test/TC275_test.c" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275_test/TC275_test.c"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="185" selectionTopPixel="0"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="stack_manager.c" partName="stack_manager.c" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/0_AppSw/Tricore/Main/stack_manager.c" title="stack_manager.c" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/stack_manager.c" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/stack_manager.c"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="877" selectionTopPixel="188"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="Platform_Types.h" partName="Platform_Types.h" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/4_McHal/Tricore/Cpu/Std/Platform_Types.h" title="Platform_Types.h" tooltip="TC275C_OS/0_Src/4_McHal/Tricore/Cpu/Std/Platform_Types.h" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/4_McHal/Tricore/Cpu/Std/Platform_Types.h"/>
+<editorState selectionHorizontalPixel="0" selectionLength="6" selectionOffset="4507" selectionTopPixel="1275"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="core0_thread_cfg.h" partName="core0_thread_cfg.h" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/0_AppSw/Tricore/Main/core0_thread_cfg.h" title="core0_thread_cfg.h" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/core0_thread_cfg.h" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/core0_thread_cfg.h"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="107191" selectionTopPixel="35298"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="core0_task_cfg.h" partName="core0_task_cfg.h" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/0_AppSw/Tricore/Main/core0_task_cfg.h" title="core0_task_cfg.h" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/core0_task_cfg.h" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/core0_task_cfg.h"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="3587" selectionTopPixel="1155"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="core0_threads.c" partName="core0_threads.c" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/0_AppSw/Tricore/Main/core0_threads.c" title="core0_threads.c" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/core0_threads.c" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/core0_threads.c"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="26113" selectionTopPixel="9739"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="core2_tasks.c" partName="core2_tasks.c" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/0_AppSw/Tricore/Main/core2_tasks.c" title="core2_tasks.c" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/core2_tasks.c" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/core2_tasks.c"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="0"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="core2_tasks.h" partName="core2_tasks.h" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/0_AppSw/Tricore/Main/core2_tasks.h" title="core2_tasks.h" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/core2_tasks.h" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/core2_tasks.h"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="0"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="core2_threads.c" partName="core2_threads.c" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/0_AppSw/Tricore/Main/core2_threads.c" title="core2_threads.c" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/core2_threads.c" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/core2_threads.c"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="12487" selectionTopPixel="3554"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="DemoApp.c" partName="DemoApp.c" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/0_AppSw/Tricore/DemoApp/DemoApp.c" title="DemoApp.c" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/DemoApp/DemoApp.c" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/0_AppSw/Tricore/DemoApp/DemoApp.c"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1142" selectionTopPixel="135"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="core1_thread_cfg.h" partName="core1_thread_cfg.h" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/0_AppSw/Tricore/Main/core1_thread_cfg.h" title="core1_thread_cfg.h" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/core1_thread_cfg.h" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/core1_thread_cfg.h"/>
+<editorState selectionHorizontalPixel="0" selectionLength="20" selectionOffset="493" selectionTopPixel="0"/>
+</editor>
+<editor activePart="true" focus="true" id="org.eclipse.cdt.ui.editor.CEditor" name="core1_threads.c" partName="core1_threads.c" path="E:/OS/TASKING_TC275C_OS/TC275C_OS/0_Src/0_AppSw/Tricore/Main/core1_threads.c" title="core1_threads.c" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/core1_threads.c" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/core1_threads.c"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1278" selectionTopPixel="12069"/>
 </editor>
 </editors>
 <views>
@@ -94,6 +186,13 @@
 <filters>
 <filter element=".*" isEnabled="false"/>
 </filters>
+<expanded>
+<element path="/TC275C_OS"/>
+<element path="/TC275C_OS/0_Src"/>
+<element path="/TC275C_OS/0_Src/0_AppSw"/>
+<element path="/TC275C_OS/0_Src/0_AppSw/Tricore"/>
+<element path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main"/>
+</expanded>
 </viewState>
 </view>
 <view id="org.eclipse.ui.console.ConsoleView" partName="Console">
@@ -106,10 +205,12 @@
 <viewState horizontalPosition="0" verticalPosition="0">
 <expanded>
 <element path="E:\OS\TASKING_TC275C_OS\TC275C_OS"/>
-<element path="E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw"/>
-<element path="E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Tricore"/>
-<element path="E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src\0_AppSw\Tricore\Main"/>
+<element path="E:\OS\TASKING_TC275C_OS\TC275C_OS\0_Src"/>
+<element path="E:\OS\TASKING_TC275C_OS\TriCore_tc275_test"/>
 </expanded>
+<selection>
+<element path="E:/OS/TASKING_TC275C_OS/TC275C_OS"/>
+</selection>
 </viewState>
 </view>
 <view id="com.tasking.managedbuilder.TskProblemsView" partName="Problems">
@@ -172,11 +273,11 @@
 <hide_toolbar_item_id id="org.eclipse.debug.ui.commands.RunToLine"/>
 <hide_toolbar_item_id id="com.tasking.debug.cdt.core.toolbar.actions.Restart"/>
 <hide_toolbar_item_id id="com.tasking.debug.cdt.core.toolbar.actions.interrupt"/>
-<view id="com.tasking.managedbuilder.cview"/>
-<view id="org.eclipse.ui.views.ResourceNavigator"/>
 <view id="com.tasking.managedbuilder.TskProblemsView"/>
 <view id="org.eclipse.ui.console.ConsoleView"/>
 <view id="org.eclipse.ui.views.PropertySheet"/>
+<view id="com.tasking.managedbuilder.cview"/>
+<view id="org.eclipse.ui.views.ResourceNavigator"/>
 <view id="org.eclipse.ui.views.ContentOutline"/>
 <fastViewBars/>
 <layout>
@@ -192,16 +293,15 @@
 </presentation>
 </folder>
 </info>
-<info folder="true" part="org.eclipse.ui.internal.ViewStack@76b80a" ratio="0.75" ratioLeft="750" ratioRight="250" relationship="2" relative="topLeft">
+<info folder="true" part="stickyFolderRight" ratio="0.75" ratioLeft="750" ratioRight="250" relationship="2" relative="topLeft">
 <folder appearance="2" expanded="2">
 <page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.internal.introview" label="LabelNotFound"/>
 <page content="org.eclipse.ui.cheatsheets.views.CheatSheetView" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
 </info>
-<info part="org.eclipse.ui.editorss" ratio="0.26" ratioLeft="260" ratioRight="740" relationship="2" relative="topLeft"/>
-<info folder="true" part="bottom" ratio="0.7774193" ratioLeft="482" ratioRight="138" relationship="4" relative="org.eclipse.ui.editorss">
+<info part="org.eclipse.ui.editorss" ratio="0.24354243" ratioLeft="330" ratioRight="1025" relationship="2" relative="topLeft"/>
+<info folder="true" part="bottom" ratio="0.91612905" ratioLeft="568" ratioRight="52" relationship="4" relative="org.eclipse.ui.editorss">
 <folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
 <page content="com.tasking.managedbuilder.TskProblemsView" label="Problems"/>
 <page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
@@ -213,7 +313,7 @@
 </presentation>
 </folder>
 </info>
-<info folder="true" part="topRight" ratio="0.75" ratioLeft="555" ratioRight="185" relationship="2" relative="org.eclipse.ui.editorss">
+<info folder="true" part="topRight" ratio="0.8141026" ratioLeft="889" ratioRight="203" relationship="2" relative="org.eclipse.ui.editorss">
 <folder activePageID="org.eclipse.ui.views.ContentOutline" appearance="2" expanded="2">
 <page content="org.eclipse.ui.views.ContentOutline" label="Outline"/>
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
@@ -230,100 +330,178 @@
 </workingSets>
 <navigationHistory>
 <editors>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/4_McHal/Tricore/Gtm/Trig/IfxGtm_Trig.c"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu0_Main.c"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu2_Main.c"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu1_Main.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/os_kernel.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/core1_tasks.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu0_Main.h"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/stack_manager.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/stack_manager.h"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/os_kernel.h"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/appcore0.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu0_Main.h"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/core0_thread_cfg.h"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/os.h"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/core0_threads.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/core2_tasks.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/core2_tasks.h"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/core2_threads.c"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/0_AppSw/Tricore/DemoApp/DemoApp.c"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.tasking.lsl.editor.LSLSourceEditor" path="/TC275C_OS/1_ToolEnv/0_Build/1_Config/Lcf_Tasking.lsl"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/Compilers.h"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/CompilerTasking.h"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/CompilerGnuc.c"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/CompilerGnuc.h"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/0_AppSw/Tricore/DemoApp/DemoApp.c"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/0_AppSw/Tricore/DemoApp/communication.h"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu0_Main.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/core1_thread_cfg.h"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/core2appsw.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/core0_task_cfg.h"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/core1_threads.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/os_trace.h"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/os_type.h"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/core1_tasks.h"/>
 </editors>
-<item historyLabel="IfxGtm_Trig.c" index="0">
-<position info="not_deleted" x="18120" y="0"/>
+<item historyLabel="os_kernel.c" index="0">
+<position info="not_deleted" x="543" y="0"/>
 </item>
-<item historyLabel="Cpu0_Main.c" index="1">
+<item historyLabel="core1_tasks.c" index="1">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="core1_tasks.c" index="1">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="core1_tasks.c" index="1">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="core1_tasks.c" index="1">
+<position info="not_deleted" x="88" y="0"/>
+</item>
+<item historyLabel="Cpu0_Main.h" index="2">
+<position info="not_deleted" x="2120" y="0"/>
+</item>
+<item historyLabel="stack_manager.c" index="3">
+<position info="not_deleted" x="1271" y="0"/>
+</item>
+<item historyLabel="stack_manager.c" index="3">
 <position/>
 </item>
-<item historyLabel="Cpu2_Main.c" index="2">
+<item historyLabel="stack_manager.c" index="3">
+<position/>
+</item>
+<item historyLabel="stack_manager.c" index="3">
+<position/>
+</item>
+<item historyLabel="stack_manager.c" index="3">
+<position/>
+</item>
+<item historyLabel="stack_manager.c" index="3">
+<position/>
+</item>
+<item historyLabel="stack_manager.c" index="3">
+<position info="not_deleted" x="23" y="0"/>
+</item>
+<item historyLabel="stack_manager.h" index="4">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="Cpu1_Main.c" index="3">
-<position info="not_deleted" x="781" y="0"/>
-</item>
-<item historyLabel="DemoApp.c" index="4">
-<position info="not_deleted" x="282" y="28"/>
-</item>
-<item historyLabel="DemoApp.c" index="4">
-<position info="not_deleted" x="5363" y="0"/>
-</item>
-<item historyLabel="Cpu0_Main.c" index="1">
-<position info="not_deleted" x="229" y="0"/>
-</item>
-<item historyLabel="Cpu1_Main.c" index="3">
-<position info="not_deleted" x="1639" y="0"/>
-</item>
-<item historyLabel="Cpu2_Main.c" index="2">
+<item historyLabel="stack_manager.h" index="4">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="Cpu1_Main.c" index="3">
-<position info="not_deleted" x="1639" y="0"/>
+<item historyLabel="stack_manager.c" index="3">
+<position info="not_deleted" x="411" y="0"/>
 </item>
-<item historyLabel="DemoApp.c" index="4">
-<position info="not_deleted" x="5363" y="0"/>
+<item historyLabel="stack_manager.c" index="3">
+<position info="not_deleted" x="1151" y="0"/>
 </item>
-<item historyLabel="Lcf_Tasking.lsl" index="5">
-<position info="not_deleted" x="7530" y="0"/>
-</item>
-<item historyLabel="Cpu0_Main.c" index="1">
-<position info="not_deleted" x="229" y="0"/>
-</item>
-<item historyLabel="DemoApp.c" index="4">
-<position info="not_deleted" x="99" y="0"/>
-</item>
-<item historyLabel="Compilers.h" index="6">
+<item historyLabel="os_kernel.h" index="5">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="Compilers.h" index="6">
-<position info="not_deleted" x="1666" y="0"/>
+<item historyLabel="appcore0.c" index="6">
+<position info="not_deleted" x="9323" y="0"/>
 </item>
-<item historyLabel="CompilerTasking.h" index="7">
-<position info="not_deleted" x="4060" y="0"/>
+<item historyLabel="appcore0.c" index="6">
+<position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="Compilers.h" index="6">
-<position info="not_deleted" x="1609" y="0"/>
+<item historyLabel="Cpu0_Main.h" index="7">
+<position info="not_deleted" x="1652" y="0"/>
 </item>
-<item historyLabel="CompilerGnuc.c" index="8">
-<position info="not_deleted" x="1458" y="0"/>
+<item historyLabel="core0_thread_cfg.h" index="8">
+<position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="CompilerGnuc.h" index="9">
-<position info="not_deleted" x="3874" y="0"/>
+<item historyLabel="core0_thread_cfg.h" index="8">
+<position info="not_deleted" x="107113" y="0"/>
 </item>
-<item historyLabel="CompilerGnuc.c" index="8">
-<position info="not_deleted" x="1458" y="0"/>
+<item historyLabel="os.h" index="9">
+<position/>
 </item>
-<item historyLabel="CompilerGnuc.h" index="9">
-<position info="not_deleted" x="5363" y="0"/>
+<item historyLabel="core0_thread_cfg.h" index="8">
+<position info="not_deleted" x="107113" y="0"/>
 </item>
-<item historyLabel="CompilerGnuc.c" index="8">
-<position info="not_deleted" x="1458" y="0"/>
+<item historyLabel="core0_threads.c" index="10">
+<position info="not_deleted" x="26113" y="0"/>
 </item>
-<item historyLabel="DemoApp.c" index="10">
-<position info="not_deleted" x="6073" y="0"/>
+<item historyLabel="core2_tasks.c" index="11">
+<position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="communication.h" index="11">
-<position info="not_deleted" x="132" y="0"/>
+<item historyLabel="core2_tasks.h" index="12">
+<position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="DemoApp.c" index="10">
-<position info="not_deleted" x="6073" y="0"/>
+<item historyLabel="core2_threads.c" index="13">
+<position info="not_deleted" x="12487" y="0"/>
 </item>
-<item active="true" historyLabel="Cpu0_Main.c" index="12">
-<position info="not_deleted" x="229" y="0"/>
+<item historyLabel="DemoApp.c" index="14">
+<position info="not_deleted" x="1142" y="0"/>
+</item>
+<item historyLabel="core0_thread_cfg.h" index="8">
+<position info="not_deleted" x="107337" y="0"/>
+</item>
+<item historyLabel="core1_thread_cfg.h" index="15">
+<position info="not_deleted" x="88349" y="0"/>
+</item>
+<item historyLabel="core2appsw.c" index="16">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="core1_thread_cfg.h" index="15">
+<position info="not_deleted" x="88349" y="0"/>
+</item>
+<item historyLabel="core0_thread_cfg.h" index="8">
+<position info="not_deleted" x="107673" y="0"/>
+</item>
+<item historyLabel="core0_task_cfg.h" index="17">
+<position info="not_deleted" x="3587" y="0"/>
+</item>
+<item historyLabel="core1_thread_cfg.h" index="15">
+<position info="not_deleted" x="88349" y="0"/>
+</item>
+<item historyLabel="core0_thread_cfg.h" index="8">
+<position info="not_deleted" x="107831" y="0"/>
+</item>
+<item historyLabel="core0_thread_cfg.h" index="8">
+<position info="not_deleted" x="106892" y="23"/>
+</item>
+<item historyLabel="core1_thread_cfg.h" index="15">
+<position info="not_deleted" x="88349" y="0"/>
+</item>
+<item historyLabel="core1_threads.c" index="18">
+<position info="not_deleted" x="597" y="0"/>
+</item>
+<item historyLabel="os_trace.h" index="19">
+<position info="not_deleted" x="633" y="0"/>
+</item>
+<item historyLabel="core1_threads.c" index="18">
+<position info="not_deleted" x="441" y="0"/>
+</item>
+<item historyLabel="os_type.h" index="20">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="core1_threads.c" index="18">
+<position info="not_deleted" x="462" y="0"/>
+</item>
+<item historyLabel="os.h" index="9">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="core1_threads.c" index="18">
+<position info="not_deleted" x="504" y="0"/>
+</item>
+<item historyLabel="core1_tasks.h" index="21">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="core1_threads.c" index="18">
+<position info="not_deleted" x="504" y="0"/>
+</item>
+<item active="true" historyLabel="core1_threads.c" index="18">
+<position info="not_deleted" x="1521" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -342,38 +520,50 @@
 </trimLayout>
 </window>
 <mruList>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="communication.h" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/DemoApp/communication.h">
-<persistable path="/TC275C_OS/0_Src/0_AppSw/Tricore/DemoApp/communication.h"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="core1_tasks.h" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/core1_tasks.h">
+<persistable path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/core1_tasks.h"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="CompilerGnuc.h" tooltip="TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/CompilerGnuc.h">
-<persistable path="/TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/CompilerGnuc.h"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="os_type.h" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/os_type.h">
+<persistable path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/os_type.h"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="CompilerGnuc.c" tooltip="TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/CompilerGnuc.c">
-<persistable path="/TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/CompilerGnuc.c"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="os_trace.h" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/os_trace.h">
+<persistable path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/os_trace.h"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="CompilerTasking.h" tooltip="TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/CompilerTasking.h">
-<persistable path="/TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/CompilerTasking.h"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="os.h" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/os.h">
+<persistable path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/os.h"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="Compilers.h" tooltip="TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/Compilers.h">
-<persistable path="/TC275C_OS/0_Src/1_SrvSw/Tricore/Compilers/Compilers.h"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="core2appsw.c" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/core2appsw.c">
+<persistable path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/core2appsw.c"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.tasking.lsl.editor.LSLSourceEditor" name="Lcf_Tasking.lsl" tooltip="TC275C_OS/1_ToolEnv/0_Build/1_Config/Lcf_Tasking.lsl">
-<persistable path="/TC275C_OS/1_ToolEnv/0_Build/1_Config/Lcf_Tasking.lsl"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="core1_kernel_abstrac.h" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/core1_kernel_abstrac.h">
+<persistable path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/core1_kernel_abstrac.h"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="core1_threads.c" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/core1_threads.c">
+<persistable path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/core1_threads.c"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="core1_thread_cfg.h" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/core1_thread_cfg.h">
+<persistable path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/core1_thread_cfg.h"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="DemoApp.c" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/DemoApp/DemoApp.c">
 <persistable path="/TC275C_OS/0_Src/0_AppSw/Tricore/DemoApp/DemoApp.c"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="Cpu1_Main.c" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu1_Main.c">
-<persistable path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu1_Main.c"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="core2_threads.c" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/core2_threads.c">
+<persistable path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/core2_threads.c"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="Cpu2_Main.c" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu2_Main.c">
-<persistable path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu2_Main.c"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="core2_tasks.h" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/core2_tasks.h">
+<persistable path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/core2_tasks.h"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="Cpu0_Main.c" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu0_Main.c">
-<persistable path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/Cpu0_Main.c"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="core2_tasks.c" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/core2_tasks.c">
+<persistable path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/core2_tasks.c"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="IfxGtm_Trig.c" tooltip="TC275C_OS/0_Src/4_McHal/Tricore/Gtm/Trig/IfxGtm_Trig.c">
-<persistable path="/TC275C_OS/0_Src/4_McHal/Tricore/Gtm/Trig/IfxGtm_Trig.c"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="core0_threads.c" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/core0_threads.c">
+<persistable path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/core0_threads.c"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="core0_task_cfg.h" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/core0_task_cfg.h">
+<persistable path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/core0_task_cfg.h"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="core0_thread_cfg.h" tooltip="TC275C_OS/0_Src/0_AppSw/Tricore/Main/core0_thread_cfg.h">
+<persistable path="/TC275C_OS/0_Src/0_AppSw/Tricore/Main/core0_thread_cfg.h"/>
 </file>
 </mruList>
 </workbench>

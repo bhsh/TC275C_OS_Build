@@ -956,7 +956,6 @@ void os_suspend_allthreads(void)
 /****************************************************************************/
 void os_restore_allthreads(void)
 {
-	/* Because the scheduler logic is located in stm tick interrupt, and */
    osu32_t current_cpu_id = os_getCoreId();
 
    if((current_cpu_id == CORE0)&&

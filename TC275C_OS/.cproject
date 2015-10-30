@@ -35,6 +35,8 @@
 								<option id="com.tasking.ctc.cc.noTaskingSfr.1118666012" name="Automatic inclusion of '.sfr' file" superClass="com.tasking.ctc.cc.noTaskingSfr" value="false" valueType="boolean"/>
 								<option id="com.tasking.ctc.c.allocation.cca.147905737" name="Code core association:" superClass="com.tasking.ctc.c.allocation.cca" value="com.tasking.ctc.c.allocation.cca.none" valueType="enumerated"/>
 								<option id="com.tasking.ctc.c.allocation.dca.921858137" name="Data core association:" superClass="com.tasking.ctc.c.allocation.dca" value="com.tasking.ctc.c.allocation.dca.none" valueType="enumerated"/>
+								<option id="com.tasking.ctc.cc.optimize.1536034928" name="Optimization level:" superClass="com.tasking.ctc.cc.optimize" value="com.tasking.ctc.cc.optimize.2" valueType="enumerated"/>
+								<option id="com.tasking.ctc.cc.tradeoff.194087738" name="Trade-off between speed and size:" superClass="com.tasking.ctc.cc.tradeoff" value="com.tasking.ctc.cc.tradeoff.4" valueType="enumerated"/>
 								<inputType id="com.tasking.ctc.cppInputType.1925557548" name="C++" superClass="com.tasking.ctc.cppInputType"/>
 								<inputType id="com.tasking.ctc.cpp.cInputType.1253152584" name="C" superClass="com.tasking.ctc.cpp.cInputType"/>
 								<inputType id="com.tasking.ctc.cc.msInputType.986011755" name="MS" superClass="com.tasking.ctc.cc.msInputType"/>
