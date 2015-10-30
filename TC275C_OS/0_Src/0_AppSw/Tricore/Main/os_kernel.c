@@ -836,7 +836,7 @@ OS_INLINE void os_kernel_in_tick(void)
 /*              reltime(unit ms).This is an OS API that is provided to os   */
 /*              user                                                        */
 /****************************************************************************/
-os32_t pthread_cond_timedwait_np(osu16_t reltime) //!< [in] relative time are the relative time STM_TIM4 ticks.NOT PORTABLE.
+os32_t pthread_cond_timedwait_np(osu16_t reltime) /* <reltime> Waiting time, unit:ms */
 {
 	osu16_t new_tick_count;
     osu16_t set_count;
