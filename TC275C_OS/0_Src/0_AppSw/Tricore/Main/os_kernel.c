@@ -603,13 +603,13 @@ OS_INLINE void dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t
 /*              and software interrupts that are used for thread activation */
 /*                                                                          */
 /* OPTIONS:                                                                 */
-/*    __syscallfunc(DISPATCH_WAIT)   os32_t dispatch_wait(void *, void *);     */
+/*    __syscallfunc(DISPATCH_WAIT)   os32_t dispatch_wait(void *, void *);  */
 /*    <EVERY CORE> Make threads that have been actived be blocked           */
 /*                                                                          */
-/*    __syscallfunc(DISPATCH_SIGNAL) os32_t dispatch_signal(void *, void *);   */
+/*    __syscallfunc(DISPATCH_SIGNAL) os32_t dispatch_signal(void *, void *);*/
 /*    <EVERY CORE> Make threads that have been blocked be actived           */
 /*                                                                          */
-/*    __syscallfunc(DISPATCH_ONLY)   os32_t dispatch_only(void *, void *);     */
+/*    __syscallfunc(DISPATCH_ONLY)   os32_t dispatch_only(void *, void *);  */
 /*    <EVERY CORE> Only reschedule all threads that have been actived       */
 /*    without changing the scheduling table                                 */
 /****************************************************************************/
@@ -1122,7 +1122,7 @@ void __interrupt(12) __vector_table(0) Ifx_STM2_Isr(void)
 /*                       activation when the activation source is located   */
 /*                       in interrupt                                       */
 /****************************************************************************/
-void __interrupt(9) __vector_table(0) CPU0_SOFT0_Isr(void)
+void __interrupt(9) __vector_table(0) core0_kernel_soft_isr(void)
 {
     __asm("; setup parameter and jump to os_kernel \n"
             " mov.aa a4,%0 \n"
@@ -1130,14 +1130,14 @@ void __interrupt(9) __vector_table(0) CPU0_SOFT0_Isr(void)
             " mov d15,%2 \n"
             " jg os_kernel"
             ::"a"(&core0_os_blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(os_kernel):"a4","a5","d15");
-} /* End of CPU0_SOFT0_Isr interrupt */
+} /* End of core0_kernel_soft_isr interrupt */
 
 /****************************************************************************/
 /* DESCRIPTION:  <CORE1> software interrupt 0 that is used for thread       */
 /*                       activation when the activation source is located   */
 /*                       in interrupt                                       */
 /****************************************************************************/
-void __interrupt(8) __vector_table(0) CPU1_SOFT0_Isr(void)
+void __interrupt(8) __vector_table(0) core1_kernel_soft_isr(void)
 {
     __asm("; setup parameter and jump to os_kernel \n"
             " mov.aa a4,%0 \n"
@@ -1145,14 +1145,14 @@ void __interrupt(8) __vector_table(0) CPU1_SOFT0_Isr(void)
             " mov d15,%2 \n"
             " jg os_kernel"
             ::"a"(&core1_os_blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(os_kernel):"a4","a5","d15");
-} /* End of CPU1_SOFT0_Isr interrupt */
+} /* End of core1_kernel_soft_isr interrupt */
 
 /****************************************************************************/
 /* DESCRIPTION:  <CORE2> software interrupt 0 that is used for thread       */
 /*                       activation when the activation source is located   */
 /*                       in interrupt                                       */
 /****************************************************************************/
-void __interrupt(7) __vector_table(0) CPU2_SOFT0_Isr(void)
+void __interrupt(7) __vector_table(0) core2_kernel_soft_isr(void)
 {
     __asm("; setup parameter and jump to os_kernel \n"
             " mov.aa a4,%0 \n"
@@ -1160,7 +1160,7 @@ void __interrupt(7) __vector_table(0) CPU2_SOFT0_Isr(void)
             " mov d15,%2 \n"
             " jg os_kernel"
             ::"a"(&core2_os_blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(os_kernel):"a4","a5","d15");
-} /* End of CPU2_SOFT0_Isr interrupt */
+} /* End of core2_kernel_soft_isr interrupt */
 
 /****************************************************************************/
 /* DESCRIPTION: STM0 compare1 interrupt event                               */
