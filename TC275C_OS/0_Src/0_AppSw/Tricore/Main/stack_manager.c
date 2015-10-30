@@ -40,9 +40,12 @@ void get_thread_init_stack_address(osu32_t core_id,osu32_t thread_id,osu32_t ini
 {  
    osu32_t index;
    
-   for(index = 0 ; index < STACK_MAX_MEASURE_POS ; index++ )
+   if(thread_id < MAX_THREAD_NUM)
    {
-     pthread_stack[core_id][thread_id][index].stack_init_address = init_sp_address;
+     for(index = 0 ; index < STACK_MAX_MEASURE_POS ; index++ )
+     {
+       pthread_stack[core_id][thread_id][index].stack_init_address = init_sp_address;
+     }
    }
 }
 
