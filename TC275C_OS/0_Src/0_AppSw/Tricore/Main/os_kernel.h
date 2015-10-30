@@ -147,7 +147,7 @@ inline osu32_t os_getCoreId(void)
    osu32_t core_id;
    core_id=__mfcr(CPU_CORE_ID);
    return (core_id&0x7);
-}
+} /* End of os_getCoreId function */
  
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Start threads                                  */
@@ -172,13 +172,14 @@ inline void pthread_start_np(void) {
 	{  
 	      assert(core0_os_pthread_runnable != 0);
 		  if(core0_allthreads_status == ALLTHREADS_WORKING)
-		  {
-			      thread = core0_os_pthread_runnable_threads[31 - __clz(core0_os_pthread_runnable)]; //  get ready thread with highest priority ready			    
+		  {       
+		  	      /* <CORE0> Get ready thread with highest priority ready */  
+			      thread = core0_os_pthread_runnable_threads[31 - __clz(core0_os_pthread_runnable)]; 			    
 			      core0_os_pthread_running = thread;
 		  }
 		  else if(core0_allthreads_status == ALLTHREADS_SUSPENDED)
 		  {
-                  /* In order to keep core0_os_pthread_running unchanged */
+                  /* <CORE0> In order to keep core0_os_pthread_running unchanged */
 				  thread = core0_os_pthread_running;
 		  }
 	}
@@ -186,13 +187,14 @@ inline void pthread_start_np(void) {
 	{
 	      assert(core1_os_pthread_runnable != 0);
 		  if(core1_allthreads_status == ALLTHREADS_WORKING)
-		  {
-			      thread = core1_os_pthread_runnable_threads[31 - __clz(core1_os_pthread_runnable)]; //  get ready thread with highest priority ready
+		  {     
+		  	      /* <CORE1> Get ready thread with highest priority ready */  
+			      thread = core1_os_pthread_runnable_threads[31 - __clz(core1_os_pthread_runnable)];
 				  core1_os_pthread_running = thread;
 		  }
 		  else if(core1_allthreads_status == ALLTHREADS_SUSPENDED)
 		  {
-                  /* In order to keep core1_os_pthread_running unchanged */
+                  /* <CORE1> In order to keep core1_os_pthread_running unchanged */
 				  thread = core1_os_pthread_running;
 		  }
 	}
@@ -200,25 +202,26 @@ inline void pthread_start_np(void) {
 	{
 	      assert(core2_os_pthread_runnable != 0);
 		  if(core2_allthreads_status == ALLTHREADS_WORKING)
-		  {
-			      thread = core2_os_pthread_runnable_threads[31 - __clz(core2_os_pthread_runnable)]; //  get ready thread with highest priority ready
-                  core2_os_pthread_running = thread;//
+		  {       
+		  	      /* <CORE2> Get ready thread with highest priority ready */  
+			      thread = core2_os_pthread_runnable_threads[31 - __clz(core2_os_pthread_runnable)]; 
+                  core2_os_pthread_running = thread;
 	      } 
 		  else if(core2_allthreads_status == ALLTHREADS_SUSPENDED)
 		  {
-                  /* Do nothing in order to keep core2_os_pthread_running unchanged */
+                  /* <CORE2> Do nothing in order to keep core2_os_pthread_running unchanged */
 				  thread = core2_os_pthread_running;
 		  }
 	}
 	assert(thread);
     assert(thread->lcx);
-    __mtcr(CPU_PSW, 0x00000980);        /* clear PSW.IS */
+    __mtcr(CPU_PSW, 0x00000980);   /* <EVERY CORE> Clear PSW.IS */
     __dsync();
     __mtcr(CPU_PCXI,  thread->lcx);
-    __rslcx();         // restore the lower context
-    __asm(" mov d2,#0"); // the return value is 2
-    __asm(" rfe");       // restore the upper context
-}
+    __rslcx();           /* <EVERY CORE> Restore the lower context */
+    __asm(" mov d2,#0"); /* <EVERY CORE> The return value is 0     */
+    __asm(" rfe");       /* <EVERY CORE>restore the upper context  */
+} /* End of pthread_start_np function */
 
 
 
