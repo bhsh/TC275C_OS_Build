@@ -31,9 +31,9 @@
 /****************************************************************************/
 /* Global Variable Definitions                                              */
 /****************************************************************************/
-uint32_t  core0_os_pthread_runnable;
-uint32_t  core1_os_pthread_runnable;
-uint32_t  core2_os_pthread_runnable;
+osu32_t  core0_os_pthread_runnable;
+osu32_t  core1_os_pthread_runnable;
+osu32_t  core2_os_pthread_runnable;
 pthread_t core0_os_pthread_running;
 pthread_t core1_os_pthread_running;
 pthread_t core2_os_pthread_running;
@@ -47,19 +47,19 @@ allthreads_status_t core2_allthreads_status;
 /****************************************************************************/
 /* Static Variable Definitions                                              */
 /****************************************************************************/
-static uint32_t  core0_mutex;
-static uint32_t  core1_mutex;
-static uint32_t  core2_mutex;
-static uint16_t  core0_os_stm_tick_count;
-static uint16_t  core1_os_stm_tick_count;
-static uint16_t  core2_os_stm_tick_count;
-static uint32_t  core0_os_pthread_time_waiting;
-static uint32_t  core1_os_pthread_time_waiting;
-static uint32_t  core2_os_pthread_time_waiting;
+static osu32_t  core0_mutex;
+static osu32_t  core1_mutex;
+static osu32_t  core2_mutex;
+static osu16_t  core0_os_stm_tick_count;
+static osu16_t  core1_os_stm_tick_count;
+static osu16_t  core2_os_stm_tick_count;
+static osu32_t  core0_os_pthread_time_waiting;
+static osu32_t  core1_os_pthread_time_waiting;
+static osu32_t  core2_os_pthread_time_waiting;
 static pthread_t core0_os_blocked_threads;
 static pthread_t core1_os_blocked_threads;
 static pthread_t core2_os_blocked_threads;
-static uint16_t  stm_ticks[PTHREAD_COND_TIMEDWAIT_SIZE]=
+static osu16_t  stm_ticks[PTHREAD_COND_TIMEDWAIT_SIZE]=
 { 
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                      
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,  
@@ -82,7 +82,7 @@ static pthread_cond_t  core0_os_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
     CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,                     
     CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER   
 };
-static uint16_t  core1_os_stm_ticks[PTHREAD_COND_TIMEDWAIT_SIZE]=
+static osu16_t  core1_os_stm_ticks[PTHREAD_COND_TIMEDWAIT_SIZE]=
 {
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                      
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,  
@@ -105,7 +105,7 @@ static pthread_cond_t  core1_os_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
     CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,                     
     CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER   
 };
-static uint16_t  core2_os_stm_ticks[PTHREAD_COND_TIMEDWAIT_SIZE] =
+static osu16_t  core2_os_stm_ticks[PTHREAD_COND_TIMEDWAIT_SIZE] =
 {
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                      
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,  
@@ -147,7 +147,7 @@ __syscallfunc(DISPATCH_ONLY)   int dispatch_only(void *, void *);
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Get mutex                                      */
 /****************************************************************************/
-inline unsigned int core_getMutex(uint32_t *mutex)
+inline unsigned int core_getMutex(osu32_t *mutex)
 {
   return __swap(mutex, true);
 } /* End of core_getMutex function */
@@ -155,7 +155,7 @@ inline unsigned int core_getMutex(uint32_t *mutex)
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Return mutex                                   */
 /****************************************************************************/
-inline void core_returnMutex(uint32_t *mutex)
+inline void core_returnMutex(osu32_t *mutex)
 {
   *mutex=0x0;
 } /* End of core_returnMutex function */
@@ -253,7 +253,7 @@ static void list_delete_first(pthread_t *head) { /* <*head> list head pointer */
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Create threads                                 */
 /****************************************************************************/
-extern void get_thread_init_stack_address(uint32_t,uint32_t,uint32_t);
+extern void get_thread_init_stack_address(osu32_t,osu32_t,osu32_t);
 int pthread_create_np(pthread_t thread, /* <thread> Thread control block pointer */
                             const pthread_attr_t *attr, /* <*attr> Thread attribute. Can be NULL to use default */
                             void(*start_routine)(void *,task_ptr_t),/* <*start_routine> Thread function pointer */
@@ -262,7 +262,7 @@ int pthread_create_np(pthread_t thread, /* <thread> Thread control block pointer
 {
 
     const pthread_attr_t default_attr = PTHREAD_DEFAULT_ATTR;
-    uint32_t fcx;
+    osu32_t fcx;
     context_t *cx;
 
     if (attr == NULL)
@@ -294,7 +294,7 @@ int pthread_create_np(pthread_t thread, /* <thread> Thread control block pointer
 
 	get_thread_init_stack_address(os_getCoreId(),(int)arg,(int)(thread->stack + *thread->stack));
 
-    uint32_t i = thread->priority;
+    osu32_t i = thread->priority;
 	
     if(os_getCoreId()== CORE0)
     {   
@@ -441,8 +441,8 @@ int pthread_cond_wait(pthread_cond_t *cond)/* <*cond> condition pointer */
 int pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition pointer */
 {
     assert(cond!=NULL);
-	uint32_t current_cpu_id = os_getCoreId();
-	uint32_t cond_core_id   = cond->core_id;
+	osu32_t current_cpu_id = os_getCoreId();
+	osu32_t cond_core_id   = cond->core_id;
 
 #if 0
 	if(cond->multi_semaphore == 0)
@@ -752,9 +752,9 @@ inline void schedule_in_tick(void)
 {
      pthread_cond_t  *cond;
 	 pthread_cond_t  *cond_buffer[PTHREAD_COND_TIMEDWAIT_SIZE];
-     uint32_t        index;
-	 uint32_t        release_count = 0;
-	 uint32_t        tempt_index;
+     osu32_t        index;
+	 osu32_t        release_count = 0;
+	 osu32_t        tempt_index;
 	
 	 if(os_getCoreId()==CORE0)
 	 {  	
@@ -837,11 +837,11 @@ inline void schedule_in_tick(void)
 /*              reltime(unit ms).This is an OS API that is provided to os   */
 /*              user                                                        */
 /****************************************************************************/
-int pthread_cond_timedwait_np(uint16_t reltime) //!< [in] relative time are the relative time STM_TIM4 ticks.NOT PORTABLE.
+int pthread_cond_timedwait_np(osu16_t reltime) //!< [in] relative time are the relative time STM_TIM4 ticks.NOT PORTABLE.
 {
-	uint16_t new_tick_count;
-    uint16_t set_count;
-	uint32_t task_id = 0;
+	osu16_t new_tick_count;
+    osu16_t set_count;
+	osu32_t task_id = 0;
 	pthread_cond_t *cond;
 	
     assert(cppn()==0); /* CCPN must be 0, pthread_cond_timedwait_np cannot be called from ISR */
@@ -849,7 +849,7 @@ int pthread_cond_timedwait_np(uint16_t reltime) //!< [in] relative time are the 
 	if(os_getCoreId()==CORE0)
 	{	  	
 	  new_tick_count  = core0_os_stm_tick_count + 1;
-	  set_count = ((uint16_t)(new_tick_count + reltime))%0xFFFF;  /* <CORE0> set_count ranges from 0 to 0xFFFE */
+	  set_count = ((osu16_t)(new_tick_count + reltime))%0xFFFF;  /* <CORE0> set_count ranges from 0 to 0xFFFE */
 
       /* <CORE0> Search the empty position. */
       while((stm_ticks[task_id] != USHRT_MAX)&&(task_id < PTHREAD_COND_TIMEDWAIT_SIZE ))
@@ -871,7 +871,7 @@ int pthread_cond_timedwait_np(uint16_t reltime) //!< [in] relative time are the 
 	else if(os_getCoreId()==CORE1)
 	{ 
 	  new_tick_count = core1_os_stm_tick_count + 1;
-	  set_count = ((uint16_t)(new_tick_count + reltime))%0xFFFF;  /* <CORE1> set_count ranges from 0 to 0xFFFE */
+	  set_count = ((osu16_t)(new_tick_count + reltime))%0xFFFF;  /* <CORE1> set_count ranges from 0 to 0xFFFE */
 
       /* <CORE1> Search the empty position. */
       while((core1_os_stm_ticks[task_id] != USHRT_MAX)&&(task_id < PTHREAD_COND_TIMEDWAIT_SIZE ))
@@ -894,7 +894,7 @@ int pthread_cond_timedwait_np(uint16_t reltime) //!< [in] relative time are the 
 	else if(os_getCoreId()==CORE2)
 	{
 	  new_tick_count  = core2_os_stm_tick_count + 1;
-	  set_count = ((uint16_t)(new_tick_count + reltime))%0xFFFF;  /* <CORE2> set_count ranges from 0 to 0xFFFE */
+	  set_count = ((osu16_t)(new_tick_count + reltime))%0xFFFF;  /* <CORE2> set_count ranges from 0 to 0xFFFE */
 
       /* <CORE2> Search the empty position. */
       while((core2_os_stm_ticks[task_id] != USHRT_MAX)&&(task_id < PTHREAD_COND_TIMEDWAIT_SIZE ))
@@ -924,7 +924,7 @@ int pthread_cond_timedwait_np(uint16_t reltime) //!< [in] relative time are the 
 void os_suspend_allthreads(void)
 {
 	/* Because the scheduler logic is located in stm tick interrupt, and */
-   uint32_t current_cpu_id = os_getCoreId();
+   osu32_t current_cpu_id = os_getCoreId();
 
    if(current_cpu_id == CORE0)
    {	
@@ -971,7 +971,7 @@ void os_suspend_allthreads(void)
 void os_restore_allthreads(void)
 {
 	/* Because the scheduler logic is located in stm tick interrupt, and */
-   uint32_t current_cpu_id = os_getCoreId();
+   osu32_t current_cpu_id = os_getCoreId();
 
    if(current_cpu_id == CORE0)
    {  
@@ -1170,7 +1170,7 @@ void __interrupt(21) __vector_table(0) Ifx_STM0_compare1_Isr(void)
 /****************************************************************************/
 /* DESCRIPTION: <CORE0>  Trap vector table entry to trap class 6 handler    */
 /****************************************************************************/
-void IfxCpu_Trap_systemCall_Cpu0(uint32_t tin)
+void IfxCpu_Trap_systemCall_Cpu0(osu32_t tin)
 {
     __asm(  " mtcr #ICR,%0    \n"
             " isync           \n"
@@ -1181,7 +1181,7 @@ void IfxCpu_Trap_systemCall_Cpu0(uint32_t tin)
 /****************************************************************************/
 /* DESCRIPTION: <CORE1>  Trap vector table entry to trap class 6 handler    */
 /****************************************************************************/
-void IfxCpu_Trap_systemCall_Cpu1(uint32_t tin)
+void IfxCpu_Trap_systemCall_Cpu1(osu32_t tin)
 {
 	/* Add the kernel of OS */
 	/* Kernel begins        */
@@ -1194,7 +1194,7 @@ void IfxCpu_Trap_systemCall_Cpu1(uint32_t tin)
 /****************************************************************************/
 /* DESCRIPTION: <CORE2>  Trap vector table entry to trap class 6 handler    */
 /****************************************************************************/
-void IfxCpu_Trap_systemCall_Cpu2(uint32_t tin)
+void IfxCpu_Trap_systemCall_Cpu2(osu32_t tin)
 {
     __asm(  " mtcr #ICR,%0    \n"
             " isync           \n"
