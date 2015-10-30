@@ -20,6 +20,7 @@
 #include "Port\Io\IfxPort_Io.h"
 #include "Stm\Std\IfxStm.h"
 #include "Src\Std\IfxSrc.h"
+#include "kernel_callback_mapping.h"
 
 /****************************************************************************/
 /* Macro Definitions                                                        */
@@ -143,11 +144,6 @@ OS_EXTERN osu32_t  stm0CompareValue2;
 __syscallfunc(DISPATCH_WAIT)   os32_t dispatch_wait(void *, void *);
 __syscallfunc(DISPATCH_SIGNAL) os32_t dispatch_signal(void *, void *);
 __syscallfunc(DISPATCH_ONLY)   os32_t dispatch_only(void *, void *);
-
-/****************************************************************************/
-/* Extern Prototype Definitions                                             */
-/****************************************************************************/
-extern void get_thread_init_stack_address(osu32_t,osu32_t,osu32_t);
 
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Get mutex                                      */
@@ -294,8 +290,7 @@ os32_t pthread_create_np(pthread_t thread, /* <thread> Thread control block poin
     cx->l.a4 = arg;
 	cx->l.a5 = core0_task_ptr;
     thread->arg = arg;
-
-	get_thread_init_stack_address(current_core_id,(os32_t)arg,(os32_t)(thread->stack + *thread->stack));
+	PTHREAD_OBTAIN_INIT_STACK_ADD_CALLBACK(current_core_id,(os32_t)arg,(os32_t)(thread->stack + *thread->stack))
 
     osu32_t i = thread->priority;
 	
