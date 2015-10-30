@@ -172,52 +172,52 @@ OS_INLINE void pthread_start_np(void) {
 	extern  allthreads_status_t core2_allthreads_status;
 
     pthread_t thread = (void*)0;
-	osu32_t   current_cpu_id = os_getCoreId();
+	osu32_t   current_core_id = os_getCoreId();
 
-	if(current_cpu_id == CORE0_ID)
+	if(current_core_id == CORE0_ID)
 	{  
-	      assert(core0_os_pthread_runnable != 0);
-		  if(core0_allthreads_status == ALLTHREADS_WORKING)
-		  {       
-		  	      /* <CORE0> Get ready thread with highest priority ready */  
-			      thread = core0_os_pthread_runnable_threads[31 - __clz(core0_os_pthread_runnable)]; 			    
-			      core0_os_pthread_running = thread;
-		  }
-		  else if(core0_allthreads_status == ALLTHREADS_SUSPENDED)
-		  {
-                  /* <CORE0> In order to keep core0_os_pthread_running unchanged */
-				  thread = core0_os_pthread_running;
-		  }
+      assert(core0_os_pthread_runnable != 0);
+	  if(core0_allthreads_status == ALLTHREADS_WORKING)
+	  {       
+         /* <CORE0> Get ready thread with highest priority ready */  
+         thread = core0_os_pthread_runnable_threads[31 - __clz(core0_os_pthread_runnable)]; 			    
+         core0_os_pthread_running = thread;
+	  }
+	  else if(core0_allthreads_status == ALLTHREADS_SUSPENDED)
+	  {
+         /* <CORE0> In order to keep core0_os_pthread_running unchanged */
+	     thread = core0_os_pthread_running;
+	  }
 	}
-    else if(current_cpu_id == CORE1_ID)
+    else if(current_core_id == CORE1_ID)
 	{
-	      assert(core1_os_pthread_runnable != 0);
-		  if(core1_allthreads_status == ALLTHREADS_WORKING)
-		  {     
-		  	      /* <CORE1> Get ready thread with highest priority ready */  
-			      thread = core1_os_pthread_runnable_threads[31 - __clz(core1_os_pthread_runnable)];
-				  core1_os_pthread_running = thread;
-		  }
-		  else if(core1_allthreads_status == ALLTHREADS_SUSPENDED)
-		  {
-                  /* <CORE1> In order to keep core1_os_pthread_running unchanged */
-				  thread = core1_os_pthread_running;
-		  }
+      assert(core1_os_pthread_runnable != 0);
+	  if(core1_allthreads_status == ALLTHREADS_WORKING)
+	  {     
+	     /* <CORE1> Get ready thread with highest priority ready */  
+         thread = core1_os_pthread_runnable_threads[31 - __clz(core1_os_pthread_runnable)];
+	     core1_os_pthread_running = thread;
+	  }
+	  else if(core1_allthreads_status == ALLTHREADS_SUSPENDED)
+	  {
+         /* <CORE1> In order to keep core1_os_pthread_running unchanged */
+	     thread = core1_os_pthread_running;
+	  }
 	}
-	else if(current_cpu_id == CORE2_ID)
+	else if(current_core_id == CORE2_ID)
 	{
-	      assert(core2_os_pthread_runnable != 0);
-		  if(core2_allthreads_status == ALLTHREADS_WORKING)
-		  {       
-		  	      /* <CORE2> Get ready thread with highest priority ready */  
-			      thread = core2_os_pthread_runnable_threads[31 - __clz(core2_os_pthread_runnable)]; 
-                  core2_os_pthread_running = thread;
-	      } 
-		  else if(core2_allthreads_status == ALLTHREADS_SUSPENDED)
-		  {
-                  /* <CORE2> Do nothing in order to keep core2_os_pthread_running unchanged */
-				  thread = core2_os_pthread_running;
-		  }
+      assert(core2_os_pthread_runnable != 0);
+	  if(core2_allthreads_status == ALLTHREADS_WORKING)
+	  {       
+	     /* <CORE2> Get ready thread with highest priority ready */  
+         thread = core2_os_pthread_runnable_threads[31 - __clz(core2_os_pthread_runnable)]; 
+         core2_os_pthread_running = thread;
+      } 
+	  else if(core2_allthreads_status == ALLTHREADS_SUSPENDED)
+	  {
+         /* <CORE2> Do nothing in order to keep core2_os_pthread_running unchanged */
+	     thread = core2_os_pthread_running;
+	  }
 	}
 	assert(thread);
     assert(thread->lcx);
@@ -232,7 +232,8 @@ OS_INLINE void pthread_start_np(void) {
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Transfer address from cx mode to physical mode */
 /****************************************************************************/
-OS_INLINE context_t *cx_to_addr(osu32_t cx) {
+OS_INLINE context_t *cx_to_addr(osu32_t cx)
+{
     osu32_t seg_nr = __extru(cx, 16, 4);
     return (context_t *) __insert(seg_nr << 28, cx, 6, 16);
 } /* End of cx_to_addr function */
@@ -253,7 +254,8 @@ OS_INLINE void delay_ms(osu32_t _milliseconds) {
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Insert NEZ.A instruction                       */
 /****************************************************************************/
-OS_INLINE osu32_t neza(void *p) {
+OS_INLINE osu32_t neza(void *p)
+{
     os32_t ret;
     __asm("nez.a %0,%1":"=d"(ret):"a"(p));
     return ret;
