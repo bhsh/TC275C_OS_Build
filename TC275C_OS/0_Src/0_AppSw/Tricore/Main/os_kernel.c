@@ -462,13 +462,13 @@ int pthread_cond_wait(pthread_cond_t *cond)//!< [in] condition pointer
 	//}	
     return 0;
 }
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|               int pthread_cond_broadcast(pthread_cond_t *cond)
-|               Broadcast a condition
-|
---------------------------------------------------------------------------------------*/
+
+/****************************************************************************/
+/* DESCRIPTION: <EVERY CORE> The API(pthread_cond_broadcast) is used inside */
+/*              threads and interrupts in order to active threads blocked.  */
+/*              The thread and interrupt in one core can active the thread  */
+/*              of another core                                             */
+/****************************************************************************/
 int pthread_cond_broadcast(pthread_cond_t *cond) //!< [in] condition pointer
 {
     assert(cond!=NULL);
@@ -484,7 +484,7 @@ int pthread_cond_broadcast(pthread_cond_t *cond) //!< [in] condition pointer
 		{	 
 			 if((cond_core_id == current_cpu_id)&&(0 == cppn()))
 		     {		
-	              // _pthread_running on CCPN=0
+	              /* <EVERY CORE> _pthread_running on CCPN=0 */
 	              dispatch_signal(&cond->blocked_threads, cond->blocked_threads->prev);// swap in with mutex unlocked
 		     }
 	         else
@@ -493,76 +493,64 @@ int pthread_cond_broadcast(pthread_cond_t *cond) //!< [in] condition pointer
 			      { 
 					 while(0!=core_getMutex(&core0_mutex)){};
 					 
-	                 /* The bug is found here*/
 	        	     core0_os_blocked_threads=NULL;
-	        	     //blocked_threads_prev_temp=cond->blocked_threads->prev;
+					 
+	        	     /* blocked_threads_prev_temp=cond->blocked_threads->prev; */
 	        	     list_append(&core0_os_blocked_threads, cond->blocked_threads,
 	                              cond->blocked_threads->prev, cond->blocked_threads->next);
-	                 //locked_threads=cond->blocked_threads;
+
+					 /* locked_threads=cond->blocked_threads; */
 	                 cond->blocked_threads = NULL;
 
-	                 /*  The software interrupt 0 of core0 is used.   */
-	                 //SRC_GPSR00.B.SETR=1;    // Set request
-	                 //SRC_GPSR00.B.SRE=1;     // Service Request Enable
-	                 //SRC_GPSR00.B.TOS=0;     // TOS=CPU0
-	                 //SRC_GPSR00.B.SRPN=9;    // Service Request Priority Number
+	                 /* <CORE0> The software interrupt 0 of core0 is used.   */
+					 SRC_GPSR00.U=(1<<26)| /* SRC_GPSR00.B.SETR=1; <Set request>                     */
+				                  (1<<10)| /* SRC_GPSR00.B.SRE=1;  <Service Request Enable>          */
+				                  (0<<11)| /* SRC_GPSR00.B.TOS=0;  <TOS=CPU0>                        */
+				                  (9);     /* SRC_GPSR00.B.SRPN=9; <Service Request Priority Number> */
 
-					 SRC_GPSR00.U=(1<<26)|   //SRC_GPSR01.B.SETR=1;
-				                  (1<<10)|   //SRC_GPSR01.B.SRE=1;
-				                  (0<<11)|   //SRC_GPSR01.B.TOS=0;
-				                  (9);       //SRC_GPSR01.B.SRPN=9; 
-
-					 //core_returnMutex(&core0_mutex);
+					 /* core_returnMutex(&core0_mutex); */
 	               }
 				   else if(cond_core_id==CORE1)
 				   { 
 	                 while(0!=core_getMutex(&core1_mutex)){};
 					
-	                 /* The bug is found here*/
 	        	     core1_os_blocked_threads=NULL;
-	        	     //blocked_threads_prev_temp=cond->blocked_threads->prev;
+					 
+	        	     /* blocked_threads_prev_temp=cond->blocked_threads->prev; */
 	        	     list_append(&core1_os_blocked_threads, cond->blocked_threads,
 	                                cond->blocked_threads->prev, cond->blocked_threads->next);
-	                 //locked_threads=cond->blocked_threads;
+
+	                 /* locked_threads=cond->blocked_threads; */
 	                 cond->blocked_threads = NULL;
 
-	                 /*  The software interrupt 0 of core0 is used.   */
-	                 //SRC_GPSR10.B.SETR=1;    // Set request
-	                 //SRC_GPSR10.B.SRE=1;     // Service Request Enable
-	                 //SRC_GPSR10.B.TOS=0;     // TOS=CPU0
-	                 //SRC_GPSR10.B.SRPN=8;    // Service Request Priority Number
-	                 
-					 SRC_GPSR10.U=(1<<26)|   //SRC_GPSR11.B.SETR=1;
-				                  (1<<10)|   //SRC_GPSR11.B.SRE=1;
-				                  (1<<11)|   //SRC_GPSR11.B.TOS=1;
-				                  (8);       //SRC_GPSR11.B.SRPN=8; 
+	                 /* <CORE1>  The software interrupt 0 of core1 is used.   */
+					 SRC_GPSR10.U=(1<<26)| /* SRC_GPSR10.B.SETR=1;  <Set request>                     */
+				                  (1<<10)| /* SRC_GPSR10.B.SRE=1;   <Service Request Enable>          */
+				                  (1<<11)| /* SRC_GPSR10.B.TOS=0;   <TOS=CPU1>                        */
+				                  (8);     /* SRC_GPSR10.B.SRPN=8;  <Service Request Priority Number> */     
 				                  
-					 //core_returnMutex(&core1_mutex);
+					 /* core_returnMutex(&core1_mutex); */
 				   }
 				   else if(cond_core_id==CORE2)
 				   { 
 	                 while(0!=core_getMutex(&core2_mutex)){};
 					 
-	                 /* The bug is found here*/
 	        	     core2_os_blocked_threads=NULL;
-	        	     //blocked_threads_prev_temp=cond->blocked_threads->prev;
+					 
+	        	     /* blocked_threads_prev_temp=cond->blocked_threads->prev; */
 	        	     list_append(&core2_os_blocked_threads, cond->blocked_threads,
 	                                   cond->blocked_threads->prev, cond->blocked_threads->next);
-	                 //locked_threads=cond->blocked_threads;
+
+					 /* locked_threads=cond->blocked_threads; */
 	                 cond->blocked_threads = NULL;
 
-	                 /*  The software interrupt 0 of core0 is used.   */
-	                 //SRC_GPSR20.B.SETR=1;    // Set request
-	                 //SRC_GPSR20.B.SRE=1;     // Service Request Enable
-	                 //SRC_GPSR20.B.TOS=0;     // TOS=CPU0
-	                 //SRC_GPSR20.B.SRPN=7;    // Service Request Priority Number
-
-					 SRC_GPSR20.U=(1<<26)|   //SRC_GPSR11.B.SETR=1;
-				                  (1<<10)|   //SRC_GPSR11.B.SRE=1;
-				                  (2<<11)|   //SRC_GPSR11.B.TOS=2;
-				                  (7);       //SRC_GPSR11.B.SRPN=7; 	
+	                 /* <CORE2> The software interrupt 0 of core2 is used.   */
+					 SRC_GPSR20.U=(1<<26)| /* SRC_GPSR20.B.SETR=1;  <Set request>                     */               
+				                  (1<<10)| /* SRC_GPSR20.B.SRE=1;   <Service Request Enable>          */
+				                  (2<<11)| /* SRC_GPSR20.B.TOS=2;   <TOS=CPU2>                        */
+				                  (7);     /* SRC_GPSR20.B.SRPN=7;  <Service Request Priority Number> */
 				                  
-				     //core_returnMutex(&core2_mutex);
+				     /* core_returnMutex(&core2_mutex); */
 				    }
 			  }		
 	    }
@@ -573,8 +561,8 @@ int pthread_cond_broadcast(pthread_cond_t *cond) //!< [in] condition pointer
        cond->multi_semaphore++;
 	}
 #endif
-	return 0;// dummy to avoid warning
-}
+	return 0; /* Dummy to avoid warning */
+} /* End of pthread_cond_broadcast function */
 
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> If the number of threads that are actived      */
