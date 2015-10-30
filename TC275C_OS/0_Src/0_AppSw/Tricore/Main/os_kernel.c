@@ -1,156 +1,148 @@
-/*-----------------------------------------------------------------------------------
-|
-|   File name:    os_kernel.c
-|   Created on:   Aug 26, 2015
-|   Author:       Yanpeng.xi
-|   Description:
-|                 Multicore OS based on Aurix 275C app kit and TASKING 4.3 compiler
-|
---------------------------------------------------------------------------------------*/
+/****************************************************************************/
+/* FILE NAME:    os_kernel.c                                                */
+/* CREATE ON:    Aug 26, 2015                                               */
+/* AUTHER:       Yanpeng.xi                                                 */
+/* DESCRIPTION:  The c file include the kernel logic of AURIX 3-core os     */
+/* COMMENT:      Multicore OS based on Aurix 275C app kit and TASKING 4.3   */
+/*               compiler                                                   */
+/****************************************************************************/
 
+/****************************************************************************/
+/* Feature Include Files                                                    */
+/****************************************************************************/
 #include "os_kernel.h"
 #include "_Reg/IfxSrc_reg.h"
-
 #include "Cpu0_Main.h"
 #include "SysSe/Bsp/Bsp.h"
-//#include "DemoApp.h"
 #include "communication.h"
-
-
-
 #include "Compilers.h"
 #include "Cpu\Std\IfxCpu_Intrinsics.h"
 #include "Port\Io\IfxPort_Io.h"
 #include "Stm\Std\IfxStm.h"
 #include "Src\Std\IfxSrc.h"
 
-/* define the system call that is the 6th trap of CPU */
-
-//! \cond IGNORE
-
+/****************************************************************************/
+/* Macro Definitions                                                        */
+/****************************************************************************/
 #define DISPATCH_WAIT     2
 #define DISPATCH_SIGNAL   3
 #define DISPATCH_ONLY     4
 
-//#define OLD_AVALIABLE
-
-
-__syscallfunc(DISPATCH_WAIT)   int dispatch_wait(void *, void *);
-__syscallfunc(DISPATCH_SIGNAL) int dispatch_signal(void *, void *);
-__syscallfunc(DISPATCH_ONLY)   int dispatch_only(void *, void *);
-//! \endcond
-
+/****************************************************************************/
+/* Global Variable Definitions                                              */
+/****************************************************************************/
 uint32_t  core0_os_pthread_runnable;
 pthread_t core0_os_pthread_running;
 pthread_t core0_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
-static pthread_t core0_os_blocked_threads;
-
- 
 uint32_t core1_os_pthread_runnable;
 pthread_t core1_os_pthread_running;
 pthread_t core1_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
-static pthread_t core1_os_blocked_threads;
-
 uint32_t core2_os_pthread_runnable;
 pthread_t core2_os_pthread_running;
 pthread_t core2_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
-static pthread_t core2_os_blocked_threads;
-
 uint16_t stm_tick_count;
 uint16_t core1_os_stm_tick_count;
 uint16_t core2_os_stm_tick_count;
-
 uint32_t core0_os_pthread_time_waiting;
 uint32_t core1_os_pthread_time_waiting;
 uint32_t core2_os_pthread_time_waiting;
-
-//pthread_cond_t *core0_cond = NULL;
 allthreads_status_t core0_allthreads_status = ALLTHREADS_WORKING;
 allthreads_status_t core1_allthreads_status = ALLTHREADS_WORKING;
 allthreads_status_t core2_allthreads_status = ALLTHREADS_WORKING;
+unsigned int core0_mutex=0;
+unsigned int core1_mutex=0;
+unsigned int core2_mutex=0;
 
- //! tw array hold condition and time for pthread_cond_timedwait_np.
+/****************************************************************************/
+/* Static Variable Definitions                                              */
+/****************************************************************************/
+static pthread_t core0_os_blocked_threads;
+static pthread_t core1_os_blocked_threads;
+static pthread_t core2_os_blocked_threads;
 static uint16_t  stm_ticks[PTHREAD_COND_TIMEDWAIT_SIZE]=
-    { 
-	    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                      
-	    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,  
-	    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                     
-	    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX 	
-    };//!< time
+{ 
+    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                      
+    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,  
+    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                     
+    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX 	
+};
 static pthread_cond_t  *stm_cond[PTHREAD_COND_TIMEDWAIT_SIZE]=
-	{
-        NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,                     
-        NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL                     
-    };//!< condition
+{
+    NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,                     
+    NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL                     
+};
 static pthread_cond_t  core0_os_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
-	{  
-        CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,                     
-        CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,    
-        CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,                     
-        CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,    
-        CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,                    
-        CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,    
-        CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,                     
-        CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER   
-    };
+{  
+    CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,                     
+    CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,    
+    CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,                     
+    CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,    
+    CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,                    
+    CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,    
+    CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,                     
+    CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER   
+};
 static uint16_t  core1_os_stm_ticks[PTHREAD_COND_TIMEDWAIT_SIZE]=
-	{
-	    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                      
-	    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,  
-	    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                     
-	    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX 
-				    
-    };//!< time
+{
+    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                      
+    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,  
+    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                     
+    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX 
+};
 static pthread_cond_t  *core1_os_stm_cond[PTHREAD_COND_TIMEDWAIT_SIZE]=
-	{
-        NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,                     
-        NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL  
-
-    };//!< condition
+{
+    NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,                     
+    NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL  
+};
 static pthread_cond_t  core1_os_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
-	{  
-        CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,                     
-        CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,    
-        CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,                     
-        CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,    
-        CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,                    
-        CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,    
-        CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,                     
-        CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER   
-    };
+{  
+    CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,                     
+    CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,    
+    CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,                     
+    CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,    
+    CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,                    
+    CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,    
+    CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,                     
+    CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER   
+};
 static uint16_t  core2_os_stm_ticks[PTHREAD_COND_TIMEDWAIT_SIZE] =
-	{
-	    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                      
-	    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,  
-	    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                     
-	    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX 				    
-    };//!< time
+{
+    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                      
+    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,  
+    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                     
+    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX 				    
+};
 static pthread_cond_t  *core2_os_stm_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
-	{
-        NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,                     
-        NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL 
-
-    };//!< condition
+{
+    NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,                     
+    NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL 
+};
 static pthread_cond_t  core2_os_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
-	{  
-        CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,                     
-        CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,    
-        CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,                     
-        CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,    
-        CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,                    
-        CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,    
-        CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,                     
-        CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER   
-    };
+{  
+    CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,                     
+    CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,    
+    CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,                     
+    CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,    
+    CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,                    
+    CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,    
+    CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,                     
+    CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER   
+};
+
+/****************************************************************************/
+/* Extern Variable Definitions                                              */
+/****************************************************************************/
 extern uint32 stm0CompareValue;
 extern uint32 stm1CompareValue;
 extern uint32 stm2CompareValue;
 extern uint32 stm0CompareValue2;
 
-unsigned int core0_mutex=0;
-unsigned int core1_mutex=0;
-unsigned int core2_mutex=0;
-
+/****************************************************************************/
+/* Function Prototype Definitions                                           */
+/****************************************************************************/
+__syscallfunc(DISPATCH_WAIT)   int dispatch_wait(void *, void *);
+__syscallfunc(DISPATCH_SIGNAL) int dispatch_signal(void *, void *);
+__syscallfunc(DISPATCH_ONLY)   int dispatch_only(void *, void *);
 
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Get mutex                                      */
