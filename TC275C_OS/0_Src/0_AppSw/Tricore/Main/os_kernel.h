@@ -22,6 +22,8 @@
 #define CORE0_PTHREAD_COND_INITIALIZER {CORE0,0,NULL}
 #define CORE1_PTHREAD_COND_INITIALIZER {CORE1,0,NULL}
 #define CORE2_PTHREAD_COND_INITIALIZER {CORE2,0,NULL}
+#define assert(_expr)  \
+       ((void) (!(_expr) ? __debug(): (void) 0))
 #define PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_stacksize) static struct { \
     pthread_t next,prev;\
     osu32_t lcx; \
@@ -141,6 +143,13 @@ typedef union { /* <union><context_t> TriCore context structure */
 /****************************************************************************/
 /* Inline Function Definitions                                              */
 /****************************************************************************/
+
+/****************************************************************************/
+/* DESCRIPTION: <EVERY CORE> Return current process priority number         */
+/****************************************************************************/
+inline osu32_t cppn(void) {
+    return __extru(__mfcr(CPU_ICR), 0, 8);
+} /* End of cppn function */
 
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Get the core id                                */
@@ -267,6 +276,6 @@ os32_t pthread_mutex_lock(pthread_mutex_t *mutex); /* <*mutex> Mutex pointer*/
 os32_t pthread_mutex_unlock(pthread_mutex_t *mutex); /* <*mutex> Mutex pointer*/
 os32_t pthread_cond_wait(pthread_cond_t *cond); /* <*cond> Condition pointer*/
 os32_t pthread_cond_broadcast(pthread_cond_t *cond); /* <*cond> Condition pointer*/
-os32_t pthread_cond_timedwait_np(uint16_t reltime); /* <reltime> Waiting time ,unit:ms */
+os32_t pthread_cond_timedwait_np(osu16_t reltime); /* <reltime> Waiting time ,unit:ms */
 
 #endif /* OS_KERNEL_H_ */
