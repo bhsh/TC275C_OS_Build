@@ -168,37 +168,37 @@ OS_INLINE void core_returnMutex(osu32_t *mutex)
 /****************************************************************************/
 /* DESCRIPTION: <CORE0> Update stm0 compare1                                */
 /****************************************************************************/
-OS_INLINE void update_stm0_ticks(void)
+OS_INLINE void core0_kernel_update_os_tick(void) 
 {
     osu32_t stmTicks;
 
     stmTicks= (osu32_t)(stm0CompareValue*1);
     IfxStm_updateCompare (&MODULE_STM0, IfxStm_Comparator_0, IfxStm_getCompare (&MODULE_STM0, IfxStm_Comparator_0) + stmTicks);
     /* IfxPort_togglePin(&MODULE_P33, 8); */
-} /* End of update_stm0_ticks function */
+} /* End of core0_kernel_update_os_tick function */
 
 /****************************************************************************/
 /* DESCRIPTION: <CORE1> Update stm1 compare1                                */
 /****************************************************************************/
-OS_INLINE void update_stm1_ticks(void)
+OS_INLINE void core1_kernel_update_os_tick(void)
 {
     osu32_t stmTicks;
 	
-    stmTicks= (osu32_t)(stm1CompareValue * 1);
+    stmTicks= (osu32_t) (stm1CompareValue * 1);
     IfxStm_updateCompare (&MODULE_STM1, IfxStm_Comparator_0, IfxStm_getCompare (&MODULE_STM1, IfxStm_Comparator_0) + stmTicks);
     /* IfxPort_togglePin(&MODULE_P33, 9); */
-} /* End of update_stm1_ticks function */
+} /* End of core1_kernel_update_os_tick function */
 
 /****************************************************************************/
 /* DESCRIPTION: <CORE2> Update stm0 compare1                                */
 /****************************************************************************/
-OS_INLINE void update_stm2_ticks(void)
+OS_INLINE void core2_kernel_update_os_tick(void)
 {
     osu32_t stmTicks;
-    stmTicks= (osu32_t)(stm2CompareValue * 1);
+    stmTicks= (osu32_t) (stm2CompareValue * 1);
     IfxStm_updateCompare (&MODULE_STM2, IfxStm_Comparator_0, IfxStm_getCompare (&MODULE_STM2, IfxStm_Comparator_0) + stmTicks);
     /* IfxPort_togglePin(&MODULE_P33, 10); */
-} /* End of update_stm2_ticks function */
+} /* End of core2_kernel_update_os_tick function */
 
 /****************************************************************************/
 /* DESCRIPTION: <CORE0> Update stm0 compare1                                */
@@ -207,7 +207,7 @@ OS_INLINE void update_stm0_compare1_ticks(osu32_t tick_ms)
 {
     osu32_t stmTicks;
 
-    stmTicks= (osu32_t)(stm0CompareValue2*tick_ms);
+    stmTicks = (osu32_t) ( stm0CompareValue2 * tick_ms);
     IfxStm_updateCompare (&MODULE_STM0, IfxStm_Comparator_1, IfxStm_getCompare (&MODULE_STM0, IfxStm_Comparator_1) + stmTicks);
     /* IfxPort_togglePin(&MODULE_P33, 10); */
 } /* End of update_stm0_compare1_ticks function */
@@ -756,9 +756,9 @@ OS_INLINE void os_kernel_in_tick(void)
 {
      pthread_cond_t  *cond;
 	 pthread_cond_t  *cond_buffer[PTHREAD_COND_TIMEDWAIT_SIZE];
-     osu32_t        index;
-	 osu32_t        release_count = 0;
-	 osu32_t        tempt_index;
+     osu32_t         index;
+	 osu32_t         release_count = 0;
+	 osu32_t         tempt_index;
 	
 	 if(os_getCoreId()==CORE0)
 	 {  	
@@ -1019,7 +1019,7 @@ void __interrupt(CORE0_KERNEL_TICK_INT_LEVEL) __vector_table(VECTOR_TABLE0) core
    core0_os_stm_tick_count = ( core0_os_stm_tick_count + 1)%0xFFFF;  
 
    /* <CORE0> Update the os tick of core0 */
-   update_stm0_ticks(); 
+   core0_kernel_update_os_tick(); 
 
    /* <CORE0> Call the scheduler part in the interrupt to deal with the */
    /* periodic thread activation of core0 */   
@@ -1037,7 +1037,7 @@ void __interrupt(CORE1_KERNEL_TICK_INT_LEVEL) __vector_table(VECTOR_TABLE0) core
    core1_os_stm_tick_count = ( core1_os_stm_tick_count + 1)%0xFFFF; 
 
    /* <CORE1> Update the os tick of core1 */
-   update_stm1_ticks();  
+   core1_kernel_update_os_tick();  
 
    /* <CORE1> Call the scheduler part in the interrupt to deal with the */
    /* periodic thread activation of core1 */   
@@ -1056,7 +1056,7 @@ void __interrupt(CORE2_KERNEL_TICK_INT_LEVEL) __vector_table(VECTOR_TABLE0) core
    core2_os_stm_tick_count = (core2_os_stm_tick_count + 1)%0xFFFF; 
 
    /* <CORE2> Update the os tick of core2 */
-   update_stm2_ticks(); 
+   core2_kernel_update_os_tick(); 
 
    /* <CORE2> Call the scheduler part in the interrupt to deal with the */
    /* periodic thread activation of core2 */
