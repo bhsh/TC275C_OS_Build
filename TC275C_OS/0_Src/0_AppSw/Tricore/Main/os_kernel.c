@@ -576,12 +576,14 @@ int pthread_cond_broadcast(pthread_cond_t *cond) //!< [in] condition pointer
 	return 0;// dummy to avoid warning
 }
 
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|               dispatch_signal_in_tick
-|
---------------------------------------------------------------------------------------*/
+/****************************************************************************/
+/* DESCRIPTION: <EVERY CORE> If the number of threads that are actived      */
+/*              periodically is more than one,the API is used inside the    */
+/*              tick interrupts of STM0,STM1 and STM2 to insert the threads */
+/*              actived newly into the scheduling table. There must be only */
+/*              one thread actived newly left and not be inserted into the  */
+/*              scheduling table                                            */
+/****************************************************************************/
 inline void dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
 
 	pthread_t thread, tmp;
@@ -633,7 +635,7 @@ inline void dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t la
        }
        *blocked_threads_ptr = tmp;
 	 }
-}
+}/* End of dispatch_signal_in_tick functio */
 
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE>  Os kernel logic that can be called by trap 6  */
@@ -641,7 +643,7 @@ inline void dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t la
 /*                                                                          */
 /* OPTIONS:                                                                 */
 /*    __syscallfunc(DISPATCH_WAIT)   int dispatch_wait(void *, void *);     */
-/*    <EVERY CORE> Make threads that have been actived be blocked>          */
+/*    <EVERY CORE> Make threads that have been actived be blocked           */
 /*                                                                          */
 /*    __syscallfunc(DISPATCH_SIGNAL) int dispatch_signal(void *, void *);   */
 /*    <EVERY CORE> Make threads that have been blocked be actived           */
@@ -656,7 +658,7 @@ static void trapsystem(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
 
     __asm(" mov %0,d15 \n"
             " svlcx        "
-            : "=d"(tin)); // put d15 in C variable tin
+            : "=d"(tin)); /* Put d15 in C variable tin */
 
     if(os_getCoreId()==CORE0)
 	{
@@ -665,7 +667,7 @@ static void trapsystem(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
         assert(core0_os_pthread_runnable_threads[i] == core0_os_pthread_running);
         switch (tin) 
 		{
-          case DISPATCH_WAIT: // _swap_out _pthread_running
+          case DISPATCH_WAIT: 
              {
                 list_delete_first(&core0_os_pthread_runnable_threads[i]);
                 list_append(blocked_threads_ptr, core0_os_pthread_running, core0_os_pthread_running, NULL);
@@ -706,7 +708,7 @@ static void trapsystem(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
         assert(core1_os_pthread_runnable_threads[i] == core1_os_pthread_running);
         switch (tin) 
 		{
-          case DISPATCH_WAIT: // _swap_out _pthread_running
+          case DISPATCH_WAIT: 
              {
                 list_delete_first(&core1_os_pthread_runnable_threads[i]);
                 list_append(blocked_threads_ptr, core1_os_pthread_running, core1_os_pthread_running, NULL);
@@ -736,7 +738,8 @@ static void trapsystem(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
           default:
               break;
          }
-		 /* unlock core1_mutex */
+		
+		 /* <CORE1> Unlock core1_mutex */
 		 core_returnMutex(&core1_mutex);
 	}
 	else if(os_getCoreId()==CORE2)
@@ -746,7 +749,7 @@ static void trapsystem(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
         assert(core2_os_pthread_runnable_threads[i] == core2_os_pthread_running);
         switch (tin) 
 		{
-          case DISPATCH_WAIT: // _swap_out _pthread_running
+          case DISPATCH_WAIT: 
              {
                 list_delete_first(&core2_os_pthread_runnable_threads[i]);
                 list_append(blocked_threads_ptr, core2_os_pthread_running, core2_os_pthread_running, NULL);
@@ -776,7 +779,8 @@ static void trapsystem(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
           default:
               break;
          }
-		 /* unlock core0_mutex */
+		
+		 /* <CORE2> Unlock core2_mutex */
 		 core_returnMutex(&core2_mutex);		
 	}
      pthread_start_np();
