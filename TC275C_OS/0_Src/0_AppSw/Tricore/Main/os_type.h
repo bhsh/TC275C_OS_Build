@@ -20,8 +20,9 @@ typedef long long  os64_t;
 #define  ON        (1)
 #define  OFF       (0)
 
-//#define  true      (1)
-//#define  false     (0)
+#define  true      (1)
+#define  false     (0)
+
 
 #define OS_EXTERN  extern 
 #define OS_INLINE  inline

@@ -152,7 +152,7 @@ extern void get_thread_init_stack_address(osu32_t,osu32_t,osu32_t);
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Get mutex                                      */
 /****************************************************************************/
-inline osu32_t core_getMutex(osu32_t *mutex)
+OS_INLINE osu32_t core_getMutex(osu32_t *mutex)
 {
   return __swap(mutex, true);
 } /* End of core_getMutex function */
@@ -160,7 +160,7 @@ inline osu32_t core_getMutex(osu32_t *mutex)
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Return mutex                                   */
 /****************************************************************************/
-inline void core_returnMutex(osu32_t *mutex)
+OS_INLINE void core_returnMutex(osu32_t *mutex)
 {
   *mutex=0x0;
 } /* End of core_returnMutex function */
@@ -168,7 +168,7 @@ inline void core_returnMutex(osu32_t *mutex)
 /****************************************************************************/
 /* DESCRIPTION: <CORE0> Update stm0 compare1                                */
 /****************************************************************************/
-inline void update_stm0_ticks(void)
+OS_INLINE void update_stm0_ticks(void)
 {
     osu32_t stmTicks;
 
@@ -180,7 +180,7 @@ inline void update_stm0_ticks(void)
 /****************************************************************************/
 /* DESCRIPTION: <CORE1> Update stm1 compare1                                */
 /****************************************************************************/
-inline void update_stm1_ticks(void)
+OS_INLINE void update_stm1_ticks(void)
 {
     osu32_t stmTicks;
 	
@@ -192,7 +192,7 @@ inline void update_stm1_ticks(void)
 /****************************************************************************/
 /* DESCRIPTION: <CORE2> Update stm0 compare1                                */
 /****************************************************************************/
-inline void update_stm2_ticks(void)
+OS_INLINE void update_stm2_ticks(void)
 {
     osu32_t stmTicks;
     stmTicks= (osu32_t)(stm2CompareValue * 1);
@@ -203,7 +203,7 @@ inline void update_stm2_ticks(void)
 /****************************************************************************/
 /* DESCRIPTION: <CORE0> Update stm0 compare1                                */
 /****************************************************************************/
-inline void update_stm0_compare1_ticks(osu32_t tick_ms)
+OS_INLINE void update_stm0_compare1_ticks(osu32_t tick_ms)
 {
     osu32_t stmTicks;
 
@@ -215,7 +215,7 @@ inline void update_stm0_compare1_ticks(osu32_t tick_ms)
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Append an element at the end of a list         */
 /****************************************************************************/
-inline void list_append(pthread_t *head, /* <*head> list head pointer */
+OS_INLINE void list_append(pthread_t *head, /* <*head> list head pointer */
                            pthread_t  elem,  /* <elem> list element pointer */
                            pthread_t  list_prev, /* <list_prev> list_prev  pointer */
                            pthread_t  elem_next) /* <elem_next> elem_next  pointer */
@@ -545,7 +545,7 @@ os32_t pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition pointer
 /*              one thread actived newly left and not be inserted into the  */
 /*              scheduling table                                            */
 /****************************************************************************/
-inline void dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
+OS_INLINE void dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
 
 	pthread_t thread, tmp;
 	os32_t i;
@@ -752,7 +752,7 @@ static void trapsystem(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
 /*              tick interrupts of STM0,STM1 and STM2 to deal with periodic */
 /*              thread scheduling events                                    */
 /****************************************************************************/
-inline void schedule_in_tick(void)
+OS_INLINE void schedule_in_tick(void)
 {
      pthread_cond_t  *cond;
 	 pthread_cond_t  *cond_buffer[PTHREAD_COND_TIMEDWAIT_SIZE];

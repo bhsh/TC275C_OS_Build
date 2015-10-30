@@ -9,9 +9,15 @@
 #ifndef OS_KERNEL_CFG_H_
 #define OS_KERNEL_CFG_H_
 
+/****************************************************************************/
+/* Feature Include Files                                                    */
+/****************************************************************************/
 #include "os_type.h"
 #include "os.h"
 
+/****************************************************************************/
+/* Macro Definitions                                                        */
+/****************************************************************************/
 #define PTHREAD_PRIO_MAX 32               //!< Maximal priority thread level [0,31]
 #define PTHREAD_DEFAULT_STACK_SIZE 256/4  //!< Default stack size is 256 bytes
 #define PTHREAD_MEMORY_QUALIFIER          //!< None or global a8, a9 which are reserved for RTOS
@@ -33,8 +39,7 @@
 
 #define CPU_CORE_ID 0xFE1C
 
-#define false 0
-#define true  1
+
 
 //#define NULL (void*)0
 #endif /* OS_KERNEL_CFG_H_ */

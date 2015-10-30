@@ -147,14 +147,14 @@ typedef union { /* <union><context_t> TriCore context structure */
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Return current process priority number         */
 /****************************************************************************/
-inline osu32_t cppn(void) {
+OS_INLINE osu32_t cppn(void) {
     return __extru(__mfcr(CPU_ICR), 0, 8);
 } /* End of cppn function */
 
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Get the core id                                */
 /****************************************************************************/
-inline osu32_t os_getCoreId(void)
+OS_INLINE osu32_t os_getCoreId(void)
 {
    osu32_t core_id;
    core_id=__mfcr(CPU_CORE_ID);
@@ -164,7 +164,7 @@ inline osu32_t os_getCoreId(void)
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Start threads                                  */
 /****************************************************************************/
-inline void pthread_start_np(void) {
+OS_INLINE void pthread_start_np(void) {
     extern  osu32_t   core0_os_pthread_runnable;
 	extern  osu32_t   core1_os_pthread_runnable;
 	extern  osu32_t   core2_os_pthread_runnable;
@@ -238,7 +238,7 @@ inline void pthread_start_np(void) {
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Transfer address from cx mode to physical mode */
 /****************************************************************************/
-inline context_t *cx_to_addr(osu32_t cx) {
+OS_INLINE context_t *cx_to_addr(osu32_t cx) {
     osu32_t seg_nr = __extru(cx, 16, 4);
     return (context_t *) __insert(seg_nr << 28, cx, 6, 16);
 } /* End of cx_to_addr function */
@@ -246,7 +246,7 @@ inline context_t *cx_to_addr(osu32_t cx) {
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Delay                                          */
 /****************************************************************************/
-inline void delay_ms(osu32_t _milliseconds) {
+OS_INLINE void delay_ms(osu32_t _milliseconds) {
     __asm( "  mov.u d15,#1000 \n"
             "  mov.a a15,d15  \n"
             "  nop16          \n"
@@ -259,7 +259,7 @@ inline void delay_ms(osu32_t _milliseconds) {
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Insert NEZ.A instruction                       */
 /****************************************************************************/
-inline osu32_t neza(void *p) {
+OS_INLINE osu32_t neza(void *p) {
     os32_t ret;
     __asm("nez.a %0,%1":"=d"(ret):"a"(p));
     return ret;
