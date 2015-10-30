@@ -29,33 +29,35 @@
     \
     pthread_t _name = (pthread_t)&_##_name;
 
-//! Scheduling policy
-enum sched_policy_e {
-    SCHED_FIFO, SCHED_RR, SCHED_OTHER
-};
 
-//! User mode definition
-enum user_e {
-    USER0, USER1, SUPER
-};
+/****************************************************************************/
+/* Type Definitions                                                         */
+/****************************************************************************/
+typedef enum  {  /* <enum><sched_policy_t> Scheduling policy definition */
+    SCHED_FIFO, 
+	SCHED_RR, 
+	SCHED_OTHER
+}sched_policy_t; 
 
-typedef enum allthreads_status {	
+typedef enum  { /* <enum><user_t> User mode definition */
+    USER0,
+    USER1,
+    SUPER
+}user_t;
+
+typedef enum  { /* <enum><allthreads_status_t> Thread status definition */	
     ALLTHREADS_WORKING, 
 	ALLTHREADS_SUSPENDED
-	
 }allthreads_status_t;
-//! core definition
-typedef enum  {
 
+typedef enum  { /* <enum><CORE_ID_t> Core definition */
 	CORE0,
 	CORE1, 
 	CORE2,
 	MAX_CORE_NUM
-	
 }CORE_ID_t;
 
-//! Call depth definition
-enum call_depth_overflow_e {
+typedef enum  {  /* <enum><call_depth_overflow_t> Call depth definition */
     CALL_DEPTH_OVERFLOW_AT_64 = 0,
     CALL_DEPTH_OVERFLOW_AT_32 = 0x40,
     CALL_DEPTH_OVERFLOW_AT_16 = 0x60,
@@ -64,29 +66,27 @@ enum call_depth_overflow_e {
     CALL_DEPTH_OVERFLOW_AT_2 = 0x7C,
     CALL_DEPTH_TRAP_EVERY_CALL = 0x7E,
     CALL_DEPTH_OVERFLOW_DISABLED = 0x7F,
-};
+} call_depth_overflow_t;
 
-//! Description of the thread attributes.
-typedef struct {
-    enum user_e mode;//!< thread mode must be 0 user_e
-    osu32_t call_depth_overflow;//!< call depth overflow
+typedef struct { /* <struct><pthread_attr_t>  Description of the thread attributes */
+    user_t mode;/* thread mode must be 0 user_t */
+    osu32_t call_depth_overflow;/* call depth overflow */
 } pthread_attr_t;
 
-//! Description the thread record.
-typedef struct pthread_s {
-    struct pthread_s *next; //!< Next thread pointer
-    struct pthread_s *prev; //!< Previous thread pointer
-    osu32_t lcx; //!< Lower context pointer
-    osu32_t priority; //!< Thread priority must be 0 to \ref PTHREAD_PRIO_MAX
-    osu32_t policy; //!< Policy is one of sched_policy_e
-    osu32_t *arg; //!< Container that saves the argument passed to the thread function
-    osu32_t stack[1]; //!< Stack. The size 1 is only a dummy. Memory allocation is done via \ref PTHREAD_CONTROL_BLOCK
+typedef struct pthread_s { /* <struct><pthread_t> Describe the thread record */
+    struct pthread_s *next; /* Next thread pointer */
+    struct pthread_s *prev; /* Previous thread pointer */
+    osu32_t lcx; /* Lower context pointer */
+    osu32_t priority; /* Thread priority must be 0 to \ref PTHREAD_PRIO_MAX */
+    osu32_t policy; /* Policy is one of sched_policy_t */
+    osu32_t *arg; /* Container that saves the argument passed to the thread function */
+    osu32_t stack[1]; /* Stack. The size 1 is only a dummy. Memory allocation is done via \ref PTHREAD_CONTROL_BLOCK */
 }*pthread_t;
 
-typedef struct {
-    const osu32_t core_id;//!< cond status is one of <true | false>
-    osu32_t  multi_semaphore;
-    pthread_t blocked_threads; //!< list threads waiting for condition
+typedef struct { /* <struct><pthread_cond_t> Describe the thread condition */
+    const osu32_t core_id; /* The core id of the thread actived */
+    osu32_t  multi_semaphore; /* Semaphore is used for many activations at one moment */
+    pthread_t blocked_threads; /* list threads waiting for condition */
 } pthread_cond_t;
 
 //! Description of a thread mutex.
