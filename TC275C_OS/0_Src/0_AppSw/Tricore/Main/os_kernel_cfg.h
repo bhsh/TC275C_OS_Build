@@ -36,7 +36,6 @@
 #define PTHREAD_SWAP_HANDLER 0            /* <EVERY CORE> No swap handler installed */
 #define PTHREAD_COND_TIMEDWAIT_SIZE 32    /* <EVERY CORE> Number of conditions that can wait for a period to be elapsed */
 #define PTHREAD_USER_INT_LEVEL 13         /* Maximal interrupt level for routines that are managed by the library */
-
 #define USHRT_MAX 0xFFFF
 
 /****************************************************************************/
