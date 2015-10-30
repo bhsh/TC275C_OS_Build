@@ -927,19 +927,19 @@ void pthread_suspend_allthreads(void)
     osu32_t current_core_id = os_getCoreId();
  
     if((current_core_id == CORE0_ID)&&
-    	 (core0_allthreads_status == ALLTHREADS_WORKING))
+       (core0_allthreads_status == ALLTHREADS_WORKING))
     {	
-       core0_allthreads_status = ALLTHREADS_SUSPENDED;
+      core0_allthreads_status = ALLTHREADS_SUSPENDED;
     }
     else if((current_core_id == CORE1_ID)&&
-    	      (core1_allthreads_status == ALLTHREADS_WORKING))
+    	    (core1_allthreads_status == ALLTHREADS_WORKING))
     {
-       core1_allthreads_status = ALLTHREADS_SUSPENDED;
+      core1_allthreads_status = ALLTHREADS_SUSPENDED;
     }
     else if((current_core_id == CORE2_ID)&&
-    	      (core2_allthreads_status == ALLTHREADS_WORKING))
+    	    (core2_allthreads_status == ALLTHREADS_WORKING))
     {
-    	  core2_allthreads_status = ALLTHREADS_SUSPENDED;
+      core2_allthreads_status = ALLTHREADS_SUSPENDED;
     }
 } /* End of pthread_suspend_allthreads function */
 
