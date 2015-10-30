@@ -151,76 +151,69 @@ unsigned int core0_mutex=0;
 unsigned int core1_mutex=0;
 unsigned int core2_mutex=0;
 
+
+/****************************************************************************/
+/* DESCRIPTION: <EVERY CORE> Get mutex                                      */
+/****************************************************************************/
 inline unsigned int core_getMutex(uint32_t *mutex)
 {
   return __swap(mutex, true);
-}
+} /* End of core_getMutex function */
+
+/****************************************************************************/
+/* DESCRIPTION: <EVERY CORE> Return mutex                                   */
+/****************************************************************************/
 inline void core_returnMutex(uint32_t *mutex)
 {
   *mutex=0x0;
-}
+} /* End of core_returnMutex function */
 
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|             update_stm0_ticks 
-|             update stm0 ticks
-|
---------------------------------------------------------------------------------------*/
+/****************************************************************************/
+/* DESCRIPTION: <CORE0> Update stm0 compare1                                */
+/****************************************************************************/
 inline void update_stm0_ticks(void)
 {
     uint32 stmTicks;
 
     stmTicks= (uint32)(stm0CompareValue*1);
     IfxStm_updateCompare (&MODULE_STM0, IfxStm_Comparator_0, IfxStm_getCompare (&MODULE_STM0, IfxStm_Comparator_0) + stmTicks);
-    //IfxPort_togglePin(&MODULE_P33, 8);
-}
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|             update_stm1_ticks 
-|             update stm1 ticks
-|
---------------------------------------------------------------------------------------*/
+    /* IfxPort_togglePin(&MODULE_P33, 8); */
+} /* End of update_stm0_ticks function */
+
+/****************************************************************************/
+/* DESCRIPTION: <CORE1> Update stm1 compare1                                */
+/****************************************************************************/
 inline void update_stm1_ticks(void)
 {
     uint32 stmTicks;
 	
     stmTicks= (uint32)(stm1CompareValue * 1);
     IfxStm_updateCompare (&MODULE_STM1, IfxStm_Comparator_0, IfxStm_getCompare (&MODULE_STM1, IfxStm_Comparator_0) + stmTicks);
-    //IfxPort_togglePin(&MODULE_P33, 9);
-}
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|             update_stm2_ticks 
-|             update stm2 ticks
-|
---------------------------------------------------------------------------------------*/
+    /* IfxPort_togglePin(&MODULE_P33, 9); */
+} /* End of update_stm1_ticks function */
+
+/****************************************************************************/
+/* DESCRIPTION: <CORE2> Update stm0 compare1                                */
+/****************************************************************************/
 inline void update_stm2_ticks(void)
 {
     uint32 stmTicks;
     stmTicks= (uint32)(stm2CompareValue * 1);
     IfxStm_updateCompare (&MODULE_STM2, IfxStm_Comparator_0, IfxStm_getCompare (&MODULE_STM2, IfxStm_Comparator_0) + stmTicks);
-    //IfxPort_togglePin(&MODULE_P33, 10);
-}
+    /* IfxPort_togglePin(&MODULE_P33, 10); */
+} /* End of update_stm2_ticks function */
 
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|             update_stm0_compare1_ticks
-|             update stm0 compare1
-|
---------------------------------------------------------------------------------------*/
-// Unit:ms ,the max is 0xFFFFFFFF/100000=42949ms(42.949s);
+/****************************************************************************/
+/* DESCRIPTION: <CORE0> Update stm0 compare1                                */
+/****************************************************************************/
 inline void update_stm0_compare1_ticks(uint32 tick_ms)
 {
     uint32 stmTicks;
 
     stmTicks= (uint32)(stm0CompareValue2*tick_ms);
     IfxStm_updateCompare (&MODULE_STM0, IfxStm_Comparator_1, IfxStm_getCompare (&MODULE_STM0, IfxStm_Comparator_1) + stmTicks);
-    //IfxPort_togglePin(&MODULE_P33, 10);
-}
+    /* IfxPort_togglePin(&MODULE_P33, 10); */
+} /* End of update_stm0_compare1_ticks function */
 
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Append an element at the end of a list         */
