@@ -1116,28 +1116,30 @@ void __interrupt(11) __vector_table(0) Ifx_STM1_Isr(void)
 
 }
 
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|           Ifx_STM0_compare1_Isr
-|           the stm2 interrupt is used for core2
-|           
---------------------------------------------------------------------------------------*/
-
+/****************************************************************************/
+/* DESCRIPTION:  <CORE2> software interrupt 0 that is used for thread       */
+/*                       activation when the activation source is located   */
+/*                       in interrupt                                       */
+/****************************************************************************/
 void __interrupt(12) __vector_table(0) Ifx_STM2_Isr(void)
-{
-   core2_os_stm_tick_count=(core2_os_stm_tick_count+1)%0xFFFF;   // os tick from 0-0xffff
-   update_stm2_ticks();                                          // update the tick, this line cannot be changed now. 
+{  
+   /* <CORE2> OS tick ranges from 0-0xffff */
+   core2_os_stm_tick_count=(core2_os_stm_tick_count+1)%0xFFFF; 
+
+   /* <CORE2> Update the os tick of core2 */
+   update_stm2_ticks(); 
+
+   /* <CORE2> Call the scheduler part in the interrupt to deal with the */
+   /* periodic thread activation */
    schedule_in_tick();
 
-}
+} /* End of Ifx_STM2_Isr intterrupt*/
 
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|           CPU0_SOFT0_Isr
-|           
---------------------------------------------------------------------------------------*/
+/****************************************************************************/
+/* DESCRIPTION:  <CORE0> software interrupt 0 that is used for thread       */
+/*                       activation when the activation source is located   */
+/*                       in interrupt                                       */
+/****************************************************************************/
 void __interrupt(9) __vector_table(0) CPU0_SOFT0_Isr(void)
 {
     __asm("; setup parameter and jump to trapsystem \n"
@@ -1146,14 +1148,13 @@ void __interrupt(9) __vector_table(0) CPU0_SOFT0_Isr(void)
             " mov d15,%2 \n"
             " jg trapsystem"
             ::"a"(&core0_os_blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
-}
+} /* End of CPU0_SOFT0_Isr interrupt */
 
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|           CPU1_SOFT0_Isr
-|           
---------------------------------------------------------------------------------------*/
+/****************************************************************************/
+/* DESCRIPTION:  <CORE1> software interrupt 0 that is used for thread       */
+/*                       activation when the activation source is located   */
+/*                       in interrupt                                       */
+/****************************************************************************/
 void __interrupt(8) __vector_table(0) CPU1_SOFT0_Isr(void)
 {
     __asm("; setup parameter and jump to trapsystem \n"
@@ -1162,14 +1163,13 @@ void __interrupt(8) __vector_table(0) CPU1_SOFT0_Isr(void)
             " mov d15,%2 \n"
             " jg trapsystem"
             ::"a"(&core1_os_blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
-}
+} /* End of CPU1_SOFT0_Isr interrupt */
 
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|           CPU2_SOFT0_Isr
-|           
---------------------------------------------------------------------------------------*/
+/****************************************************************************/
+/* DESCRIPTION:  <CORE2> software interrupt 0 that is used for thread       */
+/*                       activation when the activation source is located   */
+/*                       in interrupt                                       */
+/****************************************************************************/
 void __interrupt(7) __vector_table(0) CPU2_SOFT0_Isr(void)
 {
     __asm("; setup parameter and jump to trapsystem \n"
@@ -1178,42 +1178,31 @@ void __interrupt(7) __vector_table(0) CPU2_SOFT0_Isr(void)
             " mov d15,%2 \n"
             " jg trapsystem"
             ::"a"(&core2_os_blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
-}
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|           Ifx_STM0_compare1_Isr
-|           
---------------------------------------------------------------------------------------*/
-void __interrupt(21) __vector_table(0) Ifx_STM0_compare1_Isr(void)
-{
- 	update_stm0_compare1_ticks(1000);// Unit:ms ,the max is 0xFFFFFFFF/100000=42949ms(42.949s);
-}
+} /* End of CPU2_SOFT0_Isr interrupt */
 
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|           Trap vector table entry to trap class 6 handler enables interrupts
-|           core0 trap 6
-|
---------------------------------------------------------------------------------------*/
+/****************************************************************************/
+/* DESCRIPTION: STM0 compare1 interrupt event                               */
+/****************************************************************************/
+void __interrupt(21) __vector_table(0) Ifx_STM0_compare1_Isr(void)
+{ 
+	 /* Unit:ms ,the max is 0xFFFFFFFF/100000=42949ms(42.949s */
+ 	update_stm0_compare1_ticks(1000);
+} /* End of Ifx_STM0_compare1_Isr interrupt */
+
+/****************************************************************************/
+/* DESCRIPTION: <CORE0>  Trap vector table entry to trap class 6 handler    */
+/****************************************************************************/
 void IfxCpu_Trap_systemCall_Cpu0(uint32_t tin)
 {
-	/* Add the kernel of OS */
-	/* Kernel begins        */
     __asm(  " mtcr #ICR,%0    \n"
             " isync           \n"
             " jg trapsystem     "
             ::"d"(1 << 15 | PTHREAD_USER_INT_LEVEL),"a"(trapsystem):"a4","a5","d15");
-}
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|           Trap vector table entry to trap class 6 handler enables interrupts
-|           core1 trap 6
-|
---------------------------------------------------------------------------------------*/
+} /* End of IfxCpu_Trap_systemCall_Cpu0 function */
 
+/****************************************************************************/
+/* DESCRIPTION: <CORE1>  Trap vector table entry to trap class 6 handler    */
+/****************************************************************************/
 void IfxCpu_Trap_systemCall_Cpu1(uint32_t tin)
 {
 	/* Add the kernel of OS */
@@ -1222,24 +1211,18 @@ void IfxCpu_Trap_systemCall_Cpu1(uint32_t tin)
             " isync           \n"
             " jg trapsystem     "
             ::"d"(1 << 15 | PTHREAD_USER_INT_LEVEL),"a"(trapsystem):"a4","a5","d15");
-}
+} /* End of IfxCpu_Trap_systemCall_Cpu1 function */
 
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|           Trap vector table entry to trap class 6 handler enables interrupts
-|           core2 trap 6
-|
---------------------------------------------------------------------------------------*/
+/****************************************************************************/
+/* DESCRIPTION: <CORE2>  Trap vector table entry to trap class 6 handler    */
+/****************************************************************************/
 void IfxCpu_Trap_systemCall_Cpu2(uint32_t tin)
 {
-	/* Add the kernel of OS */
-	/* Kernel begins        */
     __asm(  " mtcr #ICR,%0    \n"
             " isync           \n"
             " jg trapsystem     "
             ::"d"(1 << 15 | PTHREAD_USER_INT_LEVEL),"a"(trapsystem):"a4","a5","d15");
-}
+} /* End of IfxCpu_Trap_systemCall_Cpu2 function */
 
 
 
