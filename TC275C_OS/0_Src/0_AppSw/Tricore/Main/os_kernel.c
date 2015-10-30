@@ -253,10 +253,11 @@ os32_t pthread_create_np(pthread_t thread, /* <thread> Thread control block poin
                                void *arg,  /* <*arg> 1st argument of thread */
                                task_ptr_t core0_task_ptr) /* <*arg> 2nd argument of thread */
 {
+    osu32_t              fcx;
+	osu32_t              current_cpu_id = os_getCoreId();
+	context_t            *cx;
     const pthread_attr_t default_attr = PTHREAD_DEFAULT_ATTR;
-    osu32_t fcx;
-    context_t *cx;
-
+	
     if (attr == NULL)
         attr = &default_attr;
 
@@ -284,23 +285,23 @@ os32_t pthread_create_np(pthread_t thread, /* <thread> Thread control block poin
 	cx->l.a5 = core0_task_ptr;
     thread->arg = arg;
 
-	get_thread_init_stack_address(os_getCoreId(),(os32_t)arg,(os32_t)(thread->stack + *thread->stack));
+	get_thread_init_stack_address(current_cpu_id,(os32_t)arg,(os32_t)(thread->stack + *thread->stack));
 
     osu32_t i = thread->priority;
 	
-    if(os_getCoreId() == CORE0_ID)
+    if(current_cpu_id == CORE0_ID)
     {   
        list_append(&core0_os_pthread_runnable_threads[i], thread, thread,
                   core0_os_pthread_runnable_threads[i]);
        __putbit(1,(os32_t*)&core0_os_pthread_runnable,i); /* <CORE0> Mark current thread ready */
            }
-    else if(os_getCoreId() == CORE1_ID)
+    else if(current_cpu_id == CORE1_ID)
     {
        list_append(&core1_os_pthread_runnable_threads[i], thread, thread,
                   core1_os_pthread_runnable_threads[i]);
        __putbit(1,(os32_t*)&core1_os_pthread_runnable,i); /* <CORE1> Mark current thread ready */
     }
-	else if(os_getCoreId() == CORE2_ID)
+	else if(current_cpu_id == CORE2_ID)
 	{
        list_append(&core2_os_pthread_runnable_threads[i], thread, thread,
                   core2_os_pthread_runnable_threads[i]);
@@ -315,10 +316,12 @@ os32_t pthread_create_np(pthread_t thread, /* <thread> Thread control block poin
 /****************************************************************************/
 os32_t pthread_mutex_lock(pthread_mutex_t *mutex) /* <*mutex> mutex pointer */
 {
+	osu32_t  current_cpu_id = os_getCoreId();
+		
     assert(cppn()==0); /* CCPN must be 0, function cannot be called from ISR */
     assert (mutex != NULL); /* Make sure there is one mutex argument. If no, __debug() will be entered */
 
-	if(os_getCoreId()== CORE0_ID)
+	if(current_cpu_id == CORE0_ID)
 	{
         if (mutex->owner == core0_os_pthread_running) return -1;
 
@@ -329,7 +332,7 @@ os32_t pthread_mutex_lock(pthread_mutex_t *mutex) /* <*mutex> mutex pointer */
         }
         mutex->owner = core0_os_pthread_running;
 	}
-	else if(os_getCoreId()==CORE1_ID)
+	else if(current_cpu_id == CORE1_ID)
 	{
         if (mutex->owner == core1_os_pthread_running) return -1;
 		
@@ -340,7 +343,7 @@ os32_t pthread_mutex_lock(pthread_mutex_t *mutex) /* <*mutex> mutex pointer */
         }
         mutex->owner = core1_os_pthread_running;
 	}
-	else if(os_getCoreId()== CORE2_ID)
+	else if(current_cpu_id == CORE2_ID)
 	{
         if (mutex->owner == core2_os_pthread_running) return -1;
 

@@ -172,8 +172,9 @@ OS_INLINE void pthread_start_np(void) {
 	extern  allthreads_status_t core2_allthreads_status;
 
     pthread_t thread = (void*)0;
- 
-	if(os_getCoreId()== CORE0_ID)
+	osu32_t   current_cpu_id = os_getCoreId();
+
+	if(current_cpu_id == CORE0_ID)
 	{  
 	      assert(core0_os_pthread_runnable != 0);
 		  if(core0_allthreads_status == ALLTHREADS_WORKING)
@@ -188,7 +189,7 @@ OS_INLINE void pthread_start_np(void) {
 				  thread = core0_os_pthread_running;
 		  }
 	}
-    else if(os_getCoreId()== CORE1_ID)
+    else if(current_cpu_id == CORE1_ID)
 	{
 	      assert(core1_os_pthread_runnable != 0);
 		  if(core1_allthreads_status == ALLTHREADS_WORKING)
@@ -203,7 +204,7 @@ OS_INLINE void pthread_start_np(void) {
 				  thread = core1_os_pthread_running;
 		  }
 	}
-	else if(os_getCoreId()== CORE2_ID)
+	else if(current_cpu_id == CORE2_ID)
 	{
 	      assert(core2_os_pthread_runnable != 0);
 		  if(core2_allthreads_status == ALLTHREADS_WORKING)
