@@ -341,17 +341,14 @@ int pthread_create_np(pthread_t thread, //!< [in] thread control block pointer.
     return 0;
 }
 
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|             int pthread_mutex_lock(pthread_mutex_t *mutex) 
-|             lock a mutex
-|
---------------------------------------------------------------------------------------*/
-int pthread_mutex_lock(pthread_mutex_t *mutex) //!<  [in] mutex pointer
+/****************************************************************************/
+/* DESCRIPTION: <EVERY CORE> Lock an resource.This is an OS API that is     */
+/*              provided to os user                                         */
+/****************************************************************************/
+int pthread_mutex_lock(pthread_mutex_t *mutex) /* <*mutex> mutex pointer */
 {
     assert(cppn()==0); // CCPN must be 0, function cannot be called from ISR
-    assert (mutex != NULL); // errno = EINVAL, return -1
+    assert (mutex != NULL); /* Make sure there is one mutex argument. If no, __debug() will be entered */
 
 	if(os_getCoreId()==0)
 	{
@@ -384,24 +381,21 @@ int pthread_mutex_lock(pthread_mutex_t *mutex) //!<  [in] mutex pointer
         }
         mutex->owner = core2_os_pthread_running;
 	}
-    return 0;
-}
+    return 0;/* Dummy to avoid warning */
+} /* End of pthread_mutex_lock function */
 
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|             int pthread_mutex_unlock(pthread_mutex_t *mutex) 
-|             Unlock a mutex
-|
---------------------------------------------------------------------------------------*/
-int pthread_mutex_unlock(pthread_mutex_t *mutex) //!<  [in] mutex pointer
+/****************************************************************************/
+/* DESCRIPTION: <EVERY CORE> Unlock an resource.This is an OS API that is   */
+/*              provided to os user                                         */
+/****************************************************************************/
+int pthread_mutex_unlock(pthread_mutex_t *mutex) /* <*mutex> mutex pointer */
 {
-    assert(cppn()==0); // CCPN must be 0, function cannot be called from ISR
-    assert (mutex != NULL); // errno = EINVAL, return -1
+    assert(cppn()==0); /* CCPN must be 0, function cannot be called from ISR */
+    assert (mutex != NULL); /* Make sure there is one mutex argument. If no, __debug() will be entered */ 
 
 	if(os_getCoreId()==0)
 	{
-        if (mutex->owner != core0_os_pthread_running) // errno = EPERM
+        if (mutex->owner != core0_os_pthread_running) 
              return -1;
 
         pthread_t threads = mutex->blocked_threads;
@@ -413,7 +407,7 @@ int pthread_mutex_unlock(pthread_mutex_t *mutex) //!<  [in] mutex pointer
 	}
 	else if(os_getCoreId()==1)
 	{
-        if (mutex->owner != core1_os_pthread_running) // errno = EPERM
+        if (mutex->owner != core1_os_pthread_running) 
              return -1;
 
         pthread_t threads = mutex->blocked_threads;
@@ -425,7 +419,7 @@ int pthread_mutex_unlock(pthread_mutex_t *mutex) //!<  [in] mutex pointer
 	}
 	else if(os_getCoreId()==2)
 	{
-        if (mutex->owner != core2_os_pthread_running) // errno = EPERM
+        if (mutex->owner != core2_os_pthread_running) 
              return -1;
 
         pthread_t threads = mutex->blocked_threads;
@@ -435,33 +429,32 @@ int pthread_mutex_unlock(pthread_mutex_t *mutex) //!<  [in] mutex pointer
         if (threads != NULL)
             dispatch_signal(&threads, NULL);
 	}
-    return 0;
-}
+    return 0; /* Dummy to avoid warning */
+} /* End of pthread_mutex_unlock function */
 
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|             int pthread_cond_wait(pthread_cond_t *cond, pthread_mutex_t *mutex)
-|             Wait on a condition
-|
---------------------------------------------------------------------------------------*/
-int pthread_cond_wait(pthread_cond_t *cond)//!< [in] condition pointer
+/****************************************************************************/
+/* DESCRIPTION: <EVERY CORE> Wait a condition.This is an OS API that is     */
+/*              provided to os user                                         */
+/****************************************************************************/
+int pthread_cond_wait(pthread_cond_t *cond)/* <*cond> condition pointer */
 {
-    assert(cppn()==0); // CCPN must be 0, pthread_create cannot be called from ISR
-    assert(cond!= NULL); // errno = EINVAL
+    assert(cppn()==0); /* CCPN must be 0, pthread_create cannot be called from ISR */
+    assert(cond!= NULL); /* Make sure there is one condition argument. If no, __debug() will be entered */
 
 	//if(cond->multi_semaphore <= 1)
 	//{  
 	//    cond->multi_semaphore = 0;
-        dispatch_wait(&cond->blocked_threads, NULL);// add this thread to the list of blocked threads by this cond
+
+	    /* <EVERY CORE> Add this thread to the list of blocked threads by this cond */
+        dispatch_wait(&cond->blocked_threads, NULL);
     //}
     //else
 	//{  
 	   /* cond->multi_semaphore > 1 */
     //   cond->multi_semaphore--;
 	//}	
-    return 0;
-}
+    return 0;/* Dummy to avoid warning */
+} /* End of pthread_cond_wait function */
 
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> The API(pthread_cond_broadcast) is used inside */
