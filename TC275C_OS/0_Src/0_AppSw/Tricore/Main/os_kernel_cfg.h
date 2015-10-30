@@ -40,4 +40,8 @@
 #define CPU_ICR     0xFE2C  /* <EVERY CORE> FE2C,ICR, Interrupt Control Register             */
 #define CPU_CORE_ID 0xFE1C  /* <EVERY CORE> FE1C,CORE_ID, CORE ID                            */
 
+#define VECTOT_TABLE0  0
+#define VECTOT_TABLE1  1
+#define VECTOT_TABLE2  2
+
 #endif /* OS_KERNEL_CFG_H_ */

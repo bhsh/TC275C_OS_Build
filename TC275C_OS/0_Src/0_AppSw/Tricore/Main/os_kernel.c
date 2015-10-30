@@ -1066,7 +1066,7 @@ void os_enable_allinterrupt(void)
 /*                       activation when the activation source is located   */
 /*                       in interrupt                                       */
 /****************************************************************************/
-void __interrupt(10) __vector_table(0) Ifx_STM0_Isr(void)
+void __interrupt(10) __vector_table(VECTOT_TABLE0) core0_kernel_tick_isr(void)
 {  
    /* <CORE0> OS tick ranges from 0-0xffff */
    core0_os_stm_tick_count=(core0_os_stm_tick_count+1)%0xFFFF;  
@@ -1077,14 +1077,14 @@ void __interrupt(10) __vector_table(0) Ifx_STM0_Isr(void)
    /* <CORE0> Call the scheduler part in the interrupt to deal with the */
    /* periodic thread activation of core0 */   
    schedule_in_tick();
-} /* End of Ifx_STM0_Isr intterrupt */
+} /* End of core1_kernel_tick_isr intterrupt */
 
 /****************************************************************************/
 /* DESCRIPTION:  <CORE1> software interrupt 1 that is used for thread       */
 /*                       activation when the activation source is located   */
 /*                       in interrupt                                       */
 /****************************************************************************/
-void __interrupt(11) __vector_table(0) Ifx_STM1_Isr(void)
+void __interrupt(11) __vector_table(VECTOT_TABLE0) core1_kernel_tick_isr(void)
 { 
    /* <CORE1> OS tick ranges from 0-0xffff */
    core1_os_stm_tick_count=(core1_os_stm_tick_count+1)%0xFFFF; 
@@ -1096,14 +1096,14 @@ void __interrupt(11) __vector_table(0) Ifx_STM1_Isr(void)
    /* periodic thread activation of core1 */   
    schedule_in_tick();
 
-} /* End of Ifx_STM1_Isr intterrupt */
+} /* End of core1_kernel_tick_isr interrupt */
 
 /****************************************************************************/
 /* DESCRIPTION:  <CORE2> software interrupt 0 that is used for thread       */
 /*                       activation when the activation source is located   */
 /*                       in interrupt                                       */
 /****************************************************************************/
-void __interrupt(12) __vector_table(0) Ifx_STM2_Isr(void)
+void __interrupt(12) __vector_table(VECTOT_TABLE0) core2_kernel_tick_isr(void)
 {  
    /* <CORE2> OS tick ranges from 0-0xffff */
    core2_os_stm_tick_count=(core2_os_stm_tick_count+1)%0xFFFF; 
@@ -1115,14 +1115,14 @@ void __interrupt(12) __vector_table(0) Ifx_STM2_Isr(void)
    /* periodic thread activation of core2 */
    schedule_in_tick();
 
-} /* End of Ifx_STM2_Isr intterrupt */
+} /* End of core2_kernel_tick_isr interrupt */
 
 /****************************************************************************/
 /* DESCRIPTION:  <CORE0> software interrupt 0 that is used for thread       */
 /*                       activation when the activation source is located   */
 /*                       in interrupt                                       */
 /****************************************************************************/
-void __interrupt(9) __vector_table(0) core0_kernel_soft_isr(void)
+void __interrupt(9) __vector_table(VECTOT_TABLE0) core0_kernel_soft_isr(void)
 {
     __asm("; setup parameter and jump to os_kernel \n"
             " mov.aa a4,%0 \n"
@@ -1137,7 +1137,7 @@ void __interrupt(9) __vector_table(0) core0_kernel_soft_isr(void)
 /*                       activation when the activation source is located   */
 /*                       in interrupt                                       */
 /****************************************************************************/
-void __interrupt(8) __vector_table(0) core1_kernel_soft_isr(void)
+void __interrupt(8) __vector_table(VECTOT_TABLE0) core1_kernel_soft_isr(void)
 {
     __asm("; setup parameter and jump to os_kernel \n"
             " mov.aa a4,%0 \n"
@@ -1152,7 +1152,7 @@ void __interrupt(8) __vector_table(0) core1_kernel_soft_isr(void)
 /*                       activation when the activation source is located   */
 /*                       in interrupt                                       */
 /****************************************************************************/
-void __interrupt(7) __vector_table(0) core2_kernel_soft_isr(void)
+void __interrupt(7) __vector_table(VECTOT_TABLE0) core2_kernel_soft_isr(void)
 {
     __asm("; setup parameter and jump to os_kernel \n"
             " mov.aa a4,%0 \n"
@@ -1165,7 +1165,7 @@ void __interrupt(7) __vector_table(0) core2_kernel_soft_isr(void)
 /****************************************************************************/
 /* DESCRIPTION: STM0 compare1 interrupt event                               */
 /****************************************************************************/
-void __interrupt(21) __vector_table(0) Ifx_STM0_compare1_Isr(void)
+void __interrupt(21) __vector_table(VECTOT_TABLE0) Ifx_STM0_compare1_Isr(void)
 { 
 	 /* Unit:ms ,the max is 0xFFFFFFFF/100000=42949ms(42.949s */
  	update_stm0_compare1_ticks(1000);
