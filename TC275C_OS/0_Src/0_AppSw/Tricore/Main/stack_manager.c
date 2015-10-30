@@ -1,13 +1,21 @@
-
+/****************************************************************************/
+/* FILE NAME:    stack_manager.c                                            */
+/* CREATE ON:    Aug 26, 2015                                               */
+/* AUTHER:       Yanpeng.xi                                                 */
+/* DESCRIPTION:  The c file includes logic that tests the stack usage of    */
+/*               tasks                                                      */
+/* COMMENT:      Multicore OS based on Aurix 275C app kit and TASKING 4.3   */
+/*               compiler                                                   */
+/****************************************************************************/
 #include "os_type.h"
 #include "os_interface.h"
 
-#define STACK_MAX_MEASURE_POS         (10)
-#define TIME_UNIT_SWITCH              (1000)
-#define PTHREAD_STACK_SIZE_IN_BYTE    (256)
+#define TIME_UNIT_SWITCH            (1000)
+#define STACK_MEA_MAX_POS_NUM       (10)
+#define PTHREAD_STACK_SIZE_IN_BYTE  (256)
 
-#define MAX_CORE_NUM    (3)
-#define MAX_THREAD_NUM  (11)
+#define STACK_MEA_MAX_CORE_NUM      (3)
+#define STACK_MEA_MAX_THREAD_NUM    (11)
 
 typedef struct 
 {
@@ -18,7 +26,7 @@ typedef struct
 	
 } pthread_stack_t; 
 
-static pthread_stack_t pthread_stack[MAX_CORE_NUM][MAX_THREAD_NUM][STACK_MAX_MEASURE_POS];
+static pthread_stack_t pthread_stack[STACK_MEA_MAX_CORE_NUM][STACK_MEA_MAX_THREAD_NUM][STACK_MEA_MAX_POS_NUM];
 
 osu32_t get_stack_used_percent(osu32_t thread_id, osu32_t pos)
 {
@@ -40,9 +48,9 @@ void get_thread_init_stack_address(osu32_t core_id,osu32_t thread_id,osu32_t ini
 {  
    osu32_t index;
    
-   if(thread_id < MAX_THREAD_NUM)
+   if(thread_id < STACK_MEA_MAX_THREAD_NUM)
    {
-     for(index = 0 ; index < STACK_MAX_MEASURE_POS ; index++ )
+     for(index = 0 ; index < STACK_MEA_MAX_POS_NUM ; index++ )
      {
        pthread_stack[core_id][thread_id][index].stack_init_address = init_sp_address;
      }
