@@ -1013,7 +1013,7 @@ void os_enable_allinterrupt(void)
 /*                       activation when the activation source is located   */
 /*                       in interrupt                                       */
 /****************************************************************************/
-void __interrupt(10) __vector_table(VECTOR_TABLE0) core0_kernel_tick_isr(void)
+void __interrupt(CORE0_KERNEL_TICK_INT_LEVEL) __vector_table(VECTOR_TABLE0) core0_kernel_tick_isr(void)
 {  
    /* <CORE0> OS tick ranges from 0-0xffff */
    core0_os_stm_tick_count=(core0_os_stm_tick_count+1)%0xFFFF;  
@@ -1031,7 +1031,7 @@ void __interrupt(10) __vector_table(VECTOR_TABLE0) core0_kernel_tick_isr(void)
 /*                       activation when the activation source is located   */
 /*                       in interrupt                                       */
 /****************************************************************************/
-void __interrupt(11) __vector_table(VECTOR_TABLE0) core1_kernel_tick_isr(void)
+void __interrupt(CORE1_KERNEL_TICK_INT_LEVEL) __vector_table(VECTOR_TABLE0) core1_kernel_tick_isr(void)
 { 
    /* <CORE1> OS tick ranges from 0-0xffff */
    core1_os_stm_tick_count=(core1_os_stm_tick_count+1)%0xFFFF; 
@@ -1050,7 +1050,7 @@ void __interrupt(11) __vector_table(VECTOR_TABLE0) core1_kernel_tick_isr(void)
 /*                       activation when the activation source is located   */
 /*                       in interrupt                                       */
 /****************************************************************************/
-void __interrupt(12) __vector_table(VECTOR_TABLE0) core2_kernel_tick_isr(void)
+void __interrupt(CORE2_KERNEL_TICK_INT_LEVEL) __vector_table(VECTOR_TABLE0) core2_kernel_tick_isr(void)
 {  
    /* <CORE2> OS tick ranges from 0-0xffff */
    core2_os_stm_tick_count=(core2_os_stm_tick_count+1)%0xFFFF; 
