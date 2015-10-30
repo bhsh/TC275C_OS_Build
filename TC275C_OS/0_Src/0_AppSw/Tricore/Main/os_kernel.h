@@ -134,31 +134,33 @@ typedef union { /* <union><context_t> TriCore context structure */
     } l; 
 } context_t;
 
-os32_t pthread_create_np(pthread_t, const pthread_attr_t *, void(*)(void *,task_ptr_t),
-        void *,task_ptr_t);
-void start_core0_os(void);
-void start_core1_os(void);
-void start_core2_os(void);
 
+/****************************************************************************/
+/* Inline Function Definitions                                              */
+/****************************************************************************/
+
+/****************************************************************************/
+/* DESCRIPTION: <EVERY CORE> Get the core id                                */
+/****************************************************************************/
 inline osu32_t os_getCoreId(void)
 {
    osu32_t core_id;
-
    core_id=__mfcr(CPU_CORE_ID);
-   
    return (core_id&0x7);
 }
-
-//! Start threads
+ 
+/****************************************************************************/
+/* DESCRIPTION: <EVERY CORE> Start threads                                  */
+/****************************************************************************/
 inline void pthread_start_np(void) {
-    extern  osu32_t  core0_os_pthread_runnable;
+    extern  osu32_t   core0_os_pthread_runnable;
+	extern  osu32_t   core1_os_pthread_runnable;
+	extern  osu32_t   core2_os_pthread_runnable;
     extern  pthread_t core0_os_pthread_running;
-    extern  pthread_t core0_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
-	extern  osu32_t  core1_os_pthread_runnable;
     extern  pthread_t core1_os_pthread_running;
-    extern  pthread_t core1_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
-	extern  osu32_t  core2_os_pthread_runnable;
     extern  pthread_t core2_os_pthread_running;
+    extern  pthread_t core0_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
+    extern  pthread_t core1_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
     extern  pthread_t core2_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
 	extern  allthreads_status_t core0_allthreads_status;
 	extern  allthreads_status_t core1_allthreads_status;
@@ -243,10 +245,13 @@ inline osu32_t neza(void *p) {
     return ret;
 }
 
-
 /****************************************************************************/
 /* Function Prototype Definitions(The functions are called by threads)      */
 /****************************************************************************/
+void   start_core0_os(void);
+void   start_core1_os(void);
+void   start_core2_os(void);
+os32_t pthread_create_np(pthread_t, const pthread_attr_t *, void(*)(void *,task_ptr_t),void *,task_ptr_t);
 os32_t pthread_mutex_lock(pthread_mutex_t *mutex); /* <*mutex> Mutex pointer*/
 os32_t pthread_mutex_unlock(pthread_mutex_t *mutex); /* <*mutex> Mutex pointer*/
 os32_t pthread_cond_wait(pthread_cond_t *cond); /* <*cond> Condition pointer*/
