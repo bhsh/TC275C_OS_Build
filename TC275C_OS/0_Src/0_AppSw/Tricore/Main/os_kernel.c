@@ -360,44 +360,40 @@ os32_t pthread_mutex_lock(pthread_mutex_t *mutex) /* <*mutex> mutex pointer */
 /****************************************************************************/
 os32_t pthread_mutex_unlock(pthread_mutex_t *mutex) /* <*mutex> mutex pointer */
 {
+    osu32_t   current_cpu_id = os_getCoreId();
+		
     assert(cppn()==0); /* CCPN must be 0, function cannot be called from ISR */
     assert (mutex != NULL); /* Make sure there is one mutex argument. If no, __debug() will be entered */ 
-
-	if(os_getCoreId()== CORE0_ID)
+	
+	if(current_cpu_id == CORE0_ID)
 	{
-        if (mutex->owner != core0_os_pthread_running) 
-             return -1;
+        if (mutex->owner != core0_os_pthread_running) return -1;
 
         pthread_t threads = mutex->blocked_threads;
         mutex->owner = NULL;
         mutex->lock = false;
         mutex->blocked_threads = NULL;
-        if (threads != NULL)
-            dispatch_signal(&threads, NULL);
+        if (threads != NULL) dispatch_signal(&threads, NULL);
 	}
-	else if(os_getCoreId()== CORE1_ID)
+	else if(current_cpu_id == CORE1_ID)
 	{
-        if (mutex->owner != core1_os_pthread_running) 
-             return -1;
+        if (mutex->owner != core1_os_pthread_running) return -1;
 
         pthread_t threads = mutex->blocked_threads;
         mutex->owner = NULL;
         mutex->lock = false;
         mutex->blocked_threads = NULL;
-        if (threads != NULL)
-            dispatch_signal(&threads, NULL);
+        if (threads != NULL) dispatch_signal(&threads, NULL);
 	}
-	else if(os_getCoreId()== CORE2_ID)
+	else if(current_cpu_id == CORE2_ID)
 	{
-        if (mutex->owner != core2_os_pthread_running) 
-             return -1;
+        if (mutex->owner != core2_os_pthread_running) return -1;
 
         pthread_t threads = mutex->blocked_threads;
         mutex->owner = NULL;
         mutex->lock = false;
         mutex->blocked_threads = NULL;
-        if (threads != NULL)
-            dispatch_signal(&threads, NULL);
+        if (threads != NULL) dispatch_signal(&threads, NULL);
 	}
     return 0; /* Dummy to avoid warning */
 } /* End of pthread_mutex_unlock function */
@@ -535,16 +531,17 @@ os32_t pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition pointer
 /*              one thread actived newly left and not be inserted into the  */
 /*              scheduling table                                            */
 /****************************************************************************/
-OS_INLINE void dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
-
+OS_INLINE void dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t last_thread) 
+{
+	os32_t    i;
+	osu32_t   current_cpu_id = os_getCoreId();
 	pthread_t thread, tmp;
-	os32_t i;
 
-    tmp = NULL;
+	tmp = NULL;
     assert(blocked_threads_ptr);
     thread = *blocked_threads_ptr;
 	
-    if(os_getCoreId() == CORE0_ID)
+    if(current_cpu_id == CORE0_ID)
 	{
        while (thread != NULL) 
 	   {
@@ -558,7 +555,7 @@ OS_INLINE void dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t
        }
        *blocked_threads_ptr = tmp;
 	 }
-	 else if(os_getCoreId()== CORE1_ID)
+	 else if(current_cpu_id== CORE1_ID)
 	 {
        while (thread != NULL) 
 	   {
@@ -572,7 +569,7 @@ OS_INLINE void dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t
        }
        *blocked_threads_ptr = tmp;
 	 }
-	 else if(os_getCoreId() == CORE2_ID)
+	 else if(current_cpu_id == CORE2_ID)
 	 {
        while (thread != NULL) 
 	   {
@@ -612,7 +609,9 @@ OS_STATIC void os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_thread)
             " svlcx        "
             : "=d"(tin)); /* Put d15 in C variable tin */
 
-    if(os_getCoreId() == CORE0_ID)
+	osu32_t current_cpu_id = os_getCoreId();
+
+    if(current_cpu_id == CORE0_ID)
 	{
         core0_os_pthread_running->lcx = __mfcr(CPU_PCXI);
         i = core0_os_pthread_running->priority;
@@ -653,7 +652,7 @@ OS_STATIC void os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_thread)
 		 /* <CORE0> Unlock core0_mutex */
 		 core_returnMutex(&core0_mutex);
 	}
-	else if(os_getCoreId() == CORE1_ID)
+	else if(current_cpu_id == CORE1_ID)
 	{
         core1_os_pthread_running->lcx = __mfcr(CPU_PCXI);
         i = core1_os_pthread_running->priority;
@@ -694,7 +693,7 @@ OS_STATIC void os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_thread)
 		 /* <CORE1> Unlock core1_mutex */
 		 core_returnMutex(&core1_mutex);
 	}
-	else if(os_getCoreId() == CORE2_ID)
+	else if(current_cpu_id == CORE2_ID)
 	{
         core2_os_pthread_running->lcx = __mfcr(CPU_PCXI);
         i = core2_os_pthread_running->priority;
@@ -748,10 +747,11 @@ OS_INLINE void os_kernel_in_tick(void)
      osu32_t         index;
 	 osu32_t         release_count = 0;
 	 osu32_t         tempt_index;
+	 osu32_t         current_cpu_id = os_getCoreId();
 	 pthread_cond_t  *cond;
 	 pthread_cond_t  *cond_buffer[PTHREAD_COND_TIMEDWAIT_SIZE];
 	
-	 if(os_getCoreId() == CORE0_ID)
+	 if(current_cpu_id == CORE0_ID)
 	 {  	
 	    tempt_index = PTHREAD_COND_TIMEDWAIT_SIZE - __clz(core0_os_pthread_time_waiting);
 		if( tempt_index == 0) return;
@@ -767,7 +767,7 @@ OS_INLINE void os_kernel_in_tick(void)
 		  }
 	    }
 	 }
-	 else if(os_getCoreId() == CORE1_ID)
+	 else if(current_cpu_id == CORE1_ID)
 	 {		
 	 	tempt_index = PTHREAD_COND_TIMEDWAIT_SIZE - __clz(core1_os_pthread_time_waiting);
 		if( tempt_index == 0) return;
@@ -783,7 +783,7 @@ OS_INLINE void os_kernel_in_tick(void)
 		  }
 	    }
 	 }
-	 else if(os_getCoreId() == CORE2_ID)
+	 else if(current_cpu_id == CORE2_ID)
 	 {
 	 	tempt_index = PTHREAD_COND_TIMEDWAIT_SIZE - __clz(core2_os_pthread_time_waiting);
 		if( tempt_index == 0) return;
@@ -837,11 +837,12 @@ os32_t pthread_cond_timedwait_np(osu16_t reltime) //!< [in] relative time are th
 	osu16_t new_tick_count;
     osu16_t set_count;
 	osu32_t task_id = 0;
+	osu32_t current_cpu_id = os_getCoreId();
 	pthread_cond_t *cond;
-	
+		
     assert(cppn()==0); /* CCPN must be 0, pthread_cond_timedwait_np cannot be called from ISR */
 
-	if(os_getCoreId() == CORE0_ID)
+	if(current_cpu_id == CORE0_ID)
 	{	  	
 	  new_tick_count  = core0_os_stm_tick_count + 1;
 	  set_count = ((osu16_t)(new_tick_count + reltime))%0xFFFF;  /* <CORE0> set_count ranges from 0 to 0xFFFE */
@@ -863,7 +864,7 @@ os32_t pthread_cond_timedwait_np(osu16_t reltime) //!< [in] relative time are th
 
       os32_t err = dispatch_wait(&cond->blocked_threads, NULL);
 	}
-	else if(os_getCoreId() == CORE1_ID)
+	else if(current_cpu_id == CORE1_ID)
 	{ 
 	  new_tick_count = core1_os_stm_tick_count + 1;
 	  set_count = ((osu16_t)(new_tick_count + reltime))%0xFFFF;  /* <CORE1> set_count ranges from 0 to 0xFFFE */
@@ -886,7 +887,7 @@ os32_t pthread_cond_timedwait_np(osu16_t reltime) //!< [in] relative time are th
       os32_t err = dispatch_wait(&cond->blocked_threads, NULL);
 
 	}
-	else if(os_getCoreId() == CORE2_ID)
+	else if(current_cpu_id == CORE2_ID)
 	{
 	  new_tick_count  = core2_os_stm_tick_count + 1;
 	  set_count = ((osu16_t)(new_tick_count + reltime))%0xFFFF;  /* <CORE2> set_count ranges from 0 to 0xFFFE */
