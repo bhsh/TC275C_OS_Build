@@ -1,7 +1,7 @@
 
 
-#ifndef THREAD_CONFIG_H_
-#define THREAD_CONFIG_H_
+#ifndef CORE2_THREAD_CONFIG_H_
+#define CORE2_THREAD_CONFIG_H_
 
 #include "os_thread_type.h"
 #include "core2_task_cfg.h"

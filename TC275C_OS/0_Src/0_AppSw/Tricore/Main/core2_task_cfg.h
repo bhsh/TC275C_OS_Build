@@ -2,9 +2,9 @@
 #ifndef TASK_CFG_H_
 #define TASK_CFG_H_
 
-#include "core0_task_type.h"
-#include "core1_task_type.h"
-#include "core2_task_type.h"
+#include "core0_task_manager.h"
+#include "core1_task_manager.h"
+#include "core2_task_manager.h"
 
 /* core 0 */
 /* 0 thread config initialization */ 

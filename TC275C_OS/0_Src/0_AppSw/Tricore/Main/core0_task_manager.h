@@ -1,5 +1,5 @@
-#ifndef CRRE0_TASK_TYPE_H_
-#define CRRE0_TASK_TYPE_H_
+#ifndef CRRE0_TASK_MANAGER_H_
+#define CRRE0_TASK_MANAGER_H_
 
 #define  CORE0_OS_SWITCH        ON
 
