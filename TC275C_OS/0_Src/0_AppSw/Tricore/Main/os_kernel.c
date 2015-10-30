@@ -253,7 +253,6 @@ os32_t pthread_create_np(pthread_t thread, /* <thread> Thread control block poin
                                void *arg,  /* <*arg> 1st argument of thread */
                                task_ptr_t core0_task_ptr) /* <*arg> 2nd argument of thread */
 {
-
     const pthread_attr_t default_attr = PTHREAD_DEFAULT_ATTR;
     osu32_t fcx;
     context_t *cx;
