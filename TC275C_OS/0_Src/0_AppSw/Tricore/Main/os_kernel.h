@@ -50,10 +50,12 @@ typedef enum  { /* <enum><user_t> User mode definition */
     SUPER
 }user_t;
 
-typedef enum  { /* <enum><allthreads_status_t> Thread status definition */	
+typedef enum  { /* <enum><allthreads_status_t> Thread status definition */
+	
     ALLTHREADS_WORKING, 
 	ALLTHREADS_SUSPENDED
-}allthreads_status_t;
+	
+}pthreads_status_t;
 
 typedef enum  {  /* <enum><call_depth_overflow_t> Call depth definition */
     CALL_DEPTH_OVERFLOW_AT_64 = 0,
@@ -167,9 +169,9 @@ OS_INLINE void pthread_start_np(void) {
     extern  pthread_t core0_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
     extern  pthread_t core1_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
     extern  pthread_t core2_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
-	extern  allthreads_status_t core0_allthreads_status;
-	extern  allthreads_status_t core1_allthreads_status;
-	extern  allthreads_status_t core2_allthreads_status;
+	extern  pthreads_status_t core0_pthreads_status;
+	extern  pthreads_status_t core1_pthreads_status;
+	extern  pthreads_status_t core2_pthreads_status;
 
     pthread_t thread = (void*)0;
 	osu32_t   current_core_id = os_getCoreId();
@@ -177,13 +179,13 @@ OS_INLINE void pthread_start_np(void) {
 	if(current_core_id == CORE0_ID)
 	{  
       assert(core0_os_pthread_runnable != 0);
-	  if(core0_allthreads_status == ALLTHREADS_WORKING)
+	  if(core0_pthreads_status == ALLTHREADS_WORKING)
 	  {       
          /* <CORE0> Get ready thread with highest priority ready */  
          thread = core0_os_pthread_runnable_threads[31 - __clz(core0_os_pthread_runnable)]; 			    
          core0_os_pthread_running = thread;
 	  }
-	  else if(core0_allthreads_status == ALLTHREADS_SUSPENDED)
+	  else if(core0_pthreads_status == ALLTHREADS_SUSPENDED)
 	  {
          /* <CORE0> In order to keep core0_os_pthread_running unchanged */
 	     thread = core0_os_pthread_running;
@@ -192,13 +194,13 @@ OS_INLINE void pthread_start_np(void) {
     else if(current_core_id == CORE1_ID)
 	{
       assert(core1_os_pthread_runnable != 0);
-	  if(core1_allthreads_status == ALLTHREADS_WORKING)
+	  if(core1_pthreads_status == ALLTHREADS_WORKING)
 	  {     
 	     /* <CORE1> Get ready thread with highest priority ready */  
          thread = core1_os_pthread_runnable_threads[31 - __clz(core1_os_pthread_runnable)];
 	     core1_os_pthread_running = thread;
 	  }
-	  else if(core1_allthreads_status == ALLTHREADS_SUSPENDED)
+	  else if(core1_pthreads_status == ALLTHREADS_SUSPENDED)
 	  {
          /* <CORE1> In order to keep core1_os_pthread_running unchanged */
 	     thread = core1_os_pthread_running;
@@ -207,13 +209,13 @@ OS_INLINE void pthread_start_np(void) {
 	else if(current_core_id == CORE2_ID)
 	{
       assert(core2_os_pthread_runnable != 0);
-	  if(core2_allthreads_status == ALLTHREADS_WORKING)
+	  if(core2_pthreads_status == ALLTHREADS_WORKING)
 	  {       
 	     /* <CORE2> Get ready thread with highest priority ready */  
          thread = core2_os_pthread_runnable_threads[31 - __clz(core2_os_pthread_runnable)]; 
          core2_os_pthread_running = thread;
       } 
-	  else if(core2_allthreads_status == ALLTHREADS_SUSPENDED)
+	  else if(core2_pthreads_status == ALLTHREADS_SUSPENDED)
 	  {
          /* <CORE2> Do nothing in order to keep core2_os_pthread_running unchanged */
 	     thread = core2_os_pthread_running;

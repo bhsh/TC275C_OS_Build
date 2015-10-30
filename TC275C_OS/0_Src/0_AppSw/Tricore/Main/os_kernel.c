@@ -31,47 +31,47 @@
 /****************************************************************************/
 /* Global Variable Definitions                                              */
 /****************************************************************************/
-osu32_t  core0_os_pthread_runnable;
-osu32_t  core1_os_pthread_runnable;
-osu32_t  core2_os_pthread_runnable;
+osu32_t   core0_os_pthread_runnable;
+osu32_t   core1_os_pthread_runnable;
+osu32_t   core2_os_pthread_runnable;
 pthread_t core0_os_pthread_running;
 pthread_t core1_os_pthread_running;
 pthread_t core2_os_pthread_running;
 pthread_t core0_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
 pthread_t core1_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
 pthread_t core2_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
-allthreads_status_t core0_allthreads_status;
-allthreads_status_t core1_allthreads_status;
-allthreads_status_t core2_allthreads_status;
+pthreads_status_t core0_pthreads_status;
+pthreads_status_t core1_pthreads_status;
+pthreads_status_t core2_pthreads_status;
 
 /****************************************************************************/
 /* Static Variable Definitions                                              */
 /****************************************************************************/
-OS_STATIC osu32_t  core0_mutex;
-OS_STATIC osu32_t  core1_mutex;
-OS_STATIC osu32_t  core2_mutex;
-OS_STATIC osu16_t  core0_os_tick_count;
-OS_STATIC osu16_t  core1_os_tick_count;
-OS_STATIC osu16_t  core2_os_tick_count;
-OS_STATIC osu32_t  core0_os_pthread_time_waiting;
-OS_STATIC osu32_t  core1_os_pthread_time_waiting;
-OS_STATIC osu32_t  core2_os_pthread_time_waiting;
+OS_STATIC osu32_t   core0_mutex;
+OS_STATIC osu32_t   core1_mutex;
+OS_STATIC osu32_t   core2_mutex;
+OS_STATIC osu16_t   core0_os_tick_count;
+OS_STATIC osu16_t   core1_os_tick_count;
+OS_STATIC osu16_t   core2_os_tick_count;
+OS_STATIC osu32_t   core0_os_pthread_time_waiting;
+OS_STATIC osu32_t   core1_os_pthread_time_waiting;
+OS_STATIC osu32_t   core2_os_pthread_time_waiting;
 OS_STATIC pthread_t core0_os_blocked_threads;
 OS_STATIC pthread_t core1_os_blocked_threads;
 OS_STATIC pthread_t core2_os_blocked_threads;
-OS_STATIC osu16_t  stm_ticks[PTHREAD_COND_TIMEDWAIT_SIZE]=
+OS_STATIC osu16_t   core0_os_timewait_ticks[PTHREAD_COND_TIMEDWAIT_SIZE]=
 { 
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                      
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,  
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                     
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX 	
 };
-OS_STATIC pthread_cond_t  *stm_cond[PTHREAD_COND_TIMEDWAIT_SIZE]=
+OS_STATIC pthread_cond_t  *core0_os_timewait_cond_ptr[PTHREAD_COND_TIMEDWAIT_SIZE]=
 {
     NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,                     
     NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL                     
 };
-OS_STATIC pthread_cond_t  core0_os_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
+OS_STATIC pthread_cond_t  core0_os_timewait_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
 {  
     CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,                     
     CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,    
@@ -82,19 +82,19 @@ OS_STATIC pthread_cond_t  core0_os_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
     CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,                     
     CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER   
 };
-OS_STATIC osu16_t  core1_os_stm_ticks[PTHREAD_COND_TIMEDWAIT_SIZE]=
+OS_STATIC osu16_t  core1_os_timewait_ticks[PTHREAD_COND_TIMEDWAIT_SIZE]=
 {
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                      
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,  
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                     
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX 
 };
-OS_STATIC pthread_cond_t  *core1_os_stm_cond[PTHREAD_COND_TIMEDWAIT_SIZE]=
+OS_STATIC pthread_cond_t  *core1_os_timewait_cond_ptr[PTHREAD_COND_TIMEDWAIT_SIZE]=
 {
     NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,                     
     NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL  
 };
-OS_STATIC pthread_cond_t  core1_os_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
+OS_STATIC pthread_cond_t  core1_os_timewait_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
 {  
     CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,                     
     CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,    
@@ -105,19 +105,19 @@ OS_STATIC pthread_cond_t  core1_os_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
     CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,                     
     CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER   
 };
-OS_STATIC osu16_t  core2_os_stm_ticks[PTHREAD_COND_TIMEDWAIT_SIZE] =
+OS_STATIC osu16_t  core2_os_timewait_ticks[PTHREAD_COND_TIMEDWAIT_SIZE] =
 {
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                      
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,  
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                     
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX 				    
 };
-OS_STATIC pthread_cond_t  *core2_os_stm_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
+OS_STATIC pthread_cond_t  *core2_os_timewait_cond_ptr[PTHREAD_COND_TIMEDWAIT_SIZE] =
 {
     NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,                     
     NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL 
 };
-OS_STATIC pthread_cond_t  core2_os_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
+OS_STATIC pthread_cond_t  core2_os_timewait_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
 {  
     CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,                     
     CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,    
@@ -173,7 +173,9 @@ OS_INLINE void core0_kernel_update_os_tick(void)
     osu32_t core0_ticks;
 
     core0_ticks = (osu32_t)(stm0CompareValue*1);
-    IfxStm_updateCompare (&MODULE_STM0, IfxStm_Comparator_0, IfxStm_getCompare (&MODULE_STM0, IfxStm_Comparator_0) + core0_ticks);
+    IfxStm_updateCompare (&MODULE_STM0,
+		                  IfxStm_Comparator_0,
+	                      IfxStm_getCompare (&MODULE_STM0, IfxStm_Comparator_0) + core0_ticks);
     /* IfxPort_togglePin(&MODULE_P33, 8); */
 } /* End of core0_kernel_update_os_tick function */
 
@@ -185,7 +187,9 @@ OS_INLINE void core1_kernel_update_os_tick(void)
     osu32_t core1_ticks;
 	
     core1_ticks = (osu32_t) (stm1CompareValue * 1);
-    IfxStm_updateCompare (&MODULE_STM1, IfxStm_Comparator_0, IfxStm_getCompare (&MODULE_STM1, IfxStm_Comparator_0) + core1_ticks);
+    IfxStm_updateCompare (&MODULE_STM1,
+		                  IfxStm_Comparator_0, 
+		                  IfxStm_getCompare (&MODULE_STM1, IfxStm_Comparator_0) + core1_ticks);
     /* IfxPort_togglePin(&MODULE_P33, 9); */
 } /* End of core1_kernel_update_os_tick function */
 
@@ -197,7 +201,9 @@ OS_INLINE void core2_kernel_update_os_tick(void)
     osu32_t core2_ticks;
 	
     core2_ticks = (osu32_t) (stm2CompareValue * 1);
-    IfxStm_updateCompare (&MODULE_STM2, IfxStm_Comparator_0, IfxStm_getCompare (&MODULE_STM2, IfxStm_Comparator_0) + core2_ticks);
+    IfxStm_updateCompare (&MODULE_STM2,
+		                  IfxStm_Comparator_0, 
+		                  IfxStm_getCompare (&MODULE_STM2, IfxStm_Comparator_0) + core2_ticks);
     /* IfxPort_togglePin(&MODULE_P33, 10); */
 } /* End of core2_kernel_update_os_tick function */
 
@@ -213,16 +219,19 @@ OS_INLINE void list_append(pthread_t *head, /* <*head> list head pointer */
     assert(elem != NULL);
 
     pthread_t list = *head;
-    if (list == NULL) {
-        elem->next = elem_next;
-    	/* elem->next = elem; */
-        elem->prev = elem;
-        *head = elem;
-    } else {
-        elem->next = elem_next;
-        elem->prev = list->prev;
-        list->prev->next = elem;
-        list->prev = list_prev;
+    if (list == NULL) 
+	{
+      elem->next = elem_next;
+      /* elem->next = elem; */
+      elem->prev = elem;
+      *head = elem;
+    }
+	else 
+	{
+      elem->next = elem_next;
+      elem->prev = list->prev;
+      list->prev->next = elem;
+      list->prev = list_prev;
     }
 } /* End of list_append function */
 
@@ -236,11 +245,11 @@ OS_STATIC void list_delete_first(pthread_t *head)  /* <*head> list head pointer 
     pthread_t old = *head;
     pthread_t new = old->next;
 
-    if (new != NULL) {
-        old->prev->next = new;
-        new->prev = old->prev;
-        if (new->next == new)
-            new->next = NULL; /* If the list has only one element than set ->next = NULL */
+    if (new != NULL)
+	{
+      old->prev->next = new;
+      new->prev = old->prev;
+      if (new->next == new) new->next = NULL; /* If the list has only one element than set ->next = NULL */
     }
     *head = new;
 } /* End of list_delete_first function */
@@ -292,21 +301,21 @@ os32_t pthread_create_np(pthread_t thread, /* <thread> Thread control block poin
 	
     if(current_core_id == CORE0_ID)
     {   
-       list_append(&core0_os_pthread_runnable_threads[i], thread, thread,
-                  core0_os_pthread_runnable_threads[i]);
-       __putbit(1,(os32_t*)&core0_os_pthread_runnable,i); /* <CORE0> Mark current thread ready */
+      list_append(&core0_os_pthread_runnable_threads[i], thread, thread,
+                 core0_os_pthread_runnable_threads[i]);
+      __putbit(1,(os32_t*)&core0_os_pthread_runnable,i); /* <CORE0> Mark current thread ready */
     }
     else if(current_core_id == CORE1_ID)
     {
-       list_append(&core1_os_pthread_runnable_threads[i], thread, thread,
-                  core1_os_pthread_runnable_threads[i]);
-       __putbit(1,(os32_t*)&core1_os_pthread_runnable,i); /* <CORE1> Mark current thread ready */
+      list_append(&core1_os_pthread_runnable_threads[i], thread, thread,
+                 core1_os_pthread_runnable_threads[i]);
+      __putbit(1,(os32_t*)&core1_os_pthread_runnable,i); /* <CORE1> Mark current thread ready */
     }
 	else if(current_core_id == CORE2_ID)
 	{
-       list_append(&core2_os_pthread_runnable_threads[i], thread, thread,
-                  core2_os_pthread_runnable_threads[i]);
-       __putbit(1,(os32_t*)&core2_os_pthread_runnable,i); /* <CORE2> Mark current thread ready */
+      list_append(&core2_os_pthread_runnable_threads[i], thread, thread,
+                 core2_os_pthread_runnable_threads[i]);
+      __putbit(1,(os32_t*)&core2_os_pthread_runnable,i); /* <CORE2> Mark current thread ready */
 	}
     return 0; /* Dummy to avoid warning */
 } /* End of pthread_create_np function */
@@ -762,10 +771,10 @@ OS_INLINE void os_kernel_in_tick(void)
 	  tempt_index = tempt_index - 1;
 	  for(index = 0 ; index <= tempt_index ; index++)
 	  {
-	    if(stm_ticks[index] == core0_os_tick_count)
+	    if(core0_os_timewait_ticks[index] == core0_os_tick_count)
 	    {		
-  		  cond_buffer[release_count] = stm_cond[index];
-  		  stm_ticks[index] = USHRT_MAX;     /* <CORE0> Free place in array */
+  		  cond_buffer[release_count] = core0_os_timewait_cond_ptr[index];
+  		  core0_os_timewait_ticks[index] = USHRT_MAX;     /* <CORE0> Free place in array */
   		  __putbit(0,(os32_t*)&core0_os_pthread_time_waiting,index); 
   		  release_count++;
 	    }
@@ -778,10 +787,10 @@ OS_INLINE void os_kernel_in_tick(void)
 	  tempt_index = tempt_index - 1;
 	  for(index = 0 ; index <= tempt_index ; index++)
 	  {
-  	     if(core1_os_stm_ticks[index] == core1_os_tick_count)
+  	     if(core1_os_timewait_ticks[index] == core1_os_tick_count)
   	    {		
-  		  cond_buffer[release_count] = core1_os_stm_cond[index];
-  		  core1_os_stm_ticks[index] = USHRT_MAX;   /* <CORE1> Free place in array */    
+  		  cond_buffer[release_count] = core1_os_timewait_cond_ptr[index];
+  		  core1_os_timewait_ticks[index] = USHRT_MAX;   /* <CORE1> Free place in array */    
   		  __putbit(0,(os32_t*)&core1_os_pthread_time_waiting,index); 
   		  release_count++;
   	    }
@@ -794,10 +803,10 @@ OS_INLINE void os_kernel_in_tick(void)
 	  tempt_index = tempt_index - 1;
 	  for(index = 0 ; index <= tempt_index ; index++)
 	  {
-    	if(core2_os_stm_ticks[index] == core2_os_tick_count)
+    	if(core2_os_timewait_ticks[index] == core2_os_tick_count)
     	{		
-    	  cond_buffer[release_count] = core2_os_stm_cond[index];
-    	  core2_os_stm_ticks[index] = USHRT_MAX;  /* <CORE2> Free place in array */
+    	  cond_buffer[release_count] = core2_os_timewait_cond_ptr[index];
+    	  core2_os_timewait_ticks[index] = USHRT_MAX;  /* <CORE2> Free place in array */
     	  __putbit(0,(os32_t*)&core2_os_pthread_time_waiting,index); 
     	  release_count++;
     	}
@@ -852,7 +861,7 @@ os32_t pthread_cond_timedwait_np(osu16_t reltime) /* <reltime> Waiting time, uni
 	  set_count = ((osu16_t)(new_tick_count + reltime))%0xFFFF;  /* <CORE0> set_count ranges from 0 to 0xFFFE */
 
       /* <CORE0> Search the empty position. */
-      while((stm_ticks[task_id] != USHRT_MAX)&&(task_id < PTHREAD_COND_TIMEDWAIT_SIZE ))
+      while((core0_os_timewait_ticks[task_id] != USHRT_MAX)&&(task_id < PTHREAD_COND_TIMEDWAIT_SIZE ))
 	  {
         task_id++;
 	  }
@@ -860,11 +869,11 @@ os32_t pthread_cond_timedwait_np(osu16_t reltime) /* <reltime> Waiting time, uni
 	  /* <CORE0> There is not any empty position now. the call is returned. */
 	  if(task_id == PTHREAD_COND_TIMEDWAIT_SIZE ) return 0;
  
-      cond = &core0_os_cond[task_id];
+      cond = &core0_os_timewait_cond[task_id];
 	  __putbit(1,(os32_t*)&core0_os_pthread_time_waiting,task_id); /* <CORE0> mark current thread ready */
 	  
-      stm_ticks[task_id] = set_count;     /* <CORE0> Load the current tick set(lconfig 1.) */ 
-      stm_cond[task_id] = cond;           /* <CORE0> Load the cond.(lconfig 2.) */            
+      core0_os_timewait_ticks[task_id] = set_count;     /* <CORE0> Load the current tick set(lconfig 1.) */ 
+      core0_os_timewait_cond_ptr[task_id] = cond;           /* <CORE0> Load the cond.(lconfig 2.) */            
 
       os32_t err = dispatch_wait(&cond->blocked_threads, NULL);
 	}
@@ -874,7 +883,7 @@ os32_t pthread_cond_timedwait_np(osu16_t reltime) /* <reltime> Waiting time, uni
 	  set_count = ((osu16_t)(new_tick_count + reltime))%0xFFFF;  /* <CORE1> set_count ranges from 0 to 0xFFFE */
 
       /* <CORE1> Search the empty position. */
-      while((core1_os_stm_ticks[task_id] != USHRT_MAX)&&(task_id < PTHREAD_COND_TIMEDWAIT_SIZE ))
+      while((core1_os_timewait_ticks[task_id] != USHRT_MAX)&&(task_id < PTHREAD_COND_TIMEDWAIT_SIZE ))
 	  {
         task_id++;
 	  }
@@ -882,11 +891,11 @@ os32_t pthread_cond_timedwait_np(osu16_t reltime) /* <reltime> Waiting time, uni
 	  /* <CORE1> There is not any empty position now. the call is returned. */
 	  if(task_id == PTHREAD_COND_TIMEDWAIT_SIZE ) return 0;
 
-      cond = &core1_os_cond[task_id];
+      cond = &core1_os_timewait_cond[task_id];
 	  __putbit(1,(os32_t*)&core1_os_pthread_time_waiting,task_id); /* <CORE1> mark current thread ready */
 	  
-	  core1_os_stm_ticks[task_id] = set_count;  /* <CORE1> Load the current tick set(lconfig 1.) */    
-      core1_os_stm_cond[task_id] = cond;        /* <CORE1> Load the cond.(lconfig 2.) */              
+	  core1_os_timewait_ticks[task_id] = set_count;  /* <CORE1> Load the current tick set(lconfig 1.) */    
+      core1_os_timewait_cond_ptr[task_id] = cond;        /* <CORE1> Load the cond.(lconfig 2.) */              
 	
       os32_t err = dispatch_wait(&cond->blocked_threads, NULL);
 
@@ -897,7 +906,7 @@ os32_t pthread_cond_timedwait_np(osu16_t reltime) /* <reltime> Waiting time, uni
 	  set_count = ((osu16_t)(new_tick_count + reltime))%0xFFFF;  /* <CORE2> set_count ranges from 0 to 0xFFFE */
 
       /* <CORE2> Search the empty position. */
-      while((core2_os_stm_ticks[task_id] != USHRT_MAX)&&(task_id < PTHREAD_COND_TIMEDWAIT_SIZE ))
+      while((core2_os_timewait_ticks[task_id] != USHRT_MAX)&&(task_id < PTHREAD_COND_TIMEDWAIT_SIZE ))
 	  {
         task_id++;
 	  }
@@ -905,11 +914,11 @@ os32_t pthread_cond_timedwait_np(osu16_t reltime) /* <reltime> Waiting time, uni
 	  /* <CORE2> There is not any empty position now. the call is returned. */
 	  if(task_id == PTHREAD_COND_TIMEDWAIT_SIZE ) return 0;
 
-      cond = &core2_os_cond[task_id];
+      cond = &core2_os_timewait_cond[task_id];
 	  __putbit(1,(os32_t*)&core2_os_pthread_time_waiting,task_id); /* <CORE2> mark current thread ready */
 
-	  core2_os_stm_ticks[task_id] = set_count;  /* <CORE2> Load the current tick set(lconfig 1.) */
-      core2_os_stm_cond[task_id] = cond;        /* <CORE2> Load the cond.(lconfig 2.) */
+	  core2_os_timewait_ticks[task_id] = set_count;  /* <CORE2> Load the current tick set(lconfig 1.) */
+      core2_os_timewait_cond_ptr[task_id] = cond;        /* <CORE2> Load the cond.(lconfig 2.) */
 
       os32_t err = dispatch_wait(&cond->blocked_threads, NULL);
 	}
@@ -927,19 +936,19 @@ void pthread_suspend_allthreads(void)
     osu32_t current_core_id = os_getCoreId();
  
     if((current_core_id == CORE0_ID)&&
-       (core0_allthreads_status == ALLTHREADS_WORKING))
+       (core0_pthreads_status == ALLTHREADS_WORKING))
     {	
-      core0_allthreads_status = ALLTHREADS_SUSPENDED;
+      core0_pthreads_status = ALLTHREADS_SUSPENDED;
     }
     else if((current_core_id == CORE1_ID)&&
-    	    (core1_allthreads_status == ALLTHREADS_WORKING))
+    	    (core1_pthreads_status == ALLTHREADS_WORKING))
     {
-      core1_allthreads_status = ALLTHREADS_SUSPENDED;
+      core1_pthreads_status = ALLTHREADS_SUSPENDED;
     }
     else if((current_core_id == CORE2_ID)&&
-    	    (core2_allthreads_status == ALLTHREADS_WORKING))
+    	    (core2_pthreads_status == ALLTHREADS_WORKING))
     {
-      core2_allthreads_status = ALLTHREADS_SUSPENDED;
+      core2_pthreads_status = ALLTHREADS_SUSPENDED;
     }
 } /* End of pthread_suspend_allthreads function */
 
@@ -955,27 +964,27 @@ void pthread_restore_allthreads(void)
     osu32_t current_core_id = os_getCoreId();
 
     if((current_core_id == CORE0_ID)&&
-   	   (core0_allthreads_status == ALLTHREADS_SUSPENDED))
+   	   (core0_pthreads_status == ALLTHREADS_SUSPENDED))
     {  
-	  core0_allthreads_status = ALLTHREADS_WORKING;
+	  core0_pthreads_status = ALLTHREADS_WORKING;
 	  
 	  /* <CORE0> If there is thread higher than the current thread, switch the context. else keep */
 	  if(core0_os_pthread_running->priority < 
 	  	 ((PTHREAD_PRIO_MAX-1) - __clz(core0_os_pthread_runnable))) dispatch_only(NULL,NULL);     
     }
     else if((current_core_id == CORE1_ID)&&
-   	        (core1_allthreads_status == ALLTHREADS_SUSPENDED))
+   	        (core1_pthreads_status == ALLTHREADS_SUSPENDED))
     {
-	  core1_allthreads_status = ALLTHREADS_WORKING;
+	  core1_pthreads_status = ALLTHREADS_WORKING;
 	   
 	  /* <CORE1> If there is thread higher than the current thread, switch the context. else keep */
 	  if(core1_os_pthread_running->priority < 
 	   	 ((PTHREAD_PRIO_MAX-1) - __clz(core1_os_pthread_runnable))) dispatch_only(NULL,NULL);     
     }
     else if((current_core_id == CORE2_ID)&&
-   	       (core2_allthreads_status == ALLTHREADS_SUSPENDED))
+   	       (core2_pthreads_status == ALLTHREADS_SUSPENDED))
     {
-	  core2_allthreads_status = ALLTHREADS_WORKING;
+	  core2_pthreads_status = ALLTHREADS_WORKING;
 	   
 	  /* <CORE2> If there is thread higher than the current thread, switch the context. else keep */
 	  if(core2_os_pthread_running->priority < 
