@@ -145,6 +145,11 @@ __syscallfunc(DISPATCH_SIGNAL) os32_t dispatch_signal(void *, void *);
 __syscallfunc(DISPATCH_ONLY)   os32_t dispatch_only(void *, void *);
 
 /****************************************************************************/
+/* Extern Prototype Definitions                                             */
+/****************************************************************************/
+extern void get_thread_init_stack_address(osu32_t,osu32_t,osu32_t);
+
+/****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Get mutex                                      */
 /****************************************************************************/
 inline osu32_t core_getMutex(osu32_t *mutex)
@@ -253,7 +258,6 @@ static void list_delete_first(pthread_t *head) { /* <*head> list head pointer */
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Create threads                                 */
 /****************************************************************************/
-extern void get_thread_init_stack_address(osu32_t,osu32_t,osu32_t);
 os32_t pthread_create_np(pthread_t thread, /* <thread> Thread control block pointer */
                             const pthread_attr_t *attr, /* <*attr> Thread attribute. Can be NULL to use default */
                             void(*start_routine)(void *,task_ptr_t),/* <*start_routine> Thread function pointer */
