@@ -95,6 +95,45 @@ typedef struct { /* <struct><pthread_mutex_t> Description of a thread mutex */
     pthread_t blocked_threads; /* list threads waiting for mutex */
 } pthread_mutex_t;
 
+typedef union { /* <union><context_t> TriCore context structure */
+    struct { /* <struct><u> Upper context */
+        osu32_t pcxi;/* Upper context PCXI*/
+        osu32_t psw; /* Upper context PSW */
+        void * a10;  /* Upper context A10 (SP) */
+        void * a11;  /* Upper context A11 (RA) */
+        osu32_t d8;  /* Upper context D8  */
+        osu32_t d9;  /* Upper context D9  */
+        osu32_t d10; /* Upper context D10 */
+        osu32_t d11; /* Upper context D11 */
+        osu32_t a12; /* Upper context A12 */
+        osu32_t a13; /* Upper context A13 */
+        osu32_t a14; /* Upper context A14 */
+        osu32_t a15; /* Upper context A15 */
+        osu32_t d12; /* Upper context D12 */
+        osu32_t d13; /* Upper context D13 */
+        osu32_t d14; /* Upper context D14 */
+        osu32_t d15; /* Upper context D15 */
+    } u; 
+    struct {  /* <struct><l> Lower context */
+        osu32_t pcxi; /* lower context PCXI */
+        void (*pc)(void*,task_ptr_t); /* lower context saved PC */
+        osu32_t a2; /* Lower context A2 */
+        osu32_t a3; /* Lower context A3 */
+        osu32_t d0; /* Lower context D0 */
+        osu32_t d1; /* Lower context D1 */
+        osu32_t d2; /* Lower context D2 */
+        osu32_t d3; /* Lower context D3 */
+        void * a4;  /* Lower context A4 */
+        void * a5;  /* Lower context A5 */
+        osu32_t a6; /* Lower context A6 */
+        osu32_t a7; /* Lower context A7 */
+        osu32_t d4; /* Lower context D4 */
+        osu32_t d5; /* Lower context D5 */
+        osu32_t d6; /* Lower context D6 */
+        osu32_t d7; /* Lower context D7 */
+    } l; 
+} context_t;
+
 os32_t pthread_create_np(pthread_t, const pthread_attr_t *, void(*)(void *,task_ptr_t),
         void *,task_ptr_t);
 void start_core0_os(void);
@@ -179,45 +218,7 @@ inline void pthread_start_np(void) {
     __asm(" rfe");       // restore the upper context
 }
 
-//!  TriCore context structure
-typedef union {
-    struct {
-        osu32_t pcxi; //!< upper context PCXI
-        osu32_t psw; //!< upper context PSW
-        void * a10; //!< upper context A10 (SP)
-        void * a11; //!< upper context A11 (RA)
-        osu32_t d8; //!< upper context D8
-        osu32_t d9; //!< upper context D9
-        osu32_t d10; //!< upper context D10
-        osu32_t d11; //!< upper context D11
-        osu32_t a12; //!< upper context A12
-        osu32_t a13; //!< upper context A13
-        osu32_t a14; //!< upper context A14
-        osu32_t a15; //!< upper context A15
-        osu32_t d12; //!< upper context D12
-        osu32_t d13; //!< upper context D13
-        osu32_t d14; //!< upper context D14
-        osu32_t d15; //!< upper context D15
-    } u; //!< upper context
-    struct {
-        osu32_t pcxi; //!< lower context PCXI
-        void (*pc)(void*,task_ptr_t); //!< lower context saved PC
-        osu32_t a2; //!< lower context A2
-        osu32_t a3; //!< lower context A3
-        osu32_t d0; //!< lower context D0
-        osu32_t d1; //!< lower context D1
-        osu32_t d2; //!< lower context D2
-        osu32_t d3; //!< lower context D3
-        void * a4; //!< lower context A4
-        void * a5; //!< lower context A5
-        osu32_t a6; //!< lower context A6
-        osu32_t a7; //!< lower context A7
-        osu32_t d4; //!< lower context D4
-        osu32_t d5; //!< lower context D5
-        osu32_t d6; //!< lower context D6
-        osu32_t d7; //!< lower context D7
-    } l; //!< lower context
-} context_t;
+
 
 inline context_t *cx_to_addr(osu32_t cx) {
     osu32_t seg_nr = __extru(cx, 16, 4);
