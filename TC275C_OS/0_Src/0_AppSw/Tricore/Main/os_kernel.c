@@ -50,9 +50,9 @@ allthreads_status_t core2_allthreads_status;
 OS_STATIC osu32_t  core0_mutex;
 OS_STATIC osu32_t  core1_mutex;
 OS_STATIC osu32_t  core2_mutex;
-OS_STATIC osu16_t  core0_os_stm_tick_count;
-OS_STATIC osu16_t  core1_os_stm_tick_count;
-OS_STATIC osu16_t  core2_os_stm_tick_count;
+OS_STATIC osu16_t  core0_os_tick_count;
+OS_STATIC osu16_t  core1_os_tick_count;
+OS_STATIC osu16_t  core2_os_tick_count;
 OS_STATIC osu32_t  core0_os_pthread_time_waiting;
 OS_STATIC osu32_t  core1_os_pthread_time_waiting;
 OS_STATIC osu32_t  core2_os_pthread_time_waiting;
@@ -762,7 +762,7 @@ OS_INLINE void os_kernel_in_tick(void)
 		tempt_index = tempt_index - 1;
 	    for(index = 0 ; index <= tempt_index ; index++)
 	    {
-		   if(stm_ticks[index] == core0_os_stm_tick_count)
+		   if(stm_ticks[index] == core0_os_tick_count)
 		  {		
 			cond_buffer[release_count] = stm_cond[index];
 			stm_ticks[index] = USHRT_MAX;                             // free place in array 
@@ -778,7 +778,7 @@ OS_INLINE void os_kernel_in_tick(void)
 		tempt_index = tempt_index - 1;
 	    for(index = 0 ; index <= tempt_index ; index++)
 	    {
-		   if(core1_os_stm_ticks[index] == core1_os_stm_tick_count)
+		   if(core1_os_stm_ticks[index] == core1_os_tick_count)
 		  {		
 			cond_buffer[release_count] = core1_os_stm_cond[index];
 			core1_os_stm_ticks[index] = USHRT_MAX;      
@@ -794,7 +794,7 @@ OS_INLINE void os_kernel_in_tick(void)
 		tempt_index = tempt_index - 1;
 	    for(index = 0 ; index <= tempt_index ; index++)
 	    {
-		   if(core2_os_stm_ticks[index] == core2_os_stm_tick_count)
+		   if(core2_os_stm_ticks[index] == core2_os_tick_count)
 		  {		
 			cond_buffer[release_count] = core2_os_stm_cond[index];
 			core2_os_stm_ticks[index] = USHRT_MAX;  
@@ -848,7 +848,7 @@ os32_t pthread_cond_timedwait_np(osu16_t reltime) //!< [in] relative time are th
 
 	if(current_core_id == CORE0_ID)
 	{	  	
-	  new_tick_count  = core0_os_stm_tick_count + 1;
+	  new_tick_count  = core0_os_tick_count + 1;
 	  set_count = ((osu16_t)(new_tick_count + reltime))%0xFFFF;  /* <CORE0> set_count ranges from 0 to 0xFFFE */
 
       /* <CORE0> Search the empty position. */
@@ -870,7 +870,7 @@ os32_t pthread_cond_timedwait_np(osu16_t reltime) //!< [in] relative time are th
 	}
 	else if(current_core_id == CORE1_ID)
 	{ 
-	  new_tick_count = core1_os_stm_tick_count + 1;
+	  new_tick_count = core1_os_tick_count + 1;
 	  set_count = ((osu16_t)(new_tick_count + reltime))%0xFFFF;  /* <CORE1> set_count ranges from 0 to 0xFFFE */
 
       /* <CORE1> Search the empty position. */
@@ -893,7 +893,7 @@ os32_t pthread_cond_timedwait_np(osu16_t reltime) //!< [in] relative time are th
 	}
 	else if(current_core_id == CORE2_ID)
 	{
-	  new_tick_count  = core2_os_stm_tick_count + 1;
+	  new_tick_count  = core2_os_tick_count + 1;
 	  set_count = ((osu16_t)(new_tick_count + reltime))%0xFFFF;  /* <CORE2> set_count ranges from 0 to 0xFFFE */
 
       /* <CORE2> Search the empty position. */
@@ -1005,12 +1005,26 @@ void pthread_enable_allinterrupt(void)
 }   /* End of os_enable_allinterrupt function */
 
 /****************************************************************************/
-/* DESCRIPTION: <EVERY CORE> The API(os_enable_allinterrupt) can be used    */
-/*              inside threads to enable all interrupts.This is an OS API   */
+/* DESCRIPTION: <EVERY CORE> The API(pthread_obtain_os_tick) can be used    */
+/*              inside threads to obtain os tick of core0,core1 and core2   */
 /****************************************************************************/
-void pthread_obtain_os_tick(os32_t core_id)
+osu16_t pthread_obtain_os_tick(os32_t core_id)
 {
-     
+   osu16_t core_curr_tick = 0;
+
+   if(core_id == CORE0_ID)
+   {
+      core_curr_tick = core0_os_tick_count;
+   }
+   else if(core_id == CORE1_ID)
+   {
+      core_curr_tick = core1_os_tick_count;
+   }
+   else if(core_id == CORE2_ID)
+   {
+      core_curr_tick = core2_os_tick_count;
+   }
+   return core_curr_tick;
 }  /* End of os_enable_allinterrupt function */
 
 /****************************************************************************/
@@ -1021,7 +1035,7 @@ void pthread_obtain_os_tick(os32_t core_id)
 void __interrupt(CORE0_KERNEL_TICK_INT_LEVEL) __vector_table(VECTOR_TABLE0) core0_kernel_tick_isr(void)
 {  
    /* <CORE0> OS tick ranges from 0-0xffff */
-   core0_os_stm_tick_count = ( core0_os_stm_tick_count + 1)%0xFFFF;  
+   core0_os_tick_count = ( core0_os_tick_count + 1)%0xFFFF;  
 
    /* <CORE0> Update the os tick of core0 */
    core0_kernel_update_os_tick(); 
@@ -1039,7 +1053,7 @@ void __interrupt(CORE0_KERNEL_TICK_INT_LEVEL) __vector_table(VECTOR_TABLE0) core
 void __interrupt(CORE1_KERNEL_TICK_INT_LEVEL) __vector_table(VECTOR_TABLE0) core1_kernel_tick_isr(void)
 { 
    /* <CORE1> OS tick ranges from 0-0xffff */
-   core1_os_stm_tick_count = ( core1_os_stm_tick_count + 1)%0xFFFF; 
+   core1_os_tick_count = ( core1_os_tick_count + 1)%0xFFFF; 
 
    /* <CORE1> Update the os tick of core1 */
    core1_kernel_update_os_tick();  
@@ -1058,7 +1072,7 @@ void __interrupt(CORE1_KERNEL_TICK_INT_LEVEL) __vector_table(VECTOR_TABLE0) core
 void __interrupt(CORE2_KERNEL_TICK_INT_LEVEL) __vector_table(VECTOR_TABLE0) core2_kernel_tick_isr(void)
 {  
    /* <CORE2> OS tick ranges from 0-0xffff */
-   core2_os_stm_tick_count = (core2_os_stm_tick_count + 1)%0xFFFF; 
+   core2_os_tick_count = (core2_os_tick_count + 1)%0xFFFF; 
 
    /* <CORE2> Update the os tick of core2 */
    core2_kernel_update_os_tick(); 
