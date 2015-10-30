@@ -930,38 +930,20 @@ void os_suspend_allthreads(void)
 	/* Because the scheduler logic is located in stm tick interrupt, and */
    osu32_t current_cpu_id = os_getCoreId();
 
-   if(current_cpu_id == CORE0)
+   if((current_cpu_id == CORE0)&&
+   	 (core0_allthreads_status == ALLTHREADS_WORKING))
    {	
-   	   if(core0_allthreads_status == ALLTHREADS_WORKING)
-	   {   
-	   	   core0_allthreads_status = ALLTHREADS_SUSPENDED;
-	   }
-	   else
-	   {
-		   	    /* Do nothing. */
-	   }
+      core0_allthreads_status = ALLTHREADS_SUSPENDED;
    }
-   else if(current_cpu_id == CORE1)
+   else if((current_cpu_id == CORE1)&&
+   	      (core1_allthreads_status == ALLTHREADS_WORKING))
    {
-   	   if(core1_allthreads_status == ALLTHREADS_WORKING)
-	   {   
-	   	   core1_allthreads_status = ALLTHREADS_SUSPENDED;
-	   }
-	   else
-	   {
-		   	    /* Do nothing. */
-	   }	
+      core1_allthreads_status = ALLTHREADS_SUSPENDED;
    }
-   else if(current_cpu_id == CORE2)
+   else if((current_cpu_id == CORE2)&&
+   	      (core2_allthreads_status == ALLTHREADS_WORKING))
    {
-   	   if(core2_allthreads_status == ALLTHREADS_WORKING)
-	   {   
-	   	   core2_allthreads_status = ALLTHREADS_SUSPENDED;
-	   }
-	   else
-	   {
-		   	    /* Do nothing. */
-	   }	
+   	  core2_allthreads_status = ALLTHREADS_SUSPENDED;
    }
 } /* End of os_suspend_allthreads function */
 
