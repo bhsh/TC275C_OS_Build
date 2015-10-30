@@ -613,7 +613,7 @@ OS_INLINE void dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t
 /*    <EVERY CORE> Only reschedule all threads that have been actived       */
 /*    without changing the scheduling table                                 */
 /****************************************************************************/
-OS_STATIC void trapsystem(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
+OS_STATIC void os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
     os32_t tin, i;
     pthread_t thread, tmp;
 
@@ -745,7 +745,7 @@ OS_STATIC void trapsystem(pthread_t *blocked_threads_ptr, pthread_t last_thread)
 		 core_returnMutex(&core2_mutex);		
 	}
      pthread_start_np();
-} /* End of trapsystem function */
+} /* End of os_kernel function */
 
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> The API(schedule_in_tick) is used inside the   */
@@ -826,12 +826,12 @@ OS_INLINE void schedule_in_tick(void)
 		
 	   cond   =cond_buffer[0];  /* <EVERY CORE> Get the current condition */
 
-	   /* <EVERY CORE> Setup parameter and jump to trapsystem */
+	   /* <EVERY CORE> Setup parameter and jump to os_kernel */
 	   __asm( " mov.aa a4,%0 \n"
 	          " mov.aa a5,%1 \n"
 	          " mov d15,%2   \n"
-	          " jg trapsystem  "
-	          ::"a"(&cond->blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
+	          " jg os_kernel  "
+	          ::"a"(&cond->blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(os_kernel):"a4","a5","d15");
 	 }
 } /* End of schedule_in_tick function */
 
@@ -1124,12 +1124,12 @@ void __interrupt(12) __vector_table(0) Ifx_STM2_Isr(void)
 /****************************************************************************/
 void __interrupt(9) __vector_table(0) CPU0_SOFT0_Isr(void)
 {
-    __asm("; setup parameter and jump to trapsystem \n"
+    __asm("; setup parameter and jump to os_kernel \n"
             " mov.aa a4,%0 \n"
             " mov.aa a5,%1 \n"
             " mov d15,%2 \n"
-            " jg trapsystem"
-            ::"a"(&core0_os_blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
+            " jg os_kernel"
+            ::"a"(&core0_os_blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(os_kernel):"a4","a5","d15");
 } /* End of CPU0_SOFT0_Isr interrupt */
 
 /****************************************************************************/
@@ -1139,12 +1139,12 @@ void __interrupt(9) __vector_table(0) CPU0_SOFT0_Isr(void)
 /****************************************************************************/
 void __interrupt(8) __vector_table(0) CPU1_SOFT0_Isr(void)
 {
-    __asm("; setup parameter and jump to trapsystem \n"
+    __asm("; setup parameter and jump to os_kernel \n"
             " mov.aa a4,%0 \n"
             " mov.aa a5,%1 \n"
             " mov d15,%2 \n"
-            " jg trapsystem"
-            ::"a"(&core1_os_blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
+            " jg os_kernel"
+            ::"a"(&core1_os_blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(os_kernel):"a4","a5","d15");
 } /* End of CPU1_SOFT0_Isr interrupt */
 
 /****************************************************************************/
@@ -1154,12 +1154,12 @@ void __interrupt(8) __vector_table(0) CPU1_SOFT0_Isr(void)
 /****************************************************************************/
 void __interrupt(7) __vector_table(0) CPU2_SOFT0_Isr(void)
 {
-    __asm("; setup parameter and jump to trapsystem \n"
+    __asm("; setup parameter and jump to os_kernel \n"
             " mov.aa a4,%0 \n"
             " mov.aa a5,%1 \n"
             " mov d15,%2 \n"
-            " jg trapsystem"
-            ::"a"(&core2_os_blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
+            " jg os_kernel"
+            ::"a"(&core2_os_blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(os_kernel):"a4","a5","d15");
 } /* End of CPU2_SOFT0_Isr interrupt */
 
 /****************************************************************************/
@@ -1178,8 +1178,8 @@ void Os_Kernel_Trap_systemCall_Core0(osu32_t tin)
 {
     __asm(  " mtcr #ICR,%0    \n"
             " isync           \n"
-            " jg trapsystem     "
-            ::"d"(1 << 15 | PTHREAD_USER_INT_LEVEL),"a"(trapsystem):"a4","a5","d15");
+            " jg os_kernel     "
+            ::"d"(1 << 15 | PTHREAD_USER_INT_LEVEL),"a"(os_kernel):"a4","a5","d15");
 } /* End of Os_Kernel_Trap_systemCall_Core0 function */
 
 /****************************************************************************/
@@ -1191,8 +1191,8 @@ void Os_Kernel_Trap_systemCall_Core1(osu32_t tin)
 	/* Kernel begins        */
     __asm(  " mtcr #ICR,%0    \n"
             " isync           \n"
-            " jg trapsystem     "
-            ::"d"(1 << 15 | PTHREAD_USER_INT_LEVEL),"a"(trapsystem):"a4","a5","d15");
+            " jg os_kernel     "
+            ::"d"(1 << 15 | PTHREAD_USER_INT_LEVEL),"a"(os_kernel):"a4","a5","d15");
 } /* End of Os_Kernel_Trap_systemCall_Core1 function */
 
 /****************************************************************************/
@@ -1202,8 +1202,8 @@ void Os_Kernel_Trap_systemCall_Core2(osu32_t tin)
 {
     __asm(  " mtcr #ICR,%0    \n"
             " isync           \n"
-            " jg trapsystem     "
-            ::"d"(1 << 15 | PTHREAD_USER_INT_LEVEL),"a"(trapsystem):"a4","a5","d15");
+            " jg os_kernel     "
+            ::"d"(1 << 15 | PTHREAD_USER_INT_LEVEL),"a"(os_kernel):"a4","a5","d15");
 } /* End of Os_Kernel_Trap_systemCall_Core2 function */
 
 
