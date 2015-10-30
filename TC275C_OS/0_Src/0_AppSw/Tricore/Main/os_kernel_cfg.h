@@ -22,9 +22,9 @@
 /****************************************************************************/
 /* Core ID Definitions For Os Kernel                                        */
 /****************************************************************************/
-#define CORE0 0   /* Core0 ID definition */
-#define CORE1 1   /* Core0 ID definition */
-#define CORE2 2   /* Core0 ID definition */
+#define CORE0_ID 0   /* Core0 ID definition */
+#define CORE1_ID 1   /* Core1 ID definition */
+#define CORE2_ID 2   /* Core2 ID definition */
 
 /****************************************************************************/
 /* Configuration Definitions For Os Kernel                                  */

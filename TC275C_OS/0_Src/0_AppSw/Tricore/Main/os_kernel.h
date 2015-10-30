@@ -19,9 +19,9 @@
 /* Macro Definitions                                                        */
 /****************************************************************************/
 #define __fCPU 200
-#define CORE0_PTHREAD_COND_INITIALIZER {CORE0,0,NULL}
-#define CORE1_PTHREAD_COND_INITIALIZER {CORE1,0,NULL}
-#define CORE2_PTHREAD_COND_INITIALIZER {CORE2,0,NULL}
+#define CORE0_PTHREAD_COND_INITIALIZER {CORE0_ID,0,NULL}
+#define CORE1_PTHREAD_COND_INITIALIZER {CORE1_ID,0,NULL}
+#define CORE2_PTHREAD_COND_INITIALIZER {CORE2_ID,0,NULL}
 #define assert(_expr)  \
        ((void) (!(_expr) ? __debug(): (void) 0))
 #define PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_stacksize) static struct { \
@@ -173,7 +173,7 @@ OS_INLINE void pthread_start_np(void) {
 
     pthread_t thread = (void*)0;
  
-	if(os_getCoreId()==CORE0)
+	if(os_getCoreId()== CORE0_ID)
 	{  
 	      assert(core0_os_pthread_runnable != 0);
 		  if(core0_allthreads_status == ALLTHREADS_WORKING)
@@ -188,7 +188,7 @@ OS_INLINE void pthread_start_np(void) {
 				  thread = core0_os_pthread_running;
 		  }
 	}
-    else if(os_getCoreId()==CORE1)
+    else if(os_getCoreId()== CORE1_ID)
 	{
 	      assert(core1_os_pthread_runnable != 0);
 		  if(core1_allthreads_status == ALLTHREADS_WORKING)
@@ -203,7 +203,7 @@ OS_INLINE void pthread_start_np(void) {
 				  thread = core1_os_pthread_running;
 		  }
 	}
-	else if(os_getCoreId()==CORE2)
+	else if(os_getCoreId()== CORE2_ID)
 	{
 	      assert(core2_os_pthread_runnable != 0);
 		  if(core2_allthreads_status == ALLTHREADS_WORKING)
