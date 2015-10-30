@@ -959,66 +959,33 @@ void os_restore_allthreads(void)
 	/* Because the scheduler logic is located in stm tick interrupt, and */
    osu32_t current_cpu_id = os_getCoreId();
 
-   if(current_cpu_id == CORE0)
+   if((current_cpu_id == CORE0)&&
+   	  (core0_allthreads_status == ALLTHREADS_SUSPENDED))
    {  
-   	   if(core0_allthreads_status == ALLTHREADS_SUSPENDED)
-	   {  
-	   	     core0_allthreads_status = ALLTHREADS_WORKING;
-		     /* If there is thread higher than the current thread, switch the contex. else keep */
-		     if(core0_os_pthread_running->priority < ((PTHREAD_PRIO_MAX-1) - __clz(core0_os_pthread_runnable)))
-			 {
-               dispatch_only(NULL,NULL);     
-			 }
-			 else
-			 {
-			      /* Do nothing. */
-			 }
-	   }
-	   else
-	   {
-		   	    /* Do nothing. */
-	   }	   
+	  core0_allthreads_status = ALLTHREADS_WORKING;
+	  
+	  /* <CORE0> If there is thread higher than the current thread, switch the context. else keep */
+	  if(core0_os_pthread_running->priority < 
+	  	 ((PTHREAD_PRIO_MAX-1) - __clz(core0_os_pthread_runnable))) dispatch_only(NULL,NULL);     
    }
-   else if(current_cpu_id == CORE1)
+   else if((current_cpu_id == CORE1)&&
+   	       (core1_allthreads_status == ALLTHREADS_SUSPENDED))
    {
-   	   if(core1_allthreads_status == ALLTHREADS_SUSPENDED)
-	   {  
-	   	  	 core1_allthreads_status = ALLTHREADS_WORKING;
-		     /* If there is thread higher than the current thread, switch the contex. else keep */
-		     if(core1_os_pthread_running->priority < ((PTHREAD_PRIO_MAX-1) - __clz(core1_os_pthread_runnable)))
-			 {
-               dispatch_only(NULL,NULL);     
-			 }
-			 else
-			 {
-			      /* Do nothing. */
-			 }		  
-	   }
-	   else
-	   {
-		   	    /* Do nothing. */
-	   }
+	   core1_allthreads_status = ALLTHREADS_WORKING;
+	   
+	   /* <CORE1> If there is thread higher than the current thread, switch the context. else keep */
+	   if(core1_os_pthread_running->priority < 
+	   	  ((PTHREAD_PRIO_MAX-1) - __clz(core1_os_pthread_runnable))) dispatch_only(NULL,NULL);     
    }
-   else if(current_cpu_id == CORE2)
+   else if((current_cpu_id == CORE2)&&
+   	       (core2_allthreads_status == ALLTHREADS_SUSPENDED))
    {
-   	   if(core2_allthreads_status == ALLTHREADS_SUSPENDED)
-	   {  
-	   	  	 core2_allthreads_status = ALLTHREADS_WORKING;
-		     if(core2_os_pthread_running->priority < ((PTHREAD_PRIO_MAX-1) - __clz(core2_os_pthread_runnable)))
-			 {
-               dispatch_only(NULL,NULL);     
-			 }
-			 else
-			 {
-			      /* Do nothing. */
-			 }		
-	   }
-	   else
-	   {
-		   	    /* Do nothing. */
-	   }	
+	   core2_allthreads_status = ALLTHREADS_WORKING;
+	   
+	   /* <CORE2> If there is thread higher than the current thread, switch the context. else keep */
+	   if(core2_os_pthread_running->priority < 
+	   	  ((PTHREAD_PRIO_MAX-1) - __clz(core2_os_pthread_runnable))) dispatch_only(NULL,NULL);     
    }
- 
 } /* End of os_restore_allthreads function */
 
 /****************************************************************************/
