@@ -635,15 +635,15 @@ inline void dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t la
 	 }
 }
 
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|               Trap class 6 handler (System trap) called by
-|               __syscallfunc(DISPATCH_WAIT)  int dispatch_wait(void *, void *);
-|               __syscallfunc(DISPATCH_SIGNAL) int dispatch_signal(void *, void *);
-|
---------------------------------------------------------------------------------------*/
-//#pragma align 4
+/****************************************************************************/
+/* DESCRIPTION: <EVERY CORE>  Os kernel logic that can be called by trap 6  */
+/*              and software interrupts that are used for thread activation */
+/*                                                                          */
+/* OPTIONS:                                                                 */
+/*    __syscallfunc(DISPATCH_WAIT)   int dispatch_wait(void *, void *);     */
+/*    __syscallfunc(DISPATCH_SIGNAL) int dispatch_signal(void *, void *);   */
+/*    __syscallfunc(DISPATCH_ONLY)   int dispatch_only(void *, void *);     */
+/****************************************************************************/
 static void trapsystem(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
     int tin, i;
     pthread_t thread, tmp;
@@ -773,14 +773,13 @@ static void trapsystem(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
 		 core_returnMutex(&core2_mutex);		
 	}
      pthread_start_np();
-}
-//#pragma align restore
-/*-------------------------------------------------------------------------------------
-|
-|   Description:
-|           schedule_in_tick
-|           
---------------------------------------------------------------------------------------*/
+} /* End of trapsystem function */
+
+/****************************************************************************/
+/* DESCRIPTION: <EVERY CORE> The API(schedule_in_tick) is used inside the   */
+/*              tick interrupts of STM0,STM1 and STM2 to deal with periodic */
+/*              thread scheduling events                                    */
+/****************************************************************************/
 inline void schedule_in_tick(void)
 {
      pthread_cond_t  *cond;
@@ -837,7 +836,10 @@ inline void schedule_in_tick(void)
 			  }
 	    }
 	 }
-    //setup parameter and jump to trapsystem
+
+    /* <EVERY CORE> If more than one threads that haved been set to periodic */
+	/* mode have reached the waiting time,the logic is entered in order to   */
+	/* reschedule the threads                                                */
 	if(release_count!=0)
 	{
 	   assert(cond_buffer[0] != NULL);
@@ -850,14 +852,16 @@ inline void schedule_in_tick(void)
 		   }
 	  assert(cond_buffer[0] != NULL);
 		
-	   cond   =cond_buffer[0];                        // get current condition
+	   cond   =cond_buffer[0];  /* <EVERY CORE> Get the current condition */
+
+	   /* <EVERY CORE> Setup parameter and jump to trapsystem */
 	   __asm( " mov.aa a4,%0 \n"
 	          " mov.aa a5,%1 \n"
 	          " mov d15,%2   \n"
 	          " jg trapsystem  "
 	          ::"a"(&cond->blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
 	 }
-}
+} /* End of schedule_in_tick function */
 
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> The API(pthread_cond_timedwait_np) can be used */
