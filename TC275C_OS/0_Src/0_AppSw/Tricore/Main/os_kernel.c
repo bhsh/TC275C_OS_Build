@@ -641,8 +641,14 @@ inline void dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t la
 /*                                                                          */
 /* OPTIONS:                                                                 */
 /*    __syscallfunc(DISPATCH_WAIT)   int dispatch_wait(void *, void *);     */
+/*    <EVERY CORE> Make threads that have been actived be blocked>          */
+/*                                                                          */
 /*    __syscallfunc(DISPATCH_SIGNAL) int dispatch_signal(void *, void *);   */
+/*    <EVERY CORE> Make threads that have been blocked be actived           */
+/*                                                                          */
 /*    __syscallfunc(DISPATCH_ONLY)   int dispatch_only(void *, void *);     */
+/*    <EVERY CORE> Only reschedule all threads that have been actived       */
+/*    without changing the scheduling table                                 */
 /****************************************************************************/
 static void trapsystem(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
     int tin, i;
@@ -689,7 +695,8 @@ static void trapsystem(pthread_t *blocked_threads_ptr, pthread_t last_thread) {
           default:
               break;
          }
-		 /* unlock core0_mutex */
+		
+		 /* <CORE0> Unlock core0_mutex */
 		 core_returnMutex(&core0_mutex);
 	}
 	else if(os_getCoreId()==CORE1)
