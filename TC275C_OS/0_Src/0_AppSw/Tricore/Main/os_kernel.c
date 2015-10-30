@@ -469,7 +469,7 @@ int pthread_cond_wait(pthread_cond_t *cond)//!< [in] condition pointer
 /*              The thread and interrupt in one core can active the thread  */
 /*              of another core                                             */
 /****************************************************************************/
-int pthread_cond_broadcast(pthread_cond_t *cond) //!< [in] condition pointer
+int pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition pointer */
 {
     assert(cond!=NULL);
 	uint32_t current_cpu_id = os_getCoreId();
@@ -485,7 +485,7 @@ int pthread_cond_broadcast(pthread_cond_t *cond) //!< [in] condition pointer
 			 if((cond_core_id == current_cpu_id)&&(0 == cppn()))
 		     {		
 	              /* <EVERY CORE> _pthread_running on CCPN=0 */
-	              dispatch_signal(&cond->blocked_threads, cond->blocked_threads->prev);// swap in with mutex unlocked
+	              dispatch_signal(&cond->blocked_threads, cond->blocked_threads->prev);
 		     }
 	         else
 			 {
