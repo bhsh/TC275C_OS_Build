@@ -32,30 +32,30 @@
 /* Global Variable Definitions                                              */
 /****************************************************************************/
 uint32_t  core0_os_pthread_runnable;
+uint32_t  core1_os_pthread_runnable;
+uint32_t  core2_os_pthread_runnable;
 pthread_t core0_os_pthread_running;
-pthread_t core0_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
-uint32_t core1_os_pthread_runnable;
 pthread_t core1_os_pthread_running;
-pthread_t core1_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
-uint32_t core2_os_pthread_runnable;
 pthread_t core2_os_pthread_running;
+pthread_t core0_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
+pthread_t core1_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
 pthread_t core2_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
-uint16_t stm_tick_count;
-uint16_t core1_os_stm_tick_count;
-uint16_t core2_os_stm_tick_count;
-uint32_t core0_os_pthread_time_waiting;
-uint32_t core1_os_pthread_time_waiting;
-uint32_t core2_os_pthread_time_waiting;
-allthreads_status_t core0_allthreads_status = ALLTHREADS_WORKING;
-allthreads_status_t core1_allthreads_status = ALLTHREADS_WORKING;
-allthreads_status_t core2_allthreads_status = ALLTHREADS_WORKING;
-unsigned int core0_mutex=0;
-unsigned int core1_mutex=0;
-unsigned int core2_mutex=0;
+allthreads_status_t core0_allthreads_status;
+allthreads_status_t core1_allthreads_status;
+allthreads_status_t core2_allthreads_status;
 
 /****************************************************************************/
 /* Static Variable Definitions                                              */
 /****************************************************************************/
+static uint32_t  core0_mutex;
+static uint32_t  core1_mutex;
+static uint32_t  core2_mutex;
+static uint16_t  core0_os_stm_tick_count;
+static uint16_t  core1_os_stm_tick_count;
+static uint16_t  core2_os_stm_tick_count;
+static uint32_t  core0_os_pthread_time_waiting;
+static uint32_t  core1_os_pthread_time_waiting;
+static uint32_t  core2_os_pthread_time_waiting;
 static pthread_t core0_os_blocked_threads;
 static pthread_t core1_os_blocked_threads;
 static pthread_t core2_os_blocked_threads;
@@ -132,10 +132,10 @@ static pthread_cond_t  core2_os_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
 /****************************************************************************/
 /* Extern Variable Definitions                                              */
 /****************************************************************************/
-extern uint32 stm0CompareValue;
-extern uint32 stm1CompareValue;
-extern uint32 stm2CompareValue;
-extern uint32 stm0CompareValue2;
+extern osu32_t  stm0CompareValue;
+extern osu32_t  stm1CompareValue;
+extern osu32_t  stm2CompareValue;
+extern osu32_t  stm0CompareValue2;
 
 /****************************************************************************/
 /* Function Prototype Definitions                                           */
@@ -763,7 +763,7 @@ inline void schedule_in_tick(void)
 		tempt_index = tempt_index - 1;
 	    for(index = 0 ; index <= tempt_index ; index++)
 	    {
-		      if(stm_ticks[index] == stm_tick_count)
+		      if(stm_ticks[index] == core0_os_stm_tick_count)
 			  {		
 				cond_buffer[release_count] = stm_cond[index];
 				stm_ticks[index]           = USHRT_MAX;                             // free place in array 
@@ -848,7 +848,7 @@ int pthread_cond_timedwait_np(uint16_t reltime) //!< [in] relative time are the 
 
 	if(os_getCoreId()==CORE0)
 	{	  	
-	  new_tick_count  = stm_tick_count + 1;
+	  new_tick_count  = core0_os_stm_tick_count + 1;
 	  set_count = ((uint16_t)(new_tick_count + reltime))%0xFFFF;  /* <CORE0> set_count ranges from 0 to 0xFFFE */
 
       /* <CORE0> Search the empty position. */
@@ -1065,7 +1065,7 @@ void os_enable_allinterrupt(void)
 void __interrupt(10) __vector_table(0) Ifx_STM0_Isr(void)
 {  
    /* <CORE0> OS tick ranges from 0-0xffff */
-   stm_tick_count=(stm_tick_count+1)%0xFFFF;  
+   core0_os_stm_tick_count=(core0_os_stm_tick_count+1)%0xFFFF;  
 
    /* <CORE0> Update the os tick of core0 */
    update_stm0_ticks(); 
