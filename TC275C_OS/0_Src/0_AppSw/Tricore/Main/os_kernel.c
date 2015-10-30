@@ -994,7 +994,7 @@ void os_restore_allthreads(void)
 /****************************************************************************/
 void os_disable_allinterrupts(void)
 {
-   __enable();
+  __asm volatile ("enable" : : : "memory");
 } /* End of os_disable_allinterrupts function */
 
 /****************************************************************************/
@@ -1004,9 +1004,8 @@ void os_disable_allinterrupts(void)
 /****************************************************************************/
 void os_enable_allinterrupt(void)
 {
-  __disable();
-  __nop();
-
+  __asm volatile ("disable" : : : "memory");
+  __asm volatile ("nop" : : : "memory");
 } /* End of os_enable_allinterrupt function */
 
 /****************************************************************************/
