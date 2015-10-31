@@ -20,6 +20,10 @@
 #define  os_kernel_update_core1_tick()  LowDriver_Update_CORE1_OS_Tick()
 #define  os_kernel_update_core2_tick()  LowDriver_Update_CORE2_OS_Tick()
 
+#define  CORE0_INITIALIZE_OS_TICK_BLOCK()   LowDriver_Initialize_CORE0_OS_Tick();
+#define  CORE1_INITIALIZE_OS_TICK_BLOCK()   LowDriver_Initialize_CORE1_OS_Tick();
+#define  CORE2_INITIALIZE_OS_TICK_BLOCK()   LowDriver_Initialize_CORE2_OS_Tick(); 
+
 extern void get_thread_init_stack_address(osu32_t,osu32_t,osu32_t);
 extern void os_trace_thread_timeslot(osu32_t ,osu32_t);
 

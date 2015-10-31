@@ -104,4 +104,4 @@ void CORE0_TASK98(pthread_config_t *pthread_config);
 void CORE0_TASK99(pthread_config_t *pthread_config);
 void CORE0_TASK100(pthread_config_t *pthread_config);
 
-#endif
+#endif /* End of CORE0_TASKS_H_*/

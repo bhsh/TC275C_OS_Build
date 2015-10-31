@@ -635,6 +635,10 @@ void start_core2_os(void) {
 
 
 #if (CORE2_OS_SWITCH == ON)
+    /* <CORE0> Setup os tick */
+    CORE2_INITIALIZE_OS_TICK_BLOCK()	
+
+    /* <CORE0> Create threads that are used */
 #if (CORE2_THREAD0_SWITCH == ON) 
     CORE2_PTHREAD_CREATION_BLOCK(0)
 #endif

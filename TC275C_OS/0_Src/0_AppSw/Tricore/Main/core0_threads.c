@@ -1,13 +1,11 @@
-/*-----------------------------------------------------------------------------------
-|
-|   File name:    Appcore0.c
-|   Created on:   Aug 26, 2015
-|   Author:       Yanpeng.xi
-|   Description:
-|                 Multicore OS based on Aurix 275C app kit and TASKING 4.3 compiler
-|
---------------------------------------------------------------------------------------*/
-
+/****************************************************************************/
+/* FILE NAME:    core0_threads.c                                            */
+/* CREATE ON:    Aug 26, 2015                                               */
+/* AUTHER:       Yanpeng.xi                                                 */
+/* DESCRIPTION:  The c file includes the kernel logic of AURIX 3-core os    */
+/* COMMENT:      Multicore OS based on Aurix 275C app kit and TASKING 4.3   */
+/*               compiler                                                   */
+/****************************************************************************/
 #include "os_type.h"
 #include "os.h"
 #include <stdlib.h>
@@ -633,7 +631,12 @@
 
 void start_core0_os(void) {
 
+
 #if (CORE0_OS_SWITCH == ON)
+    /* <CORE0> Setup os tick */
+    CORE0_INITIALIZE_OS_TICK_BLOCK()	
+
+    /* <CORE0> Create threads that are used */
 #if (CORE0_THREAD0_SWITCH == ON) 
     CORE0_PTHREAD_CREATION_BLOCK(0)
 #endif
