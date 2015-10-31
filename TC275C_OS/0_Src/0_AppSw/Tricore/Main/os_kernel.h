@@ -19,12 +19,17 @@
 /* Macro Definitions                                                        */
 /****************************************************************************/
 #define __fCPU 200
-#define CORE0_PTHREAD_COND_INITIALIZER {CORE0_ID,0,NULL}
-#define CORE1_PTHREAD_COND_INITIALIZER {CORE1_ID,0,NULL}
-#define CORE2_PTHREAD_COND_INITIALIZER {CORE2_ID,0,NULL}
+//#define CORE0_PTHREAD_COND_INITIALIZER {CORE0_ID,0,0,NULL}
+//#define CORE1_PTHREAD_COND_INITIALIZER {CORE1_ID,0,0,NULL}
+//#define CORE2_PTHREAD_COND_INITIALIZER {CORE2_ID,0,0,NULL}
 #define CORE0_PTHREAD_TIMEWAIT_INITIALIZER {NULL}
 #define CORE1_PTHREAD_TIMEWAIT_INITIALIZER {NULL}
 #define CORE2_PTHREAD_TIMEWAIT_INITIALIZER {NULL}
+
+#define CORE0_PTHREAD_COND_INIT_CONFIG(thread_id) {CORE0_ID,0,thread_id,NULL},
+#define CORE1_PTHREAD_COND_INIT_CONFIG(thread_id) {CORE1_ID,0,thread_id,NULL}, 
+#define CORE2_PTHREAD_COND_INIT_CONFIG(thread_id) {CORE2_ID,0,thread_id,NULL}, 
+
 #define assert(_expr)  \
        ((void) (!(_expr) ? __debug(): (void) 0))
 #define PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_stacksize) static struct { \
@@ -88,7 +93,8 @@ typedef struct pthread_s { /* <struct><pthread_t> Describe the thread record */
 
 typedef struct { /* <struct><pthread_cond_t> Describe the thread condition */
     const osu32_t core_id; /* The core id of the thread actived */
-    osu32_t       multi_semaphore; /* Semaphore is used for many activations at one moment */
+    osu32_t       semaphore; /* Semaphore is used for many activations at one moment */
+	osu32_t       thread_order_num; /* thread_order_num indicates the thread serial number */
     pthread_t     blocked_threads; /* list threads waiting for condition */
 } pthread_cond_t;
 
@@ -167,15 +173,15 @@ OS_INLINE osu32_t os_getCoreId(void)
 /* DESCRIPTION: <EVERY CORE> Start threads                                  */
 /****************************************************************************/
 OS_INLINE void pthread_start_np(void) {
-    extern  osu32_t   core0_os_pthread_runnable;
-	extern  osu32_t   core1_os_pthread_runnable;
-	extern  osu32_t   core2_os_pthread_runnable;
-    extern  pthread_t core0_os_pthread_running;
-    extern  pthread_t core1_os_pthread_running;
-    extern  pthread_t core2_os_pthread_running;
-    extern  pthread_t core0_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
-    extern  pthread_t core1_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
-    extern  pthread_t core2_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
+    extern  osu32_t           core0_os_pthread_runnable;
+	extern  osu32_t           core1_os_pthread_runnable;
+	extern  osu32_t           core2_os_pthread_runnable;
+    extern  pthread_t         core0_os_pthread_running;
+    extern  pthread_t         core1_os_pthread_running;
+    extern  pthread_t         core2_os_pthread_running;
+    extern  pthread_t         core0_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
+    extern  pthread_t         core1_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
+    extern  pthread_t         core2_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
 	extern  pthreads_status_t core0_os_pthreads_status;
 	extern  pthreads_status_t core1_os_pthreads_status;
 	extern  pthreads_status_t core2_os_pthreads_status;

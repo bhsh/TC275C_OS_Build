@@ -416,17 +416,17 @@ os32_t pthread_cond_wait(pthread_cond_t *cond)/* <*cond> condition pointer */
     assert(cppn()==0); /* CCPN must be 0, pthread_create cannot be called from ISR */
     assert(cond!= NULL); /* Make sure there is one condition argument. If no, __debug() will be entered */
 
-	//if(cond->multi_semaphore <= 1)
+	//if(cond->semaphore <= 1)
 	//{  
-	//    cond->multi_semaphore = 0;
+	//    cond->semaphore = 0;
 
 	    /* <EVERY CORE> Add this thread to the list of blocked threads by this cond */
         dispatch_wait(&cond->blocked_threads, NULL);
     //}
     //else
 	//{  
-	   /* cond->multi_semaphore > 1 */
-    //   cond->multi_semaphore--;
+	   /* cond->semaphore > 1 */
+    //   cond->semaphore --;
 	//}	
     return 0;/* Dummy to avoid warning */
 } /* End of pthread_cond_wait function */
@@ -444,9 +444,9 @@ os32_t pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition pointer
 	osu32_t cond_core_id   = cond->core_id;
 
 #if 0
-	if(cond->multi_semaphore == 0)
+	if(cond->semaphore == 0)
 	{
-      cond->multi_semaphore = 1;
+      cond->semaphore = 1;
 #endif
       if (cond->blocked_threads != NULL)
 	  {	 
@@ -526,7 +526,7 @@ os32_t pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition pointer
 	}
 	else
 	{
-       cond->multi_semaphore++;
+       cond->semaphore ++;
 	}
 #endif
 	return 0; /* Dummy to avoid warning */
