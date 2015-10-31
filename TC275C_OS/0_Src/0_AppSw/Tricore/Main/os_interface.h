@@ -22,7 +22,7 @@
 OS_EXTERN osu32_t  stm0CompareValue;
 OS_EXTERN osu32_t  stm1CompareValue;
 OS_EXTERN osu32_t  stm2CompareValue;
-inline osu32_t os_getUstack_address(void)
+OS_INLINE osu32_t os_getUstack_address(void)
 {  
    osu32_t *res;
    __asm volatile ("mov.aa %0, a10": "=a" (res) : :"a10");
@@ -31,7 +31,7 @@ inline osu32_t os_getUstack_address(void)
 /****************************************************************************/
 /* DESCRIPTION: <CORE0> Update stm0 compare1                                */
 /****************************************************************************/
-OS_INLINE void core0_kernel_update_os_tick(void) 
+OS_INLINE void LowDriver_Update_Core0_Tick(void) 
 {
     osu32_t core0_ticks;
 
@@ -40,12 +40,12 @@ OS_INLINE void core0_kernel_update_os_tick(void)
 		                  IfxStm_Comparator_0,
 	                      IfxStm_getCompare (&MODULE_STM0, IfxStm_Comparator_0) + core0_ticks);
 
-} /* End of core0_kernel_update_os_tick function */
+} /* End of LowDriver_Update_Core0_Tick function */
 
 /****************************************************************************/
 /* DESCRIPTION: <CORE1> Update stm1 compare1                                */
 /****************************************************************************/
-OS_INLINE void core1_kernel_update_os_tick(void)
+OS_INLINE void LowDriver_Update_Core1_Tick(void)
 {
     osu32_t core1_ticks;
 	
@@ -54,12 +54,12 @@ OS_INLINE void core1_kernel_update_os_tick(void)
 		                  IfxStm_Comparator_0, 
 		                  IfxStm_getCompare (&MODULE_STM1, IfxStm_Comparator_0) + core1_ticks);
 
-} /* End of core1_kernel_update_os_tick function */
+} /* End of LowDriver_Update_Core1_Tick function */
 
 /****************************************************************************/
 /* DESCRIPTION: <CORE2> Update stm0 compare1                                */
 /****************************************************************************/
-OS_INLINE void core2_kernel_update_os_tick(void)
+OS_INLINE void LowDriver_Update_Core2_Tick(void)
 {
     osu32_t core2_ticks;
 	
@@ -68,7 +68,7 @@ OS_INLINE void core2_kernel_update_os_tick(void)
 		                  IfxStm_Comparator_0, 
 		                  IfxStm_getCompare (&MODULE_STM2, IfxStm_Comparator_0) + core2_ticks);
 
-} /* End of core2_kernel_update_os_tick function */
+} /* End of LowDriver_Update_Core2_Tick function */
 OS_EXTERN void    os_wait_in_us(osu32_t time);
 OS_EXTERN osu32_t os_getstmlower_count(void);
 OS_EXTERN void    osPort_togglePin(osu8_t pin_num);

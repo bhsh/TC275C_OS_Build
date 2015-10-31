@@ -142,8 +142,6 @@ OS_INLINE void core_returnMutex(osu32_t *mutex)
   *mutex=0x0;
 } /* End of core_returnMutex function */
 
-
-
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Append an element at the end of a list         */
 /****************************************************************************/
@@ -984,7 +982,7 @@ void __interrupt(CORE0_KERNEL_TICK_INT_LEVEL) __vector_table(VECTOR_TABLE0) core
     core0_os_tick_count = ( core0_os_tick_count + 1)%0xFFFF;  
 
     /* <CORE0> Update the os tick of core0 */
-    core0_kernel_update_os_tick(); 
+	os_kernel_update_core0_tick();
 
     /* <CORE0> Call the scheduler part in the interrupt to deal with the */
     /* periodic thread activation of core0 */   
@@ -1002,7 +1000,7 @@ void __interrupt(CORE1_KERNEL_TICK_INT_LEVEL) __vector_table(VECTOR_TABLE0) core
     core1_os_tick_count = ( core1_os_tick_count + 1)%0xFFFF; 
 
     /* <CORE1> Update the os tick of core1 */
-    core1_kernel_update_os_tick();  
+    os_kernel_update_core1_tick();  
 
     /* <CORE1> Call the scheduler part in the interrupt to deal with the */
     /* periodic thread activation of core1 */   
@@ -1021,7 +1019,7 @@ void __interrupt(CORE2_KERNEL_TICK_INT_LEVEL) __vector_table(VECTOR_TABLE0) core
     core2_os_tick_count = (core2_os_tick_count + 1)%0xFFFF; 
 
     /* <CORE2> Update the os tick of core2 */
-    core2_kernel_update_os_tick(); 
+    os_kernel_update_core2_tick(); 
 
     /* <CORE2> Call the scheduler part in the interrupt to deal with the */
     /* periodic thread activation of core2 */

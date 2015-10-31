@@ -16,6 +16,10 @@
 #define  PTHREAD_OBTAIN_TIMESLOT_CALLBACK(current_core_id,thread_id) \
 	             os_trace_thread_timeslot(current_core_id,thread_id)
 
+#define  os_kernel_update_core0_tick()  LowDriver_Update_Core0_Tick()
+#define  os_kernel_update_core1_tick()  LowDriver_Update_Core1_Tick()
+#define  os_kernel_update_core2_tick()  LowDriver_Update_Core2_Tick()
+
 extern void get_thread_init_stack_address(osu32_t,osu32_t,osu32_t);
 extern void os_trace_thread_timeslot(osu32_t ,osu32_t);
 
