@@ -9,7 +9,7 @@
 /*               compiler                                                   */
 /****************************************************************************/
 #include "os_type.h"
-#include "os_interface.h"
+#include "low_driver_port.h"
 
 #define TRACE_MAX_CORE_NUM    (3)
 #define TRACE_MAX_THREAD_NUM  (11)

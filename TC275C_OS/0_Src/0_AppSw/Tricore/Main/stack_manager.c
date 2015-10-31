@@ -8,7 +8,7 @@
 /*               compiler                                                   */
 /****************************************************************************/
 #include "os_type.h"
-#include "os_interface.h"
+#include "low_driver_port.h"
 
 #define TIME_UNIT_SWITCH            (1000)
 #define STACK_MEA_MAX_POS_NUM       (10)

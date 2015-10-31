@@ -6,7 +6,7 @@
 /* COMMENT:      Multicore OS based on Aurix 275C app kit and TASKING 4.3   */
 /*               compiler                                                   */
 /****************************************************************************/
-#include "os_interface.h"
+#include "low_driver_port.h"
 
 #define STM0_TICK_PERIOD_IN_MICROSECONDS    1000
 #define STM1_TICK_PERIOD_IN_MICROSECONDS    1000
