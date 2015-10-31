@@ -1,8 +1,8 @@
 /****************************************************************************/
-/* FILE NAME:    low_driver_port.h                                          */
+/* FILE NAME:    low_driver_port.c                                          */
 /* CREATE ON:    Aug 26, 2015                                               */
 /* AUTHER:       Yanpeng.xi                                                 */
-/* DESCRIPTION:  The c file includes the port logic of AURIX 3-core os      */
+/* DESCRIPTION:  The c file includes the port definiton of os and low friver*/
 /* COMMENT:      Multicore OS based on Aurix 275C app kit and TASKING 4.3   */
 /*               compiler                                                   */
 /****************************************************************************/
@@ -21,7 +21,11 @@
 
 #define STM0_COMPARE0_ISR_PRIORITY	        10   
 #define STM1_COMPARE0_ISR_PRIORITY       	11   
-#define STM2_COMPARE0_ISR_PRIORITY      	12  
+#define STM2_COMPARE0_ISR_PRIORITY      	12 
+
+#define CORE0_SOFT1_ISR_PRIORITY	        20   
+#define CORE1_SOFT1_ISR_PRIORITY       	    21   
+#define CORE2_SOFT1_ISR_PRIORITY      	    22 
 
 /****************************************************************************/
 /* Global Variable Definitions                                              */
@@ -163,43 +167,43 @@ void LowDriver_Initialize_CORE2_OS_Tick(void)
 /* FUNTION NAME: LowDriver_trigger_software_interrupt1                      */
 /* DESCRIPTION:  Trigger a software interrupt for core0                     */
 /****************************************************************************/
-void LowDriver_trigger_software_interrupt1(void)
+void LowDriver_Trigger_Software_Interrupt1(void)
 {
     SRC_GPSR01.U = (1<<26)|   /* SRC_GPSR01.B.SETR=1;  */ 
   		           (1<<10)|   /* SRC_GPSR01.B.SRE=1;   */
   	               (0<<11)|   /* SRC_GPSR01.B.TOS=0;   */
-  	               (20);      /* SRC_GPSR01.B.SRPN=20; */ 
-} /* End of LowDriver_trigger_software_interrupt1 function */
+                   (CORE0_SOFT1_ISR_PRIORITY);      /* SRC_GPSR01.B.SRPN=20; */ 
+} /* End of LowDriver_Trigger_Software_Interrupt1 function */
 
 /****************************************************************************/
 /* FUNTION NAME: LowDriver_trigger_software_interrupt1                      */
 /* DESCRIPTION:  Trigger a software interrupt for core1                     */
 /****************************************************************************/
-void LowDriver_trigger_software_interrupt2(void)
+void LowDriver_Trigger_Software_Interrupt2(void)
 {
     SRC_GPSR11.U = (1<<26)|   /* SRC_GPSR11.B.SETR=1;  */
     	           (1<<10)|   /* SRC_GPSR11.B.SRE=1;   */
     	           (1<<11)|   /* SRC_GPSR11.B.TOS=1;   */
-    	           (21);      /* SRC_GPSR11.B.SRPN=21; */
-} /* End of LowDriver_trigger_software_interrupt2 function */
+    	           (CORE1_SOFT1_ISR_PRIORITY);      /* SRC_GPSR11.B.SRPN=21; */
+} /* End of LowDriver_Trigger_Software_Interrupt2 function */
 
 /****************************************************************************/
-/* FUNTION NAME: LowDriver_trigger_software_interrupt1                      */
+/* FUNTION NAME: LowDriver_Trigger_Software_Interrupt3                      */
 /* DESCRIPTION:  Trigger a software interrupt for core2                     */
 /****************************************************************************/
-void LowDriver_trigger_software_interrupt3(void)
+void LowDriver_Trigger_Software_Interrupt3(void)
 {
     SRC_GPSR21.U = (1<<26)|   /* SRC_GPSR21.B.SETR=1;  */
     	           (1<<10)|   /* SRC_GPSR21.B.SRE=1;   */
     	           (2<<11)|   /* SRC_GPSR21.B.TOS=2;   */
-    	           (22);      /* SRC_GPSR21.B.SRPN=22; */ 
-} /* End of LowDriver_trigger_software_interrupt3 function */
+    	           (CORE2_SOFT1_ISR_PRIORITY);      /* SRC_GPSR21.B.SRPN=22; */ 
+} /* End of LowDriver_Trigger_Software_Interrupt3 function */
 
 /****************************************************************************/
 /* FUNTION NAME: CPU0_SOFT1_Isr                                             */
 /* DESCRIPTION:  Software interrupt for core0 to serve                      */
 /****************************************************************************/
-void __interrupt(20) CPU0_SOFT1_Isr(void) 
+void __interrupt(CORE0_SOFT1_ISR_PRIORITY) CPU0_SOFT1_Isr(void) 
 {
 	LowDriver_interrupt_test_flag0++;
 } /* End of CPU0_SOFT1_Isr function */
@@ -208,7 +212,7 @@ void __interrupt(20) CPU0_SOFT1_Isr(void)
 /* FUNTION NAME: CPU1_SOFT1_Isr                                             */
 /* DESCRIPTION:  Software interrupt for core1 to serve                      */
 /****************************************************************************/
-void __interrupt(21) CPU1_SOFT1_Isr(void) 
+void __interrupt(CORE1_SOFT1_ISR_PRIORITY) CPU1_SOFT1_Isr(void) 
 {
     LowDriver_interrupt_test_flag1++;
 } /* End of CPU1_SOFT1_Isr function */
@@ -217,7 +221,7 @@ void __interrupt(21) CPU1_SOFT1_Isr(void)
 /* FUNTION NAME: CPU2_SOFT1_Isr                                             */
 /* DESCRIPTION:  Software interrupt for core2 to serve                      */
 /****************************************************************************/
-void __interrupt(22) CPU2_SOFT1_Isr(void) 
+void __interrupt(CORE2_SOFT1_ISR_PRIORITY) CPU2_SOFT1_Isr(void) 
 {
     LowDriver_interrupt_test_flag2++;
 } /* End of CPU2_SOFT1_Isr function */

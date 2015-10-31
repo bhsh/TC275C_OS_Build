@@ -72,6 +72,6 @@ void  App_share_func_flash_led_4(void)
 }
 void App_share_func_trigger_software_interrupt1(void)
 {
-   LowDriver_trigger_software_interrupt1();
+   LowDriver_Trigger_Software_Interrupt1();
 }
 
