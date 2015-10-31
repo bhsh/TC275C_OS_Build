@@ -9,9 +9,9 @@
 	                                      core1_pthread_init_config_database[(int)arg];      \
                                           for (;;)                                           \
                                           {                                                  \
-								 		  	core1_thread_done_before_task(&pthread_config); 
+								 		  	core1_pthread_done_before_task(&pthread_config); 
 #define core1_thread_taskcallback();        task(&pthread_config);          	                                         
-#define core1_thread_termination();         core1_thread_done_after_task(&pthread_config);   \
+#define core1_thread_termination();         core1_pthread_done_after_task(&pthread_config);   \
 	                                      }
 
 #define CORE1_PTHREAD_DEFINITION_BLOCK(thread_id)    void core1_os_thread##thread_id(void* arg,task_ptr_t task) \

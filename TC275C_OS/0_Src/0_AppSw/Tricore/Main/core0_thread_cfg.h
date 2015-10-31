@@ -2362,7 +2362,7 @@ OS_CONST pthread_attr_t core0_thread_attr[CORE0_THREAD_MAX_ID_NUM] =
 //extern pthread_cond_t core0_pthread_cond[CORE0_TASK_MAX_ID_NUM];
 extern pthread_cond_t core1_pthread_cond[CORE1_TASK_MAX_ID_NUM];
 extern pthread_cond_t core2_pthread_cond[CORE2_TASK_MAX_ID_NUM];
-void core0_thread_done_after_task(pthread_config_t *pthread_config)
+void core0_pthread_done_after_task(pthread_config_t *pthread_config)
 { 	
   /* Trace */
   os_trace_task_time_end(pthread_config->current_task_core_id,pthread_config->task_id);
@@ -2389,7 +2389,7 @@ void core0_thread_done_after_task(pthread_config_t *pthread_config)
   }
 }
 
-void core0_thread_done_before_task(pthread_config_t *pthread_config)
+void core0_pthread_done_before_task(pthread_config_t *pthread_config)
 { 
   if(pthread_config->type == EVENT)
   {
