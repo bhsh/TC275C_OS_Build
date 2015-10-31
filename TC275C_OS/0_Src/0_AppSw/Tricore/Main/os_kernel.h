@@ -94,7 +94,7 @@ typedef struct pthread_s { /* <struct><pthread_t> Describe the thread record */
 typedef struct { /* <struct><pthread_cond_t> Describe the thread condition */
     const osu32_t core_id; /* The core id of the thread actived */
     osu32_t       semaphore; /* Semaphore is used for many activations at one moment */
-	osu32_t       thread_order_num; /* thread_order_num indicates the thread serial number */
+	const osu32_t thread_order_num; /* thread_order_num indicates the thread serial number */
     pthread_t     blocked_threads; /* list threads waiting for condition */
 } pthread_cond_t;
 
