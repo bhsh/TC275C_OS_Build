@@ -1168,5 +1168,3 @@ void core2_kernel_trap_systemcall(osu32_t tin)
             ::"d"(1 << 15 | PTHREAD_USER_INT_LEVEL),"a"(os_kernel):"a4","a5","d15");
 } /* End of core2_kernel_trap_systemcall function */
 
-
-
