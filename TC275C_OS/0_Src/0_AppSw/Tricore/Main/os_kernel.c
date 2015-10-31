@@ -41,9 +41,9 @@ PTHREAD_MEMORY_QUALIFIER pthread_t         core2_os_pthread_running;
 PTHREAD_MEMORY_QUALIFIER pthread_t         core0_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
 PTHREAD_MEMORY_QUALIFIER pthread_t         core1_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
 PTHREAD_MEMORY_QUALIFIER pthread_t         core2_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
-PTHREAD_MEMORY_QUALIFIER pthreads_status_t core0_pthreads_status;
-PTHREAD_MEMORY_QUALIFIER pthreads_status_t core1_pthreads_status;
-PTHREAD_MEMORY_QUALIFIER pthreads_status_t core2_pthreads_status;
+PTHREAD_MEMORY_QUALIFIER pthreads_status_t core0_os_pthreads_status;
+PTHREAD_MEMORY_QUALIFIER pthreads_status_t core1_os_pthreads_status;
+PTHREAD_MEMORY_QUALIFIER pthreads_status_t core2_os_pthreads_status;
 
 /****************************************************************************/
 /* Static Variable Definitions                                              */
@@ -932,19 +932,19 @@ void pthread_suspend_allthreads(void)
     osu32_t current_core_id = os_getCoreId();
  
     if((current_core_id == CORE0_ID)&&
-       (core0_pthreads_status == ALLTHREADS_WORKING))
+       (core0_os_pthreads_status == ALLTHREADS_WORKING))
     {	
-      core0_pthreads_status = ALLTHREADS_SUSPENDED;
+      core0_os_pthreads_status = ALLTHREADS_SUSPENDED;
     }
     else if((current_core_id == CORE1_ID)&&
-    	    (core1_pthreads_status == ALLTHREADS_WORKING))
+    	    (core1_os_pthreads_status == ALLTHREADS_WORKING))
     {
-      core1_pthreads_status = ALLTHREADS_SUSPENDED;
+      core1_os_pthreads_status = ALLTHREADS_SUSPENDED;
     }
     else if((current_core_id == CORE2_ID)&&
-    	    (core2_pthreads_status == ALLTHREADS_WORKING))
+    	    (core2_os_pthreads_status == ALLTHREADS_WORKING))
     {
-      core2_pthreads_status = ALLTHREADS_SUSPENDED;
+      core2_os_pthreads_status = ALLTHREADS_SUSPENDED;
     }
 } /* End of pthread_suspend_allthreads function */
 
@@ -960,27 +960,27 @@ void pthread_restore_allthreads(void)
     osu32_t current_core_id = os_getCoreId();
 
     if((current_core_id == CORE0_ID)&&
-   	   (core0_pthreads_status == ALLTHREADS_SUSPENDED))
+   	   (core0_os_pthreads_status == ALLTHREADS_SUSPENDED))
     {  
-	  core0_pthreads_status = ALLTHREADS_WORKING;
+	  core0_os_pthreads_status = ALLTHREADS_WORKING;
 	  
 	  /* <CORE0> If there is thread higher than the current thread, switch the context. else keep */
 	  if(core0_os_pthread_running->priority < 
 	  	 ((PTHREAD_PRIO_MAX-1) - __clz(core0_os_pthread_runnable))) dispatch_only(NULL,NULL);     
     }
     else if((current_core_id == CORE1_ID)&&
-   	        (core1_pthreads_status == ALLTHREADS_SUSPENDED))
+   	        (core1_os_pthreads_status == ALLTHREADS_SUSPENDED))
     {
-	  core1_pthreads_status = ALLTHREADS_WORKING;
+	  core1_os_pthreads_status = ALLTHREADS_WORKING;
 	   
 	  /* <CORE1> If there is thread higher than the current thread, switch the context. else keep */
 	  if(core1_os_pthread_running->priority < 
 	   	 ((PTHREAD_PRIO_MAX-1) - __clz(core1_os_pthread_runnable))) dispatch_only(NULL,NULL);     
     }
     else if((current_core_id == CORE2_ID)&&
-   	       (core2_pthreads_status == ALLTHREADS_SUSPENDED))
+   	       (core2_os_pthreads_status == ALLTHREADS_SUSPENDED))
     {
-	  core2_pthreads_status = ALLTHREADS_WORKING;
+	  core2_os_pthreads_status = ALLTHREADS_WORKING;
 	   
 	  /* <CORE2> If there is thread higher than the current thread, switch the context. else keep */
 	  if(core2_os_pthread_running->priority < 
