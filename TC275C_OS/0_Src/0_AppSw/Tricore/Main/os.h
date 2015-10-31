@@ -4,9 +4,9 @@
 #define OS_H_
 
 typedef struct {
-    osu32_t curr_task_core_id;
-	osu32_t task_id;
-    osu32_t type;
+    const osu32_t curr_task_core_id;
+	const osu32_t curr_task_id;
+    osu32_t curr_task_type;
     osu32_t period;
     osu32_t actived_task_id;
 	osu32_t actived_task_core_id;

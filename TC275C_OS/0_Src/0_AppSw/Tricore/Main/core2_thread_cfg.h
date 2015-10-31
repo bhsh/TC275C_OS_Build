@@ -2374,7 +2374,7 @@ extern pthread_cond_t core1_pthread_cond[CORE1_TASK_MAX_ID_NUM];
 void core2_pthread_done_after_task(pthread_config_t *pthread_config)
 { 	
   /* Trace */
-  os_trace_task_time_end(pthread_config->curr_task_core_id,pthread_config->task_id);
+  os_trace_task_time_end(pthread_config->curr_task_core_id,pthread_config->curr_task_id);
 
   if(pthread_config->actived_task_id != NO_ACTIVED_THREAD)
   { 
@@ -2391,8 +2391,8 @@ void core2_pthread_done_after_task(pthread_config_t *pthread_config)
 		  pthread_cond_broadcast(&core2_pthread_cond[pthread_config->actived_task_id]);
 	 }
   }
-  else if((pthread_config->type == PERIODIC)||
-  	      (pthread_config->type == NO_DEFINITION))
+  else if((pthread_config->curr_task_type == PERIODIC)||
+  	      (pthread_config->curr_task_type == NO_DEFINITION))
   {
       /* Do nothing */
   }
@@ -2400,20 +2400,20 @@ void core2_pthread_done_after_task(pthread_config_t *pthread_config)
 
 void core2_pthread_done_before_task(pthread_config_t *pthread_config)
 { 
-  if(pthread_config->type == EVENT)
+  if(pthread_config->curr_task_type == EVENT)
   {
-      pthread_cond_wait(&core2_pthread_cond[pthread_config->task_id]);
+      pthread_cond_wait(&core2_pthread_cond[pthread_config->curr_task_id]);
   }
-  else if(pthread_config->type == PERIODIC)
+  else if(pthread_config->curr_task_type == PERIODIC)
   {
 	  pthread_cond_timedwait_np((osu16_t)(pthread_config->period));
   }
-  else if(pthread_config->type == NO_DEFINITION)
+  else if(pthread_config->curr_task_type == NO_DEFINITION)
   {
      /* Do nothing. */
   }
   /* trace */
-  os_trace_task_time_begin(CORE_ID2,pthread_config->task_id);
+  os_trace_task_time_begin(CORE_ID2,pthread_config->curr_task_id);
 }
 
 #endif
