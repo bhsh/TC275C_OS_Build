@@ -19,10 +19,8 @@
 #include "Stm\Std\IfxStm.h"
 #include "Src\Std\IfxSrc.h"
 
-OS_EXTERN unsigned int  stm0CompareValue;
-OS_EXTERN unsigned int  stm1CompareValue;
-OS_EXTERN unsigned int  stm2CompareValue;
-OS_INLINE unsigned int os_getUstack_address(void)
+
+OS_INLINE unsigned int  LowDriver_GetUstack_Address(void)
 {  
    unsigned int *res;
    __asm volatile ("mov.aa %0, a10": "=a" (res) : :"a10");
@@ -31,8 +29,9 @@ OS_INLINE unsigned int os_getUstack_address(void)
 /****************************************************************************/
 /* DESCRIPTION: <CORE0> Update stm0 compare1                                */
 /****************************************************************************/
-OS_INLINE void LowDriver_Update_Core0_Tick(void) 
-{
+OS_INLINE void LowDriver_Update_CORE0_OS_Tick(void) 
+{   
+	extern unsigned int  stm0CompareValue;
     unsigned int core0_ticks;
 
     core0_ticks = (unsigned int)(stm0CompareValue*1);
@@ -40,13 +39,14 @@ OS_INLINE void LowDriver_Update_Core0_Tick(void)
 		                  IfxStm_Comparator_0,
 	                      IfxStm_getCompare (&MODULE_STM0, IfxStm_Comparator_0) + core0_ticks);
 
-} /* End of LowDriver_Update_Core0_Tick function */
+} /* End of LowDriver_Update_CORE0_OS_Tick function */
 
 /****************************************************************************/
 /* DESCRIPTION: <CORE1> Update stm1 compare1                                */
 /****************************************************************************/
-OS_INLINE void LowDriver_Update_Core1_Tick(void)
+OS_INLINE void LowDriver_Update_CORE1_OS_Tick(void)
 {
+    extern unsigned int  stm1CompareValue;
     unsigned int core1_ticks;
 	
     core1_ticks = (unsigned int) (stm1CompareValue * 1);
@@ -59,8 +59,9 @@ OS_INLINE void LowDriver_Update_Core1_Tick(void)
 /****************************************************************************/
 /* DESCRIPTION: <CORE2> Update stm0 compare1                                */
 /****************************************************************************/
-OS_INLINE void LowDriver_Update_Core2_Tick(void)
+OS_INLINE void LowDriver_Update_CORE2_OS_Tick(void)
 {
+    extern unsigned int  stm2CompareValue;
     unsigned int core2_ticks;
 	
     core2_ticks = (unsigned int) (stm2CompareValue * 1);
@@ -69,10 +70,14 @@ OS_INLINE void LowDriver_Update_Core2_Tick(void)
 		                  IfxStm_getCompare (&MODULE_STM2, IfxStm_Comparator_0) + core2_ticks);
 
 } /* End of LowDriver_Update_Core2_Tick function */
+
 extern void         LowDriver_Wait_In_Us(unsigned int time);
 extern void         LowDriver_Port_TogglePin(unsigned char pin_num);
 extern void         LowDriver_trigger_software_interrupt1(void);
 extern void         LowDriver_trigger_software_interrupt2(void);
 extern void         LowDriver_trigger_software_interrupt3(void);
+extern void         LowDriver_Initialize_CORE0_OS_Tick(void);
+extern void         LowDriver_Initialize_CORE1_OS_Tick(void);
+extern void         LowDriver_Initialize_CORE2_OS_Tick(void);
 extern unsigned int LowDriver_Get_Curr_Core_ID(void);
 extern unsigned int LowDriver_GetStmLower_Count(void);
