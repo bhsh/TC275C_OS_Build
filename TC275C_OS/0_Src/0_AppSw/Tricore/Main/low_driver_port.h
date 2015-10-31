@@ -6,7 +6,8 @@
 /* COMMENT:      Multicore OS based on Aurix 275C app kit and TASKING 4.3   */
 /*               compiler                                                   */
 /****************************************************************************/
-
+#ifndef LOW_DRIVER_PORT_H_ 
+#define LOW_DRIVER_PORT_H_
 /****************************************************************************/
 /* Feature Include Files                                                    */
 /****************************************************************************/
@@ -21,6 +22,17 @@
 #include "Stm\Std\IfxStm.h"
 #include "Src\Std\IfxSrc.h"
 
+
+/****************************************************************************/
+/* FUNTION NAME: LowDriver_GetStmLower_Count                                */
+/* DESCRIPTION: Wait by querying the tick of STM TIM0 (tick unit:0.1Us)in   */
+/*              the current STM configuration                               */ 
+/****************************************************************************/
+inline unsigned int LowDriver_GetStmLower_Count(void)
+{
+    return (unsigned int)(IfxStm_getLower(&MODULE_STM0)/10);
+} /* End of LowDriver_GetStmLower_Count function */
+
 /****************************************************************************/
 /* DESCRIPTION: <CORE0> Update stm0 compare1                                */
 /****************************************************************************/
@@ -30,6 +42,18 @@ inline unsigned int  LowDriver_GetUstack_Address(void)
    __asm volatile ("mov.aa %0, a10": "=a" (res) : :"a10");
    return (unsigned int)res;
 } /* End of LowDriver_GetUstack_Address function */
+
+/****************************************************************************/
+/* FUNTION NAME: os_trace_thread_timeslot                                   */
+/* DESCRIPTION: Wait by querying the tick of STM TIM0 (tick unit:1Us)in     */
+/*              the current STM configuration                               */ 
+/****************************************************************************/
+inline void os_trace_thread_timeslot(unsigned int curr_core_id)
+{   
+	extern osu32_t os_thread_thread_timeslot[3];
+	
+    os_thread_thread_timeslot[curr_core_id] = LowDriver_GetStmLower_Count()/10 ;
+} /* End of LowDriver_GetStmLower_Count function */
 
 /****************************************************************************/
 /* DESCRIPTION: <CORE0> Update stm0 compare1                                */
@@ -88,4 +112,4 @@ extern void         LowDriver_Initialize_CORE0_OS_Tick(void);
 extern void         LowDriver_Initialize_CORE1_OS_Tick(void);
 extern void         LowDriver_Initialize_CORE2_OS_Tick(void);
 extern unsigned int LowDriver_Get_Curr_Core_ID(void);
-extern unsigned int LowDriver_GetStmLower_Count(void);
+#endif /* End of LOW_DRIVER_PORT_H_ */

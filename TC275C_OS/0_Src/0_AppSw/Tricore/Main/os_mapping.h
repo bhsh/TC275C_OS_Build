@@ -13,8 +13,8 @@
 #define  PTHREAD_OBTAIN_INIT_STACK_ADD_CALLBACK(core_id,thread_id,init_sp_address) \
 	             get_thread_init_stack_address(core_id,thread_id,init_sp_address);
 
-#define  PTHREAD_OBTAIN_TIMESLOT_CALLBACK(current_core_id,thread_id) \
-	             os_trace_thread_timeslot(current_core_id,thread_id)
+#define  PTHREAD_OBTAIN_TIMESLOT_CALLBACK(current_core_id) \
+	             os_trace_thread_timeslot(current_core_id);
 
 #define  os_kernel_update_core0_tick()  LowDriver_Update_CORE0_OS_Tick()
 #define  os_kernel_update_core1_tick()  LowDriver_Update_CORE1_OS_Tick()
@@ -25,6 +25,5 @@
 #define  CORE2_INITIALIZE_OS_TICK_BLOCK()   LowDriver_Initialize_CORE2_OS_Tick(); 
 
 extern void get_thread_init_stack_address(osu32_t,osu32_t,osu32_t);
-extern void os_trace_thread_timeslot(osu32_t ,osu32_t);
 
 #endif /* End of OS_MAPPING_H_ */

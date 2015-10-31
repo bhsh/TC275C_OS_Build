@@ -390,6 +390,7 @@ os32_t pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition pointer
 #endif
       if (cond->blocked_threads != NULL)
 	  {	 
+	  	PTHREAD_OBTAIN_TIMESLOT_CALLBACK(cond_core_id)
 		if((cond_core_id == current_core_id)&&(0 == cppn()))
         {		
           /* <EVERY CORE> _pthread_running on CCPN=0 */
@@ -765,6 +766,8 @@ OS_INLINE void os_kernel_in_tick(void)
 	  assert(cond_buffer[0] != NULL);
 		
 	  cond = cond_buffer[0];  /* <EVERY CORE> Get the current condition */
+
+	  PTHREAD_OBTAIN_TIMESLOT_CALLBACK(current_core_id)
 
 	  /* <EVERY CORE> Setup parameter and jump to os_kernel */
 	  __asm( " mov.aa a4,%0 \n"

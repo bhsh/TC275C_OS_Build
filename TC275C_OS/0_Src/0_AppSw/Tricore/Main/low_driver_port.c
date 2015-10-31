@@ -48,16 +48,6 @@ void LowDriver_Wait_In_Us(unsigned int time)
 } /* End of LowDriver_Wait_In_Us function */
 
 /****************************************************************************/
-/* FUNTION NAME: LowDriver_GetStmLower_Count                                */
-/* DESCRIPTION: Wait by querying the tick of STM TIM0 (tick unit:0.1Us)in   */
-/*              the current STM configuration                               */ 
-/****************************************************************************/
-unsigned int LowDriver_GetStmLower_Count(void)
-{
-    return (unsigned int)(IfxStm_getLower(&MODULE_STM0)/10);
-} /* End of LowDriver_GetStmLower_Count function */
-
-/****************************************************************************/
 /* FUNTION NAME: LowDriver_Port_TogglePin                                   */
 /* DESCRIPTION:  Toggle the LED in the diver kit by providing the API       */
 /*               special argument                                           */

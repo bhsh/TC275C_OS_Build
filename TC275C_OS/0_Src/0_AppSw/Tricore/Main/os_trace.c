@@ -14,42 +14,58 @@
 #define TRACE_MAX_CORE_NUM    (3)
 #define TRACE_MAX_THREAD_NUM  (11)
 
-static volatile osu32_t os_thread_execute_time[TRACE_MAX_CORE_NUM][TRACE_MAX_THREAD_NUM];
-static volatile osu32_t os_tick_begin[TRACE_MAX_CORE_NUM][TRACE_MAX_THREAD_NUM];
-static volatile osu32_t os_thread_timeslot[TRACE_MAX_CORE_NUM][TRACE_MAX_THREAD_NUM];
-static volatile osu32_t os_thread_switch_times[TRACE_MAX_CORE_NUM][TRACE_MAX_THREAD_NUM];
-static volatile osu32_t os_thread_begin_timeslot[TRACE_MAX_CORE_NUM];
-static volatile osu32_t os_thread_end_timeslot[TRACE_MAX_CORE_NUM];
+static volatile osu32_t os_thread_curr_exe_time_rec[TRACE_MAX_CORE_NUM][TRACE_MAX_THREAD_NUM];
+static volatile osu32_t os_thread_max_exe_time_rec[TRACE_MAX_CORE_NUM][TRACE_MAX_THREAD_NUM];
+static volatile osu32_t os_thread_begin_timeslot_rec[TRACE_MAX_CORE_NUM][TRACE_MAX_THREAD_NUM];
+static volatile osu32_t os_thread_end_timeslot_rec[TRACE_MAX_CORE_NUM][TRACE_MAX_THREAD_NUM];
+static volatile osu32_t os_thread_curr_switching_times[TRACE_MAX_CORE_NUM][TRACE_MAX_THREAD_NUM];
+static volatile osu32_t os_thread_max_switching_times[TRACE_MAX_CORE_NUM][TRACE_MAX_THREAD_NUM];
+osu32_t os_thread_thread_timeslot[TRACE_MAX_CORE_NUM];
 
 static osu32_t os_trace_time(void)
 {
-  return (osu32_t)(LowDriver_GetStmLower_Count()/10);
-}
-void OS_test1(osu32_t time)
-{
-   osu32_t i,j,m;
-   for(i=0;i<time;i++)
-   {
-       for(j=0;j<time;j++)
-	   m=i+j;
-   }	
+  return (osu32_t)LowDriver_GetStmLower_Count();
 }
 void os_trace_task_time_begin(osu32_t curr_core_id,osu32_t thread_id)
-{
-  os_tick_begin[curr_core_id][thread_id] = os_trace_time();
-  os_thread_begin_timeslot[curr_core_id] = os_tick_begin[curr_core_id][thread_id];
-  os_thread_switch_times[curr_core_id][thread_id] = 
-  	   os_thread_begin_timeslot[curr_core_id] - os_thread_end_timeslot[curr_core_id];
+{  
+    if(thread_id < TRACE_MAX_THREAD_NUM)
+	{
+      /* <EVERY CORE> Record the timeslot before the task is executed */
+      os_thread_begin_timeslot_rec[curr_core_id][thread_id] = os_trace_time();
+
+	  os_thread_curr_switching_times[curr_core_id][thread_id] = 
+	    os_thread_begin_timeslot_rec[curr_core_id][thread_id] - os_thread_thread_timeslot[curr_core_id];
+
+	  if(os_thread_curr_switching_times[curr_core_id][thread_id] >
+	  	   os_thread_max_switching_times[curr_core_id][thread_id])
+	  {
+        os_thread_max_switching_times[curr_core_id][thread_id] =
+		  os_thread_curr_switching_times[curr_core_id][thread_id];	
+	  }
+	}
 }
 void os_trace_task_time_end(osu32_t curr_core_id,osu32_t thread_id)
-{
-    os_thread_execute_time[curr_core_id][thread_id] = 
-  	  os_trace_time() - os_tick_begin[curr_core_id][thread_id];
+{ 
+	if(thread_id < TRACE_MAX_THREAD_NUM)
+	{
+	  /* <EVERY CORE> Record the timeslot after the task is executed */
+      os_thread_end_timeslot_rec[curr_core_id][thread_id] = os_trace_time(); 
+
+      /* <EVERY CORE> Record the execution time of the current task, */
+	  /* unit: 0.1 us in the current software configuration          */
+      os_thread_curr_exe_time_rec[curr_core_id][thread_id] = 
+        os_thread_end_timeslot_rec[curr_core_id][thread_id] - 
+          os_thread_begin_timeslot_rec[curr_core_id][thread_id];
+
+	  /* <EVERY CORE> Record the max execution time of task          */
+	  if(os_thread_curr_exe_time_rec[curr_core_id][thread_id] > 
+		     os_thread_max_exe_time_rec[curr_core_id][thread_id])
+	  {
+	    os_thread_max_exe_time_rec[curr_core_id][thread_id] = 
+	 	  os_thread_curr_exe_time_rec[curr_core_id][thread_id];
+	  }
+	}
 }
-void os_trace_thread_timeslot(osu32_t curr_core_id,osu32_t thread_id)
-{
-  os_thread_timeslot[curr_core_id][thread_id] = os_trace_time();  
-  os_thread_end_timeslot[curr_core_id] = os_thread_timeslot[curr_core_id][thread_id];
-}
+
 
 
