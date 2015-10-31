@@ -1434,8 +1434,9 @@
 	 CORE2_THREAD_ID##thread_id, \
 	 CORE2_THREAD##thread_id##_TYPE,\
 	 CORE2_THREAD##thread_id##_PERIOD, \
-	 CORE2_THREAD##thread_id##_ACTIVED, \
-	 CORE2_THREAD##thread_id##_ACTIVED_COREID  },
+	 thread_id, \
+	 CORE2_THREAD##thread_id##_ACTIVED_COREID, \
+	 CORE2_THREAD##thread_id##_ACTIVED  },
 
 #define CORE2_PTHREAD_ATTR_CONFIG(thread_id) \
 	{CORE2_THREAD##thread_id##_MODE,\

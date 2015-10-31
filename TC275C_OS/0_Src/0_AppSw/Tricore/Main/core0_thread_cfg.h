@@ -1437,8 +1437,9 @@
 	 CORE0_THREAD_ID##thread_id, \
 	 CORE0_THREAD##thread_id##_TYPE,\
 	 CORE0_THREAD##thread_id##_PERIOD, \
-	 CORE0_THREAD##thread_id##_ACTIVED, \
-	 CORE0_THREAD##thread_id##_ACTIVED_COREID  },
+	 thread_id ,\
+	 CORE0_THREAD##thread_id##_ACTIVED_COREID, \
+	 CORE0_THREAD##thread_id##_ACTIVED },
 
 #define CORE0_PTHREAD_ATTR_CONFIG(thread_id) \
 	{CORE0_THREAD##thread_id##_MODE,\
