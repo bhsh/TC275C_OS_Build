@@ -8,7 +8,7 @@ typedef struct {
 	const osu32_t curr_task_id;
     osu32_t       curr_task_type;
     osu32_t       curr_task_period;
-    osu32_t       curr_task_order_num;
+    const osu32_t curr_task_order_num;
     osu32_t       actived_task_core_id;
 	osu32_t       actived_task_id;
     
