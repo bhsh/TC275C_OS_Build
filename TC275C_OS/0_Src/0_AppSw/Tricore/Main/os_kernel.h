@@ -293,6 +293,6 @@ void    pthread_restore_allthreads(void);
 osu16_t pthread_obtain_os_tick(os32_t core_id);
 
 #include "low_driver_port.h"
-#include "kernel_callback_mapping.h"
+#include "os_mapping.h"
 
 #endif /* OS_KERNEL_H_ */
