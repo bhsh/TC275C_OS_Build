@@ -19,9 +19,9 @@
 #define STM1_TICK_PERIOD_IN_MICROSECONDS    1000
 #define STM2_TICK_PERIOD_IN_MICROSECONDS    1000
 
-#define IFX_CFG_ISR_PRIORITY_STM0_COMPARE0	10   
-#define IFX_CFG_ISR_PRIORITY_STM1_COMPARE0	11   
-#define IFX_CFG_ISR_PRIORITY_STM2_COMPARE0	12  
+#define STM0_COMPARE0_ISR_PRIORITY	        10   
+#define STM1_COMPARE0_ISR_PRIORITY       	11   
+#define STM2_COMPARE0_ISR_PRIORITY      	12  
 
 /****************************************************************************/
 /* Global Variable Definitions                                              */
@@ -96,7 +96,7 @@ void LowDriver_Initialize_CORE0_OS_Tick(void)
 
 	/* <CORE0> Modify only the number of ticks and enable the trigger output */
 	stmCompareConfig.ticks = LowDriver_stm0CompareValue;   /* <CORE0> Interrupt after stm0CompareValue ticks from now */
-	stmCompareConfig.triggerInterruptEnabled = IFX_CFG_ISR_PRIORITY_STM0_COMPARE0;
+	stmCompareConfig.triggerInterruptEnabled = STM0_COMPARE0_ISR_PRIORITY;
 
 	/* <CORE0> Now Compare functionality is initialized */
 	IfxStm_initCompare(&MODULE_STM0, &stmCompareConfig);
@@ -123,7 +123,7 @@ void LowDriver_Initialize_CORE1_OS_Tick(void)
 
 	/* <CORE1> Modify only the number of ticks and enable the trigger output */
 	stmCompareConfig.ticks = LowDriver_stm1CompareValue;   /*<CORE1> Interrupt after stm0CompareValue ticks from now */
-	stmCompareConfig.triggerInterruptEnabled = IFX_CFG_ISR_PRIORITY_STM1_COMPARE0;
+	stmCompareConfig.triggerInterruptEnabled = STM1_COMPARE0_ISR_PRIORITY;
 
 	/* <CORE1> Now Compare functionality is initialized */
 	IfxStm_initCompare(&MODULE_STM1, &stmCompareConfig);
@@ -152,7 +152,7 @@ void LowDriver_Initialize_CORE2_OS_Tick(void)
 
 	/* <CORE2> Modify only the number of ticks and enable the trigger output */
 	stmCompareConfig.ticks = LowDriver_stm2CompareValue;   /* <CORE2> Interrupt after stm0CompareValue ticks from now */
-	stmCompareConfig.triggerInterruptEnabled = IFX_CFG_ISR_PRIORITY_STM2_COMPARE0;
+	stmCompareConfig.triggerInterruptEnabled = STM2_COMPARE0_ISR_PRIORITY;
 
 	/* <CORE2> Now Compare functionality is initialized */
 	IfxStm_initCompare(&MODULE_STM2, &stmCompareConfig);
