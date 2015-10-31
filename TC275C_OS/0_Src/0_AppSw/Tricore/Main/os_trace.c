@@ -34,22 +34,22 @@ void OS_test1(osu32_t time)
 	   m=i+j;
    }	
 }
-void os_trace_task_time_begin(osu32_t current_core_id,osu32_t thread_id)
+void os_trace_task_time_begin(osu32_t curr_core_id,osu32_t thread_id)
 {
-  os_tick_begin[current_core_id][thread_id] = os_trace_time();
-  os_thread_begin_timeslot[current_core_id] = os_tick_begin[current_core_id][thread_id];
-  os_thread_switch_times[current_core_id][thread_id] = 
-  	   os_thread_begin_timeslot[current_core_id] - os_thread_end_timeslot[current_core_id];
+  os_tick_begin[curr_core_id][thread_id] = os_trace_time();
+  os_thread_begin_timeslot[curr_core_id] = os_tick_begin[curr_core_id][thread_id];
+  os_thread_switch_times[curr_core_id][thread_id] = 
+  	   os_thread_begin_timeslot[curr_core_id] - os_thread_end_timeslot[curr_core_id];
 }
-void os_trace_task_time_end(osu32_t current_core_id,osu32_t thread_id)
+void os_trace_task_time_end(osu32_t curr_core_id,osu32_t thread_id)
 {
-  os_thread_time[current_core_id][thread_id] = 
-  	   os_trace_time() - os_tick_begin[current_core_id][thread_id];
+  os_thread_time[curr_core_id][thread_id] = 
+  	   os_trace_time() - os_tick_begin[curr_core_id][thread_id];
 }
-void os_trace_thread_timeslot(osu32_t current_core_id,osu32_t thread_id)
+void os_trace_thread_timeslot(osu32_t curr_core_id,osu32_t thread_id)
 {
-  os_thread_timeslot[current_core_id][thread_id] = os_trace_time();  
-  os_thread_end_timeslot[current_core_id] = os_thread_timeslot[current_core_id][thread_id];
+  os_thread_timeslot[curr_core_id][thread_id] = os_trace_time();  
+  os_thread_end_timeslot[curr_core_id] = os_thread_timeslot[curr_core_id][thread_id];
 }
 
 
