@@ -11,17 +11,6 @@
 /* Feature Include Files                                                    */
 /****************************************************************************/
 #include "os_kernel.h"
-#include "_Reg/IfxSrc_reg.h"
-#include "Cpu0_Main.h"
-#include "SysSe/Bsp/Bsp.h"
-#include "communication.h"
-#include "Compilers.h"
-#include "Cpu\Std\IfxCpu_Intrinsics.h"
-#include "Port\Io\IfxPort_Io.h"
-#include "Stm\Std\IfxStm.h"
-#include "Src\Std\IfxSrc.h"
-#include "kernel_callback_mapping.h"
-
 /****************************************************************************/
 /* Macro Definitions                                                        */
 /****************************************************************************/
@@ -131,14 +120,6 @@ OS_STATIC PTHREAD_MEMORY_QUALIFIER pthread_timewait_t  core2_os_timewait_cond[PT
 };
 
 /****************************************************************************/
-/* Extern Variable Definitions                                              */
-/****************************************************************************/
-OS_EXTERN osu32_t  stm0CompareValue;
-OS_EXTERN osu32_t  stm1CompareValue;
-OS_EXTERN osu32_t  stm2CompareValue;
-OS_EXTERN osu32_t  stm0CompareValue2;
-
-/****************************************************************************/
 /* Function Prototype Definitions                                           */
 /****************************************************************************/
 __syscallfunc(DISPATCH_WAIT)   os32_t dispatch_wait(void *, void *);
@@ -161,47 +142,7 @@ OS_INLINE void core_returnMutex(osu32_t *mutex)
   *mutex=0x0;
 } /* End of core_returnMutex function */
 
-/****************************************************************************/
-/* DESCRIPTION: <CORE0> Update stm0 compare1                                */
-/****************************************************************************/
-OS_INLINE void core0_kernel_update_os_tick(void) 
-{
-    osu32_t core0_ticks;
 
-    core0_ticks = (osu32_t)(stm0CompareValue*1);
-    IfxStm_updateCompare (&MODULE_STM0,
-		                  IfxStm_Comparator_0,
-	                      IfxStm_getCompare (&MODULE_STM0, IfxStm_Comparator_0) + core0_ticks);
-    /* IfxPort_togglePin(&MODULE_P33, 8); */
-} /* End of core0_kernel_update_os_tick function */
-
-/****************************************************************************/
-/* DESCRIPTION: <CORE1> Update stm1 compare1                                */
-/****************************************************************************/
-OS_INLINE void core1_kernel_update_os_tick(void)
-{
-    osu32_t core1_ticks;
-	
-    core1_ticks = (osu32_t) (stm1CompareValue * 1);
-    IfxStm_updateCompare (&MODULE_STM1,
-		                  IfxStm_Comparator_0, 
-		                  IfxStm_getCompare (&MODULE_STM1, IfxStm_Comparator_0) + core1_ticks);
-    /* IfxPort_togglePin(&MODULE_P33, 9); */
-} /* End of core1_kernel_update_os_tick function */
-
-/****************************************************************************/
-/* DESCRIPTION: <CORE2> Update stm0 compare1                                */
-/****************************************************************************/
-OS_INLINE void core2_kernel_update_os_tick(void)
-{
-    osu32_t core2_ticks;
-	
-    core2_ticks = (osu32_t) (stm2CompareValue * 1);
-    IfxStm_updateCompare (&MODULE_STM2,
-		                  IfxStm_Comparator_0, 
-		                  IfxStm_getCompare (&MODULE_STM2, IfxStm_Comparator_0) + core2_ticks);
-    /* IfxPort_togglePin(&MODULE_P33, 10); */
-} /* End of core2_kernel_update_os_tick function */
 
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Append an element at the end of a list         */

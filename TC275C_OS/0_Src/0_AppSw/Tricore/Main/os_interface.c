@@ -8,16 +8,7 @@
 |
 --------------------------------------------------------------------------------------*/
 
-#include "os_type.h"
-#include <stdlib.h>
-#include "Cpu0_Main.h"
-#include "SysSe/Bsp/Bsp.h"
-#include "communication.h"
-#include "Compilers.h"
-#include "Cpu\Std\IfxCpu_Intrinsics.h"
-#include "Port\Io\IfxPort_Io.h"
-#include "Stm\Std\IfxStm.h"
-#include "Src\Std\IfxSrc.h"
+
 
 #include "os_interface.h"
 

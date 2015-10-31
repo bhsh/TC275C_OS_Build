@@ -292,5 +292,7 @@ void    pthread_suspend_allthreads(void);
 void    pthread_restore_allthreads(void);
 osu16_t pthread_obtain_os_tick(os32_t core_id);
 
+#include "os_interface.h"
+#include "kernel_callback_mapping.h"
 
 #endif /* OS_KERNEL_H_ */
