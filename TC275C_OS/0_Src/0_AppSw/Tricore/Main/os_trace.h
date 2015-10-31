@@ -1,12 +1,13 @@
-/*-----------------------------------------------------------------------------------
-|
-|   File name:    os_trace.h
-|   Created on:   Aug 26, 2015
-|   Author:       Yanpeng.xi
-|   Description:
-|                 Multicore OS based on Aurix 275C app kit and TASKING 4.3 compiler
-|
---------------------------------------------------------------------------------------*/
+/****************************************************************************/
+/* FILE NAME:    os_trace.h                                                 */
+/* CREATE ON:    Aug 26, 2015                                               */
+/* AUTHER:       Yanpeng.xi                                                 */
+/* DESCRIPTION:  The h file includes logic that traces the time             */
+/*               characteristics of tasks                                   */
+/*               tasks                                                      */
+/* COMMENT:      Multicore OS based on Aurix 275C app kit and TASKING 4.3   */
+/*               compiler                                                   */
+/****************************************************************************/
 
 #ifndef OS_TRACE_H_
 #define OS_TRACE_H_
