@@ -13,7 +13,7 @@
 #define  PTHREAD_OBTAIN_INIT_STACK_ADD_CALLBACK(core_id,thread_id,init_sp_address) \
 	             get_thread_init_stack_address(core_id,thread_id,init_sp_address);
 
-#define  PTHREAD_OBTAIN_TIMESLOT(current_core_id,thread_id) \
+#define  PTHREAD_OBTAIN_TIMESLOT_CALLBACK(current_core_id,thread_id) \
 	             os_trace_thread_timeslot(current_core_id,thread_id)
 
 extern void get_thread_init_stack_address(osu32_t,osu32_t,osu32_t);

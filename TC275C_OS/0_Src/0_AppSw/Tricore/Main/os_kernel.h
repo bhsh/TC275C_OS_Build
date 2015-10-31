@@ -85,12 +85,12 @@ typedef struct pthread_s { /* <struct><pthread_t> Describe the thread record */
 
 typedef struct { /* <struct><pthread_cond_t> Describe the thread condition */
     const osu32_t core_id; /* The core id of the thread actived */
-    osu32_t  multi_semaphore; /* Semaphore is used for many activations at one moment */
-    pthread_t blocked_threads; /* list threads waiting for condition */
+    osu32_t       multi_semaphore; /* Semaphore is used for many activations at one moment */
+    pthread_t     blocked_threads; /* list threads waiting for condition */
 } pthread_cond_t;
 
 typedef struct { /* <struct><pthread_mutex_t> Description of a thread mutex */
-    osu32_t lock;/* mutex lock status is one of <true | false> */
+    osu32_t   lock;/* mutex lock status is one of <true | false> */
     pthread_t owner; /* < owner thread */
     pthread_t blocked_threads; /* list threads waiting for mutex */
 } pthread_mutex_t;
