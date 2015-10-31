@@ -89,6 +89,10 @@ typedef struct { /* <struct><pthread_cond_t> Describe the thread condition */
     pthread_t     blocked_threads; /* list threads waiting for condition */
 } pthread_cond_t;
 
+typedef struct { /* <struct><pthread_timewait_t> Describe the thread timewait */
+    pthread_t     blocked_threads; /* list threads waiting for timewait */
+} pthread_timewait_t;
+
 typedef struct { /* <struct><pthread_mutex_t> Description of a thread mutex */
     osu32_t   lock;/* mutex lock status is one of <true | false> */
     pthread_t owner; /* < owner thread */
