@@ -30,11 +30,11 @@
 #define __CORE1_PTHREAD_CREATION_BLOCK(thread_var,thread_attr,thread_name,thread_id,callback_task_name)  \
 	           pthread_create_np(thread_var,thread_attr,thread_name,thread_id,callback_task_name);
 
-#define CORE1_PTHREAD_CREATION_BLOCK(thread_id)     __CORE1_PTHREAD_CREATION_BLOCK(core1_os_th##thread_id, \
-		                                                                           &core1_thread_attr[CORE1_THREAD_ID##thread_id],\
-		                                                                           core1_os_thread##thread_id,\
-		                                                                           (void*) CORE1_THREAD_ID##thread_id, \
-		                                                                           CORE1_TASK##thread_id)
+#define CORE1_PTHREAD_CREATION_BLOCK(thread_id)   __CORE1_PTHREAD_CREATION_BLOCK(core1_os_th##thread_id, \
+		                                                                         &core1_thread_attr[CORE1_THREAD_ID##thread_id],\
+		                                                                         core1_os_thread##thread_id,\
+		                                                                         (void*) CORE1_THREAD_ID##thread_id, \
+		                                                                         CORE1_TASK##thread_id)
 #define CORE1_PTHREAD_START_BLOCK() pthread_start_np();
 
 #endif
