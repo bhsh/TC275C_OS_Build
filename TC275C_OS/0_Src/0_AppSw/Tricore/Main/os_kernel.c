@@ -32,15 +32,15 @@
 /****************************************************************************/
 /* Global Variable Definitions                                              */
 /****************************************************************************/
-PTHREAD_MEMORY_QUALIFIER osu32_t   core0_os_pthread_runnable;
-PTHREAD_MEMORY_QUALIFIER osu32_t   core1_os_pthread_runnable;
-PTHREAD_MEMORY_QUALIFIER osu32_t   core2_os_pthread_runnable;
-PTHREAD_MEMORY_QUALIFIER pthread_t core0_os_pthread_running;
-PTHREAD_MEMORY_QUALIFIER pthread_t core1_os_pthread_running;
-PTHREAD_MEMORY_QUALIFIER pthread_t core2_os_pthread_running;
-PTHREAD_MEMORY_QUALIFIER pthread_t core0_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
-PTHREAD_MEMORY_QUALIFIER pthread_t core1_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
-PTHREAD_MEMORY_QUALIFIER pthread_t core2_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
+PTHREAD_MEMORY_QUALIFIER osu32_t           core0_os_pthread_runnable;
+PTHREAD_MEMORY_QUALIFIER osu32_t           core1_os_pthread_runnable;
+PTHREAD_MEMORY_QUALIFIER osu32_t           core2_os_pthread_runnable;
+PTHREAD_MEMORY_QUALIFIER pthread_t         core0_os_pthread_running;
+PTHREAD_MEMORY_QUALIFIER pthread_t         core1_os_pthread_running;
+PTHREAD_MEMORY_QUALIFIER pthread_t         core2_os_pthread_running;
+PTHREAD_MEMORY_QUALIFIER pthread_t         core0_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
+PTHREAD_MEMORY_QUALIFIER pthread_t         core1_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
+PTHREAD_MEMORY_QUALIFIER pthread_t         core2_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
 PTHREAD_MEMORY_QUALIFIER pthreads_status_t core0_pthreads_status;
 PTHREAD_MEMORY_QUALIFIER pthreads_status_t core1_pthreads_status;
 PTHREAD_MEMORY_QUALIFIER pthreads_status_t core2_pthreads_status;
@@ -54,9 +54,9 @@ OS_STATIC PTHREAD_MEMORY_QUALIFIER osu32_t   core2_mutex;
 OS_STATIC PTHREAD_MEMORY_QUALIFIER osu16_t   core0_os_tick_count;
 OS_STATIC PTHREAD_MEMORY_QUALIFIER osu16_t   core1_os_tick_count;
 OS_STATIC PTHREAD_MEMORY_QUALIFIER osu16_t   core2_os_tick_count;
-OS_STATIC PTHREAD_MEMORY_QUALIFIER osu32_t   core0_os_pthread_time_waiting;
-OS_STATIC PTHREAD_MEMORY_QUALIFIER osu32_t   core1_os_pthread_time_waiting;
-OS_STATIC PTHREAD_MEMORY_QUALIFIER osu32_t   core2_os_pthread_time_waiting;
+OS_STATIC PTHREAD_MEMORY_QUALIFIER osu32_t   core0_os_pthread_timewait_table;
+OS_STATIC PTHREAD_MEMORY_QUALIFIER osu32_t   core1_os_pthread_timewait_table;
+OS_STATIC PTHREAD_MEMORY_QUALIFIER osu32_t   core2_os_pthread_timewait_table;
 OS_STATIC PTHREAD_MEMORY_QUALIFIER pthread_t core0_os_blocked_threads;
 OS_STATIC PTHREAD_MEMORY_QUALIFIER pthread_t core1_os_blocked_threads;
 OS_STATIC PTHREAD_MEMORY_QUALIFIER pthread_t core2_os_blocked_threads;
@@ -762,7 +762,7 @@ OS_INLINE void os_kernel_in_tick(void)
 	
 	if(current_core_id == CORE0_ID)
 	{  	
-	  tempt_index = PTHREAD_COND_TIMEDWAIT_SIZE - __clz(core0_os_pthread_time_waiting);
+	  tempt_index = PTHREAD_COND_TIMEDWAIT_SIZE - __clz(core0_os_pthread_timewait_table);
 	  if( tempt_index == 0) return;
 	  tempt_index = tempt_index - 1;
 	  for(index = 0 ; index <= tempt_index ; index++)
@@ -771,14 +771,14 @@ OS_INLINE void os_kernel_in_tick(void)
 	    {		
   		  cond_buffer[release_count] = core0_os_timewait_cond_ptr[index];
   		  core0_os_timewait_ticks[index] = USHRT_MAX;     /* <CORE0> Free place in array */
-  		  __putbit(0,(os32_t*)&core0_os_pthread_time_waiting,index); 
+  		  __putbit(0,(os32_t*)&core0_os_pthread_timewait_table,index); 
   		  release_count++;
 	    }
 	  }
 	}
 	else if(current_core_id == CORE1_ID)
 	{		
-	  tempt_index = PTHREAD_COND_TIMEDWAIT_SIZE - __clz(core1_os_pthread_time_waiting);
+	  tempt_index = PTHREAD_COND_TIMEDWAIT_SIZE - __clz(core1_os_pthread_timewait_table);
 	  if( tempt_index == 0) return;
 	  tempt_index = tempt_index - 1;
 	  for(index = 0 ; index <= tempt_index ; index++)
@@ -787,14 +787,14 @@ OS_INLINE void os_kernel_in_tick(void)
   	    {		
   		  cond_buffer[release_count] = core1_os_timewait_cond_ptr[index];
   		  core1_os_timewait_ticks[index] = USHRT_MAX;   /* <CORE1> Free place in array */    
-  		  __putbit(0,(os32_t*)&core1_os_pthread_time_waiting,index); 
+  		  __putbit(0,(os32_t*)&core1_os_pthread_timewait_table,index); 
   		  release_count++;
   	    }
 	  }
 	}
 	else if(current_core_id == CORE2_ID)
 	{
-	  tempt_index = PTHREAD_COND_TIMEDWAIT_SIZE - __clz(core2_os_pthread_time_waiting);
+	  tempt_index = PTHREAD_COND_TIMEDWAIT_SIZE - __clz(core2_os_pthread_timewait_table);
 	  if( tempt_index == 0) return;
 	  tempt_index = tempt_index - 1;
 	  for(index = 0 ; index <= tempt_index ; index++)
@@ -803,7 +803,7 @@ OS_INLINE void os_kernel_in_tick(void)
     	{		
     	  cond_buffer[release_count] = core2_os_timewait_cond_ptr[index];
     	  core2_os_timewait_ticks[index] = USHRT_MAX;  /* <CORE2> Free place in array */
-    	  __putbit(0,(os32_t*)&core2_os_pthread_time_waiting,index); 
+    	  __putbit(0,(os32_t*)&core2_os_pthread_timewait_table,index); 
     	  release_count++;
     	}
 	  }
@@ -866,7 +866,7 @@ os32_t pthread_cond_timedwait_np(osu16_t reltime) /* <reltime> Waiting time, uni
 	  if(task_id == PTHREAD_COND_TIMEDWAIT_SIZE ) return 0;
  
       cond = &core0_os_timewait_cond[task_id];
-	  __putbit(1,(os32_t*)&core0_os_pthread_time_waiting,task_id); /* <CORE0> mark current thread ready */
+	  __putbit(1,(os32_t*)&core0_os_pthread_timewait_table,task_id); /* <CORE0> mark current thread ready */
 	  
       core0_os_timewait_ticks[task_id] = set_count;     /* <CORE0> Load the current tick set(lconfig 1.) */ 
       core0_os_timewait_cond_ptr[task_id] = cond;           /* <CORE0> Load the cond.(lconfig 2.) */            
@@ -888,7 +888,7 @@ os32_t pthread_cond_timedwait_np(osu16_t reltime) /* <reltime> Waiting time, uni
 	  if(task_id == PTHREAD_COND_TIMEDWAIT_SIZE ) return 0;
 
       cond = &core1_os_timewait_cond[task_id];
-	  __putbit(1,(os32_t*)&core1_os_pthread_time_waiting,task_id); /* <CORE1> mark current thread ready */
+	  __putbit(1,(os32_t*)&core1_os_pthread_timewait_table,task_id); /* <CORE1> mark current thread ready */
 	  
 	  core1_os_timewait_ticks[task_id] = set_count;  /* <CORE1> Load the current tick set(lconfig 1.) */    
       core1_os_timewait_cond_ptr[task_id] = cond;        /* <CORE1> Load the cond.(lconfig 2.) */              
@@ -911,7 +911,7 @@ os32_t pthread_cond_timedwait_np(osu16_t reltime) /* <reltime> Waiting time, uni
 	  if(task_id == PTHREAD_COND_TIMEDWAIT_SIZE ) return 0;
 
       cond = &core2_os_timewait_cond[task_id];
-	  __putbit(1,(os32_t*)&core2_os_pthread_time_waiting,task_id); /* <CORE2> mark current thread ready */
+	  __putbit(1,(os32_t*)&core2_os_pthread_timewait_table,task_id); /* <CORE2> mark current thread ready */
 
 	  core2_os_timewait_ticks[task_id] = set_count;  /* <CORE2> Load the current tick set(lconfig 1.) */
       core2_os_timewait_cond_ptr[task_id] = cond;        /* <CORE2> Load the cond.(lconfig 2.) */
