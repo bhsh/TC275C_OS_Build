@@ -1432,18 +1432,18 @@
 
 #include "os.h"
 
-#define CORE1_PTHREAD_INIT_CONFIG(thread_id) \
+#define CORE1_PTHREAD_INIT_CONFIG(thread_order_num) \
     {CORE_ID1 ,\
-	 CORE1_THREAD_ID##thread_id, \
-	 CORE1_THREAD##thread_id##_TYPE,\
-	 CORE1_THREAD##thread_id##_PERIOD, \
-	 thread_id, \
-	 CORE1_THREAD##thread_id##_ACTIVED_COREID, \
-	 CORE1_THREAD##thread_id##_ACTIVED },
+	 CORE1_THREAD_ID##thread_order_num, \
+	 CORE1_THREAD##thread_order_num##_TYPE,\
+	 CORE1_THREAD##thread_order_num##_PERIOD, \
+	 thread_order_num, \
+	 CORE1_THREAD##thread_order_num##_ACTIVED_COREID, \
+	 CORE1_THREAD##thread_order_num##_ACTIVED },
 
-#define CORE1_PTHREAD_ATTR_CONFIG(thread_id) \
-	{CORE1_THREAD##thread_id##_MODE,\
-	 CORE1_THREAD##thread_id##_CALL_DEPTH},
+#define CORE1_PTHREAD_ATTR_CONFIG(thread_order_num) \
+	{CORE1_THREAD##thread_order_num##_MODE,\
+	 CORE1_THREAD##thread_order_num##_CALL_DEPTH},
 	 
 OS_CONST pthread_config_t core1_pthread_init_config_database[CORE1_THREAD_MAX_ID_NUM] =
 {
