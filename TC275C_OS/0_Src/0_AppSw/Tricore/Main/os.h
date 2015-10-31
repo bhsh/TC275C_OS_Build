@@ -4,7 +4,7 @@
 #define OS_H_
 
 typedef struct {
-    osu32_t current_task_core_id;
+    osu32_t curr_task_core_id;
 	osu32_t task_id;
     osu32_t type;
     osu32_t period;

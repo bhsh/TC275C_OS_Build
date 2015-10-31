@@ -19,9 +19,7 @@
 /* Macro Definitions                                                        */
 /****************************************************************************/
 #define __fCPU 200
-//#define CORE0_PTHREAD_COND_INITIALIZER {CORE0_ID,0,0,NULL}
-//#define CORE1_PTHREAD_COND_INITIALIZER {CORE1_ID,0,0,NULL}
-//#define CORE2_PTHREAD_COND_INITIALIZER {CORE2_ID,0,0,NULL}
+
 #define CORE0_PTHREAD_TIMEWAIT_INITIALIZER {NULL}
 #define CORE1_PTHREAD_TIMEWAIT_INITIALIZER {NULL}
 #define CORE2_PTHREAD_TIMEWAIT_INITIALIZER {NULL}
