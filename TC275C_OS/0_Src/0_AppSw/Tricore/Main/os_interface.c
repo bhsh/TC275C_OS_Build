@@ -9,15 +9,10 @@
 --------------------------------------------------------------------------------------*/
 
 #include "os_type.h"
-
 #include <stdlib.h>
-#include "os_kernel.h"
-#include <stdio.h>
 #include "Cpu0_Main.h"
 #include "SysSe/Bsp/Bsp.h"
 #include "communication.h"
-
-
 #include "Compilers.h"
 #include "Cpu\Std\IfxCpu_Intrinsics.h"
 #include "Port\Io\IfxPort_Io.h"
@@ -34,31 +29,18 @@
 #define IFX_CFG_ISR_PRIORITY_STM1_COMPARE0	11   /**< \brief Stm1 Compare 0 interrupt priority.  */
 #define IFX_CFG_ISR_PRIORITY_STM2_COMPARE0	12   /**< \brief Stm2 Compare 0 interrupt priority.  */
 
-
 volatile osu32_t interrupt_test_flag;
+osu32_t stm0CompareValue;
+osu32_t stm1CompareValue;
+osu32_t stm2CompareValue;
 
 void os_wait_in_us(osu32_t time)
 {
   IfxStm_waitTicks(&MODULE_STM0, time*100);
 }
-
 osu32_t os_getstmlower_count(void)
 {
   return (osu32_t)(IfxStm_getLower(&MODULE_STM0)/10);
-}
-void __interrupt(20) CPU0_SOFT1_Isr(void) 
-{
-	interrupt_test_flag++;
-}
-
-void __interrupt(21) CPU1_SOFT1_Isr(void) 
-{
-    interrupt_test_flag++;
-}
-
-void __interrupt(22) CPU2_SOFT1_Isr(void) 
-{
-    interrupt_test_flag++;
 }
 void osPort_togglePin(osu8_t pin_num)
 {
@@ -91,96 +73,85 @@ osu32_t os_get_curr_coreid(void)
    core_id=__mfcr(CPU_CORE_ID);
    return (core_id&0x7);
 }
-
-osu32_t stm0CompareValue;
-osu32_t stm1CompareValue;
-osu32_t stm2CompareValue;
-
 void STM_Demo_init(void)
 {
-	/* Initialize STM for the triggers*/
+	/* <CORE0> Initialize STM for the triggers*/
 	IfxStm_CompareConfig stmCompareConfig;
 
-    // configure P33.8 as general output
-    IfxPort_setPinMode(&MODULE_P33, 8,  IfxPort_Mode_outputPushPullGeneral);
-
-    /* Calculate the compare value of STM0 */
+    /* <CORE0> Calculate the compare value of STM0 */
 	stm0CompareValue = IfxStm_getFrequency(&MODULE_STM0) / STM0_TICK_PERIOD_IN_MICROSECONDS;	/* 1ms */
 
 	IfxStm_enableOcdsSuspend(&MODULE_STM0);
 
-	/* Configure interrupt service requests for STM trigger outputs */
-	//IfxSrc_init(&MODULE_SRC.STM[0].SR[0], IfxSrc_Tos_cpu0, IFX_CFG_ISR_PRIORITY_STM0_COMPARE0);
-	//IfxSrc_enable(&MODULE_SRC.STM[0].SR[0]);
 	stmCompareConfig.servProvider = IfxSrc_Tos_cpu0;
 
-	/* Call the constructor of configuration */
+	/* <CORE0> Call the constructor of configuration */
 	IfxStm_initCompareConfig(&stmCompareConfig);
 
-	/* Modify only the number of ticks and enable the trigger output */
-	stmCompareConfig.ticks = stm0CompareValue;   /*Interrupt after stm0CompareValue ticks from now */
+	/* <CORE0> Modify only the number of ticks and enable the trigger output */
+	stmCompareConfig.ticks = stm0CompareValue;   /* <CORE0> Interrupt after stm0CompareValue ticks from now */
 	stmCompareConfig.triggerInterruptEnabled = IFX_CFG_ISR_PRIORITY_STM0_COMPARE0;
 
-	/* Now Compare functionality is initialized */
+	/* <CORE0> Now Compare functionality is initialized */
 	IfxStm_initCompare(&MODULE_STM0, &stmCompareConfig);
 
 }
 void STM1_Demo_init(void)
 {
-	/* Initialize STM for the triggers*/
+	/*  <CORE1> Initialize STM for the triggers*/
 	IfxStm_CompareConfig stmCompareConfig;
 
-    // configure P33.8 as general output
-    IfxPort_setPinMode(&MODULE_P33, 9,  IfxPort_Mode_outputPushPullGeneral);
-
-    /* Calculate the compare value of STM0 */
+    /* <CORE1> Calculate the compare value of STM0 */
 	stm1CompareValue = IfxStm_getFrequency(&MODULE_STM1) / STM1_TICK_PERIOD_IN_MICROSECONDS;	/* 1ms */
 
 	IfxStm_enableOcdsSuspend(&MODULE_STM1);
-
-	/* Configure interrupt service requests for STM trigger outputs */
-	//IfxSrc_init(&MODULE_SRC.STM[0].SR[0], IfxSrc_Tos_cpu0, IFX_CFG_ISR_PRIORITY_STM0_COMPARE0);
-	//IfxSrc_enable(&MODULE_SRC.STM[0].SR[0]);
 	stmCompareConfig.servProvider = IfxSrc_Tos_cpu1;
 
-	/* Call the constructor of configuration */
+	/* <CORE1> Call the constructor of configuration */
 	IfxStm_initCompareConfig(&stmCompareConfig);
 
-	/* Modify only the number of ticks and enable the trigger output */
-	stmCompareConfig.ticks = stm1CompareValue;   /*Interrupt after stm0CompareValue ticks from now */
+	/* <CORE1> Modify only the number of ticks and enable the trigger output */
+	stmCompareConfig.ticks = stm1CompareValue;   /*<CORE1> Interrupt after stm0CompareValue ticks from now */
 	stmCompareConfig.triggerInterruptEnabled = IFX_CFG_ISR_PRIORITY_STM1_COMPARE0;
 
-	/* Now Compare functionality is initialized */
+	/* <CORE1> Now Compare functionality is initialized */
 	IfxStm_initCompare(&MODULE_STM1, &stmCompareConfig);
 
 }
 
 void STM2_Demo_init(void)
 {
-	/* Initialize STM for the triggers*/
+	/* <CORE2> Initialize STM for the triggers*/
 	IfxStm_CompareConfig stmCompareConfig;
 
-    // configure P33.8 as general output
-    IfxPort_setPinMode(&MODULE_P33, 10,  IfxPort_Mode_outputPushPullGeneral);
-
-    /* Calculate the compare value of STM0 */
+    /* <CORE2> Calculate the compare value of STM0 */
 	stm2CompareValue = IfxStm_getFrequency(&MODULE_STM2) / STM2_TICK_PERIOD_IN_MICROSECONDS;	/* 1ms */
 
 	IfxStm_enableOcdsSuspend(&MODULE_STM2);
 
-	/* Configure interrupt service requests for STM trigger outputs */
-	//IfxSrc_init(&MODULE_SRC.STM[0].SR[0], IfxSrc_Tos_cpu0, IFX_CFG_ISR_PRIORITY_STM0_COMPARE0);
-	//IfxSrc_enable(&MODULE_SRC.STM[0].SR[0]);
+	/* <CORE2> Configure interrupt service requests for STM trigger outputs */
 	stmCompareConfig.servProvider = IfxSrc_Tos_cpu2;
 
-	/* Call the constructor of configuration */
+	/* <CORE2> Call the constructor of configuration */
 	IfxStm_initCompareConfig(&stmCompareConfig);
 
-	/* Modify only the number of ticks and enable the trigger output */
-	stmCompareConfig.ticks = stm2CompareValue;   /*Interrupt after stm0CompareValue ticks from now */
+	/* <CORE2> Modify only the number of ticks and enable the trigger output */
+	stmCompareConfig.ticks = stm2CompareValue;   /* <CORE2> Interrupt after stm0CompareValue ticks from now */
 	stmCompareConfig.triggerInterruptEnabled = IFX_CFG_ISR_PRIORITY_STM2_COMPARE0;
 
-	/* Now Compare functionality is initialized */
+	/* <CORE2> Now Compare functionality is initialized */
 	IfxStm_initCompare(&MODULE_STM2, &stmCompareConfig);
 
+}
+void __interrupt(20) CPU0_SOFT1_Isr(void) 
+{
+	interrupt_test_flag++;
+}
+void __interrupt(21) CPU1_SOFT1_Isr(void) 
+{
+    interrupt_test_flag++;
+}
+void __interrupt(22) CPU2_SOFT1_Isr(void) 
+{
+    interrupt_test_flag++;
 }
