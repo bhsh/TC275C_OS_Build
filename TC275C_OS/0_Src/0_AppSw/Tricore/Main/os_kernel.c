@@ -414,7 +414,7 @@ os32_t pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition pointer
 			SRC_GPSR00.U=(1<<26)| /* SRC_GPSR00.B.SETR=1; <Set request>                     */
 		                 (1<<10)| /* SRC_GPSR00.B.SRE=1;  <Service Request Enable>          */
 		                 (0<<11)| /* SRC_GPSR00.B.TOS=0;  <TOS=CPU0>                        */
-		                 (9);     /* SRC_GPSR00.B.SRPN=9; <Service Request Priority Number> */
+		                 (CORE0_KERNEL_SOFT_INT_LEVEL);     /* SRC_GPSR00.B.SRPN=9; <Service Request Priority Number> */
 
 			/* core_returnMutex(&core0_os_mutex); */
           }
@@ -435,7 +435,7 @@ os32_t pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition pointer
 			SRC_GPSR10.U=(1<<26)| /* SRC_GPSR10.B.SETR=1;  <Set request>                     */
 		                 (1<<10)| /* SRC_GPSR10.B.SRE=1;   <Service Request Enable>          */
 		                 (1<<11)| /* SRC_GPSR10.B.TOS=0;   <TOS=CPU1>                        */
-		                 (8);     /* SRC_GPSR10.B.SRPN=8;  <Service Request Priority Number> */     
+		                 (CORE1_KERNEL_SOFT_INT_LEVEL);     /* SRC_GPSR10.B.SRPN=8;  <Service Request Priority Number> */     
 		                 
 			/* core_returnMutex(&core1_os_mutex); */
 		  }
@@ -456,7 +456,7 @@ os32_t pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition pointer
 			SRC_GPSR20.U=(1<<26)| /* SRC_GPSR20.B.SETR=1;  <Set request>                     */               
 		                 (1<<10)| /* SRC_GPSR20.B.SRE=1;   <Service Request Enable>          */
 		                 (2<<11)| /* SRC_GPSR20.B.TOS=2;   <TOS=CPU2>                        */
-		                 (7);     /* SRC_GPSR20.B.SRPN=7;  <Service Request Priority Number> */
+		                 (CORE2_KERNEL_SOFT_INT_LEVEL);     /* SRC_GPSR20.B.SRPN=7;  <Service Request Priority Number> */
 		                 
 		    /* core_returnMutex(&core2_os_mutex); */
 		  }
