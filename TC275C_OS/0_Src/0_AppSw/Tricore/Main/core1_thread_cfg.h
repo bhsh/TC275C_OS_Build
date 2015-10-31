@@ -1444,6 +1444,13 @@
 #define CORE1_PTHREAD_ATTR_CONFIG(thread_order_num) \
 	{CORE1_THREAD##thread_order_num##_MODE,\
 	 CORE1_THREAD##thread_order_num##_CALL_DEPTH},
+
+#define CORE1_PTHREAD_COND_INIT_CONFIG(thread_order_num)\
+	{CORE1_ID, \
+	 0, \
+	 CORE1_THREAD_ID##thread_order_num, \
+	 NULL},
+
 	 
 OS_CONST pthread_config_t core1_pthread_init_config_database[CORE1_THREAD_MAX_ID_NUM] =
 {
