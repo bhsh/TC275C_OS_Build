@@ -23,7 +23,7 @@ static volatile osu32_t os_thread_end_timeslot[TRACE_MAX_CORE_NUM];
 
 static osu32_t os_trace_time(void)
 {
-  return (osu32_t)(os_getstmlower_count()/10);
+  return (osu32_t)(LowDriver_GetStmLower_Count()/10);
 }
 void OS_test1(osu32_t time)
 {

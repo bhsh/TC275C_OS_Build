@@ -53,25 +53,25 @@ void App_share_func_task_test_count(unsigned int current_core_id,unsigned int ch
 }
 void  App_share_func_flash_led_1(void)
 {
-   osPort_togglePin(LED_1);
+   LowDriver_Port_TogglePin(LED_1);
 }
 
 void  App_share_func_flash_led_2(void)
 {
-   osPort_togglePin(LED_2);
+   LowDriver_Port_TogglePin(LED_2);
 }
 
 void  App_share_func_flash_led_3(void)
 {
-   osPort_togglePin(LED_3);
+   LowDriver_Port_TogglePin(LED_3);
 }
 
 void  App_share_func_flash_led_4(void)
 {
-   osPort_togglePin(LED_4);
+   LowDriver_Port_TogglePin(LED_4);
 }
 void App_share_func_trigger_software_interrupt1(void)
 {
-   os_trigger_software_interrupt1();
+   LowDriver_trigger_software_interrupt1();
 }
 

@@ -19,23 +19,23 @@
 #include "Stm\Std\IfxStm.h"
 #include "Src\Std\IfxSrc.h"
 
-OS_EXTERN osu32_t  stm0CompareValue;
-OS_EXTERN osu32_t  stm1CompareValue;
-OS_EXTERN osu32_t  stm2CompareValue;
-OS_INLINE osu32_t os_getUstack_address(void)
+OS_EXTERN unsigned int  stm0CompareValue;
+OS_EXTERN unsigned int  stm1CompareValue;
+OS_EXTERN unsigned int  stm2CompareValue;
+OS_INLINE unsigned int os_getUstack_address(void)
 {  
-   osu32_t *res;
+   unsigned int *res;
    __asm volatile ("mov.aa %0, a10": "=a" (res) : :"a10");
-   return (osu32_t)res;
+   return (unsigned int)res;
 }
 /****************************************************************************/
 /* DESCRIPTION: <CORE0> Update stm0 compare1                                */
 /****************************************************************************/
 OS_INLINE void LowDriver_Update_Core0_Tick(void) 
 {
-    osu32_t core0_ticks;
+    unsigned int core0_ticks;
 
-    core0_ticks = (osu32_t)(stm0CompareValue*1);
+    core0_ticks = (unsigned int)(stm0CompareValue*1);
     IfxStm_updateCompare (&MODULE_STM0,
 		                  IfxStm_Comparator_0,
 	                      IfxStm_getCompare (&MODULE_STM0, IfxStm_Comparator_0) + core0_ticks);
@@ -47,9 +47,9 @@ OS_INLINE void LowDriver_Update_Core0_Tick(void)
 /****************************************************************************/
 OS_INLINE void LowDriver_Update_Core1_Tick(void)
 {
-    osu32_t core1_ticks;
+    unsigned int core1_ticks;
 	
-    core1_ticks = (osu32_t) (stm1CompareValue * 1);
+    core1_ticks = (unsigned int) (stm1CompareValue * 1);
     IfxStm_updateCompare (&MODULE_STM1,
 		                  IfxStm_Comparator_0, 
 		                  IfxStm_getCompare (&MODULE_STM1, IfxStm_Comparator_0) + core1_ticks);
@@ -61,18 +61,18 @@ OS_INLINE void LowDriver_Update_Core1_Tick(void)
 /****************************************************************************/
 OS_INLINE void LowDriver_Update_Core2_Tick(void)
 {
-    osu32_t core2_ticks;
+    unsigned int core2_ticks;
 	
-    core2_ticks = (osu32_t) (stm2CompareValue * 1);
+    core2_ticks = (unsigned int) (stm2CompareValue * 1);
     IfxStm_updateCompare (&MODULE_STM2,
 		                  IfxStm_Comparator_0, 
 		                  IfxStm_getCompare (&MODULE_STM2, IfxStm_Comparator_0) + core2_ticks);
 
 } /* End of LowDriver_Update_Core2_Tick function */
-OS_EXTERN void    os_wait_in_us(osu32_t time);
-OS_EXTERN osu32_t os_getstmlower_count(void);
-OS_EXTERN void    osPort_togglePin(osu8_t pin_num);
-OS_EXTERN void    os_trigger_software_interrupt1(void);
-OS_EXTERN void    os_trigger_software_interrupt2(void);
-OS_EXTERN void    os_trigger_software_interrupt3(void);
-OS_EXTERN osu32_t os_get_curr_coreid(void);
+extern void         LowDriver_Wait_In_Us(unsigned int time);
+extern void         LowDriver_Port_TogglePin(unsigned char pin_num);
+extern void         LowDriver_trigger_software_interrupt1(void);
+extern void         LowDriver_trigger_software_interrupt2(void);
+extern void         LowDriver_trigger_software_interrupt3(void);
+extern unsigned int LowDriver_Get_Curr_Core_ID(void);
+extern unsigned int LowDriver_GetStmLower_Count(void);

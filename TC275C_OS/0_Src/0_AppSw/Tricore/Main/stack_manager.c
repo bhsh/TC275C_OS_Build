@@ -30,7 +30,7 @@ static pthread_stack_t pthread_stack[STACK_MEA_MAX_CORE_NUM][STACK_MEA_MAX_THREA
 
 osu32_t get_stack_used_percent(osu32_t thread_id, osu32_t pos)
 {
-	osu32_t current_cpu_id = os_get_curr_coreid();
+	osu32_t current_cpu_id = LowDriver_Get_Curr_Core_ID();
 
 	pthread_stack[current_cpu_id][thread_id][pos].stack_current_address = os_getUstack_address();
 

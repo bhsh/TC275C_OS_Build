@@ -296,9 +296,9 @@ void returnMutex(void)
 {
   mutex=0x0;
 }
-extern void STM_Demo_init(void);
-extern void STM1_Demo_init(void);
-extern void STM2_Demo_init(void);
+extern void LowDriver_Initialize_CORE0_OS_Tick(void);
+extern void LowDriver_Initialize_CORE1_OS_Tick(void);
+extern void LowDriver_Initialize_CORE2_OS_Tick(void);
 int core0_main (void)
 {
     /*
@@ -314,10 +314,10 @@ int core0_main (void)
     g_AppCpu0.info.sysFreq = IfxScuCcu_getSpbFrequency();
     g_AppCpu0.info.stmFreq = IfxStm_getFrequency(&MODULE_STM0);
 
-    STM_Demo_init();
+    LowDriver_Initialize_CORE0_OS_Tick();
     //STM_Demo_init_stm0_compare1();
-    STM1_Demo_init();
-    STM2_Demo_init();
+    LowDriver_Initialize_CORE1_OS_Tick();
+    LowDriver_Initialize_CORE2_OS_Tick();
 
     /* Enable the global interrupts of this CPU */
     IfxCpu_enableInterrupts();
