@@ -33,7 +33,7 @@
 #define CORE2_PTHREAD_CREATION_BLOCK(thread_id)     __CORE2_PTHREAD_CREATION_BLOCK(core2_os_th##thread_id, \
 		                                                                           &core2_thread_attr[CORE2_THREAD_ID##thread_id],\
 		                                                                           core2_os_thread##thread_id,\
-		                                                                           (void*)core2_pthread_init_config_database[CORE2_THREAD_ID##thread_id].task_id, \
+		                                                                           (void*) CORE2_THREAD_ID##thread_id, \
 		                                                                           CORE2_TASK##thread_id)
 #define CORE2_PTHREAD_START_BLOCK() pthread_start_np();
 

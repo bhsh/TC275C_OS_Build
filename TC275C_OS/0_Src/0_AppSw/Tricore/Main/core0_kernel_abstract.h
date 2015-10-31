@@ -34,8 +34,8 @@
 #define CORE0_PTHREAD_CREATION_BLOCK(thread_id)   __CORE0_PTHREAD_CREATION_BLOCK(core0_os_th##thread_id, \
 		                                                                           &core0_thread_attr[CORE0_THREAD_ID##thread_id],\
 		                                                                           core0_os_thread##thread_id,\
-		                                                                           (void*)core0_pthread_init_config_database[CORE0_THREAD_ID##thread_id].task_id, \
+		                                                                           (void*) CORE0_THREAD_ID##thread_id, \
 		                                                                           CORE0_TASK##thread_id)
 #define CORE0_PTHREAD_START_BLOCK() pthread_start_np();
 
-#endif
+#endif /* End of CORE0_KERNEL_ABSTRACT_H_*/
