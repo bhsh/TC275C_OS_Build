@@ -48,9 +48,9 @@ PTHREAD_MEMORY_QUALIFIER pthreads_status_t core2_os_pthreads_status;
 /****************************************************************************/
 /* Static Variable Definitions                                              */
 /****************************************************************************/
-OS_STATIC PTHREAD_MEMORY_QUALIFIER osu32_t   core0_mutex;
-OS_STATIC PTHREAD_MEMORY_QUALIFIER osu32_t   core1_mutex;
-OS_STATIC PTHREAD_MEMORY_QUALIFIER osu32_t   core2_mutex;
+OS_STATIC PTHREAD_MEMORY_QUALIFIER osu32_t   core0_os_mutex;
+OS_STATIC PTHREAD_MEMORY_QUALIFIER osu32_t   core1_os_mutex;
+OS_STATIC PTHREAD_MEMORY_QUALIFIER osu32_t   core2_os_mutex;
 OS_STATIC PTHREAD_MEMORY_QUALIFIER osu16_t   core0_os_tick_count;
 OS_STATIC PTHREAD_MEMORY_QUALIFIER osu16_t   core1_os_tick_count;
 OS_STATIC PTHREAD_MEMORY_QUALIFIER osu16_t   core2_os_tick_count;
@@ -459,7 +459,7 @@ os32_t pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition pointer
 		{
 	      if(cond_core_id == CORE0_ID)
 	      { 
-			while(0!=core_getMutex(&core0_mutex)){};
+			while(0!=core_getMutex(&core0_os_mutex)){};
 			 
     	    core0_os_blocked_threads=NULL;
 			 
@@ -476,11 +476,11 @@ os32_t pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition pointer
 		                 (0<<11)| /* SRC_GPSR00.B.TOS=0;  <TOS=CPU0>                        */
 		                 (9);     /* SRC_GPSR00.B.SRPN=9; <Service Request Priority Number> */
 
-			/* core_returnMutex(&core0_mutex); */
+			/* core_returnMutex(&core0_os_mutex); */
           }
 		  else if(cond_core_id == CORE1_ID)
 		  { 
-            while(0!=core_getMutex(&core1_mutex)){};
+            while(0!=core_getMutex(&core1_os_mutex)){};
 			
     	    core1_os_blocked_threads=NULL;
 			 
@@ -497,11 +497,11 @@ os32_t pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition pointer
 		                 (1<<11)| /* SRC_GPSR10.B.TOS=0;   <TOS=CPU1>                        */
 		                 (8);     /* SRC_GPSR10.B.SRPN=8;  <Service Request Priority Number> */     
 		                 
-			/* core_returnMutex(&core1_mutex); */
+			/* core_returnMutex(&core1_os_mutex); */
 		  }
 		  else if(cond_core_id == CORE2_ID)
 		  { 
-            while(0!=core_getMutex(&core2_mutex)){};
+            while(0!=core_getMutex(&core2_os_mutex)){};
 			 
     	    core2_os_blocked_threads=NULL;
 			 
@@ -518,7 +518,7 @@ os32_t pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition pointer
 		                 (2<<11)| /* SRC_GPSR20.B.TOS=2;   <TOS=CPU2>                        */
 		                 (7);     /* SRC_GPSR20.B.SRPN=7;  <Service Request Priority Number> */
 		                 
-		    /* core_returnMutex(&core2_mutex); */
+		    /* core_returnMutex(&core2_os_mutex); */
 		  }
 		}		
       }
@@ -658,8 +658,8 @@ OS_STATIC void os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_thread)
           break;
       }
   	
-  	  /* <CORE0> Unlock core0_mutex */
-  	  core_returnMutex(&core0_mutex);
+  	  /* <CORE0> Unlock core0_os_mutex */
+  	  core_returnMutex(&core0_os_mutex);
     }
 	else if(current_core_id == CORE1_ID)
 	{
@@ -699,8 +699,8 @@ OS_STATIC void os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_thread)
           break;
       }
 		
-	  /* <CORE1> Unlock core1_mutex */
-	  core_returnMutex(&core1_mutex);
+	  /* <CORE1> Unlock core1_os_mutex */
+	  core_returnMutex(&core1_os_mutex);
 	}
 	else if(current_core_id == CORE2_ID)
 	{
@@ -740,8 +740,8 @@ OS_STATIC void os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_thread)
           break;
       }
 		
-	  /* <CORE2> Unlock core2_mutex */
-      core_returnMutex(&core2_mutex);		
+	  /* <CORE2> Unlock core2_os_mutex */
+      core_returnMutex(&core2_os_mutex);		
 	}
     pthread_start_np();
 } /* End of os_kernel function */
