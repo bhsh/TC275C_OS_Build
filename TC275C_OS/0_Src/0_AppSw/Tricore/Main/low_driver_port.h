@@ -31,10 +31,10 @@ inline unsigned int  LowDriver_GetUstack_Address(void)
 /****************************************************************************/
 inline void LowDriver_Update_CORE0_OS_Tick(void) 
 {   
-	extern unsigned int  stm0CompareValue;
+	extern unsigned int  LowDriver_stm0CompareValue;
     unsigned int core0_ticks;
 
-    core0_ticks = (unsigned int)(stm0CompareValue*1);
+    core0_ticks = (unsigned int)(LowDriver_stm0CompareValue*1);
     IfxStm_updateCompare (&MODULE_STM0,
 		                  IfxStm_Comparator_0,
 	                      IfxStm_getCompare (&MODULE_STM0, IfxStm_Comparator_0) + core0_ticks);
@@ -46,10 +46,10 @@ inline void LowDriver_Update_CORE0_OS_Tick(void)
 /****************************************************************************/
 inline void LowDriver_Update_CORE1_OS_Tick(void)
 {
-    extern unsigned int  stm1CompareValue;
+    extern unsigned int  LowDriver_stm1CompareValue;
     unsigned int core1_ticks;
 	
-    core1_ticks = (unsigned int) (stm1CompareValue * 1);
+    core1_ticks = (unsigned int) (LowDriver_stm1CompareValue * 1);
     IfxStm_updateCompare (&MODULE_STM1,
 		                  IfxStm_Comparator_0, 
 		                  IfxStm_getCompare (&MODULE_STM1, IfxStm_Comparator_0) + core1_ticks);
@@ -61,10 +61,10 @@ inline void LowDriver_Update_CORE1_OS_Tick(void)
 /****************************************************************************/
 inline void LowDriver_Update_CORE2_OS_Tick(void)
 {
-    extern unsigned int  stm2CompareValue;
+    extern unsigned int  LowDriver_stm2CompareValue;
     unsigned int core2_ticks;
 	
-    core2_ticks = (unsigned int) (stm2CompareValue * 1);
+    core2_ticks = (unsigned int) (LowDriver_stm2CompareValue * 1);
     IfxStm_updateCompare (&MODULE_STM2,
 		                  IfxStm_Comparator_0, 
 		                  IfxStm_getCompare (&MODULE_STM2, IfxStm_Comparator_0) + core2_ticks);

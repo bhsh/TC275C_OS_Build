@@ -19,17 +19,19 @@
 #define STM1_TICK_PERIOD_IN_MICROSECONDS    1000
 #define STM2_TICK_PERIOD_IN_MICROSECONDS    1000
 
-#define IFX_CFG_ISR_PRIORITY_STM0_COMPARE0	10   /**< \brief Stm0 Compare 0 interrupt priority.  */
-#define IFX_CFG_ISR_PRIORITY_STM1_COMPARE0	11   /**< \brief Stm1 Compare 0 interrupt priority.  */
-#define IFX_CFG_ISR_PRIORITY_STM2_COMPARE0	12   /**< \brief Stm2 Compare 0 interrupt priority.  */
+#define IFX_CFG_ISR_PRIORITY_STM0_COMPARE0	10   
+#define IFX_CFG_ISR_PRIORITY_STM1_COMPARE0	11   
+#define IFX_CFG_ISR_PRIORITY_STM2_COMPARE0	12  
 
 /****************************************************************************/
 /* Global Variable Definitions                                              */
 /****************************************************************************/
-volatile unsigned int interrupt_test_flag;
-unsigned int stm0CompareValue;
-unsigned int stm1CompareValue;
-unsigned int stm2CompareValue;
+volatile unsigned int LowDriver_interrupt_test_flag0;
+volatile unsigned int LowDriver_interrupt_test_flag1;
+volatile unsigned int LowDriver_interrupt_test_flag2;
+unsigned int LowDriver_stm0CompareValue;
+unsigned int LowDriver_stm1CompareValue;
+unsigned int LowDriver_stm2CompareValue;
 
 /****************************************************************************/
 /* FUNTION NAME: LowDriver_Wait_In_Us                                       */
@@ -83,7 +85,7 @@ void LowDriver_Initialize_CORE0_OS_Tick(void)
 	IfxStm_CompareConfig stmCompareConfig;
 
     /* <CORE0> Calculate the compare value of STM0 */
-	stm0CompareValue = IfxStm_getFrequency(&MODULE_STM0) / STM0_TICK_PERIOD_IN_MICROSECONDS;	/* 1ms */
+	LowDriver_stm0CompareValue = IfxStm_getFrequency(&MODULE_STM0) / STM0_TICK_PERIOD_IN_MICROSECONDS;	/* 1ms */
 
 	IfxStm_enableOcdsSuspend(&MODULE_STM0);
 
@@ -93,7 +95,7 @@ void LowDriver_Initialize_CORE0_OS_Tick(void)
 	IfxStm_initCompareConfig(&stmCompareConfig);
 
 	/* <CORE0> Modify only the number of ticks and enable the trigger output */
-	stmCompareConfig.ticks = stm0CompareValue;   /* <CORE0> Interrupt after stm0CompareValue ticks from now */
+	stmCompareConfig.ticks = LowDriver_stm0CompareValue;   /* <CORE0> Interrupt after stm0CompareValue ticks from now */
 	stmCompareConfig.triggerInterruptEnabled = IFX_CFG_ISR_PRIORITY_STM0_COMPARE0;
 
 	/* <CORE0> Now Compare functionality is initialized */
@@ -111,7 +113,7 @@ void LowDriver_Initialize_CORE1_OS_Tick(void)
 	IfxStm_CompareConfig stmCompareConfig;
 
     /* <CORE1> Calculate the compare value of STM0 */
-	stm1CompareValue = IfxStm_getFrequency(&MODULE_STM1) / STM1_TICK_PERIOD_IN_MICROSECONDS;	/* 1ms */
+	LowDriver_stm1CompareValue = IfxStm_getFrequency(&MODULE_STM1) / STM1_TICK_PERIOD_IN_MICROSECONDS;	/* 1ms */
 
 	IfxStm_enableOcdsSuspend(&MODULE_STM1);
 	stmCompareConfig.servProvider = IfxSrc_Tos_cpu1;
@@ -120,7 +122,7 @@ void LowDriver_Initialize_CORE1_OS_Tick(void)
 	IfxStm_initCompareConfig(&stmCompareConfig);
 
 	/* <CORE1> Modify only the number of ticks and enable the trigger output */
-	stmCompareConfig.ticks = stm1CompareValue;   /*<CORE1> Interrupt after stm0CompareValue ticks from now */
+	stmCompareConfig.ticks = LowDriver_stm1CompareValue;   /*<CORE1> Interrupt after stm0CompareValue ticks from now */
 	stmCompareConfig.triggerInterruptEnabled = IFX_CFG_ISR_PRIORITY_STM1_COMPARE0;
 
 	/* <CORE1> Now Compare functionality is initialized */
@@ -138,7 +140,7 @@ void LowDriver_Initialize_CORE2_OS_Tick(void)
 	IfxStm_CompareConfig stmCompareConfig;
 
     /* <CORE2> Calculate the compare value of STM0 */
-	stm2CompareValue = IfxStm_getFrequency(&MODULE_STM2) / STM2_TICK_PERIOD_IN_MICROSECONDS;	/* 1ms */
+	LowDriver_stm2CompareValue = IfxStm_getFrequency(&MODULE_STM2) / STM2_TICK_PERIOD_IN_MICROSECONDS;	/* 1ms */
 
 	IfxStm_enableOcdsSuspend(&MODULE_STM2);
 
@@ -149,7 +151,7 @@ void LowDriver_Initialize_CORE2_OS_Tick(void)
 	IfxStm_initCompareConfig(&stmCompareConfig);
 
 	/* <CORE2> Modify only the number of ticks and enable the trigger output */
-	stmCompareConfig.ticks = stm2CompareValue;   /* <CORE2> Interrupt after stm0CompareValue ticks from now */
+	stmCompareConfig.ticks = LowDriver_stm2CompareValue;   /* <CORE2> Interrupt after stm0CompareValue ticks from now */
 	stmCompareConfig.triggerInterruptEnabled = IFX_CFG_ISR_PRIORITY_STM2_COMPARE0;
 
 	/* <CORE2> Now Compare functionality is initialized */
@@ -199,7 +201,7 @@ void LowDriver_trigger_software_interrupt3(void)
 /****************************************************************************/
 void __interrupt(20) CPU0_SOFT1_Isr(void) 
 {
-	interrupt_test_flag++;
+	LowDriver_interrupt_test_flag0++;
 } /* End of CPU0_SOFT1_Isr function */
 
 /****************************************************************************/
@@ -208,7 +210,7 @@ void __interrupt(20) CPU0_SOFT1_Isr(void)
 /****************************************************************************/
 void __interrupt(21) CPU1_SOFT1_Isr(void) 
 {
-    interrupt_test_flag++;
+    LowDriver_interrupt_test_flag1++;
 } /* End of CPU1_SOFT1_Isr function */
 
 /****************************************************************************/
@@ -217,5 +219,5 @@ void __interrupt(21) CPU1_SOFT1_Isr(void)
 /****************************************************************************/
 void __interrupt(22) CPU2_SOFT1_Isr(void) 
 {
-    interrupt_test_flag++;
+    LowDriver_interrupt_test_flag2++;
 } /* End of CPU2_SOFT1_Isr function */
