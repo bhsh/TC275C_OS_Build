@@ -14,7 +14,7 @@
 #define TRACE_MAX_CORE_NUM    (3)
 #define TRACE_MAX_THREAD_NUM  (11)
 
-static volatile osu32_t os_thread_time[TRACE_MAX_CORE_NUM][TRACE_MAX_THREAD_NUM];
+static volatile osu32_t os_thread_execute_time[TRACE_MAX_CORE_NUM][TRACE_MAX_THREAD_NUM];
 static volatile osu32_t os_tick_begin[TRACE_MAX_CORE_NUM][TRACE_MAX_THREAD_NUM];
 static volatile osu32_t os_thread_timeslot[TRACE_MAX_CORE_NUM][TRACE_MAX_THREAD_NUM];
 static volatile osu32_t os_thread_switch_times[TRACE_MAX_CORE_NUM][TRACE_MAX_THREAD_NUM];
@@ -43,8 +43,8 @@ void os_trace_task_time_begin(osu32_t curr_core_id,osu32_t thread_id)
 }
 void os_trace_task_time_end(osu32_t curr_core_id,osu32_t thread_id)
 {
-  os_thread_time[curr_core_id][thread_id] = 
-  	   os_trace_time() - os_tick_begin[curr_core_id][thread_id];
+    os_thread_execute_time[curr_core_id][thread_id] = 
+  	  os_trace_time() - os_tick_begin[curr_core_id][thread_id];
 }
 void os_trace_thread_timeslot(osu32_t curr_core_id,osu32_t thread_id)
 {
