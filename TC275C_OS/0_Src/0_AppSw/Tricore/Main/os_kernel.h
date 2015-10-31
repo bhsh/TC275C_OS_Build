@@ -22,6 +22,9 @@
 #define CORE0_PTHREAD_COND_INITIALIZER {CORE0_ID,0,NULL}
 #define CORE1_PTHREAD_COND_INITIALIZER {CORE1_ID,0,NULL}
 #define CORE2_PTHREAD_COND_INITIALIZER {CORE2_ID,0,NULL}
+//#define CORE0_PTHREAD_COND_INITIALIZER {CORE0_ID,0,NULL}
+//#define CORE1_PTHREAD_COND_INITIALIZER {CORE1_ID,0,NULL}
+//#define CORE2_PTHREAD_COND_INITIALIZER {CORE2_ID,0,NULL}
 #define assert(_expr)  \
        ((void) (!(_expr) ? __debug(): (void) 0))
 #define PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_stacksize) static struct { \

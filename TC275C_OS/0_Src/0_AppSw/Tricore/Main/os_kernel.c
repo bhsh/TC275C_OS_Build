@@ -32,47 +32,47 @@
 /****************************************************************************/
 /* Global Variable Definitions                                              */
 /****************************************************************************/
-osu32_t   core0_os_pthread_runnable;
-osu32_t   core1_os_pthread_runnable;
-osu32_t   core2_os_pthread_runnable;
-pthread_t core0_os_pthread_running;
-pthread_t core1_os_pthread_running;
-pthread_t core2_os_pthread_running;
-pthread_t core0_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
-pthread_t core1_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
-pthread_t core2_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
-pthreads_status_t core0_pthreads_status;
-pthreads_status_t core1_pthreads_status;
-pthreads_status_t core2_pthreads_status;
+PTHREAD_MEMORY_QUALIFIER osu32_t   core0_os_pthread_runnable;
+PTHREAD_MEMORY_QUALIFIER osu32_t   core1_os_pthread_runnable;
+PTHREAD_MEMORY_QUALIFIER osu32_t   core2_os_pthread_runnable;
+PTHREAD_MEMORY_QUALIFIER pthread_t core0_os_pthread_running;
+PTHREAD_MEMORY_QUALIFIER pthread_t core1_os_pthread_running;
+PTHREAD_MEMORY_QUALIFIER pthread_t core2_os_pthread_running;
+PTHREAD_MEMORY_QUALIFIER pthread_t core0_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
+PTHREAD_MEMORY_QUALIFIER pthread_t core1_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
+PTHREAD_MEMORY_QUALIFIER pthread_t core2_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
+PTHREAD_MEMORY_QUALIFIER pthreads_status_t core0_pthreads_status;
+PTHREAD_MEMORY_QUALIFIER pthreads_status_t core1_pthreads_status;
+PTHREAD_MEMORY_QUALIFIER pthreads_status_t core2_pthreads_status;
 
 /****************************************************************************/
 /* Static Variable Definitions                                              */
 /****************************************************************************/
-OS_STATIC osu32_t   core0_mutex;
-OS_STATIC osu32_t   core1_mutex;
-OS_STATIC osu32_t   core2_mutex;
-OS_STATIC osu16_t   core0_os_tick_count;
-OS_STATIC osu16_t   core1_os_tick_count;
-OS_STATIC osu16_t   core2_os_tick_count;
-OS_STATIC osu32_t   core0_os_pthread_time_waiting;
-OS_STATIC osu32_t   core1_os_pthread_time_waiting;
-OS_STATIC osu32_t   core2_os_pthread_time_waiting;
-OS_STATIC pthread_t core0_os_blocked_threads;
-OS_STATIC pthread_t core1_os_blocked_threads;
-OS_STATIC pthread_t core2_os_blocked_threads;
-OS_STATIC osu16_t   core0_os_timewait_ticks[PTHREAD_COND_TIMEDWAIT_SIZE]=
+OS_STATIC PTHREAD_MEMORY_QUALIFIER osu32_t   core0_mutex;
+OS_STATIC PTHREAD_MEMORY_QUALIFIER osu32_t   core1_mutex;
+OS_STATIC PTHREAD_MEMORY_QUALIFIER osu32_t   core2_mutex;
+OS_STATIC PTHREAD_MEMORY_QUALIFIER osu16_t   core0_os_tick_count;
+OS_STATIC PTHREAD_MEMORY_QUALIFIER osu16_t   core1_os_tick_count;
+OS_STATIC PTHREAD_MEMORY_QUALIFIER osu16_t   core2_os_tick_count;
+OS_STATIC PTHREAD_MEMORY_QUALIFIER osu32_t   core0_os_pthread_time_waiting;
+OS_STATIC PTHREAD_MEMORY_QUALIFIER osu32_t   core1_os_pthread_time_waiting;
+OS_STATIC PTHREAD_MEMORY_QUALIFIER osu32_t   core2_os_pthread_time_waiting;
+OS_STATIC PTHREAD_MEMORY_QUALIFIER pthread_t core0_os_blocked_threads;
+OS_STATIC PTHREAD_MEMORY_QUALIFIER pthread_t core1_os_blocked_threads;
+OS_STATIC PTHREAD_MEMORY_QUALIFIER pthread_t core2_os_blocked_threads;
+OS_STATIC PTHREAD_MEMORY_QUALIFIER osu16_t   core0_os_timewait_ticks[PTHREAD_COND_TIMEDWAIT_SIZE]=
 { 
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                      
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,  
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                     
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX 	
 };
-OS_STATIC pthread_cond_t  *core0_os_timewait_cond_ptr[PTHREAD_COND_TIMEDWAIT_SIZE]=
+OS_STATIC PTHREAD_MEMORY_QUALIFIER pthread_cond_t  *core0_os_timewait_cond_ptr[PTHREAD_COND_TIMEDWAIT_SIZE]=
 {
     NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,                     
     NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL                     
 };
-OS_STATIC pthread_cond_t  core0_os_timewait_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
+OS_STATIC PTHREAD_MEMORY_QUALIFIER pthread_cond_t  core0_os_timewait_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
 {  
     CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,                     
     CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,    
@@ -83,19 +83,19 @@ OS_STATIC pthread_cond_t  core0_os_timewait_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
     CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,                     
     CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER,CORE0_PTHREAD_COND_INITIALIZER   
 };
-OS_STATIC osu16_t  core1_os_timewait_ticks[PTHREAD_COND_TIMEDWAIT_SIZE]=
+OS_STATIC PTHREAD_MEMORY_QUALIFIER osu16_t  core1_os_timewait_ticks[PTHREAD_COND_TIMEDWAIT_SIZE]=
 {
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                      
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,  
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                     
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX 
 };
-OS_STATIC pthread_cond_t  *core1_os_timewait_cond_ptr[PTHREAD_COND_TIMEDWAIT_SIZE]=
+OS_STATIC PTHREAD_MEMORY_QUALIFIER pthread_cond_t  *core1_os_timewait_cond_ptr[PTHREAD_COND_TIMEDWAIT_SIZE]=
 {
     NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,                     
     NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL  
 };
-OS_STATIC pthread_cond_t  core1_os_timewait_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
+OS_STATIC PTHREAD_MEMORY_QUALIFIER pthread_cond_t  core1_os_timewait_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
 {  
     CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,                     
     CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,    
@@ -106,19 +106,19 @@ OS_STATIC pthread_cond_t  core1_os_timewait_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
     CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,                     
     CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER,CORE1_PTHREAD_COND_INITIALIZER   
 };
-OS_STATIC osu16_t  core2_os_timewait_ticks[PTHREAD_COND_TIMEDWAIT_SIZE] =
+OS_STATIC PTHREAD_MEMORY_QUALIFIER osu16_t  core2_os_timewait_ticks[PTHREAD_COND_TIMEDWAIT_SIZE] =
 {
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                      
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,  
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                     
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX 				    
 };
-OS_STATIC pthread_cond_t  *core2_os_timewait_cond_ptr[PTHREAD_COND_TIMEDWAIT_SIZE] =
+OS_STATIC PTHREAD_MEMORY_QUALIFIER pthread_cond_t  *core2_os_timewait_cond_ptr[PTHREAD_COND_TIMEDWAIT_SIZE] =
 {
     NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,                     
     NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL 
 };
-OS_STATIC pthread_cond_t  core2_os_timewait_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
+OS_STATIC PTHREAD_MEMORY_QUALIFIER pthread_cond_t  core2_os_timewait_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
 {  
     CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,                     
     CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,CORE2_PTHREAD_COND_INITIALIZER,    
