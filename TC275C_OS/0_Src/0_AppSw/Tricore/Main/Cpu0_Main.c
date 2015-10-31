@@ -13,24 +13,12 @@
 
 #include "os_kernel.h"
 
-#define STM0_TICK_PERIOD_IN_MICROSECONDS    1000
-#define STM1_TICK_PERIOD_IN_MICROSECONDS    1000
-#define STM2_TICK_PERIOD_IN_MICROSECONDS    1000
-
 #define IFX_CFG_ISR_PRIORITY_CPU0_SOFTWAR0	9    /**< \brief Stm0 Compare 0 interrupt priority.  */
 #define IFX_CFG_ISR_PRIORITY_CPU0_SOFTWAR1	20   /**< \brief Stm0 Compare 0 interrupt priority.  */
-
-#define IFX_CFG_ISR_PRIORITY_STM0_COMPARE0	10   /**< \brief Stm0 Compare 0 interrupt priority.  */
-#define IFX_CFG_ISR_PRIORITY_STM1_COMPARE0	11   /**< \brief Stm1 Compare 0 interrupt priority.  */
-#define IFX_CFG_ISR_PRIORITY_STM2_COMPARE0	12   /**< \brief Stm2 Compare 0 interrupt priority.  */
 
 #define IFX_CFG_ISR_PRIORITY_STM0_COMPARE1	20   /**< \brief Stm0 Compare 0 interrupt priority.  */
 #define IFX_CFG_ISR_PRIORITY_STM1_COMPARE1	21   /**< \brief Stm1 Compare 0 interrupt priority.  */
 #define IFX_CFG_ISR_PRIORITY_STM2_COMPARE1	22   /**< \brief Stm2 Compare 0 interrupt priority.  */
-
-uint32 stm0CompareValue;
-uint32 stm1CompareValue;
-uint32 stm2CompareValue;
 
 uint32 stm0CompareValue2;
 
@@ -66,37 +54,7 @@ inline void update_stm0_ticks(void)
  *
  *********************************************************************************/
 
-
-void STM_Demo_init(void)
-{
-	/* Initialize STM for the triggers*/
-	IfxStm_CompareConfig stmCompareConfig;
-
-    // configure P33.8 as general output
-    IfxPort_setPinMode(&MODULE_P33, 8,  IfxPort_Mode_outputPushPullGeneral);
-
-    /* Calculate the compare value of STM0 */
-	stm0CompareValue = IfxStm_getFrequency(&MODULE_STM0) / STM0_TICK_PERIOD_IN_MICROSECONDS;	/* 1ms */
-
-	IfxStm_enableOcdsSuspend(&MODULE_STM0);
-
-	/* Configure interrupt service requests for STM trigger outputs */
-	//IfxSrc_init(&MODULE_SRC.STM[0].SR[0], IfxSrc_Tos_cpu0, IFX_CFG_ISR_PRIORITY_STM0_COMPARE0);
-	//IfxSrc_enable(&MODULE_SRC.STM[0].SR[0]);
-	stmCompareConfig.servProvider = IfxSrc_Tos_cpu0;
-
-	/* Call the constructor of configuration */
-	IfxStm_initCompareConfig(&stmCompareConfig);
-
-	/* Modify only the number of ticks and enable the trigger output */
-	stmCompareConfig.ticks = stm0CompareValue;   /*Interrupt after stm0CompareValue ticks from now */
-	stmCompareConfig.triggerInterruptEnabled = IFX_CFG_ISR_PRIORITY_STM0_COMPARE0;
-
-	/* Now Compare functionality is initialized */
-	IfxStm_initCompare(&MODULE_STM0, &stmCompareConfig);
-
-}
-
+#if 0
 void STM_Demo_init_stm0_compare1(void)
 {
 	/* Initialize STM for the triggers*/
@@ -129,7 +87,7 @@ void STM_Demo_init_stm0_compare1(void)
 	IfxStm_initCompare(&MODULE_STM0, &stmCompareConfig);
 
 }
-
+#endif
 /**********************************************************************************
  *
  *
@@ -138,35 +96,7 @@ void STM_Demo_init_stm0_compare1(void)
  *
  *
  *********************************************************************************/
-void STM1_Demo_init(void)
-{
-	/* Initialize STM for the triggers*/
-	IfxStm_CompareConfig stmCompareConfig;
 
-    // configure P33.8 as general output
-    IfxPort_setPinMode(&MODULE_P33, 9,  IfxPort_Mode_outputPushPullGeneral);
-
-    /* Calculate the compare value of STM0 */
-	stm1CompareValue = IfxStm_getFrequency(&MODULE_STM1) / STM1_TICK_PERIOD_IN_MICROSECONDS;	/* 1ms */
-
-	IfxStm_enableOcdsSuspend(&MODULE_STM1);
-
-	/* Configure interrupt service requests for STM trigger outputs */
-	//IfxSrc_init(&MODULE_SRC.STM[0].SR[0], IfxSrc_Tos_cpu0, IFX_CFG_ISR_PRIORITY_STM0_COMPARE0);
-	//IfxSrc_enable(&MODULE_SRC.STM[0].SR[0]);
-	stmCompareConfig.servProvider = IfxSrc_Tos_cpu1;
-
-	/* Call the constructor of configuration */
-	IfxStm_initCompareConfig(&stmCompareConfig);
-
-	/* Modify only the number of ticks and enable the trigger output */
-	stmCompareConfig.ticks = stm1CompareValue;   /*Interrupt after stm0CompareValue ticks from now */
-	stmCompareConfig.triggerInterruptEnabled = IFX_CFG_ISR_PRIORITY_STM1_COMPARE0;
-
-	/* Now Compare functionality is initialized */
-	IfxStm_initCompare(&MODULE_STM1, &stmCompareConfig);
-
-}
 
 #if 0
 IFX_INTERRUPT(Ifx_STM1_Isr,0,IFX_CFG_ISR_PRIORITY_STM1_COMPARE0)
@@ -186,35 +116,7 @@ IFX_INTERRUPT(Ifx_STM1_Isr,0,IFX_CFG_ISR_PRIORITY_STM1_COMPARE0)
  *
  *
  *********************************************************************************/
-void STM2_Demo_init(void)
-{
-	/* Initialize STM for the triggers*/
-	IfxStm_CompareConfig stmCompareConfig;
 
-    // configure P33.8 as general output
-    IfxPort_setPinMode(&MODULE_P33, 10,  IfxPort_Mode_outputPushPullGeneral);
-
-    /* Calculate the compare value of STM0 */
-	stm2CompareValue = IfxStm_getFrequency(&MODULE_STM2) / STM2_TICK_PERIOD_IN_MICROSECONDS;	/* 1ms */
-
-	IfxStm_enableOcdsSuspend(&MODULE_STM2);
-
-	/* Configure interrupt service requests for STM trigger outputs */
-	//IfxSrc_init(&MODULE_SRC.STM[0].SR[0], IfxSrc_Tos_cpu0, IFX_CFG_ISR_PRIORITY_STM0_COMPARE0);
-	//IfxSrc_enable(&MODULE_SRC.STM[0].SR[0]);
-	stmCompareConfig.servProvider = IfxSrc_Tos_cpu2;
-
-	/* Call the constructor of configuration */
-	IfxStm_initCompareConfig(&stmCompareConfig);
-
-	/* Modify only the number of ticks and enable the trigger output */
-	stmCompareConfig.ticks = stm2CompareValue;   /*Interrupt after stm0CompareValue ticks from now */
-	stmCompareConfig.triggerInterruptEnabled = IFX_CFG_ISR_PRIORITY_STM2_COMPARE0;
-
-	/* Now Compare functionality is initialized */
-	IfxStm_initCompare(&MODULE_STM2, &stmCompareConfig);
-
-}
 
 #if 0
 IFX_INTERRUPT(Ifx_STM2_Isr,0,IFX_CFG_ISR_PRIORITY_STM2_COMPARE0)
@@ -394,6 +296,9 @@ void returnMutex(void)
 {
   mutex=0x0;
 }
+extern void STM_Demo_init(void);
+extern void STM1_Demo_init(void);
+extern void STM2_Demo_init(void);
 int core0_main (void)
 {
     /*
