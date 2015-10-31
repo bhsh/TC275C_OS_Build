@@ -20,7 +20,7 @@
 #include "Src\Std\IfxSrc.h"
 
 
-OS_INLINE unsigned int  LowDriver_GetUstack_Address(void)
+inline unsigned int  LowDriver_GetUstack_Address(void)
 {  
    unsigned int *res;
    __asm volatile ("mov.aa %0, a10": "=a" (res) : :"a10");
@@ -29,7 +29,7 @@ OS_INLINE unsigned int  LowDriver_GetUstack_Address(void)
 /****************************************************************************/
 /* DESCRIPTION: <CORE0> Update stm0 compare1                                */
 /****************************************************************************/
-OS_INLINE void LowDriver_Update_CORE0_OS_Tick(void) 
+inline void LowDriver_Update_CORE0_OS_Tick(void) 
 {   
 	extern unsigned int  stm0CompareValue;
     unsigned int core0_ticks;
@@ -44,7 +44,7 @@ OS_INLINE void LowDriver_Update_CORE0_OS_Tick(void)
 /****************************************************************************/
 /* DESCRIPTION: <CORE1> Update stm1 compare1                                */
 /****************************************************************************/
-OS_INLINE void LowDriver_Update_CORE1_OS_Tick(void)
+inline void LowDriver_Update_CORE1_OS_Tick(void)
 {
     extern unsigned int  stm1CompareValue;
     unsigned int core1_ticks;
@@ -59,7 +59,7 @@ OS_INLINE void LowDriver_Update_CORE1_OS_Tick(void)
 /****************************************************************************/
 /* DESCRIPTION: <CORE2> Update stm0 compare1                                */
 /****************************************************************************/
-OS_INLINE void LowDriver_Update_CORE2_OS_Tick(void)
+inline void LowDriver_Update_CORE2_OS_Tick(void)
 {
     extern unsigned int  stm2CompareValue;
     unsigned int core2_ticks;
