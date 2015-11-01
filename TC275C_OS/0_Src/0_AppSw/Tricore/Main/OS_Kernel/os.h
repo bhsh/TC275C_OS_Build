@@ -27,6 +27,8 @@ typedef struct {
     
 } pthread_config_t;
 
+/* <typedef pthread_config_t* task_cfg_t><pthread_config_t> The type is used*/
+/* by interface the thread type to task type for user                       */
 typedef pthread_config_t* task_cfg_t;
 
 /* <Function pointer><task_ptr_t> The type is used by thread creation API to*/
