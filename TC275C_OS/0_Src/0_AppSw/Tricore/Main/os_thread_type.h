@@ -1,7 +1,17 @@
+/****************************************************************************/
+/* FILE NAME:    os_thread_type.h                                           */
+/* CREATE ON:    Aug 26, 2015                                               */
+/* AUTHER:       Yanpeng.xi                                                 */
+/* DESCRIPTION:  The h file includes the thread type definitions            */ 
+/* COMMENT:      Multicore OS based on Aurix 275C app kit and TASKING 4.3   */
+/*               compiler                                                   */
+/****************************************************************************/
+#ifndef OS_THREAD_TYPE_H_ 
+#define OS_THREAD_TYPE_H_
 
-#ifndef OS_THREAD_H_ 
-#define OS_THREAD_H_
-
+/****************************************************************************/
+/* Macro Definitions                                                        */
+/****************************************************************************/
 #define NO_DEFINITION (0)
 #define PERIODIC      (1)
 #define EVENT         (2)
@@ -41,6 +51,9 @@
 #define LEVEL_30      (30)
 #define LEVEL_31      (31)
 
+/****************************************************************************/
+/* Type Definitions                                                         */
+/****************************************************************************/
 typedef enum  {
 
 	 CORE_ID0,
@@ -50,6 +63,5 @@ typedef enum  {
 
 }OS_CORE_ID_t;
 
-
-#endif
+#endif /* End of OS_THREAD_TYPE_H_ */
 
