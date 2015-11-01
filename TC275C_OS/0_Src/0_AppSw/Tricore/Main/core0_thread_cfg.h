@@ -1,12 +1,24 @@
-
-
+/****************************************************************************/
+/* FILE NAME:    core0_thread_cfg.h                                         */
+/* CREATE ON:    Aug 26, 2015                                               */
+/* AUTHER:       Yanpeng.xi                                                 */
+/* DESCRIPTION:  The c file includes the thread configuration for AURIX     */
+/*               core0 os                                                   */
+/* COMMENT:      Multicore OS based on Aurix 275C app kit and TASKING 4.3   */
+/*               compiler                                                   */
+/****************************************************************************/
 #ifndef CORE0_THREAD_CONFIG_H_
 #define CORE0_THREAD_CONFIG_H_
 
+/****************************************************************************/
+/* Feature Include Files                                                    */
+/****************************************************************************/
 #include "os_thread_type.h"
 #include "core0_task_cfg.h"
 
-
+/****************************************************************************/
+/* Macro Definitions For thread switch                                      */
+/****************************************************************************/
 #define	 CORE0_THREAD0_SWITCH	CORE0_TASK0_SWITCH
 #define	 CORE0_THREAD1_SWITCH 	CORE0_TASK1_SWITCH
 #define	 CORE0_THREAD2_SWITCH 	CORE0_TASK2_SWITCH
@@ -414,11 +426,9 @@
 #endif
 #define	 CORE0_THREAD_MAX_ID_NUM CORE0_TASK_MAX_ID_NUM
 
-
-/* core 0*/
-/* 0 thread config initialization */ 
-
-
+/****************************************************************************/
+/* Macro Definitions For thread configuration                               */
+/****************************************************************************/
 #if (CORE0_THREAD0_SWITCH == ON) 
 #define CORE0_THREAD0_TYPE             CORE0_TASK0_TYPE             
 #define CORE0_THREAD0_PERIOD           CORE0_TASK0_PERIOD
@@ -1430,8 +1440,14 @@
 #define CORE0_THREAD100_CALL_DEPTH      CORE0_TASK100_CALL_DEPTH
 #endif
 
+/****************************************************************************/
+/* Feature Include Files                                                    */
+/****************************************************************************/
 #include "os.h"
 
+/****************************************************************************/
+/* Macro Definitions For Configuration Abstract                             */
+/****************************************************************************/
 #define CORE0_PTHREAD_INIT_CONFIG(thread_order_num) \
     {CORE_ID0 ,\
 	 CORE0_THREAD_ID##thread_order_num, \
@@ -1451,7 +1467,9 @@
 	 CORE0_THREAD_ID##thread_order_num, \
 	 NULL},
 
-
+/****************************************************************************/
+/* Global Variable Definition                                               */
+/****************************************************************************/
 OS_CONST pthread_config_t core0_pthread_init_config_database[CORE0_THREAD_MAX_ID_NUM] =
 {
 #if (CORE0_THREAD0_SWITCH == ON) 	
@@ -1759,8 +1777,14 @@ OS_CONST pthread_config_t core0_pthread_init_config_database[CORE0_THREAD_MAX_ID
 #endif
   };
 
+/****************************************************************************/
+/* Feature Include Files                                                    */
+/****************************************************************************/
 #include "os_kernel.h"
 
+/****************************************************************************/
+/* Global Variable Definition                                               */
+/****************************************************************************/
 pthread_cond_t core0_pthread_cond[CORE0_THREAD_MAX_ID_NUM] =
  {
  	
@@ -2376,12 +2400,23 @@ OS_CONST pthread_attr_t core0_thread_attr[CORE0_THREAD_MAX_ID_NUM] =
 #endif
 };
 
+/****************************************************************************/
+/* Feature Include Files                                                    */
+/****************************************************************************/
 #include "os_kernel.h"
 #include "os_trace.h"
 
-//extern pthread_cond_t core0_pthread_cond[CORE0_TASK_MAX_ID_NUM];
+/****************************************************************************/
+/* Extern Statements Of Variables                                           */
+/****************************************************************************/
 extern pthread_cond_t core1_pthread_cond[CORE1_TASK_MAX_ID_NUM];
 extern pthread_cond_t core2_pthread_cond[CORE2_TASK_MAX_ID_NUM];
+
+/****************************************************************************/
+/* FUNTION NAME:core0_pthread_done_after_task                               */
+/* DESCRIPTION: The processing logic is called after task in each thread    */
+/*              in order to setup measurement and thread management         */
+/****************************************************************************/
 void core0_pthread_done_after_task(pthread_config_t *pthread_config)
 { 	
   /* Trace */
@@ -2407,8 +2442,13 @@ void core0_pthread_done_after_task(pthread_config_t *pthread_config)
   {
       /* Do nothing */
   }
-}
+} /* End of core0_pthread_done_after_task function */
 
+/****************************************************************************/
+/* FUNTION NAME:core0_pthread_done_before_task                              */
+/* DESCRIPTION: The processing logic is called before task in each thread   */
+/*              in order to setup measurement and thread management         */
+/****************************************************************************/
 void core0_pthread_done_before_task(pthread_config_t *pthread_config)
 { 
   if(pthread_config->curr_task_type == EVENT)
@@ -2425,7 +2465,7 @@ void core0_pthread_done_before_task(pthread_config_t *pthread_config)
   }
   /* trace */
   os_trace_task_time_begin(pthread_config->curr_task_core_id,pthread_config->curr_task_id);
-}
+} /* End of core0_pthread_done_before_task function */
 
-#endif
+#endif /* End of CORE0_THREAD_CONFIG_H_ */
 

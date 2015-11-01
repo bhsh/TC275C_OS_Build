@@ -1,12 +1,24 @@
-
-
+/****************************************************************************/
+/* FILE NAME:    core2_thread_cfg.h                                         */
+/* CREATE ON:    Aug 26, 2015                                               */
+/* AUTHER:       Yanpeng.xi                                                 */
+/* DESCRIPTION:  The c file includes the thread configuration for AURIX     */
+/*               core2 os                                                   */
+/* COMMENT:      Multicore OS based on Aurix 275C app kit and TASKING 4.3   */
+/*               compiler                                                   */
+/****************************************************************************/
 #ifndef CORE2_THREAD_CONFIG_H_
 #define CORE2_THREAD_CONFIG_H_
 
+/****************************************************************************/
+/* Feature Include Files                                                    */
+/****************************************************************************/
 #include "os_thread_type.h"
 #include "core2_task_cfg.h"
 
-
+/****************************************************************************/
+/* Macro Definitions For thread switch                                      */
+/****************************************************************************/
 #define	 CORE2_THREAD0_SWITCH	CORE2_TASK0_SWITCH
 #define	 CORE2_THREAD1_SWITCH 	CORE2_TASK1_SWITCH
 #define	 CORE2_THREAD2_SWITCH 	CORE2_TASK2_SWITCH
@@ -414,8 +426,9 @@
 #endif
 #define	 CORE2_THREAD_MAX_ID_NUM CORE2_TASK_MAX_ID_NUM
 
-/* core 2*/
-/* 2 thread config initialization */ 
+/****************************************************************************/
+/* Macro Definitions For thread configuration                               */
+/****************************************************************************/
 #if (CORE2_THREAD0_SWITCH == ON) 
 #define CORE2_THREAD0_TYPE             CORE2_TASK0_TYPE             
 #define CORE2_THREAD0_PERIOD           CORE2_TASK0_PERIOD
@@ -1427,8 +1440,14 @@
 #define CORE2_THREAD100_CALL_DEPTH      CORE2_TASK100_CALL_DEPTH
 #endif
 
+/****************************************************************************/
+/* Feature Include Files                                                    */
+/****************************************************************************/
 #include "os.h"
 
+/****************************************************************************/
+/* Macro Definitions For Configuration Abstract                             */
+/****************************************************************************/
 #define CORE2_PTHREAD_INIT_CONFIG(thread_order_num) \
     {CORE_ID2 ,\
 	 CORE2_THREAD_ID##thread_order_num, \
@@ -1448,7 +1467,10 @@
 	 CORE2_THREAD_ID##thread_order_num, \
 	 NULL},
 
-	 
+
+/****************************************************************************/
+/* Global Variable Definition                                               */
+/****************************************************************************/	 
 OS_CONST pthread_config_t core2_pthread_init_config_database[CORE2_THREAD_MAX_ID_NUM] =
 {
 #if (CORE2_THREAD0_SWITCH == ON) 	
@@ -1756,8 +1778,14 @@ OS_CONST pthread_config_t core2_pthread_init_config_database[CORE2_THREAD_MAX_ID
 #endif
   };
 
+/****************************************************************************/
+/* Feature Include Files                                                    */
+/****************************************************************************/
 #include "os_kernel.h"
 
+/****************************************************************************/
+/* Global Variable Definition                                               */
+/****************************************************************************/
 pthread_cond_t core2_pthread_cond[CORE2_THREAD_MAX_ID_NUM] =
 {
  	
@@ -2373,12 +2401,23 @@ OS_CONST pthread_attr_t core2_thread_attr[CORE2_THREAD_MAX_ID_NUM] =
 #endif
 };
 
+/****************************************************************************/
+/* Feature Include Files                                                    */
+/****************************************************************************/
 #include "os_kernel.h"
 #include "os_trace.h"
 
+/****************************************************************************/
+/* Extern Statements Of Variables                                           */
+/****************************************************************************/
 extern pthread_cond_t core0_pthread_cond[CORE0_TASK_MAX_ID_NUM];
 extern pthread_cond_t core1_pthread_cond[CORE1_TASK_MAX_ID_NUM];
-//extern pthread_cond_t core2_pthread_cond[CORE2_TASK_MAX_ID_NUM];
+
+/****************************************************************************/
+/* FUNTION NAME:core2_pthread_done_after_task                               */
+/* DESCRIPTION: The processing logic is called after task in each thread    */
+/*              in order to setup measurement and thread management         */
+/****************************************************************************/
 void core2_pthread_done_after_task(pthread_config_t *pthread_config)
 { 	
   /* Trace */
@@ -2404,8 +2443,13 @@ void core2_pthread_done_after_task(pthread_config_t *pthread_config)
   {
       /* Do nothing */
   }
-}
+} /* End of core2_pthread_done_after_task function */
 
+/****************************************************************************/
+/* FUNTION NAME:core2_pthread_done_before_task                              */
+/* DESCRIPTION: The processing logic is called before task in each thread   */
+/*              in order to setup measurement and thread management         */
+/****************************************************************************/
 void core2_pthread_done_before_task(pthread_config_t *pthread_config)
 { 
   if(pthread_config->curr_task_type == EVENT)
@@ -2422,7 +2466,7 @@ void core2_pthread_done_before_task(pthread_config_t *pthread_config)
   }
   /* trace */
   os_trace_task_time_begin(CORE_ID2,pthread_config->curr_task_id);
-}
+} /* End of core2_pthread_done_before_task function */
 
-#endif
+#endif /* End of CORE2_THREAD_CONFIG_H_ */
 
