@@ -20,10 +20,6 @@
 /****************************************************************************/
 #define __fCPU 200
 
-#define CORE0_PTHREAD_TIMEWAIT_INITIALIZER {NULL}
-#define CORE1_PTHREAD_TIMEWAIT_INITIALIZER {NULL}
-#define CORE2_PTHREAD_TIMEWAIT_INITIALIZER {NULL}
-
 #define assert(_expr)  \
        ((void) (!(_expr) ? __debug(): (void) 0))
 #define PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_stacksize) static struct { \
@@ -282,7 +278,7 @@ os32_t  pthread_mutex_unlock(pthread_mutex_t *mutex); /* <*mutex> Mutex pointer*
 os32_t  pthread_cond_wait(pthread_cond_t *cond); /* <*cond> Condition pointer*/
 os32_t  pthread_cond_broadcast(pthread_cond_t *cond); /* <*cond> Condition pointer*/
 os32_t  pthread_cond_timedwait_np(osu16_t reltime); /* <reltime> Waiting time ,unit:ms */
-void    pthread_enable_allinterrupt(void);
+void    pthread_enable_allinterrupts(void);
 void    pthread_disable_allinterrupts(void);
 void    pthread_suspend_allthreads(void);
 void    pthread_restore_allthreads(void);

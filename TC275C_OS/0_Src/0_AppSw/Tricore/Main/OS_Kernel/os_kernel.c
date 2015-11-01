@@ -947,7 +947,7 @@ void pthread_disable_allinterrupts(void)
 /*              inside threads to enable all interrupts.This is an OS API   */
 /*              that is provided to os user                                 */
 /****************************************************************************/
-void pthread_enable_allinterrupt(void)
+void pthread_enable_allinterrupts(void)
 {
     __asm volatile ("enable" : : : "memory");
 }   /* End of os_enable_allinterrupt function */
