@@ -10,8 +10,13 @@
 #ifndef OS_H_
 #define OS_H_
 
-
+/****************************************************************************/
+/* Macro Definitions                                                        */
+/****************************************************************************/
 #define USER_CFG task_cfg_t task_cfg
+#define OS_CORE0_TASK(task_num) void CORE0_TASK##task_num(USER_CFG)
+#define OS_CORE1_TASK(task_num) void CORE1_TASK##task_num(USER_CFG)
+#define OS_CORE2_TASK(task_num) void CORE2_TASK##task_num(USER_CFG)
 /****************************************************************************/
 /* Type Definitions                                                         */
 /****************************************************************************/

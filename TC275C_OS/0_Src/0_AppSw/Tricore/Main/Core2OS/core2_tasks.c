@@ -20,7 +20,6 @@ void CORE2_TASK0(USER_CFG)
   App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);
   App_shared_func_stack_background_count(task_cfg->curr_task_core_id);
   App_priv2_func_test_count();
-
 }
 void CORE2_TASK1(USER_CFG)
 {
