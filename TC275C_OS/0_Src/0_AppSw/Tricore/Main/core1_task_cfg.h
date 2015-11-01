@@ -1,8 +1,8 @@
 /****************************************************************************/
-/* FILE NAME:    core0_task_cfg.h                                           */
+/* FILE NAME:    core1_task_cfg.h                                           */
 /* CREATE ON:    Aug 26, 2015                                               */
 /* AUTHER:       Yanpeng.xi                                                 */
-/* DESCRIPTION:  The c file includes the task configuration of AURIX core1  */
+/* DESCRIPTION:  The h file includes the task configuration of AURIX core1  */
 /*               os                                                         */
 /* COMMENT:      Multicore OS based on Aurix 275C app kit and TASKING 4.3   */
 /*               compiler                                                   */
@@ -22,7 +22,7 @@
 /****************************************************************************/
 
 /****************************************************************************/
-/* <CORE0> Task Configuration                                               */
+/* <CORE1> Task Configuration                                               */
 /****************************************************************************/
 #if (CORE1_TASK0_SWITCH == ON) 
 #define CORE1_TASK0_TYPE             NO_DEFINITION             

@@ -2,7 +2,7 @@
 /* FILE NAME:    core0_task_cfg.h                                           */
 /* CREATE ON:    Aug 26, 2015                                               */
 /* AUTHER:       Yanpeng.xi                                                 */
-/* DESCRIPTION:  The c file includes the task configuration of AURIX core0  */
+/* DESCRIPTION:  The h file includes the task configuration of AURIX core0  */
 /*               os                                                         */
 /* COMMENT:      Multicore OS based on Aurix 275C app kit and TASKING 4.3   */
 /*               compiler                                                   */
