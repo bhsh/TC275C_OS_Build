@@ -2,8 +2,8 @@
 /* FILE NAME:    os.h                                                       */
 /* CREATE ON:    Aug 26, 2015                                               */
 /* AUTHER:       Yanpeng.xi                                                 */
-/* DESCRIPTION:  The h file includes the type definition                    */
-/*               core0 os                                                   */
+/* DESCRIPTION:  The h file includes the type definition  of the interface  */
+/*               between thread and task                                    */
 /* COMMENT:      Multicore OS based on Aurix 275C app kit and TASKING 4.3   */
 /*               compiler                                                   */
 /****************************************************************************/
@@ -30,6 +30,6 @@ typedef struct {
 /* <Function pointer><task_ptr_t> The type is used by thread creation API to*/
 /* pass task address into thread and the encapsulated pthread_config_t * can*/
 /* be pass to task                                                          */
-typedef void (*task_ptr_t)(pthread_config_t * const pthread_config);
+typedef void (*task_ptr_t)(pthread_config_t * pthread_config);
 
 #endif /* End of OS_H_ */
