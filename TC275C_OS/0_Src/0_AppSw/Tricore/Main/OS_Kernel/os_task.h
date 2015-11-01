@@ -10,17 +10,25 @@
 #define OS_TASK_H_
 
 /****************************************************************************/
-/* Macro Definitions                                                        */
+/* Feature Include Files                                                    */
 /****************************************************************************/
+#include "os_kernel.h"
 
 /****************************************************************************/
+/* Macro Definitions                                                        */
+/****************************************************************************/
+/****************************************************************************/
 /* MACRO NAME: Task_Mutex_Lock                                              */
+/* FUNTION PROTOTYPE:  Task_Mutex_Lock(pthread_mutex_t *mutex)                                                       */
 /* DESCRIPTION:                                                             */
 /****************************************************************************/
 #define Task_Mutex_Lock(mutex_ptr)          pthread_mutex_lock(mutex_ptr)
 
 /****************************************************************************/
-/* MACRO NAME: Task_Mutex_Lock                                              */
+/* MACRO NAME: Task_Mutex_Lock()                                              */
+/* DESCRIPTION:                                                             */
+/* DESCRIPTION:                                                             */
+/* DESCRIPTION:                                                             */
 /* DESCRIPTION:                                                             */
 /****************************************************************************/
 #define Task_Mutex_Unlock(mutex_ptr)        pthread_mutex_lock(mutex_ptr)
@@ -72,10 +80,5 @@
 /* DESCRIPTION:                                                             */
 /****************************************************************************/
 #define Task_Obtain_os_tick(cpu_id)         pthread_obtain_os_tick(cpu_id)
-
-/****************************************************************************/
-/* Feature Include Files                                                    */
-/****************************************************************************/
-#include "os_kernel.h"
 
 #endif /* End of OS_TASK_H_ */
