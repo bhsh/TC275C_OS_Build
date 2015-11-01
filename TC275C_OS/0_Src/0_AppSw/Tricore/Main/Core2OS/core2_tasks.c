@@ -15,12 +15,26 @@
 /****************************************************************************/
 /* <CORE2> Task Definitions                                                 */
 /****************************************************************************/
+
+/****************************************************************************/
+/* <CORE2> task2 is an idle task in default and the the config parameters   */
+/*         of the task should not be changed                                */
+/*         The task is usually used to:                                     */
+/*              1. Monitor CPU Load                                         */
+/*              2. Manage the memory                                        */ 
+/*              3. Monitor the usage of stack                               */
+/*              4. Other background task                                    */
+/****************************************************************************/
 OS_CORE2_TASK(0)
 {
   App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);
   App_shared_func_stack_background_count(task_cfg->curr_task_core_id);
   App_priv2_func_test_count();
 }
+
+/****************************************************************************/
+/* <CORE2>  The following is app tasks                                      */   
+/****************************************************************************/
 OS_CORE2_TASK(1)
 {
   App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);

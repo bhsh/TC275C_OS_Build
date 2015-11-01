@@ -16,12 +16,26 @@
 /****************************************************************************/
 /* <CORE0> Task Definitions                                                 */
 /****************************************************************************/
+
+/****************************************************************************/
+/* <CORE0> task0 is an idle task in default and the the config parameters   */
+/*         of the task should not be changed                                */
+/*         The task is usually used to:                                     */
+/*              1. Monitor CPU Load                                         */
+/*              2. Manage the memory                                        */ 
+/*              3. Monitor the usage of stack                               */
+/*              4. Other background task                                    */
+/****************************************************************************/
 OS_CORE0_TASK(0)
 {
   App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);
   App_shared_func_stack_background_count(task_cfg->curr_task_core_id);
   App_priv0_func_test_count();
 }
+
+/****************************************************************************/
+/* <CORE0>  The following is app tasks                                      */   
+/****************************************************************************/
 OS_CORE0_TASK(1)
 {
   App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);
