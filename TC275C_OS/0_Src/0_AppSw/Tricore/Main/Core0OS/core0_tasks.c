@@ -16,143 +16,143 @@
 /****************************************************************************/
 /* <CORE0> Task Definitions                                                 */
 /****************************************************************************/
-void CORE0_TASK0(USER_CFG)
+OS_CORE0_TASK(0)
 {
   App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);
   App_shared_func_stack_background_count(task_cfg->curr_task_core_id);
   App_priv0_func_test_count();
 }
-void CORE0_TASK1(USER_CFG)
+OS_CORE0_TASK(1)
 {
   App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);
   App_shared_func_flash_led_1();
 }
-void CORE0_TASK2(USER_CFG)
+OS_CORE0_TASK(2)
 {
   App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);
   App_shared_func_flash_led_2();
 }
-void CORE0_TASK3(USER_CFG)
+OS_CORE0_TASK(3)
 {
   App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);
 }
-void CORE0_TASK4(USER_CFG)
+OS_CORE0_TASK(4)
 {
   App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);
 }
-void CORE0_TASK5(USER_CFG)
+OS_CORE0_TASK(5)
 {
   App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);
 }
-void CORE0_TASK6(USER_CFG)
+OS_CORE0_TASK(6)
 {
   App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);
 }
-void CORE0_TASK7(USER_CFG)
+OS_CORE0_TASK(7)
 {
   App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);
 }
-void CORE0_TASK8(USER_CFG)
+OS_CORE0_TASK(8)
 {
   App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);
 }
-void CORE0_TASK9(USER_CFG)
+OS_CORE0_TASK(9)
 {
   App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);
 }
-void CORE0_TASK10(USER_CFG)
+OS_CORE0_TASK(10)
 {
   App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);
   App_shared_func_stack_calculated(task_cfg->curr_task_core_id);
   App_shared_func_flash_led_4();
 }
-void CORE0_TASK11(USER_CFG){}
-void CORE0_TASK12(USER_CFG){}
-void CORE0_TASK13(USER_CFG){}
-void CORE0_TASK14(USER_CFG){}
-void CORE0_TASK15(USER_CFG){}
-void CORE0_TASK16(USER_CFG){}
-void CORE0_TASK17(USER_CFG){}
-void CORE0_TASK18(USER_CFG){}
-void CORE0_TASK19(USER_CFG){}
-void CORE0_TASK20(USER_CFG){}
-void CORE0_TASK21(USER_CFG){}
-void CORE0_TASK22(USER_CFG){}
-void CORE0_TASK23(USER_CFG){}
-void CORE0_TASK24(USER_CFG){}
-void CORE0_TASK25(USER_CFG){}
-void CORE0_TASK26(USER_CFG){}
-void CORE0_TASK27(USER_CFG){}
-void CORE0_TASK28(USER_CFG){}
-void CORE0_TASK29(USER_CFG){}
-void CORE0_TASK30(USER_CFG){}
-void CORE0_TASK31(USER_CFG){}
-void CORE0_TASK32(USER_CFG){}
-void CORE0_TASK33(USER_CFG){}
-void CORE0_TASK34(USER_CFG){}
-void CORE0_TASK35(USER_CFG){}
-void CORE0_TASK36(USER_CFG){}
-void CORE0_TASK37(USER_CFG){}
-void CORE0_TASK38(USER_CFG){}
-void CORE0_TASK39(USER_CFG){}
-void CORE0_TASK40(USER_CFG){}
-void CORE0_TASK41(USER_CFG){}
-void CORE0_TASK42(USER_CFG){}
-void CORE0_TASK43(USER_CFG){}
-void CORE0_TASK44(USER_CFG){}
-void CORE0_TASK45(USER_CFG){}
-void CORE0_TASK46(USER_CFG){}
-void CORE0_TASK47(USER_CFG){}
-void CORE0_TASK48(USER_CFG){}
-void CORE0_TASK49(USER_CFG){}
-void CORE0_TASK50(USER_CFG){}
-void CORE0_TASK51(USER_CFG){}
-void CORE0_TASK52(USER_CFG){}
-void CORE0_TASK53(USER_CFG){}
-void CORE0_TASK54(USER_CFG){}
-void CORE0_TASK55(USER_CFG){}
-void CORE0_TASK56(USER_CFG){}
-void CORE0_TASK57(USER_CFG){}
-void CORE0_TASK58(USER_CFG){}
-void CORE0_TASK59(USER_CFG){}
-void CORE0_TASK60(USER_CFG){}
-void CORE0_TASK61(USER_CFG){}
-void CORE0_TASK62(USER_CFG){}
-void CORE0_TASK63(USER_CFG){}
-void CORE0_TASK64(USER_CFG){}
-void CORE0_TASK65(USER_CFG){}
-void CORE0_TASK66(USER_CFG){}
-void CORE0_TASK67(USER_CFG){}
-void CORE0_TASK68(USER_CFG){}
-void CORE0_TASK69(USER_CFG){}
-void CORE0_TASK70(USER_CFG){}
-void CORE0_TASK71(USER_CFG){}
-void CORE0_TASK72(USER_CFG){}
-void CORE0_TASK73(USER_CFG){}
-void CORE0_TASK74(USER_CFG){}
-void CORE0_TASK75(USER_CFG){}
-void CORE0_TASK76(USER_CFG){}
-void CORE0_TASK77(USER_CFG){}
-void CORE0_TASK78(USER_CFG){}
-void CORE0_TASK79(USER_CFG){}
-void CORE0_TASK80(USER_CFG){}
-void CORE0_TASK81(USER_CFG){}
-void CORE0_TASK82(USER_CFG){}
-void CORE0_TASK83(USER_CFG){}
-void CORE0_TASK84(USER_CFG){}
-void CORE0_TASK85(USER_CFG){}
-void CORE0_TASK86(USER_CFG){}
-void CORE0_TASK87(USER_CFG){}
-void CORE0_TASK88(USER_CFG){}
-void CORE0_TASK89(USER_CFG){}
-void CORE0_TASK90(USER_CFG){}
-void CORE0_TASK91(USER_CFG){}
-void CORE0_TASK92(USER_CFG){}
-void CORE0_TASK93(USER_CFG){}
-void CORE0_TASK94(USER_CFG){}
-void CORE0_TASK95(USER_CFG){}
-void CORE0_TASK96(USER_CFG){}
-void CORE0_TASK97(USER_CFG){}
-void CORE0_TASK98(USER_CFG){}
-void CORE0_TASK99(USER_CFG){}
-void CORE0_TASK100(USER_CFG){}
+OS_CORE0_TASK(11){}
+OS_CORE0_TASK(12){}
+OS_CORE0_TASK(13){}
+OS_CORE0_TASK(14){}
+OS_CORE0_TASK(15){}
+OS_CORE0_TASK(16){}
+OS_CORE0_TASK(17){}
+OS_CORE0_TASK(18){}
+OS_CORE0_TASK(19){}
+OS_CORE0_TASK(20){}
+OS_CORE0_TASK(21){}
+OS_CORE0_TASK(22){}
+OS_CORE0_TASK(23){}
+OS_CORE0_TASK(24){}
+OS_CORE0_TASK(25){}
+OS_CORE0_TASK(26){}
+OS_CORE0_TASK(27){}
+OS_CORE0_TASK(28){}
+OS_CORE0_TASK(29){}
+OS_CORE0_TASK(30){}
+OS_CORE0_TASK(31){}
+OS_CORE0_TASK(32){}
+OS_CORE0_TASK(33){}
+OS_CORE0_TASK(34){}
+OS_CORE0_TASK(35){}
+OS_CORE0_TASK(36){}
+OS_CORE0_TASK(37){}
+OS_CORE0_TASK(38){}
+OS_CORE0_TASK(39){}
+OS_CORE0_TASK(40){}
+OS_CORE0_TASK(41){}
+OS_CORE0_TASK(42){}
+OS_CORE0_TASK(43){}
+OS_CORE0_TASK(44){}
+OS_CORE0_TASK(45){}
+OS_CORE0_TASK(46){}
+OS_CORE0_TASK(47){}
+OS_CORE0_TASK(48){}
+OS_CORE0_TASK(49){}
+OS_CORE0_TASK(50){}
+OS_CORE0_TASK(51){}
+OS_CORE0_TASK(52){}
+OS_CORE0_TASK(53){}
+OS_CORE0_TASK(54){}
+OS_CORE0_TASK(55){}
+OS_CORE0_TASK(56){}
+OS_CORE0_TASK(57){}
+OS_CORE0_TASK(58){}
+OS_CORE0_TASK(59){}
+OS_CORE0_TASK(60){}
+OS_CORE0_TASK(61){}
+OS_CORE0_TASK(62){}
+OS_CORE0_TASK(63){}
+OS_CORE0_TASK(64){}
+OS_CORE0_TASK(65){}
+OS_CORE0_TASK(66){}
+OS_CORE0_TASK(67){}
+OS_CORE0_TASK(68){}
+OS_CORE0_TASK(69){}
+OS_CORE0_TASK(70){}
+OS_CORE0_TASK(71){}
+OS_CORE0_TASK(72){}
+OS_CORE0_TASK(73){}
+OS_CORE0_TASK(74){}
+OS_CORE0_TASK(75){}
+OS_CORE0_TASK(76){}
+OS_CORE0_TASK(77){}
+OS_CORE0_TASK(78){}
+OS_CORE0_TASK(79){}
+OS_CORE0_TASK(80){}
+OS_CORE0_TASK(81){}
+OS_CORE0_TASK(82){}
+OS_CORE0_TASK(83){}
+OS_CORE0_TASK(84){}
+OS_CORE0_TASK(85){}
+OS_CORE0_TASK(86){}
+OS_CORE0_TASK(87){}
+OS_CORE0_TASK(88){}
+OS_CORE0_TASK(89){}
+OS_CORE0_TASK(90){}
+OS_CORE0_TASK(91){}
+OS_CORE0_TASK(92){}
+OS_CORE0_TASK(93){}
+OS_CORE0_TASK(94){}
+OS_CORE0_TASK(95){}
+OS_CORE0_TASK(96){}
+OS_CORE0_TASK(97){}
+OS_CORE0_TASK(98){}
+OS_CORE0_TASK(99){}
+OS_CORE0_TASK(100){}

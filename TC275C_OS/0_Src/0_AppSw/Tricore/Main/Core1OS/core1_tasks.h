@@ -114,4 +114,4 @@ OS_CORE1_TASK(98);
 OS_CORE1_TASK(99);
 OS_CORE1_TASK(100);
 
-#endif
+#endif /* End of CORE1_TASKS_H_ */
