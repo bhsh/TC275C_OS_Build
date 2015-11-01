@@ -1,9 +1,23 @@
-
+/****************************************************************************/
+/* FILE NAME:    core0_kernel_abstract.h                                    */
+/* CREATE ON:    Aug 26, 2015                                               */
+/* AUTHER:       Yanpeng.xi                                                 */
+/* DESCRIPTION:  The h file includes the abstract macro definition for the  */
+/*               thread definitions of core0 os                             */
+/* COMMENT:      Multicore OS based on Aurix 275C app kit and TASKING 4.3   */
+/*               compiler                                                   */
+/****************************************************************************/
 #ifndef CORE0_KERNEL_ABSTRACT_H_
 #define CORE0_KERNEL_ABSTRACT_H_
 
+/****************************************************************************/
+/* Feature Include Files                                                    */
+/****************************************************************************/
 #include "os_kernel.h"
 
+/****************************************************************************/
+/* Macro Definitions                                                        */
+/****************************************************************************/
 #define CORE0_PTHREAD_INITIALIZATION_BLOCK  \
 	pthread_config_t pthread_config = \
 	core0_pthread_init_config_database[(int)arg]; \

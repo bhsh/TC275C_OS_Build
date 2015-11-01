@@ -1,9 +1,23 @@
-
+/****************************************************************************/
+/* FILE NAME:    core2_kernel_abstract.h                                    */
+/* CREATE ON:    Aug 26, 2015                                               */
+/* AUTHER:       Yanpeng.xi                                                 */
+/* DESCRIPTION:  The h file includes the abstract macro definition for the  */
+/*               thread definitions of core2 os                             */
+/* COMMENT:      Multicore OS based on Aurix 275C app kit and TASKING 4.3   */
+/*               compiler                                                   */
+/****************************************************************************/
 #ifndef CORE2_KERNEL_ABSTRACT_H_
 #define CORE2_KERNEL_ABSTRACT_H_
 
+/****************************************************************************/
+/* Feature Include Files                                                    */
+/****************************************************************************/
 #include "os_kernel.h"
 
+/****************************************************************************/
+/* Macro Definitions                                                        */
+/****************************************************************************/
 #define CORE2_PTHREAD_INITIALIZATION_BLOCK  \
 	pthread_config_t pthread_config = \
 	core2_pthread_init_config_database[(int)arg]; \
@@ -43,4 +57,4 @@
 		                           
 #define CORE2_PTHREAD_START_BLOCK() pthread_start_np();
 
-#endif
+#endif /* End of CORE2_KERNEL_ABSTRACT_H_*/ 
