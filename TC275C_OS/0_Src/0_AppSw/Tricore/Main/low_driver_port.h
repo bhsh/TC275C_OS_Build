@@ -22,7 +22,6 @@
 #include "Stm\Std\IfxStm.h"
 #include "Src\Std\IfxSrc.h"
 
-
 /****************************************************************************/
 /* FUNTION NAME: LowDriver_GetStmLower_Count                                */
 /* DESCRIPTION: Wait by querying the tick of STM TIM0 (tick unit:0.1Us)in   */

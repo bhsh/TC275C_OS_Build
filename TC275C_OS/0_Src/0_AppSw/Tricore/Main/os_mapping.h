@@ -10,6 +10,9 @@
 #ifndef OS_MAPPING_H_
 #define OS_MAPPING_H_
 
+/****************************************************************************/
+/* Macro Definitons                                                         */
+/****************************************************************************/
 #define  PTHREAD_OBTAIN_INIT_STACK_ADD_CALLBACK(core_id,thread_id,init_sp_address) \
 	             get_thread_init_stack_address(core_id,thread_id,init_sp_address);
 
@@ -24,6 +27,9 @@
 #define  CORE1_INITIALIZE_OS_TICK_BLOCK()   LowDriver_Initialize_CORE1_OS_Tick();
 #define  CORE2_INITIALIZE_OS_TICK_BLOCK()   LowDriver_Initialize_CORE2_OS_Tick(); 
 
+/****************************************************************************/
+/* Function Prototype Definitions                                           */
+/****************************************************************************/
 extern void get_thread_init_stack_address(osu32_t,osu32_t,osu32_t);
 
 #endif /* End of OS_MAPPING_H_ */

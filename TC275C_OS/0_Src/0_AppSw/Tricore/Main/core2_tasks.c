@@ -1,55 +1,55 @@
 #include "os_type.h"
 #include "os.h"
-#include "shareappsw.h"
+#include "sharedappsw.h"
 
 void CORE2_TASK0(pthread_config_t *pthread_config)
 {
-  App_share_func_task_test_count(pthread_config->curr_task_core_id,pthread_config->curr_task_id);
-  App_share_func_stack_background_count(pthread_config->curr_task_core_id);
+  App_shared_func_task_test_count(pthread_config->curr_task_core_id,pthread_config->curr_task_id);
+  App_shared_func_stack_background_count(pthread_config->curr_task_core_id);
 }
 void CORE2_TASK1(pthread_config_t *pthread_config)
 {
-  App_share_func_task_test_count(pthread_config->curr_task_core_id,pthread_config->curr_task_id);
-  //App_share_func_flash_led_1();
+  App_shared_func_task_test_count(pthread_config->curr_task_core_id,pthread_config->curr_task_id);
+  //App_shared_func_flash_led_1();
 }
 void CORE2_TASK2(pthread_config_t *pthread_config)
 {
-  App_share_func_task_test_count(pthread_config->curr_task_core_id,pthread_config->curr_task_id);
-  //App_share_func_flash_led_2();
+  App_shared_func_task_test_count(pthread_config->curr_task_core_id,pthread_config->curr_task_id);
+  //App_shared_func_flash_led_2();
 }
 void CORE2_TASK3(pthread_config_t *pthread_config)
 {
-  App_share_func_task_test_count(pthread_config->curr_task_core_id,pthread_config->curr_task_id);
+  App_shared_func_task_test_count(pthread_config->curr_task_core_id,pthread_config->curr_task_id);
 }
 void CORE2_TASK4(pthread_config_t *pthread_config)
 {
-  App_share_func_task_test_count(pthread_config->curr_task_core_id,pthread_config->curr_task_id);
+  App_shared_func_task_test_count(pthread_config->curr_task_core_id,pthread_config->curr_task_id);
 }
 void CORE2_TASK5(pthread_config_t *pthread_config)
 {
-  App_share_func_task_test_count(pthread_config->curr_task_core_id,pthread_config->curr_task_id);
+  App_shared_func_task_test_count(pthread_config->curr_task_core_id,pthread_config->curr_task_id);
 }
 void CORE2_TASK6(pthread_config_t *pthread_config)
 {
-  App_share_func_task_test_count(pthread_config->curr_task_core_id,pthread_config->curr_task_id);
+  App_shared_func_task_test_count(pthread_config->curr_task_core_id,pthread_config->curr_task_id);
 }
 void CORE2_TASK7(pthread_config_t *pthread_config)
 {
-  App_share_func_task_test_count(pthread_config->curr_task_core_id,pthread_config->curr_task_id);
+  App_shared_func_task_test_count(pthread_config->curr_task_core_id,pthread_config->curr_task_id);
 }
 void CORE2_TASK8(pthread_config_t *pthread_config)
 {
-  App_share_func_task_test_count(pthread_config->curr_task_core_id,pthread_config->curr_task_id);
+  App_shared_func_task_test_count(pthread_config->curr_task_core_id,pthread_config->curr_task_id);
 }
 void CORE2_TASK9(pthread_config_t *pthread_config)
 {
-  App_share_func_task_test_count(pthread_config->curr_task_core_id,pthread_config->curr_task_id);
+  App_shared_func_task_test_count(pthread_config->curr_task_core_id,pthread_config->curr_task_id);
 }
 void CORE2_TASK10(pthread_config_t *pthread_config)
 {
-  App_share_func_task_test_count(pthread_config->curr_task_core_id,pthread_config->curr_task_id);
-  App_share_func_stack_calculated(pthread_config->curr_task_core_id);
-  //App_share_func_flash_led_4();
+  App_shared_func_task_test_count(pthread_config->curr_task_core_id,pthread_config->curr_task_id);
+  App_shared_func_stack_calculated(pthread_config->curr_task_core_id);
+  //App_shared_func_flash_led_4();
 }
 void CORE2_TASK11(pthread_config_t *pthread_config){}
 void CORE2_TASK12(pthread_config_t *pthread_config){}
