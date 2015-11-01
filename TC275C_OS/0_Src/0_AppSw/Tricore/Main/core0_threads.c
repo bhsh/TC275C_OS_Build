@@ -2,9 +2,13 @@
 /* FILE NAME:    core0_threads.c                                            */
 /* CREATE ON:    Aug 26, 2015                                               */
 /* AUTHER:       Yanpeng.xi                                                 */
-/* DESCRIPTION:  The c file includes the kernel logic of AURIX 3-core os    */
+/* DESCRIPTION:  The c file includes the thread definitons of AURIX core0 os*/
 /* COMMENT:      Multicore OS based on Aurix 275C app kit and TASKING 4.3   */
 /*               compiler                                                   */
+/****************************************************************************/
+
+/****************************************************************************/
+/* Feature Include Files                                                    */
 /****************************************************************************/
 #include "os_type.h"
 #include "os.h"
@@ -14,10 +18,12 @@
 #include "core0_kernel_abstract.h"
 #include "os_trace.h"
 
-
+/****************************************************************************/
+/* Static Variable Definitions <CORE0>: The thread number ranges from 0     */
+/*                                      100 thread to                       */
+/****************************************************************************/
 #pragma align 16
 
-// period threads...
 #if (CORE0_OS_SWITCH == ON)
 #if (CORE0_THREAD0_SWITCH == ON) 
     CORE0_PTHREAD_CONTROL_BLOCK(0)
@@ -325,6 +331,10 @@
 #endif
 #pragma align restore
 
+/****************************************************************************/
+/* Funtion Definitions <CORE0>: The thread definiton ranges from 0 thread to*/
+/*                              100 thread                                  */
+/****************************************************************************/
 #if (CORE0_THREAD0_SWITCH == ON) 
 	CORE0_PTHREAD_DEFINITION_BLOCK(0)
 #endif
@@ -629,8 +639,12 @@
 	CORE0_PTHREAD_DEFINITION_BLOCK(100)
 #endif
 
+/****************************************************************************/
+/* FUNCTION NAME: start_core0_os                                            */
+/* DESCRIPTION:   start os by initializing os tick, creating threads and    */
+/*                starting the core0 os scheduler                           */                                              
+/****************************************************************************/
 void start_core0_os(void) {
-
 
 #if (CORE0_OS_SWITCH == ON)
     /* <CORE0> Setup os tick */
@@ -944,6 +958,7 @@ void start_core0_os(void) {
     CORE0_PTHREAD_CREATION_BLOCK(100)
 #endif
 
+    /* <CORE0> Start the core0 os scheduler */
 	CORE0_PTHREAD_START_BLOCK()
 #endif
 }

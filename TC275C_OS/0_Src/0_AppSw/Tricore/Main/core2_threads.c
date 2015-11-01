@@ -1,13 +1,15 @@
-/*-----------------------------------------------------------------------------------
-|
-|   File name:    Appcore2.c
-|   Created on:   Aug 26, 2015
-|   Author:       Yanpeng.xi
-|   Description:
-|                 Multicore OS based on Aurix 275C app kit and TASKING 4.3 compiler
-|
---------------------------------------------------------------------------------------*/
+/****************************************************************************/
+/* FILE NAME:    core0_threads.c                                            */
+/* CREATE ON:    Aug 26, 2015                                               */
+/* AUTHER:       Yanpeng.xi                                                 */
+/* DESCRIPTION:  The c file includes the thread definitons of AURIX core2 os*/
+/* COMMENT:      Multicore OS based on Aurix 275C app kit and TASKING 4.3   */
+/*               compiler                                                   */
+/****************************************************************************/
 
+/****************************************************************************/
+/* Feature Include Files                                                    */
+/****************************************************************************/
 #include "os_type.h"
 #include "os.h"
 #include <stdlib.h>
@@ -16,6 +18,10 @@
 #include "core2_kernel_abstract.h"
 #include "os_trace.h"
 
+/****************************************************************************/
+/* Static Variable Definitions <CORE2>: The thread number ranges from 0     */
+/*                                      thread to 100 thread                */
+/****************************************************************************/
 #pragma align 16
 
 // period threads...
@@ -325,6 +331,10 @@
 #endif
 #endif
 
+/****************************************************************************/
+/* Funtion Definitions <CORE2>: The thread definiton ranges from 0 thread to*/
+/*                              100 thread                                  */
+/****************************************************************************/
 #pragma align restore
 
 #if (CORE2_THREAD0_SWITCH == ON) 
@@ -631,14 +641,18 @@
 	CORE2_PTHREAD_DEFINITION_BLOCK(100)
 #endif
 
+/****************************************************************************/
+/* FUNCTION NAME: start_core2_os                                            */
+/* DESCRIPTION:   start os by initializing os tick, creating threads and    */
+/*                starting the core2 os scheduler                           */                                              
+/****************************************************************************/
 void start_core2_os(void) {
 
-
 #if (CORE2_OS_SWITCH == ON)
-    /* <CORE0> Setup os tick */
+    /* <CORE2> Setup os tick */
     CORE2_INITIALIZE_OS_TICK_BLOCK()	
 
-    /* <CORE0> Create threads that are used */
+    /* <CORE2> Create threads that are used */
 #if (CORE2_THREAD0_SWITCH == ON) 
     CORE2_PTHREAD_CREATION_BLOCK(0)
 #endif
@@ -946,6 +960,7 @@ void start_core2_os(void) {
     CORE2_PTHREAD_CREATION_BLOCK(100)
 #endif
 
+    /* <CORE2> Start the core2 os scheduler */
 	CORE2_PTHREAD_START_BLOCK()
 #endif
 }

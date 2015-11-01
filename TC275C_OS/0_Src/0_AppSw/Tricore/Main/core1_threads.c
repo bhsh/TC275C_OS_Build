@@ -1,12 +1,15 @@
-/*-----------------------------------------------------------------------------------
-|
-|   File name:    Appcore1.c
-|   Created on:   Aug 26, 2015
-|   Author:       Yanpeng.xi
-|   Description:
-|                 Multicore OS based on Aurix 275C app kit and TASKING 4.3 compiler
-|
---------------------------------------------------------------------------------------*/
+/****************************************************************************/
+/* FILE NAME:    core0_threads.c                                            */
+/* CREATE ON:    Aug 26, 2015                                               */
+/* AUTHER:       Yanpeng.xi                                                 */
+/* DESCRIPTION:  The c file includes the thread definitons of AURIX core1 os*/
+/* COMMENT:      Multicore OS based on Aurix 275C app kit and TASKING 4.3   */
+/*               compiler                                                   */
+/****************************************************************************/
+
+/****************************************************************************/
+/* Feature Include Files                                                    */
+/****************************************************************************/
 #include "os_type.h"
 #include "os.h"
 #include <stdlib.h>
@@ -15,9 +18,12 @@
 #include "core1_kernel_abstract.h"
 #include "os_trace.h"
 
+/****************************************************************************/
+/* Static Variable Definitions <CORE1>: The thread number ranges from 0     */
+/*                                      thread to 100 thread                */
+/****************************************************************************/
 #pragma align 16
 
-// period threads...
 #if (CORE1_OS_SWITCH == ON)
 #if (CORE1_THREAD0_SWITCH == ON) 
     CORE1_PTHREAD_CONTROL_BLOCK(0)
@@ -325,6 +331,10 @@
 #endif
 #pragma align restore
 
+/****************************************************************************/
+/* Funtion Definitions <CORE1>: The thread definiton ranges from 0 thread to*/
+/*                              100 thread                                  */
+/****************************************************************************/
 #if (CORE1_THREAD0_SWITCH == ON) 
 	CORE1_PTHREAD_DEFINITION_BLOCK(0)
 #endif
@@ -629,6 +639,11 @@
 	CORE1_PTHREAD_DEFINITION_BLOCK(100)
 #endif
 
+/****************************************************************************/
+/* FUNCTION NAME: start_core1_os                                            */
+/* DESCRIPTION:   start os by initializing os tick, creating threads and    */
+/*                starting the core1 os scheduler                           */                                              
+/****************************************************************************/
 void start_core1_os(void) {
 
 #if (CORE1_OS_SWITCH == ON)
@@ -943,6 +958,7 @@ void start_core1_os(void) {
     CORE1_PTHREAD_CREATION_BLOCK(100)
 #endif
 
+    /* <CORE1> Start the core1 os scheduler */
 	CORE1_PTHREAD_START_BLOCK()
 #endif
 }
