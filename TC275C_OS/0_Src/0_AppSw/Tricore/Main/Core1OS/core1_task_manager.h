@@ -17,7 +17,7 @@
 /****************************************************************************/
 /* <CORE1> Task Switch Configuration                                        */
 /****************************************************************************/
-#define  CORE1_OS_SWITCH        ON  /* <CORE1> Switch off or on the os of core1 */
+#define  CORE1_OS_SWITCH        OFF  /* <CORE1> Switch off or on the os of core1 */
 
 #define	 CORE1_TASK0_SWITCH	    ON
 #define	 CORE1_TASK1_SWITCH 	ON
