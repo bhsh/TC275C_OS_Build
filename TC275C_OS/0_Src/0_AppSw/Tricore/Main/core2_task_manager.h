@@ -1,9 +1,23 @@
-
-
+/****************************************************************************/
+/* FILE NAME:    core2_task_manager.h                                       */
+/* CREATE ON:    Aug 26, 2015                                               */
+/* AUTHER:       Yanpeng.xi                                                 */
+/* DESCRIPTION:  The h file includes switch definition of AURIX core2 tasks */
+/*               os                                                         */
+/* COMMENT:      Multicore OS based on Aurix 275C app kit and TASKING 4.3   */
+/*               compiler                                                   */
+/****************************************************************************/ 
 #ifndef CRRE2_TASK_MANAGER_H_
 #define CRRE2_TASK_MANAGER_H_
 
-#define  CORE2_OS_SWITCH        ON
+/****************************************************************************/
+/* Macro Definitions                                                        */
+/****************************************************************************/
+
+/****************************************************************************/
+/* <CORE2> Task Switch Configuration                                        */
+/****************************************************************************/
+#define  CORE2_OS_SWITCH        ON  /* <CORE2> Switch off or on the os of core2 */
 
 #define	 CORE2_TASK0_SWITCH	    ON
 #define	 CORE2_TASK1_SWITCH 	ON
@@ -415,4 +429,5 @@ typedef enum  {
 #endif	
 	 CORE2_TASK_MAX_ID_NUM,
 }CORE2_TASK_ID_t;
-#endif
+
+#endif  /* End of CORE2_TASK_MANAGER_H_ */

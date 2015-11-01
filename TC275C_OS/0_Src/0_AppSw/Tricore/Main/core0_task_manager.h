@@ -17,7 +17,7 @@
 /****************************************************************************/
 /* <CORE0> Task Switch Configuration                                        */
 /****************************************************************************/
-#define  CORE0_OS_SWITCH        ON /* <CORE0> Switch off the os of core0*/
+#define  CORE0_OS_SWITCH        ON  /* <CORE0> Switch off or on the os of core0 */
 
 #define	 CORE0_TASK0_SWITCH	    ON
 #define	 CORE0_TASK1_SWITCH 	ON
@@ -431,4 +431,4 @@ typedef enum  {
 	 CORE0_TASK_MAX_ID_NUM,
 }CORE0_TASK_ID_t;
 
-#endif /* End of CRRE0_TASK_MANAGER_H_ */
+#endif /* End of CORE0_TASK_MANAGER_H_ */

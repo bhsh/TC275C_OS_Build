@@ -1,17 +1,23 @@
 /****************************************************************************/
-/* FILE NAME:    core0_task_cfg.h                                           */
+/* FILE NAME:    core1_task_manager.h                                       */
 /* CREATE ON:    Aug 26, 2015                                               */
 /* AUTHER:       Yanpeng.xi                                                 */
-/* DESCRIPTION:  The h file includes the task configuration of AURIX core0  */
+/* DESCRIPTION:  The h file includes switch definition of AURIX core1 tasks */
 /*               os                                                         */
 /* COMMENT:      Multicore OS based on Aurix 275C app kit and TASKING 4.3   */
 /*               compiler                                                   */
-/****************************************************************************/ 
+/****************************************************************************/  
 #ifndef CRRE1_TASK_MANAGER_H_
 #define CRRE1_TASK_MANAGER_H_
 
+/****************************************************************************/
+/* Macro Definitions                                                        */
+/****************************************************************************/
 
-#define  CORE1_OS_SWITCH        ON
+/****************************************************************************/
+/* <CORE1> Task Switch Configuration                                        */
+/****************************************************************************/
+#define  CORE1_OS_SWITCH        ON  /* <CORE1> Switch off or on the os of core1 */
 
 #define	 CORE1_TASK0_SWITCH	    ON
 #define	 CORE1_TASK1_SWITCH 	ON
@@ -423,4 +429,5 @@ typedef enum  {
 #endif	
 	 CORE1_TASK_MAX_ID_NUM,
 }CORE1_TASK_ID_t;
-#endif
+
+#endif  /* End of CORE1_TASK_MANAGER_H_ */
