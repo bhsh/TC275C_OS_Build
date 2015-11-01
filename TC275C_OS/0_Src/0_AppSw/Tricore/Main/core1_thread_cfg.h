@@ -2414,11 +2414,11 @@ extern pthread_cond_t core0_pthread_cond[CORE0_TASK_MAX_ID_NUM];
 extern pthread_cond_t core2_pthread_cond[CORE2_TASK_MAX_ID_NUM];
 
 /****************************************************************************/
-/* FUNTION NAME:core1_pthread_done_after_task                               */
+/* FUNTION NAME:core1_pthread_management_after_task                         */
 /* DESCRIPTION: The processing logic is called after task in each thread    */
 /*              in order to setup measurement and thread management         */
 /****************************************************************************/
-void core1_pthread_done_after_task(pthread_config_t *pthread_config)
+void core1_pthread_management_after_task(pthread_config_t *pthread_config)
 { 	
   /* Trace */
   os_trace_task_time_end(pthread_config->curr_task_core_id,pthread_config->curr_task_id);
@@ -2443,14 +2443,14 @@ void core1_pthread_done_after_task(pthread_config_t *pthread_config)
   {
       /* Do nothing */
   }
-} /* End of core1_pthread_done_after_task function */
+} /* End of core1_pthread_management_after_task function */
 
 /****************************************************************************/
-/* FUNTION NAME:core1_pthread_done_before_task                              */
+/* FUNTION NAME:core1_pthread_management_before_task                        */
 /* DESCRIPTION: The processing logic is called before task in each thread   */
 /*              in order to setup measurement and thread management         */
 /****************************************************************************/
-void core1_pthread_done_before_task(pthread_config_t *pthread_config)
+void core1_pthread_management_before_task(pthread_config_t *pthread_config)
 { 
   if(pthread_config->curr_task_type == EVENT)
   {
@@ -2466,7 +2466,7 @@ void core1_pthread_done_before_task(pthread_config_t *pthread_config)
   }
   /* trace */
   os_trace_task_time_begin(pthread_config->curr_task_core_id,pthread_config->curr_task_id);
-} /* End of core1_pthread_done_before_task function */
+} /* End of core1_pthread_management_before_task function */
 
 #endif /* End of CORE1_THREAD_CONFIG_H_ */
 
