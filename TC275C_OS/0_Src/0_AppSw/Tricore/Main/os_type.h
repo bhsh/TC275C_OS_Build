@@ -1,9 +1,17 @@
-
-
-
+/****************************************************************************/
+/* FILE NAME:    os_type.h                                                  */
+/* CREATE ON:    Aug 26, 2015                                               */
+/* AUTHER:       Yanpeng.xi                                                 */
+/* DESCRIPTION:  The h file includes the thread type definitions            */ 
+/* COMMENT:      Multicore OS based on Aurix 275C app kit and TASKING 4.3   */
+/*               compiler                                                   */
+/****************************************************************************/
 #ifndef OS_TYPE_H
 #define OS_TYPE_H
 
+/****************************************************************************/
+/* Type Definitions                                                         */
+/****************************************************************************/
 typedef unsigned char       osu8_t; 
 typedef unsigned short      osu16_t;
 typedef unsigned int        osu32_t;     
@@ -14,6 +22,9 @@ typedef short      os16_t;
 typedef int        os32_t;     
 typedef long long  os64_t; 
 
+/****************************************************************************/
+/* Macro Definitions                                                        */
+/****************************************************************************/
 #define  ENABLE    (1)
 #define  DISABLE   (0)
 
@@ -29,6 +40,6 @@ typedef long long  os64_t;
 #define OS_STATIC  static
 
 //#define OS_NULL (void*)0
-
-#endif
+ 
+#endif /* End of OS_TYPE_H */
 

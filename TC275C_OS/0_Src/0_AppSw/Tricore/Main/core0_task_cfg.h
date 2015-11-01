@@ -1,15 +1,29 @@
- 
-#ifndef TASK_CFG_H_
-#define TASK_CFG_H_
+/****************************************************************************/
+/* FILE NAME:    core0_task_cfg.h                                           */
+/* CREATE ON:    Aug 26, 2015                                               */
+/* AUTHER:       Yanpeng.xi                                                 */
+/* DESCRIPTION:  The c file includes the task configuration of AURIX core0  */
+/*               os                                                         */
+/* COMMENT:      Multicore OS based on Aurix 275C app kit and TASKING 4.3   */
+/*               compiler                                                   */
+/****************************************************************************/ 
+#ifndef CORE0_TASK_CFG_H_
+#define CORE0_TASK_CFG_H_
 
-
+/****************************************************************************/
+/* Feature Include Files                                                    */
+/****************************************************************************/
 #include "core0_task_manager.h"
 #include "core1_task_manager.h"
 #include "core2_task_manager.h"
 
+/****************************************************************************/
+/* Macro Definitions                                                        */
+/****************************************************************************/
 
-/* core 0 */
-/* 0 thread config initialization */ 
+/****************************************************************************/
+/* <CORE0> Task Configuration                                               */
+/****************************************************************************/
 #if (CORE0_TASK0_SWITCH == ON) 
 #define CORE0_TASK0_TYPE             NO_DEFINITION             
 #define CORE0_TASK0_PERIOD           (0)  /* unit:ms */
@@ -1021,5 +1035,5 @@
 #define CORE0_TASK100_CALL_DEPTH      CALL_DEPTH_OVERFLOW_AT_64 
 #endif	
 
-#endif	
+#endif /* CORE0_TASK_CFG_H_ */	
 
