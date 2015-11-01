@@ -10,7 +10,7 @@
 #include "os_type.h"
 #include "os.h"
 #include "shared_appsw.h"
-#include "priv1_appsw.h"
+#include "priv2_appsw.h"
 
 /****************************************************************************/
 /* <CORE2> Task Definitions                                                 */
