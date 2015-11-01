@@ -1,11 +1,26 @@
+/****************************************************************************/
+/* FILE NAME:    core2_tasks.c                                              */
+/* CREATE ON:    Aug 26, 2015                                               */
+/* AUTHER:       Yanpeng.xi                                                 */
+/* DESCRIPTION:  The c file includes the task definitions of AURIX core2    */
+/*               os                                                         */
+/* COMMENT:      Multicore OS based on Aurix 275C app kit and TASKING 4.3   */
+/*               compiler                                                   */
+/****************************************************************************/ 
 #include "os_type.h"
 #include "os.h"
 #include "sharedappsw.h"
+#include "private2appsw.h"
 
+/****************************************************************************/
+/* <CORE2> Task Definitions                                                 */
+/****************************************************************************/
 void CORE2_TASK0(pthread_config_t *pthread_config)
 {
   App_shared_func_task_test_count(pthread_config->curr_task_core_id,pthread_config->curr_task_id);
   App_shared_func_stack_background_count(pthread_config->curr_task_core_id);
+  App_priv2_func_test_count();
+
 }
 void CORE2_TASK1(pthread_config_t *pthread_config)
 {

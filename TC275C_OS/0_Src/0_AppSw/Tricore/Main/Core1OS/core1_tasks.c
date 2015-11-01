@@ -1,11 +1,25 @@
+/****************************************************************************/
+/* FILE NAME:    core1_tasks.c                                              */
+/* CREATE ON:    Aug 26, 2015                                               */
+/* AUTHER:       Yanpeng.xi                                                 */
+/* DESCRIPTION:  The c file includes the task definitions of AURIX core1    */
+/*               os                                                         */
+/* COMMENT:      Multicore OS based on Aurix 275C app kit and TASKING 4.3   */
+/*               compiler                                                   */
+/****************************************************************************/
 #include "os_type.h"
 #include "os.h"
 #include "sharedappsw.h"
+#include "private1appsw.h"
 
+/****************************************************************************/
+/* <CORE1> Task Definitions                                                 */
+/****************************************************************************/
 void CORE1_TASK0(pthread_config_t *pthread_config)
 {
   App_shared_func_task_test_count(pthread_config->curr_task_core_id,pthread_config->curr_task_id);
   App_shared_func_stack_background_count(pthread_config->curr_task_core_id);
+  App_priv1_func_test_count();
 }
 void CORE1_TASK1(pthread_config_t *pthread_config)
 {

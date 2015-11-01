@@ -10,4 +10,9 @@
 #ifndef PRIVATE2APPSW_H_
 #define PRIVATE2APPSW_H_ 
 
+/****************************************************************************/
+/* Function Prototype Definitions                                           */
+/****************************************************************************/
+extern void  App_priv2_func_test_count(void);
+
 #endif /* End of #define PRIVATE2APPSW_H_  */

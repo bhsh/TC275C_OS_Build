@@ -1,7 +1,17 @@
-
+/****************************************************************************/
+/* FILE NAME:    core0_tasks.h                                              */
+/* CREATE ON:    Aug 26, 2015                                               */
+/* AUTHER:       Yanpeng.xi                                                 */
+/* DESCRIPTION:  The h file includes prototype definitions of core0 tasks   */
+/* COMMENT:      Multicore OS based on Aurix 275C app kit and TASKING 4.3   */
+/*               compiler                                                   */
+/****************************************************************************/
 #ifndef  CORE0_TASKS_H_
 #define  CORE0_TASKS_H_
 
+/****************************************************************************/
+/* Function Prototype Definitions                                           */
+/****************************************************************************/
 void CORE0_TASK0(pthread_config_t *pthread_config);
 void CORE0_TASK1(pthread_config_t *pthread_config);
 void CORE0_TASK2(pthread_config_t *pthread_config);
