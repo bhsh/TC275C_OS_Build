@@ -17,8 +17,8 @@
 /****************************************************************************/
 /* Type Definitions                                                        */
 /****************************************************************************/
-typedef pthread_mutex_t task_mutex_t;
-typedef pthread_cond_t  task_cond_t;
+typedef pthread_mutex_t* task_mutex_t;
+typedef pthread_cond_t*  task_cond_t;
 
 /****************************************************************************/
 /* User APIs                                                                */
@@ -26,9 +26,9 @@ typedef pthread_cond_t  task_cond_t;
 
 /****************************************************************************/
 /* MACRO NAME: Task_Mutex_Lock                                              */
-/* FUNCTION PROTOTYPE:  Task_Mutex_Lock(task_mutex_t *mutex)                */
+/* FUNCTION PROTOTYPE:  Task_Mutex_Lock(task_mutex_t mutex)                 */
 /* ARGUMENT NAME: mutex                                                     */
-/* ARGUMENT TYPE: task_mutex_t *                                            */
+/* ARGUMENT TYPE: task_mutex_t                                              */
 /* RETURN NAME :  None                                                      */
 /* RETURN TYPE :  None                                                      */
 /* USING RANGE :  Inside tasks                                              */
@@ -37,19 +37,19 @@ typedef pthread_cond_t  task_cond_t;
 /*                                                                          */
 /*   task_mutex_t  mutex;                                                   */
 /*   ......                                                                 */
-/*   Task_Mutex_Lock(&mutex);                                               */
+/*   Task_Mutex_Lock(mutex);                                                */
 /*   // Your critical source that can only belong to                        */
 /*   // one user at one time                                                */           
-/*   Task_Mutex_Unlock(&mutex);                                             */
+/*   Task_Mutex_Unlock(mutex);                                              */
 /*   ......                                                                 */
 /****************************************************************************/
 #define Task_Mutex_Lock(mutex_ptr)          pthread_mutex_lock(mutex_ptr)
 
 /****************************************************************************/
 /* MACRO NAME: Task_Mutex_Unlock                                            */
-/* FUNCTION PROTOTYPE:  Task_Mutex_Unlock(task_mutex_t *mutex)              */
+/* FUNCTION PROTOTYPE:  Task_Mutex_Unlock(task_mutex_t mutex)               */
 /* ARGUMENT NAME: mutex                                                     */
-/* ARGUMENT TYPE: task_mutex_t *                                            */
+/* ARGUMENT TYPE: task_mutex_t                                              */
 /* RETURN NAME :  None                                                      */
 /* RETURN TYPE :  None                                                      */
 /* USING RANGE :  Inside tasks                                              */
@@ -60,9 +60,9 @@ typedef pthread_cond_t  task_cond_t;
 
 /****************************************************************************/
 /* MACRO NAME: Task_Cond_Wait                                               */
-/* FUNCTION PROTOTYPE:  Task_Cond_Wait(task_cond_t *cond)                   */
+/* FUNCTION PROTOTYPE:  Task_Cond_Wait(task_cond_t cond)                    */
 /* ARGUMENT NAME: cond                                                      */
-/* ARGUMENT TYPE: task_cond_t *                                             */
+/* ARGUMENT TYPE: task_cond_t                                               */
 /* RETURN NAME :  None                                                      */
 /* RETURN TYPE :  None                                                      */
 /* USING RANGE :  Inside tasks                                              */
@@ -71,7 +71,7 @@ typedef pthread_cond_t  task_cond_t;
 /*                                                                          */
 /*   task_cond_t  cond;                                                     */
 /*   ......                                                                 */
-/*   Task_Cond_Wait(&cond);                                                 */
+/*   Task_Cond_Wait(cond);                                                  */
 /*   // The current task has been blocked when Task_Cond_Wait is reached    */ 
 /*   // The following code of the task can only be executed after the task  */
 /*   // is actived by Task_Cond_Broadcast                                   */
@@ -81,9 +81,9 @@ typedef pthread_cond_t  task_cond_t;
 
 /****************************************************************************/
 /* MACRO NAME: Task_Cond_Broadcast                                          */
-/* FUNCTION PROTOTYPE:  Task_Cond_Broadcast(task_cond_t *cond)              */
+/* FUNCTION PROTOTYPE:  Task_Cond_Broadcast(task_cond_t cond)               */
 /* ARGUMENT NAME: cond                                                      */
-/* ARGUMENT TYPE: task_cond_t *                                             */
+/* ARGUMENT TYPE: task_cond_t                                               */
 /* RETURN NAME :  None                                                      */
 /* RETURN TYPE :  None                                                      */
 /* USING RANGE :  Inside tasks or interrupt                                 */
@@ -96,7 +96,7 @@ typedef pthread_cond_t  task_cond_t;
 /*                     another core os                                      */
 /*   task_cond_t  cond;                                                     */
 /*   ......                                                                 */
-/*   Task_Cond_Broadcast(&cond);                                            */
+/*   Task_Cond_Broadcast(cond);                                             */
 /*   ......                                                                 */
 /****************************************************************************/
 #define Task_Cond_Broadcast(cond_ptr)       pthread_cond_broadcast(cond_ptr)
@@ -120,33 +120,101 @@ typedef pthread_cond_t  task_cond_t;
 #define Task_Cond_Timedwait(wait_time)      pthread_cond_timedwait_np(wait_time)
 
 /****************************************************************************/
-/* MACRO NAME: Task_Mutex_Lock                                              */
-/* DESCRIPTION:                                                             */
+/* MACRO NAME: Task_Disable_AllInterrupts                                   */
+/* FUNCTION PROTOTYPE:  Task_Disable_AllInterrupts()                        */
+/* ARGUMENT NAME: None                                                      */
+/* ARGUMENT TYPE: None                                                      */
+/* RETURN NAME :  None                                                      */
+/* RETURN TYPE :  None                                                      */
+/* USING RANGE :  Inside tasks or interrupt                                 */
 /****************************************************************************/
-#define Task_Enable_AllInterrupts()         pthread_enable_allinterrupts()
-
-/****************************************************************************/
-/* MACRO NAME: Task_Mutex_Lock                                              */
-/* DESCRIPTION:                                                             */
+/* USAGE DESCRIPTION : Disable global interrupt                             */
+/*   ......                                                                 */
+/*   Task_Enable_AllInterrupts()                                            */
+/*   // Your critical code that is wanted not to be interrupted by          */
+/*   // interrupts                                                          */
+/*   Task_Disable_AllInterrupts                                             */
+/*   ......                                                                 */
 /****************************************************************************/
 #define Task_Disable_AllInterrupts()        pthread_enable_allinterrupts()
 
 /****************************************************************************/
-/* MACRO NAME: Task_Mutex_Lock                                              */
-/* DESCRIPTION:                                                             */
+/* MACRO NAME: Task_Enable_AllInterrupts                                    */
+/* FUNCTION PROTOTYPE:  Task_Enable_AllInterrupts()                         */
+/* ARGUMENT NAME: None                                                      */
+/* ARGUMENT TYPE: None                                                      */
+/* RETURN NAME :  None                                                      */
+/* RETURN TYPE :  None                                                      */
+/* USING RANGE :  Inside tasks or interrupt                                 */
 /****************************************************************************/
-#define Task_Suspend_AllThreads()           pthread_suspend_allthreads()
+/* USAGE DESCRIPTION : Enable global interrupt                              */
+/*   ......                                                                 */
+/*   Task_Enable_AllInterrupts()                                            */
+/*   // Your critical code that is wanted not to be interrupted by          */
+/*   // interrupts                                                          */
+/*   Task_Disable_AllInterrupts                                             */
+/*   ......                                                                 */
+/****************************************************************************/
+#define Task_Enable_AllInterrupts()         pthread_enable_allinterrupts()
 
 /****************************************************************************/
-/* MACRO NAME: Task_Mutex_Lock                                              */
-/* DESCRIPTION:                                                             */
+/* MACRO NAME: Task_Suspend_AllTasks                                        */
+/* FUNCTION PROTOTYPE:  Task_Restore_AllTasks()                             */
+/* ARGUMENT NAME: None                                                      */
+/* ARGUMENT TYPE: None                                                      */
+/* RETURN NAME :  None                                                      */
+/* RETURN TYPE :  None                                                      */
+/* USING RANGE :  Inside tasks                                              */
 /****************************************************************************/
-#define Task_Restore_AllThreads()           pthread_restore_allthreads()
+/* USAGE DESCRIPTION : Suspend all tasks by suspending the scheduler        */
+/*   ......                                                                 */
+/*   Task_Suspend_AllTasks()                                                */
+/*   // Your critical code that is wanted not to be interrupted by          */
+/*   // other tasks                                                         */
+/*   Task_Restore_AllTasks                                                  */
+/*   ......                                                                 */
+/****************************************************************************/
+#define Task_Suspend_AllTasks()           pthread_suspend_allthreads()
 
 /****************************************************************************/
-/* MACRO NAME: Task_Mutex_Lock                                              */
-/* DESCRIPTION:                                                             */
+/* MACRO NAME: Task_Restore_AllTasks                                        */
+/* FUNCTION PROTOTYPE:  Task_Restore_AllTasks()                             */
+/* ARGUMENT NAME: None                                                      */
+/* ARGUMENT TYPE: None                                                      */
+/* RETURN NAME :  None                                                      */
+/* RETURN TYPE :  None                                                      */
+/* USING RANGE :  Inside tasks                                              */
 /****************************************************************************/
-#define Task_Obtain_os_tick(cpu_id)         pthread_obtain_os_tick(cpu_id)
+/* USAGE DESCRIPTION : Restore all tasks by restoring the scheduler         */
+/*   ......                                                                 */
+/*   Task_Suspend_AllTasks()                                                */
+/*   // Your critical code that is wanted not to be interrupted by          */
+/*   // other tasks                                                         */
+/*   Task_Restore_AllTasks                                                  */
+/*   ......                                                                 */
+/****************************************************************************/
+#define Task_Restore_AllTasks()           pthread_restore_allthreads()
+
+/****************************************************************************/
+/* MACRO NAME: Task_Obtain_OS_Tick                                          */
+/* FUNCTION PROTOTYPE:  Task_Obtain_OS_Tick(usigned int cpu_id)             */
+/* ARGUMENT NAME: cpu_id                                                    */
+/* ARGUMENT TYPE: usigned int                                               */
+/* RETURN NAME :  None                                                      */
+/* RETURN TYPE :  None                                                      */
+/* USING RANGE :  Inside tasks or interrupts                                */
+/****************************************************************************/
+/* USAGE DESCRIPTION : Obtain the current tick of os                        */
+/*   ......                                                                 */
+/*   usigned int Core0_OS_Tick;                                             */
+/*   usigned int Core1_OS_Tick;                                             */
+/*   usigned int Core2_OS_Tick;                                             */
+/*                                                                          */
+/*   Core0_OS_Tick = Task_Obtain_OS_Tick(0)                                 */
+/*   Core1_OS_Tick = Task_Obtain_OS_Tick(1)                                 */
+/*   Core2_OS_Tick = Task_Obtain_OS_Tick(2)                                 */
+/*   ......                                                                 */
+/****************************************************************************/
+#define Task_Obtain_OS_Tick(cpu_id)         pthread_obtain_os_tick(cpu_id)
 
 #endif /* End of OS_TASK_H_ */

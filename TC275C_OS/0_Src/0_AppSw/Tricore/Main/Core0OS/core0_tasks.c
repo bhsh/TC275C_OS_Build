@@ -11,6 +11,7 @@
 #include "os.h"
 #include "shared_appsw.h"
 #include "priv0_appsw.h"
+#include "os_task.h"
 
 /****************************************************************************/
 /* <CORE0> Task Definitions                                                 */
