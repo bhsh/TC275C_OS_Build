@@ -15,7 +15,7 @@
 #include "os_kernel.h"
 
 /****************************************************************************/
-/* Type Definitions                                                        */
+/* Type Definitions                                                         */
 /****************************************************************************/
 typedef pthread_mutex_t* task_mutex_t;
 typedef pthread_cond_t*  task_cond_t;
