@@ -1,5 +1,5 @@
 /****************************************************************************/
-/* FILE NAME:    core0_tasks.c                                              */
+/* FILE NAME:    priv0_appsw.c                                              */
 /* CREATE ON:    Aug 26, 2015                                               */
 /* AUTHER:       Yanpeng.xi                                                 */
 /* DESCRIPTION:  The c file includes the task definitions of AURIX core0    */
@@ -9,8 +9,8 @@
 /****************************************************************************/
 #include "os_type.h"
 #include "os.h"
-#include "sharedappsw.h"
-#include "private0appsw.h"
+#include "shared_appsw.h"
+#include "priv0_appsw.h"
 
 /****************************************************************************/
 /* <CORE0> Task Definitions                                                 */
@@ -19,7 +19,7 @@ void CORE0_TASK0(pthread_config_t *pthread_config)
 {
   App_shared_func_task_test_count(pthread_config->curr_task_core_id,pthread_config->curr_task_id);
   App_shared_func_stack_background_count(pthread_config->curr_task_core_id);
-  //App_priv0_func_test_count();
+  App_priv0_func_test_count();
 }
 void CORE0_TASK1(pthread_config_t *pthread_config)
 {

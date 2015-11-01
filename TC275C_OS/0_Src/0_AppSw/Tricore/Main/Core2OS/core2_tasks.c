@@ -9,8 +9,8 @@
 /****************************************************************************/ 
 #include "os_type.h"
 #include "os.h"
-#include "sharedappsw.h"
-#include "private2appsw.h"
+#include "shared_appsw.h"
+#include "priv1_appsw.h"
 
 /****************************************************************************/
 /* <CORE2> Task Definitions                                                 */

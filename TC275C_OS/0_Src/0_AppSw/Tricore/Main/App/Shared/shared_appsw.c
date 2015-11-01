@@ -1,5 +1,5 @@
 /****************************************************************************/
-/* FILE NAME:    sharedappsw.h                                               */
+/* FILE NAME:    shared_appsw.h                                             */
 /* CREATE ON:    Aug 26, 2015                                               */
 /* AUTHER:       Yanpeng.xi                                                 */
 /* DESCRIPTION:  The h file includes prototype definitions of APP           */
@@ -43,6 +43,8 @@ static volatile unsigned int App_shared_var_task_test_count[APP_MAX_CORE_USED][T
 static volatile unsigned int App_shared_var_CPU_Load_Backg_Count[APP_MAX_CORE_USED];
 static volatile unsigned int App_shared_var_CPU_load[APP_MAX_CORE_USED];
 static APP_SHARE_CPU_LOAD_LOGIC_STATUS_t App_shared_var_state_machine_state[APP_MAX_CORE_USED] = { RUNNING, RUNNING, RUNNING };
+static volatile unsigned int App_shared_var_test_count;
+
 
 /****************************************************************************/
 /* Shared Funtion Definitions                                               */
@@ -97,4 +99,10 @@ void App_shared_func_trigger_software_interrupt1(void)
 {
    LowDriver_Trigger_Software_Interrupt1();
 }
+
+void  App_shared_func_test_count()
+{
+   App_shared_var_test_count ++;
+}
+
 
