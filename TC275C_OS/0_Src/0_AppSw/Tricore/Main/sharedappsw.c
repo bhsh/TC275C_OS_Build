@@ -46,7 +46,7 @@ static volatile unsigned int App_shared_var_CPU_load[APP_MAX_CORE_USED];
 static APP_SHARE_CPU_LOAD_LOGIC_STATUS_t App_shared_var_state_machine_state[APP_MAX_CORE_USED] = { RUNNING, RUNNING, RUNNING };
 
 /****************************************************************************/
-/* Shared Funtion Definitions                                              */
+/* Shared Funtion Definitions                                               */
 /****************************************************************************/
 void App_shared_func_stack_background_count(unsigned int channel)
 {
@@ -71,7 +71,6 @@ void App_shared_func_stack_calculated(unsigned int channel)
   App_shared_var_CPU_Load_Backg_Count[channel] = 0;
   /*<CPU load> can be got here. <Section ends> */
 }
-
 void App_shared_func_task_test_count(unsigned int current_core_id,unsigned int channel)
 {
   App_shared_var_task_test_count[current_core_id][channel]++;
