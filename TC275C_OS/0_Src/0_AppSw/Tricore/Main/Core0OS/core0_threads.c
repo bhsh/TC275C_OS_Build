@@ -660,7 +660,6 @@ void start_core0_os(void) {
 #if (CORE0_THREAD2_SWITCH == ON) 
     CORE0_PTHREAD_CREATION_BLOCK(2)
 #endif
-#if 0
 #if (CORE0_THREAD3_SWITCH == ON) 
     CORE0_PTHREAD_CREATION_BLOCK(3)
 #endif
@@ -682,8 +681,6 @@ void start_core0_os(void) {
 #if (CORE0_THREAD9_SWITCH == ON) 
     CORE0_PTHREAD_CREATION_BLOCK(9)
 #endif
-#endif
-
 #if (CORE0_THREAD10_SWITCH == ON) 
     CORE0_PTHREAD_CREATION_BLOCK(10)
 #endif
