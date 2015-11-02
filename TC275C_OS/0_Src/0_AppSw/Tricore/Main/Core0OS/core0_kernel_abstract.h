@@ -18,6 +18,7 @@
 /****************************************************************************/
 /* Macro Definitions                                                        */
 /****************************************************************************/
+#if(OS_STACK_MODE == MORE_STACKS)
 #define CORE0_PTHREAD_INITIALIZATION_BLOCK  \
 	pthread_config_t pthread_config = \
 	core0_pthread_init_config_database[(int)arg]; \
@@ -35,6 +36,25 @@
 	    CORE0_PTHREAD_INITIALIZATION_BLOCK  \
 	    CORE0_PTHREAD_TASKCALLBACK_BLOCK  \
 	    CORE0_PTHREAD_TERMINATION_BLOCK}
+#else
+#define CORE0_PTHREAD_INITIALIZATION_BLOCK  \
+	pthread_config_t pthread_config = \
+	core0_pthread_init_config_database[(int)arg]; \
+	core0_pthread_management_before_task(&pthread_config); 
+
+#define CORE0_PTHREAD_TASKCALLBACK_BLOCK \
+	task(&pthread_config);   
+
+#define CORE0_PTHREAD_TERMINATION_BLOCK  \
+	core0_pthread_management_after_task(&pthread_config);\
+	core0_pthread_terminate();
+
+#define CORE0_PTHREAD_DEFINITION_BLOCK(thread_order_num)  \
+	void core0_os_thread##thread_order_num(void* arg,task_ptr_t task){ \
+	    CORE0_PTHREAD_INITIALIZATION_BLOCK  \
+	    CORE0_PTHREAD_TASKCALLBACK_BLOCK  \
+	    CORE0_PTHREAD_TERMINATION_BLOCK}
+#endif
 
 #define _CORE0_PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_stacksize) \
 	PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_stacksize)  

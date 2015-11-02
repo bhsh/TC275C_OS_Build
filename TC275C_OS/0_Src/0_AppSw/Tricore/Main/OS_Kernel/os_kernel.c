@@ -688,10 +688,11 @@ OS_STATIC void os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_thread)
 } /* End of os_kernel function */
 
 /****************************************************************************/
-/* DESCRIPTION: <EVERY CORE> The API(os_kernel_in_tick) is used inside the   */
+/* DESCRIPTION: <EVERY CORE> The API(os_kernel_in_tick) is used inside the  */
 /*              tick interrupts of STM0,STM1 and STM2 to deal with periodic */
 /*              thread scheduling events                                    */
 /****************************************************************************/
+#if(OS_STACK_MODE == MORE_STACKS)  /* <MORE_STACKS> More stacks interface */
 OS_INLINE void os_kernel_in_tick(void)
 {
     osu32_t             index;
@@ -777,13 +778,83 @@ OS_INLINE void os_kernel_in_tick(void)
 	         ::"a"(&cond->blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(os_kernel):"a4","a5","d15");
 	}
 } /* End of os_kernel_in_tick function */
+#else
+OS_INLINE void os_kernel_in_tick(void)
+{
+    pthread_cond_t  *cond;
+	pthread_cond_t  *cond_buffer[PTHREAD_COND_TIMEDWAIT_SIZE];
+    uint32_t        index;
+	uint32_t        release_count=0;
 
+ if(os_getCoreId()==CORE0)
+ {
+    for(index=0;index<PTHREAD_COND_TIMEDWAIT_SIZE;index++)
+    {
+      if(stm_ticks[index]==stm_tick_count)
+	  {		
+		cond_buffer[release_count] = stm_cond[index];
+		stm_ticks[index]           = USHRT_MAX;                             // free place in array 
+		
+		release_count++;
+	  }
+    }
+ }
+ else if(os_getCoreId()==CORE1)
+ {
+    for(index=0;index<PTHREAD_COND_TIMEDWAIT_SIZE;index++)
+    {
+      if(core1_os_stm_ticks[index]==core1_os_stm_tick_count)
+	  {		
+		cond_buffer[release_count] = core1_os_stm_cond[index];
+		core1_os_stm_ticks[index]  = USHRT_MAX;                             // free place in array 
+		
+		release_count++;
+	  }
+    }
+ }
+ else if(os_getCoreId()==CORE2)
+ {
+    for(index=0;index<PTHREAD_COND_TIMEDWAIT_SIZE;index++)
+    {
+      if(core2_os_stm_ticks[index]==core2_os_stm_tick_count)
+	  {		
+		cond_buffer[release_count] = core2_os_stm_cond[index];
+		core2_os_stm_ticks[index]  = USHRT_MAX;                             // free place in array 
+		
+		release_count++;
+	  }
+    }
+ }
+    //setup parameter and jump to trapsystem
+    if(release_count!=0)
+	{
+	   assert(cond_buffer[0] != NULL);
+	    if(release_count>1)
+ 	   {
+ 	        while(--release_count)
+ 		   {
+ 	          dispatch_signal_in_tick(&cond_buffer[release_count]->blocked_threads,NULL);
+ 		   }
+ 	   }
+	  assert(cond_buffer[0] != NULL);
+ 	
+	   cond   =cond_buffer[0];                        // get current condition
+       __asm( " mov.aa a4,%0 \n"
+              " mov.aa a5,%1 \n"
+              " mov d15,%2   \n"
+              " jg trapsystem  "
+              ::"a"(&cond->blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(trapsystem):"a4","a5","d15");
+	 }
+}
+
+#endif
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> The API(pthread_cond_timedwait_np) can be used */
 /*              inside threads to let the current thread blocked in for     */
 /*              reltime(unit ms).This is an OS API that is provided to os   */
 /*              user                                                        */
 /****************************************************************************/
+#if(OS_STACK_MODE == MORE_STACKS)  /* <MORE_STACKS> More stacks interface */
 os32_t pthread_cond_timedwait_np(osu16_t reltime) /* <reltime> Waiting time, unit:ms */
 {
 	osu16_t new_tick_count;
@@ -864,6 +935,60 @@ os32_t pthread_cond_timedwait_np(osu16_t reltime) /* <reltime> Waiting time, uni
     return 0; /* Dummy to avoid warning */
 } /* End of pthread_cond_timedwait_np function */
 
+#else /* <ONE_STACK> ONE STACK interface */
+os32_t pthread_cond_timedwait_np(pthread_cond_t *cond,
+        								   osu32_t reltime,
+        								   osu32_t task_id) 
+{
+	uint16_t new_tick_count;
+    uint16_t set_count;
+	
+    assert(cppn()==0); 
+    assert(cond != NULL);
+
+	if(os_getCoreId()==CORE0)
+	{
+	  new_tick_count           = stm_tick_count + 1;
+	  set_count                = ((uint16_t)(new_tick_count + reltime))%0xFFFF;  // set_count ranges from 0-0xFFFE
+	
+      stm_ticks[task_id]       = set_count;                                      // load the current tick set(lconfig 1.)
+      stm_cond[task_id]        = cond;                                           // load the cond.(lconfig 2.)
+
+      //__swap(&mutex->lock, false);
+      int err = dispatch_wait(&cond->blocked_threads, NULL);// swap out with mutex unlocked
+      //__swap(&mutex->lock, true);
+      //mutex->owner = core0_os_pthread_running;
+	}
+	else if(os_getCoreId()==CORE1)
+	{
+	  new_tick_count           = core1_os_stm_tick_count + 1;
+	  set_count                = ((uint16_t)(new_tick_count + reltime))%0xFFFF;  // set_count ranges from 0-0xFFFE
+	
+      core1_os_stm_ticks[task_id]       = set_count;                                      // load the current tick set(lconfig 1.)
+      core1_os_stm_cond[task_id]        = cond;                                           // load the cond.(lconfig 2.)
+	
+      //__swap(&mutex->lock, false);
+      int err = dispatch_wait(&cond->blocked_threads, NULL);// swap out with mutex unlocked
+      //__swap(&mutex->lock, true);
+      //mutex->owner = core1_os_pthread_running;
+
+	}
+	else if(os_getCoreId()==CORE2)
+	{
+	  new_tick_count           = core2_os_stm_tick_count + 1;
+	  set_count                = ((uint16_t)(new_tick_count + reltime))%0xFFFF;  // set_count ranges from 0-0xFFFE
+	
+      core2_os_stm_ticks[task_id]       = set_count;                                      // load the current tick set(lconfig 1.)
+      core2_os_stm_cond[task_id]        = cond;                                           // load the cond.(lconfig 2.)
+
+      //__swap(&mutex->lock, false);
+      int err = dispatch_wait(&cond->blocked_threads, NULL);// swap out with mutex unlocked
+      //__swap(&mutex->lock, true);
+      //mutex->owner = core2_os_pthread_running;
+	}
+    return 0;
+} /* End of pthread_cond_timedwait_np function */
+#endif
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> The API(pthread_suspend_allthreads) can be used*/
 /*              inside threads to suspend all that happend after the API is */
