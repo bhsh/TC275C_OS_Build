@@ -60,10 +60,4 @@
 #define CORE1_KERNEL_TICK_INT_LEVEL  11
 #define CORE2_KERNEL_TICK_INT_LEVEL  12
 
-
-#define MORE_STACK  0
-#define ONE_STACK   1
-
-#define OS_STACK_MODE0     MORE_STACK
-
 #endif /* OS_KERNEL_CFG_H_ */

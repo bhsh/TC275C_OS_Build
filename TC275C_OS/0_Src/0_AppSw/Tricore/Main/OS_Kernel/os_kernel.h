@@ -33,6 +33,19 @@
     \
     pthread_t _name = (pthread_t)&_##_name;
 
+#if (OS_STACK_MODE == MORE_STACK)
+
+#define PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_stacksize) static struct { \
+    pthread_t next,prev;\
+    osu32_t lcx; \
+    osu32_t priority; \
+    osu32_t policy; \
+    osu32_t *arg; \
+    osu32_t stack[_stacksize]; \
+    } _##_name = {0,(pthread_t)&_##_name,0,_priority,_policy,NULL,{_stacksize+1}};\
+    \
+    pthread_t _name = (pthread_t)&_##_name;
+#endif
 /****************************************************************************/
 /* Type Definitions                                                         */
 /****************************************************************************/
