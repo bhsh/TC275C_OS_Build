@@ -2500,6 +2500,5 @@ OS_INLINE core0_pthread_terminate(pthread_config_t *pthread_config)
 }
 #endif
 
-
 #endif /* End of CORE0_THREAD_CONFIG_H_ */
 
