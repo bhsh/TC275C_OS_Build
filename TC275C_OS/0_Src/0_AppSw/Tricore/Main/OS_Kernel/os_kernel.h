@@ -320,11 +320,13 @@ OS_INLINE void pthread_start_np(void) {
 	 	      if(core0_os_pthread_running->thread_status == S_RUNNING)
 	 	  	  {
 	 	        core0_os_pthread_running->thread_status = S_INTERRUPTED;
-	 	  
+				
+		        /* <CORE0> Get the stack pointer of the thread interrupted */  
 	 	  	    cx = cx_to_addr(core0_os_pthread_running->lcx);
 	 	  	    cx = cx_to_addr(cx->l.pcxi);
 	 	  	    core0_os_pthread_running->curr_stack_address = cx->u.a10;
-	 	  	  
+
+			    /* <CORE0> Update buffer with the stack pointer */
 	 	  	    curr_stack_pos = core0_os_pthread_running->curr_stack_address;
 	 	  	  }
 	 	  	  else if(core0_os_pthread_running->thread_status == S_TERMINATED)
@@ -346,9 +348,12 @@ OS_INLINE void pthread_start_np(void) {
 		 
 		 /* <CORE0> Get ready thread with highest priority ready */  
          thread = core0_os_pthread_runnable_threads[31 - __clz(core0_os_pthread_runnable)]; 	
-         core0_os_pthread_running = thread;
 
-		 	 	 
+		 /* <CORE0> Update core0_os_pthread_running with highest priority thread  */
+		 core0_os_pthread_running = thread;
+
+		 /* <CORE0> Check the status of the highest priority thread and update     */
+		 /* init_stack_address or curr_stack_address with the stack pointer buffer */
 		 if(core0_os_pthread_running->thread_status == S_READY)
          { 
 		 	core0_os_pthread_running->init_stack_address = curr_stack_pos;
@@ -361,7 +366,8 @@ OS_INLINE void pthread_start_np(void) {
 		 /* <CORE0> Set the status of the thread to S_RUNNING that will be scheduled */  
 		 core0_os_pthread_running->thread_status = S_RUNNING;
 
-		 /* <CORE0> Set the stack address of the thread that will be scheduled with "curr_stack_pos" */  
+		 /* <CORE0> Set the stack address of the thread that will be scheduled with "curr_stack_pos" */
+		 /* <CORE0> Update the stack pointer of the running thread */  
 		 cx = cx_to_addr(core0_os_pthread_running->lcx);
          cx = cx_to_addr(cx->l.pcxi);
   	     cx->u.a10 = curr_stack_pos;	
