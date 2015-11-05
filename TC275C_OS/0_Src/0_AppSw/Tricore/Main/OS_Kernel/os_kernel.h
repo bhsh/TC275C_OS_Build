@@ -35,7 +35,7 @@
     \
     pthread_t _name = (pthread_t)&_##_name;
 #else
-#define PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_stacksize,_ini_stack_address) static struct { \
+#define PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_stacksize,_ini_stack_address,_task_ptr) static struct { \
     pthread_t next,prev;\
     osu32_t lcx; \
     osu32_t priority; \
@@ -44,7 +44,8 @@
     osu32_t *init_stack_address; \
     osu32_t *curr_stack_address; \
     osu32_t thread_status; \
-    } _##_name = {0,(pthread_t)&_##_name,0,_priority,_policy,NULL,&_ini_stack_address,NULL,S_TERMINATED};\
+    task_ptr_t task_ptr;
+    } _##_name = {0,(pthread_t)&_##_name,0,_priority,_policy,NULL,&_ini_stack_address,NULL,_task_ptr,S_TERMINATED};\
     \
     pthread_t _name = (pthread_t)&_##_name;
 #endif
@@ -119,6 +120,7 @@ typedef struct pthread_s { /* <struct><pthread_t> Describe the thread record */
     osu32_t *init_stack_address; 
     osu32_t *curr_stack_address; 
     osu32_t thread_status; 
+    task_ptr_t task_ptr;
 }*pthread_t;
 #endif
 
@@ -276,6 +278,8 @@ OS_INLINE void pthread_start_np(void) {
     __asm(" rfe");       /* <EVERY CORE>restore the upper context  */
 } /* End of pthread_start_np function */
 #else
+osu32_t  init_stack_add;
+osu32_t  curr_stack_add;
 OS_INLINE void pthread_start_np(void) {
     extern  osu32_t           core0_os_pthread_runnable;
 	extern  osu32_t           core1_os_pthread_runnable;
@@ -292,15 +296,30 @@ OS_INLINE void pthread_start_np(void) {
 
     pthread_t thread = (void*)0;
 	osu32_t   current_core_id = os_getCoreId();
+	context_t *cx;
+
 
 	if(current_core_id == CORE0_ID)
 	{  
       assert(core0_os_pthread_runnable != 0);
 	  if(core0_os_pthreads_status == ALLTHREADS_WORKING)
-	  {       
-         /* <CORE0> Get ready thread with highest priority ready */  
+	  {   
+         if(core0_os_pthread_running->lcx == S_RUNNING) core0_os_pthread_running->lcx == S_INTERRUPTED;
+		 cx = cx_to_addr(core0_os_pthread_running->lcx);
+		 core0_os_pthread_running->curr_stack_address= cx->u.a10; 
+		 init_stack_add = core0_os_pthread_running->curr_stack_address;
+
+         /* <COSRE0> Get ready thread with highest priority ready */  
          thread = core0_os_pthread_runnable_threads[31 - __clz(core0_os_pthread_runnable)]; 			    
          core0_os_pthread_running = thread;
+
+		 if(thread->thread_status == S_READY )
+		 {
+             thread->thread_status == S_RUNNING;          
+		     cx = cx_to_addr(thread->lcx);
+		     thread->curr_stack_address= init_stack_add; 
+			 cx->u.a10 = init_stack_add;
+		 }
 	  }
 	  else if(core0_os_pthreads_status == ALLTHREADS_SUSPENDED)
 	  {

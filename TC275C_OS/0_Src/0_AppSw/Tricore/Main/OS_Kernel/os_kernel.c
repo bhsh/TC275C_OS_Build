@@ -692,6 +692,7 @@ OS_STATIC void os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_thread)
 {
     os32_t tin, i;
     pthread_t thread, tmp;
+	context_t *cx;
 
     __asm(" mov %0,d15 \n"
             " svlcx        "
@@ -711,9 +712,17 @@ OS_STATIC void os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_thread)
             list_delete_first(&core0_os_pthread_runnable_threads[i]);
             list_append(blocked_threads_ptr, core0_os_pthread_running, core0_os_pthread_running, NULL);
             __putbit(neza(core0_os_pthread_runnable_threads[i]),(os32_t*)&core0_os_pthread_runnable,i);
+
+             /* <CORE0> Set the status of the current thread to "terminated" */
+			core0_os_pthread_running->thread_status = S_TERMINATED;
+			 
+			 /* <CORE0> Update the entry point of the current thread into the sintial point */
+			 cx = cx_to_addr(core0_os_pthread_running->lcx);
+			 cx--;
+			 cx->l.pc = core0_os_pthread_running->task_ptr; /* <EVERY CORE> init new thread start address */ 
   	      }
           break;
-        case DISPATCH_SIGNAL:
+        case DISPATCH_SIGNAL:i
   	      {
             tmp = NULL;
             assert(blocked_threads_ptr);
@@ -722,6 +731,10 @@ OS_STATIC void os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_thread)
   		    {
               tmp = thread->next;
               i = thread->priority;
+			  
+			  /* <CORE0> Set the status of the current thread to "ready" */
+			  thread->thread_status = S_READY;
+			  
               list_append(&core0_os_pthread_runnable_threads[i], thread, thread,
                  core0_os_pthread_runnable_threads[i]);
               __putbit(1,(os32_t*)&core0_os_pthread_runnable,i);
