@@ -360,7 +360,7 @@ OS_INLINE void pthread_start_np(void) {
 		 }
 		 else if(core0_os_pthread_running->thread_status == S_INTERRUPTED)
 		 {
-		   core0_os_pthread_running->curr_stack_address= curr_stack_pos;
+		   core0_os_pthread_running->curr_stack_address = curr_stack_pos;
 		 } 
 
 		 /* <CORE0> Set the status of the thread to S_RUNNING that will be scheduled */  
