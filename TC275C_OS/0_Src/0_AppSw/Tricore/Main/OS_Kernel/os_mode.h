@@ -6,6 +6,7 @@
 #define MORE_STACKS  0
 #define ONE_STACK    1
 
-#define OS_STACK_MODE     MORE_STACKS
+//#define OS_STACK_MODE     MORE_STACKS
+#define OS_STACK_MODE    ONE_STACK
 
 #endif

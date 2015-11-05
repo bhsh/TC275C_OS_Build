@@ -219,7 +219,7 @@ os32_t pthread_create_np(pthread_t thread, /* <thread> Thread control block poin
             | 0 << 8             /* <EVERY CORE> Write permission to global registers A0, A1, A8, A9 is disabled */
             | 1L << 7            /* <EVERY CORE> Call depth counting is enabled CDE=1 */
             | attr->call_depth_overflow; /* <EVERY CORE>  Call Depth Overflow */
-    cx->u.a10 = thread->stack + *thread->stack; /* <EVERY CORE> Stack grow down */
+    //cx->u.a10 = thread->stack + *thread->stack; /* <EVERY CORE> Stack grow down */
     cx->u.a11 = 0;  /* <EVERY CORE> New task has no return address */
     cx->u.pcxi = 0; /* <EVERY CORE> No previous context; */
     cx--;
@@ -232,7 +232,7 @@ os32_t pthread_create_np(pthread_t thread, /* <thread> Thread control block poin
 	cx->l.a5 = core0_task_ptr;
     thread->arg = arg;
 	
-	PTHREAD_OBTAIN_INIT_STACK_ADD_CALLBACK(current_core_id,(os32_t)arg,(os32_t)(thread->stack + *thread->stack))
+	//PTHREAD_OBTAIN_INIT_STACK_ADD_CALLBACK(current_core_id,(os32_t)arg,(os32_t)(thread->stack + *thread->stack))
 
     osu32_t i = thread->priority;
 	

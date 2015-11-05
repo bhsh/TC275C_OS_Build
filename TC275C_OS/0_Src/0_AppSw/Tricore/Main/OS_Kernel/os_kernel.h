@@ -44,8 +44,8 @@
     osu32_t *init_stack_address; \
     osu32_t *curr_stack_address; \
     osu32_t thread_status; \
-    task_ptr_t task_ptr;
-    } _##_name = {0,(pthread_t)&_##_name,0,_priority,_policy,NULL,(osu32_t *)((osu32_t)_ini_stack_address+1),NULL,S_READY,_task_ptr};\
+    task_ptr_t task_ptr; \
+    } _##_name = {0,(pthread_t)&_##_name,0,_priority,_policy,NULL,(osu32_t *)((osu32_t)_ini_stack_address+1025),NULL,S_READY,_task_ptr};\
     \
     pthread_t _name = (pthread_t)&_##_name;
 #endif
@@ -59,7 +59,7 @@ typedef enum   {
    S_TERMINATED,
    S_RUNNING,
    S_READY,
-   S_INTERRUPTED,
+   S_INTERRUPTED
    
 } thread_status_t;
 #endif
@@ -201,6 +201,16 @@ OS_INLINE osu32_t os_getCoreId(void)
    core_id=__mfcr(CPU_CORE_ID);
    return (core_id&0x7);
 } /* End of os_getCoreId function */
+
+/****************************************************************************/
+/* DESCRIPTION: <EVERY CORE> Transfer address from cx mode to physical mode */
+/****************************************************************************/
+OS_INLINE context_t *cx_to_addr(osu32_t cx)
+{
+    osu32_t seg_nr = __extru(cx, 16, 4);
+    return (context_t *) __insert(seg_nr << 28, cx, 6, 16);
+} /* End of cx_to_addr function */
+
  
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Start threads                                  */
@@ -315,9 +325,9 @@ OS_INLINE void pthread_start_np(void) {
   	  {
         curr_stack_pos = core0_os_pthread_running->init_stack_address;
   	  }
-	  else if(core0_os_pthread_running == NULL)
+	  else if(core0_os_pthread_running == (void*)0)
 	  {
-        curr_stack_pos = core0_os_pthread_running->init_stack_address
+        curr_stack_pos = core0_os_pthread_running->init_stack_address;
 	  }
 	  /* <CORE0> The effecive stack address is stored in curr_stack_pos          */  
 	  /* <CORE0><Get effective stack address for the next thread scheduled><End> */  
@@ -393,15 +403,6 @@ OS_INLINE void pthread_start_np(void) {
     __asm(" rfe");       /* <EVERY CORE>restore the upper context  */
 } /* End of pthread_start_np function */
 #endif
-/****************************************************************************/
-/* DESCRIPTION: <EVERY CORE> Transfer address from cx mode to physical mode */
-/****************************************************************************/
-OS_INLINE context_t *cx_to_addr(osu32_t cx)
-{
-    osu32_t seg_nr = __extru(cx, 16, 4);
-    return (context_t *) __insert(seg_nr << 28, cx, 6, 16);
-} /* End of cx_to_addr function */
-
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Delay                                          */
 /****************************************************************************/
