@@ -50,6 +50,8 @@ OS_STATIC PTHREAD_MEMORY_QUALIFIER osu32_t   core2_os_pthread_timewait_table;
 OS_STATIC PTHREAD_MEMORY_QUALIFIER pthread_t core0_os_blocked_threads;
 OS_STATIC PTHREAD_MEMORY_QUALIFIER pthread_t core1_os_blocked_threads;
 OS_STATIC PTHREAD_MEMORY_QUALIFIER pthread_t core2_os_blocked_threads;
+
+#if(OS_STACK_MODE == MORE_STACKS)  /* <MORE_STACKS> More stacks interface */
 OS_STATIC PTHREAD_MEMORY_QUALIFIER osu16_t   core0_os_timewait_ticks[PTHREAD_COND_TIMEDWAIT_SIZE]=
 { 
     USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                      
@@ -119,6 +121,78 @@ OS_STATIC PTHREAD_MEMORY_QUALIFIER pthread_timewait_t  core2_os_timewait_cond[PT
     {NULL},{NULL},{NULL},{NULL},                     
     {NULL},{NULL},{NULL},{NULL},                     
 };
+#else
+PTHREAD_MEMORY_QUALIFIER osu16_t   core0_os_timewait_ticks[PTHREAD_COND_TIMEDWAIT_SIZE]=
+{ 
+    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                      
+    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,  
+    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                     
+    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX 	
+};
+PTHREAD_MEMORY_QUALIFIER pthread_timewait_t  *core0_os_timewait_cond_ptr[PTHREAD_COND_TIMEDWAIT_SIZE]=
+{
+    NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,                     
+    NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL                     
+};
+PTHREAD_MEMORY_QUALIFIER pthread_timewait_t  core0_os_timewait_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
+{  
+    {NULL},{NULL},{NULL},{NULL},                     
+    {NULL},{NULL},{NULL},{NULL},                     
+    {NULL},{NULL},{NULL},{NULL},                     
+    {NULL},{NULL},{NULL},{NULL},                     
+    {NULL},{NULL},{NULL},{NULL},                     
+    {NULL},{NULL},{NULL},{NULL},                     
+    {NULL},{NULL},{NULL},{NULL},                     
+    {NULL},{NULL},{NULL},{NULL},                     
+};
+PTHREAD_MEMORY_QUALIFIER osu16_t  core1_os_timewait_ticks[PTHREAD_COND_TIMEDWAIT_SIZE]=
+{
+    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                      
+    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,  
+    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                     
+    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX 
+};
+PTHREAD_MEMORY_QUALIFIER pthread_timewait_t  *core1_os_timewait_cond_ptr[PTHREAD_COND_TIMEDWAIT_SIZE]=
+{
+    NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,                     
+    NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL  
+};
+PTHREAD_MEMORY_QUALIFIER pthread_timewait_t  core1_os_timewait_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
+{  
+    {NULL},{NULL},{NULL},{NULL},                     
+    {NULL},{NULL},{NULL},{NULL},                     
+    {NULL},{NULL},{NULL},{NULL},                     
+    {NULL},{NULL},{NULL},{NULL},                     
+    {NULL},{NULL},{NULL},{NULL},                     
+    {NULL},{NULL},{NULL},{NULL},                     
+    {NULL},{NULL},{NULL},{NULL},                     
+    {NULL},{NULL},{NULL},{NULL},                     
+};
+PTHREAD_MEMORY_QUALIFIER osu16_t  core2_os_timewait_ticks[PTHREAD_COND_TIMEDWAIT_SIZE] =
+{
+    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                      
+    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,  
+    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                     
+    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX 				    
+};
+PTHREAD_MEMORY_QUALIFIER pthread_timewait_t  *core2_os_timewait_cond_ptr[PTHREAD_COND_TIMEDWAIT_SIZE] =
+{
+    NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,                     
+    NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL 
+};
+PTHREAD_MEMORY_QUALIFIER pthread_timewait_t  core2_os_timewait_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
+{  
+    {NULL},{NULL},{NULL},{NULL},                     
+    {NULL},{NULL},{NULL},{NULL},                     
+    {NULL},{NULL},{NULL},{NULL},                     
+    {NULL},{NULL},{NULL},{NULL},                     
+    {NULL},{NULL},{NULL},{NULL},                     
+    {NULL},{NULL},{NULL},{NULL},                     
+    {NULL},{NULL},{NULL},{NULL},                     
+    {NULL},{NULL},{NULL},{NULL},                     
+};
+
+#endif
 
 /****************************************************************************/
 /* Function Prototype Definitions                                           */
@@ -351,6 +425,7 @@ os32_t pthread_mutex_unlock(pthread_mutex_t *mutex) /* <*mutex> mutex pointer */
 /* DESCRIPTION: <EVERY CORE> Wait a condition.This is an OS API that is     */
 /*              provided to os user                                         */
 /****************************************************************************/
+
 os32_t pthread_cond_wait(pthread_cond_t *cond)/* <*cond> condition pointer */
 {
     assert(cppn()==0); /* CCPN must be 0, pthread_create cannot be called from ISR */

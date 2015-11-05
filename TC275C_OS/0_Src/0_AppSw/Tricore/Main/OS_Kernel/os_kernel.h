@@ -388,10 +388,6 @@ OS_INLINE void pthread_start_np(void) {
     __asm(" mov d2,#0"); /* <EVERY CORE> The return value is 0     */
     __asm(" rfe");       /* <EVERY CORE>restore the upper context  */
 } /* End of pthread_start_np function */
-inline void pthread_terminate(void)
-{
-  //core0_os_pthread_running->thread_status = S_TERMINATED;
-}
 #endif
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Transfer address from cx mode to physical mode */

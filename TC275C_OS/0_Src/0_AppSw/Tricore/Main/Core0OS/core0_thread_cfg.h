@@ -2478,12 +2478,19 @@ void core0_pthread_management_before_task(pthread_config_t *pthread_config)
 OS_INLINE core0_pthread_terminate(pthread_config_t *pthread_config)
 {
   if(pthread_config->curr_task_type == EVENT)
-  {
-      pthread_cond_wait(&core0_pthread_cond[pthread_config->curr_task_id]);
+  {  
+       __asm( " mov.aa a4,%0 \n"
+              " jg pthread_cond_wait  "
+              ::"a"(&core0_pthread_cond[pthread_config->curr_task_id]),"a"(pthread_cond_wait):"a4");
+	  
+      //pthread_cond_wait(&core0_pthread_cond[pthread_config->curr_task_id]);
   }
   else if(pthread_config->curr_task_type == PERIODIC)
-  {
-	  pthread_cond_timedwait_np((osu16_t)(pthread_config->curr_task_period));
+  {   
+  	   __asm( " mov  d4,%0 \n"
+              " jg pthread_cond_timedwait_np  "
+              ::"a"(pthread_config->curr_task_period),"a"(pthread_cond_timedwait_np):"d4");
+	  //pthread_cond_timedwait_np((osu16_t)(pthread_config->curr_task_period));
   }
   else if(pthread_config->curr_task_type == NO_DEFINITION)
   {
