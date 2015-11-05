@@ -57,10 +57,6 @@
 	    CORE0_PTHREAD_TERMINATION_BLOCK}
 #endif
 
-
-
-
-
 #if(OS_STACK_MODE == MORE_STACKS)
 #define _CORE0_PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_stacksize) \
 	PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_stacksize)  

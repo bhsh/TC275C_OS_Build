@@ -20,7 +20,9 @@
 
 #if(OS_STACK_MODE == MORE_STACKS)
 #else
+#pragma align 16
 osu32_t core0_os_stack[64];
+#pragma align restore
 #endif
 
 void core0_os_thread0(void* arg,task_ptr_t task);

@@ -191,6 +191,15 @@ OS_STATIC void list_delete_first(pthread_t *head)  /* <*head> list head pointer 
     *head = new;
 } /* End of list_delete_first function */
 
+#if(OS_STACK_MODE == MORE_STACKS)  /* <MORE_STACKS> More stacks interface */
+#else
+void pthread_initialize_stack(void)
+{
+
+}
+
+#endif
+
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Create threads                                 */
 /****************************************************************************/

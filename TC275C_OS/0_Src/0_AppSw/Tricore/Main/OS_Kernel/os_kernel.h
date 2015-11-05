@@ -307,42 +307,43 @@ OS_INLINE void pthread_start_np(void) {
     pthread_t thread = (void*)0;
 	osu32_t   current_core_id = os_getCoreId();
 	context_t *cx;
-	osu32_t   *curr_stack_pos;
+	osu32_t   *curr_stack_pos =(void*)0;
 
 	if(current_core_id == CORE0_ID)
-	{ 
-	  if(core0_os_pthread_running != (void *)0)
-	  {
-		  /* <CORE0><Get effective stack address for the next thread scheduled><Begin> */  
-	      if(core0_os_pthread_running->thread_status == S_RUNNING)
-	  	  {
-	        core0_os_pthread_running->thread_status = S_INTERRUPTED;
-	  
-	  	    cx = cx_to_addr(core0_os_pthread_running->lcx);
-	  	    cx = cx_to_addr(cx->l.pcxi);
-	  	    core0_os_pthread_running->curr_stack_address = cx->u.a10;
-	  	  
-	  	    curr_stack_pos = core0_os_pthread_running->curr_stack_address;
-	  	  }
-	  	  else if(core0_os_pthread_running->thread_status == S_TERMINATED)
-	  	  {
-	        curr_stack_pos = core0_os_pthread_running->init_stack_address;
-	  	  }
-		  //else if(core0_os_pthread_running == (void*)0)
-		  //{
-	      //  curr_stack_pos = core0_os_pthread_running->init_stack_address;
-		  //}
-		  /* <CORE0> The effecive stack address is stored in curr_stack_pos          */  
-		  /* <CORE0><Get effective stack address for the next thread scheduled><End> */  
-	  }
-	  else
-	  {
-          curr_stack_pos = (osu32_t *)((osu32_t)core0_os_stack+65);
-	  }
-		
+	{ 		
       assert(core0_os_pthread_runnable != 0);
 	  if(core0_os_pthreads_status == ALLTHREADS_WORKING)
-	  {   	
+	  {   
+	 	  if(core0_os_pthread_running != (void *)0)
+	 	  {
+	 		  /* <CORE0><Get effective stack address for the next thread scheduled><Begin> */  
+	 	      if(core0_os_pthread_running->thread_status == S_RUNNING)
+	 	  	  {
+	 	        core0_os_pthread_running->thread_status = S_INTERRUPTED;
+	 	  
+	 	  	    cx = cx_to_addr(core0_os_pthread_running->lcx);
+	 	  	    cx = cx_to_addr(cx->l.pcxi);
+	 	  	    core0_os_pthread_running->curr_stack_address = cx->u.a10;
+	 	  	  
+	 	  	    curr_stack_pos = core0_os_pthread_running->curr_stack_address;
+	 	  	  }
+	 	  	  else if(core0_os_pthread_running->thread_status == S_TERMINATED)
+	 	  	  {
+	 	        curr_stack_pos = core0_os_pthread_running->init_stack_address;
+	 	  	  }
+	 		  //else if(core0_os_pthread_running == (void*)0)
+	 		  //{
+	 	      //  curr_stack_pos = core0_os_pthread_running->init_stack_address;
+	 		  //}
+	 		  /* <CORE0> The effecive stack address is stored in curr_stack_pos          */  
+	 		  /* <CORE0><Get effective stack address for the next thread scheduled><End> */  
+	 	  }
+	 	  else
+	 	  {
+	           //curr_stack_pos = (osu32_t *)((osu32_t)core0_os_stack+65);
+	           curr_stack_pos = (osu32_t *)((osu32_t)core0_os_stack+64);
+	 	  }
+		 
 		 /* <CORE0> Get ready thread with highest priority ready */  
          thread = core0_os_pthread_runnable_threads[31 - __clz(core0_os_pthread_runnable)]; 	
          core0_os_pthread_running = thread;
