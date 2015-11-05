@@ -35,7 +35,7 @@
     \
     pthread_t _name = (pthread_t)&_##_name;
 #else
-#define PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_stacksize,_ini_stack_address,_task_ptr) static struct { \
+#define PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_ini_stack_address,_task_ptr) static struct { \
     pthread_t next,prev;\
     osu32_t lcx; \
     osu32_t priority; \
@@ -45,7 +45,7 @@
     osu32_t *curr_stack_address; \
     osu32_t thread_status; \
     task_ptr_t task_ptr;
-    } _##_name = {0,(pthread_t)&_##_name,0,_priority,_policy,NULL,&_ini_stack_address,NULL,_task_ptr,S_TERMINATED};\
+    } _##_name = {0,(pthread_t)&_##_name,0,_priority,_policy,NULL,(osu32_t *)((osu32_t)_ini_stack_address+1),NULL,S_READY,_task_ptr};\
     \
     pthread_t _name = (pthread_t)&_##_name;
 #endif
@@ -54,7 +54,7 @@
 /****************************************************************************/
 #if (OS_STACK_MODE == MORE_STACK)
 #else
-typdef enum   {
+typedef enum   {
 
    S_TERMINATED,
    S_RUNNING,
@@ -278,8 +278,6 @@ OS_INLINE void pthread_start_np(void) {
     __asm(" rfe");       /* <EVERY CORE>restore the upper context  */
 } /* End of pthread_start_np function */
 #else
-osu32_t  init_stack_add;
-osu32_t  curr_stack_add;
 OS_INLINE void pthread_start_np(void) {
     extern  osu32_t           core0_os_pthread_runnable;
 	extern  osu32_t           core1_os_pthread_runnable;
@@ -297,30 +295,54 @@ OS_INLINE void pthread_start_np(void) {
     pthread_t thread = (void*)0;
 	osu32_t   current_core_id = os_getCoreId();
 	context_t *cx;
+	osu32_t   *curr_stack_pos;
 
 
 	if(current_core_id == CORE0_ID)
-	{  
+	{ 
+	  /* <CORE0><Get effective stack address for the next thread scheduled><Begin> */  
+      if(core0_os_pthread_running->thread_status == S_RUNNING)
+  	  {
+        core0_os_pthread_running->thread_status = S_INTERRUPTED;
+  
+  	    cx = cx_to_addr(core0_os_pthread_running->lcx);
+  	    cx = cx_to_addr(cx->l.pcxi);
+  	    core0_os_pthread_running->curr_stack_address = cx->u.a10;
+  	  
+  	    curr_stack_pos = core0_os_pthread_running->curr_stack_address;
+  	  }
+  	  else if(core0_os_pthread_running->thread_status == S_TERMINATED)
+  	  {
+        curr_stack_pos = core0_os_pthread_running->init_stack_address;
+  	  }
+	  /* <CORE0> The effecive stack address is stored in curr_stack_pos          */  
+	  /* <CORE0><Get effective stack address for the next thread scheduled><End> */  
+		
       assert(core0_os_pthread_runnable != 0);
 	  if(core0_os_pthreads_status == ALLTHREADS_WORKING)
-	  {   
-         if(core0_os_pthread_running->lcx == S_RUNNING) core0_os_pthread_running->lcx == S_INTERRUPTED;
-		 cx = cx_to_addr(core0_os_pthread_running->lcx);
-		 core0_os_pthread_running->curr_stack_address= cx->u.a10; 
-		 init_stack_add = core0_os_pthread_running->curr_stack_address;
-
-         /* <COSRE0> Get ready thread with highest priority ready */  
-         thread = core0_os_pthread_runnable_threads[31 - __clz(core0_os_pthread_runnable)]; 			    
+	  {   	
+		 /* <CORE0> Get ready thread with highest priority ready */  
+         thread = core0_os_pthread_runnable_threads[31 - __clz(core0_os_pthread_runnable)]; 	
          core0_os_pthread_running = thread;
-
-		 if(thread->thread_status == S_READY )
-		 {
-             thread->thread_status == S_RUNNING;          
-		     cx = cx_to_addr(thread->lcx);
-		     thread->curr_stack_address= init_stack_add; 
-			 cx->u.a10 = init_stack_add;
+	 
+		 if(core0_os_pthread_running->thread_status == S_READY)
+         { 
+		 	core0_os_pthread_running->init_stack_address = curr_stack_pos;
 		 }
+		 else if(core0_os_pthread_running->thread_status == S_INTERRUPTED)
+		 {
+		   core0_os_pthread_running->curr_stack_address= curr_stack_pos;
+		 } 
+
+		 /* <CORE0> Set the status of the thread to S_RUNNING that will be scheduled */  
+		 core0_os_pthread_running->thread_status = S_RUNNING;
+
+		 /* <CORE0> Set the stack address of the thread that will be scheduled with "curr_stack_pos" */  
+		 cx = cx_to_addr(core0_os_pthread_running->lcx);
+         cx = cx_to_addr(cx->l.pcxi);
+  	     cx->u.a10 = curr_stack_pos;	
 	  }
+	  
 	  else if(core0_os_pthreads_status == ALLTHREADS_SUSPENDED)
 	  {
          /* <CORE0> In order to keep core0_os_pthread_running unchanged */
@@ -366,6 +388,10 @@ OS_INLINE void pthread_start_np(void) {
     __asm(" mov d2,#0"); /* <EVERY CORE> The return value is 0     */
     __asm(" rfe");       /* <EVERY CORE>restore the upper context  */
 } /* End of pthread_start_np function */
+inline void pthread_terminate(void)
+{
+  //core0_os_pthread_running->thread_status = S_TERMINATED;
+}
 #endif
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Transfer address from cx mode to physical mode */

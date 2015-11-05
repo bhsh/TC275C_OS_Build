@@ -481,6 +481,7 @@ os32_t pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition pointer
 /*              one thread actived newly left and not be inserted into the  */
 /*              scheduling table                                            */
 /****************************************************************************/
+#if(OS_STACK_MODE == MORE_STACKS)  /* <MORE_STACKS> More stacks interface */
 OS_INLINE void dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t last_thread) 
 {
 	os32_t    i;
@@ -534,6 +535,66 @@ OS_INLINE void dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t
       *blocked_threads_ptr = tmp;
 	}
 }/* End of dispatch_signal_in_tick functio */
+#else
+
+OS_INLINE void dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t last_thread) 
+{
+	os32_t    i;
+	osu32_t   current_core_id = os_getCoreId();
+	pthread_t thread, tmp;
+
+	tmp = NULL;
+    assert(blocked_threads_ptr);
+    thread = *blocked_threads_ptr;
+	
+    if(current_core_id == CORE0_ID)
+	{
+      while (thread != NULL) 
+	  {
+        tmp = thread->next;
+        i = thread->priority;
+
+		/* <CORE0> Set the status of the current thread to "ready" */
+		thread->thread_status = S_READY;
+					  
+        list_append(&core0_os_pthread_runnable_threads[i], thread, thread,
+                      core0_os_pthread_runnable_threads[i]);
+        __putbit(1,(os32_t*)&core0_os_pthread_runnable,i);
+        if (thread == last_thread) break;
+        thread = tmp;
+      }
+      *blocked_threads_ptr = tmp;
+	}
+	else if(current_core_id== CORE1_ID)
+	{
+      while (thread != NULL) 
+	  {
+        tmp = thread->next;
+        i = thread->priority;
+          list_append(&core1_os_pthread_runnable_threads[i], thread, thread,
+                      core1_os_pthread_runnable_threads[i]);
+        __putbit(1,(os32_t*)&core1_os_pthread_runnable,i);
+        if (thread == last_thread)break;
+        thread = tmp;
+      }
+      *blocked_threads_ptr = tmp;
+	}
+	else if(current_core_id == CORE2_ID)
+	{
+      while (thread != NULL) 
+	  {
+        tmp = thread->next;
+        i = thread->priority;
+          list_append(&core2_os_pthread_runnable_threads[i], thread, thread,
+                      core2_os_pthread_runnable_threads[i]);
+        __putbit(1,(os32_t*)&core2_os_pthread_runnable,i);
+        if (thread == last_thread)break;
+        thread = tmp;
+      }
+      *blocked_threads_ptr = tmp;
+	}
+}/* End of dispatch_signal_in_tick functio */
+#endif
 
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE>  Os kernel logic that can be called by trap 6  */
@@ -713,16 +774,29 @@ OS_STATIC void os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_thread)
             list_append(blocked_threads_ptr, core0_os_pthread_running, core0_os_pthread_running, NULL);
             __putbit(neza(core0_os_pthread_runnable_threads[i]),(os32_t*)&core0_os_pthread_runnable,i);
 
-             /* <CORE0> Set the status of the current thread to "terminated" */
+			/* <CORE0> Section used for one stack for all threads begins */
+			/* <CORE0> Set the status of the current thread to "terminated" */
 			core0_os_pthread_running->thread_status = S_TERMINATED;
 			 
-			 /* <CORE0> Update the entry point of the current thread into the sintial point */
-			 cx = cx_to_addr(core0_os_pthread_running->lcx);
-			 cx--;
-			 cx->l.pc = core0_os_pthread_running->task_ptr; /* <EVERY CORE> init new thread start address */ 
+			/* <CORE0> Update the entry point of the current thread into the sintial point */
+			/* <CORE0> Get the lower context address */
+			cx = cx_to_addr(core0_os_pthread_running->lcx);
+
+			/* <CORE0> Reset the enrty point of thread to the initial position */
+			/* Notice:the initial point is placed in task_ptr when the thread  */
+			/* block was being initialized                                     */
+			cx->l.pc = core0_os_pthread_running->task_ptr; /* <EVERY CORE> init new thread start address */ 
+
+			/* <CORE0> Get the upper context address */
+			//cx = cx_to_addr(cx->l.pcxi);
+
+			/* <CORE0> Set the curr_stack_address of the thread to the stack  */
+			/* address the current thread                                     */
+			//core0_os_pthread_running->curr_stack_address = cx->u.a10;
+			/* <CORE0> Section used for one stack for all threads ends */
   	      }
           break;
-        case DISPATCH_SIGNAL:i
+        case DISPATCH_SIGNAL:
   	      {
             tmp = NULL;
             assert(blocked_threads_ptr);

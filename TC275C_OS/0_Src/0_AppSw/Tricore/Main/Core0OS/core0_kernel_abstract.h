@@ -56,14 +56,33 @@
 	    CORE0_PTHREAD_TERMINATION_BLOCK}
 #endif
 
+
+
+
+
+
+
+#if(OS_STACK_MODE == MORE_STACKS)
 #define _CORE0_PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_stacksize) \
 	PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_stacksize)  
-
+	
 #define CORE0_PTHREAD_CONTROL_BLOCK(thread_order_num) \
 	_CORE0_PTHREAD_CONTROL_BLOCK(core0_os_th##thread_order_num, \
 	                             CORE0_THREAD##thread_order_num##_PRIORITY, \
 	                             SCHED_FIFO, \
 	                             CORE0_THREAD##thread_order_num##_STACK_SIZE)
+#else
+#define _CORE0_PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_ini_stack_address,_task_ptr) \
+	PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_ini_stack_address,_task_ptr)  
+	
+#define CORE0_PTHREAD_CONTROL_BLOCK(thread_order_num) \
+	_CORE0_PTHREAD_CONTROL_BLOCK(core0_os_th##thread_order_num, \
+	                             CORE0_THREAD##thread_order_num##_PRIORITY, \
+	                             SCHED_FIFO, \
+	                             core0_os_stack, \
+	                             CORE0_TASK##thread_order_num)
+#endif
+
 
 #define _CORE0_PTHREAD_CREATION_BLOCK(thread_var,thread_attr,thread_name,thread_order_num,callback_task_name)  \
 	 pthread_create_np(thread_var,thread_attr,thread_name,thread_order_num,callback_task_name);

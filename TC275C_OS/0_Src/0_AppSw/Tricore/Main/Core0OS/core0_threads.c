@@ -18,6 +18,10 @@
 #include "core0_kernel_abstract.h"
 #include "os_trace.h"
 
+#if(OS_STACK_MODE == MORE_STACKS)
+#else
+osu32_t core0_os_stack[1024];
+#endif
 /****************************************************************************/
 /* Static Variable Definitions <CORE0>: The thread number ranges from 0     */
 /*                                      100 thread to                       */
