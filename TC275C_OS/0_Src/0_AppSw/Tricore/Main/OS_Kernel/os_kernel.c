@@ -787,7 +787,7 @@ OS_STATIC void os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_thread)
 			/* <CORE0> Reset the enrty point of thread to the initial position */
 			/* Notice:the initial point is placed in task_ptr when the thread  */
 			/* block was being initialized                                     */
-			cx->l.pc = core0_os_pthread_running->task_ptr; /* <EVERY CORE> init new thread start address */ 
+			cx->l.pc = core0_os_pthread_running->thread_ptr; /* <EVERY CORE> init new thread start address */ 
 
 			/* <CORE0> Get the upper context address */
 			//cx = cx_to_addr(cx->l.pcxi);

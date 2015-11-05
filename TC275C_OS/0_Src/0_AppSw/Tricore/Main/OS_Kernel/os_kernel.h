@@ -35,7 +35,7 @@
     \
     pthread_t _name = (pthread_t)&_##_name;
 #else
-#define PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_ini_stack_address,_task_ptr) static struct { \
+#define PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_ini_stack_address,_thread_ptr) static struct { \
     pthread_t next,prev;\
     osu32_t lcx; \
     osu32_t priority; \
@@ -44,8 +44,8 @@
     osu32_t *init_stack_address; \
     osu32_t *curr_stack_address; \
     osu32_t thread_status; \
-    task_ptr_t task_ptr; \
-    } _##_name = {0,(pthread_t)&_##_name,0,_priority,_policy,NULL,(osu32_t *)((osu32_t)_ini_stack_address+1025),NULL,S_READY,_task_ptr};\
+    void *  thread_ptr; \
+    } _##_name = {0,(pthread_t)&_##_name,0,_priority,_policy,NULL,(osu32_t *)((osu32_t)_ini_stack_address+1025),NULL,S_READY,_thread_ptr};\
     \
     pthread_t _name = (pthread_t)&_##_name;
 #endif
@@ -120,7 +120,7 @@ typedef struct pthread_s { /* <struct><pthread_t> Describe the thread record */
     osu32_t *init_stack_address; 
     osu32_t *curr_stack_address; 
     osu32_t thread_status; 
-    task_ptr_t task_ptr;
+    void *  thread_ptr;
 }*pthread_t;
 #endif
 
@@ -302,35 +302,43 @@ OS_INLINE void pthread_start_np(void) {
 	extern  pthreads_status_t core1_os_pthreads_status;
 	extern  pthreads_status_t core2_os_pthreads_status;
 
+	extern  osu32_t core0_os_stack[64];
+
     pthread_t thread = (void*)0;
 	osu32_t   current_core_id = os_getCoreId();
 	context_t *cx;
 	osu32_t   *curr_stack_pos;
 
-
 	if(current_core_id == CORE0_ID)
 	{ 
-	  /* <CORE0><Get effective stack address for the next thread scheduled><Begin> */  
-      if(core0_os_pthread_running->thread_status == S_RUNNING)
-  	  {
-        core0_os_pthread_running->thread_status = S_INTERRUPTED;
-  
-  	    cx = cx_to_addr(core0_os_pthread_running->lcx);
-  	    cx = cx_to_addr(cx->l.pcxi);
-  	    core0_os_pthread_running->curr_stack_address = cx->u.a10;
-  	  
-  	    curr_stack_pos = core0_os_pthread_running->curr_stack_address;
-  	  }
-  	  else if(core0_os_pthread_running->thread_status == S_TERMINATED)
-  	  {
-        curr_stack_pos = core0_os_pthread_running->init_stack_address;
-  	  }
-	  else if(core0_os_pthread_running == (void*)0)
+	  if(core0_os_pthread_running != (void *)0)
 	  {
-        curr_stack_pos = core0_os_pthread_running->init_stack_address;
+		  /* <CORE0><Get effective stack address for the next thread scheduled><Begin> */  
+	      if(core0_os_pthread_running->thread_status == S_RUNNING)
+	  	  {
+	        core0_os_pthread_running->thread_status = S_INTERRUPTED;
+	  
+	  	    cx = cx_to_addr(core0_os_pthread_running->lcx);
+	  	    cx = cx_to_addr(cx->l.pcxi);
+	  	    core0_os_pthread_running->curr_stack_address = cx->u.a10;
+	  	  
+	  	    curr_stack_pos = core0_os_pthread_running->curr_stack_address;
+	  	  }
+	  	  else if(core0_os_pthread_running->thread_status == S_TERMINATED)
+	  	  {
+	        curr_stack_pos = core0_os_pthread_running->init_stack_address;
+	  	  }
+		  //else if(core0_os_pthread_running == (void*)0)
+		  //{
+	      //  curr_stack_pos = core0_os_pthread_running->init_stack_address;
+		  //}
+		  /* <CORE0> The effecive stack address is stored in curr_stack_pos          */  
+		  /* <CORE0><Get effective stack address for the next thread scheduled><End> */  
 	  }
-	  /* <CORE0> The effecive stack address is stored in curr_stack_pos          */  
-	  /* <CORE0><Get effective stack address for the next thread scheduled><End> */  
+	  else
+	  {
+          curr_stack_pos = (osu32_t *)((osu32_t)core0_os_stack+65);
+	  }
 		
       assert(core0_os_pthread_runnable != 0);
 	  if(core0_os_pthreads_status == ALLTHREADS_WORKING)
@@ -338,7 +346,8 @@ OS_INLINE void pthread_start_np(void) {
 		 /* <CORE0> Get ready thread with highest priority ready */  
          thread = core0_os_pthread_runnable_threads[31 - __clz(core0_os_pthread_runnable)]; 	
          core0_os_pthread_running = thread;
-	 
+
+		 	 	 
 		 if(core0_os_pthread_running->thread_status == S_READY)
          { 
 		 	core0_os_pthread_running->init_stack_address = curr_stack_pos;

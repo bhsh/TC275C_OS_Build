@@ -20,8 +20,15 @@
 
 #if(OS_STACK_MODE == MORE_STACKS)
 #else
-osu32_t core0_os_stack[1024];
+osu32_t core0_os_stack[64];
 #endif
+
+void core0_os_thread0(void* arg,task_ptr_t task);
+void core0_os_thread1(void* arg,task_ptr_t task);
+void core0_os_thread2(void* arg,task_ptr_t task);
+void core0_os_thread10(void* arg,task_ptr_t task);
+
+
 /****************************************************************************/
 /* Static Variable Definitions <CORE0>: The thread number ranges from 0     */
 /*                                      100 thread to                       */
