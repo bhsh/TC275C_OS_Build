@@ -333,10 +333,6 @@ OS_INLINE void pthread_start_np(void) {
 	 	  	  {
 	 	        curr_stack_pos = core0_os_pthread_running->init_stack_address;
 	 	  	  }
-	 		  //else if(core0_os_pthread_running == (void*)0)
-	 		  //{
-	 	      //  curr_stack_pos = core0_os_pthread_running->init_stack_address;
-	 		  //}
 	 		  /* <CORE0> The effecive stack address is stored in curr_stack_pos          */  
 	 		  /* <CORE0><Get effective stack address for the next thread scheduled><End> */  
 	 	  }
