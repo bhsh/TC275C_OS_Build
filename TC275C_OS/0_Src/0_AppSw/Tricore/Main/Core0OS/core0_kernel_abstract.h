@@ -38,6 +38,7 @@
 	    CORE0_PTHREAD_TERMINATION_BLOCK}
 #else
 
+/* <CORE0> The structure definiton for app thread */
 #define CORE0_PTHREAD_INITIALIZATION_BLOCK  \
 	pthread_config_t pthread_config = \
 	core0_pthread_init_config_database[(int)arg]; \
@@ -51,10 +52,31 @@
 	core0_pthread_terminate(&pthread_config);
 
 #define CORE0_PTHREAD_DEFINITION_BLOCK(thread_order_num)  \
-	void core0_os_thread##thread_order_num(void* arg,task_ptr_t task){ \
+	      void core0_os_thread##thread_order_num(void* arg,task_ptr_t task){ \
 	    CORE0_PTHREAD_INITIALIZATION_BLOCK  \
 	    CORE0_PTHREAD_TASKCALLBACK_BLOCK  \
 	    CORE0_PTHREAD_TERMINATION_BLOCK}
+
+
+/* <CORE0> The structure definiton for idle thread */
+#define CORE0_PTHREAD_IDLE_INITIALIZATION_BLOCK  \
+	      pthread_config_t pthread_config = \
+	      core0_pthread_init_config_database[(int)arg]; \
+          for (;;){ \
+	        core0_pthread_management_before_task(&pthread_config);
+
+#define CORE0_PTHREAD_IDLE_TASKCALLBACK_BLOCK \
+	        task(&pthread_config); 
+	
+#define CORE0_PTHREAD_IDLE_TERMINATION_BLOCK  \
+	        core0_pthread_management_after_task(&pthread_config);}
+
+#define CORE0_PTHREAD_IDLE_DEFINITION_BLOCK(thread_order_num)  \
+	void core0_os_thread##thread_order_num(void* arg,task_ptr_t task){ \
+	    CORE0_PTHREAD_IDLE_INITIALIZATION_BLOCK  \
+	    CORE0_PTHREAD_IDLE_TASKCALLBACK_BLOCK  \
+	    CORE0_PTHREAD_IDLE_TERMINATION_BLOCK}
+
 #endif
 
 #if(OS_STACK_MODE == MORE_STACKS)

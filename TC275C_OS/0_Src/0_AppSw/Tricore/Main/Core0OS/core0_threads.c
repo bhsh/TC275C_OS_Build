@@ -18,10 +18,10 @@
 #include "core0_kernel_abstract.h"
 #include "os_trace.h"
 
-#if(OS_STACK_MODE == MORE_STACKS)
+#if (OS_STACK_MODE == MORE_STACKS)
 #else
 #pragma align 16
-osu32_t core0_os_stack[64];
+osu32_t core0_os_stack[256];
 #pragma align restore
 
 void core0_os_thread0(void* arg,task_ptr_t task);
@@ -351,7 +351,11 @@ void core0_os_thread10(void* arg,task_ptr_t task);
 /*                              100 thread                                  */
 /****************************************************************************/
 #if (CORE0_THREAD0_SWITCH == ON) 
-	CORE0_PTHREAD_DEFINITION_BLOCK(0)
+  #if (OS_STACK_MODE == MORE_STACKS)
+    CORE0_PTHREAD_DEFINITION_BLOCK(0)
+  #else
+    CORE0_PTHREAD_IDLE_DEFINITION_BLOCK(0)
+  #endif
 #endif
 #if (CORE0_THREAD1_SWITCH == ON) 
 	CORE0_PTHREAD_DEFINITION_BLOCK(1)
