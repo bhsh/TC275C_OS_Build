@@ -767,8 +767,8 @@ OS_STATIC void os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_thread)
 	context_t *cx;
 
     __asm(" mov %0,d15 \n"
-            " svlcx        "
-            : "=d"(tin)); /* Put d15 in C variable tin */
+          " svlcx        "
+          : "=d"(tin)); /* Put d15 in C variable tin */
 
 	osu32_t current_core_id = os_getCoreId();
 

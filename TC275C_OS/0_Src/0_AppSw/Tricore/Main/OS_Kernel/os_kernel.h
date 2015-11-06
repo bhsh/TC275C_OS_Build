@@ -339,6 +339,7 @@ OS_INLINE void pthread_start_np(void) {
 	 	  else
 	 	  {
 	           //curr_stack_pos = (osu32_t *)((osu32_t)core0_os_stack+65);
+	           /* <CORE0> Initial stack address that is defined by array core0_os_stack */
 	           curr_stack_pos = (osu32_t *)((osu32_t)core0_os_stack+64);
 	 	  }
 		 
@@ -359,7 +360,7 @@ OS_INLINE void pthread_start_np(void) {
 		   core0_os_pthread_running->curr_stack_address = curr_stack_pos;
 		 } 
 
-		 /* <CORE0> Set the status of the thread to S_RUNNING that will be scheduled */  
+		 /* <CORE0> Set the status of the thread that will be scheduled to S_RUNNING */  
 		 core0_os_pthread_running->thread_status = S_RUNNING;
 
 		 /* <CORE0> Set the stack address of the thread that will be scheduled with "curr_stack_pos" */
