@@ -378,9 +378,7 @@ volatile osu32_t thread2_read_arg = 0;
 	   for (;;)
 	   { 
 	     core0_pthread_management_before_task(&pthread_config);
-	     //task(&pthread_config); 
-		 test_count0++;
-	     while(1);
+	     task(&pthread_config); 
 	     core0_pthread_management_after_task(&pthread_config);
 	   } 
     }
@@ -392,18 +390,38 @@ volatile osu32_t thread2_read_arg = 0;
     { 
     	//pthread_config_t pthread_config = core0_pthread_init_config_database[(int)arg];
     	 pthread_config_t pthread_config = core0_pthread_init_config_database[(int)arg];
+		 static osu32_t local_test0;
+		 osu32_t local_test1=0;
+		 osu32_t local_test2=0;
+		 osu32_t local_test3=0;
+		 osu32_t local_test4=0;
+		 osu32_t local_test5=0;
 
-    	//core0_pthread_management_before_task(&pthread_config); 
+		
+        local_test0+=1;
+		if(local_test0%1==0)
+		{
+         local_test1+=1;
+         local_test2+=1;
+		}
+		else
+		{
+         local_test3+=1;
+         local_test4+=1;
+         local_test5+=1;
+		}
+		
+		//core0_pthread_management_before_task(&pthread_config); 
     	//task(&pthread_config);
     	read_arg = (int)arg;
     	LowDriver_Port_TogglePin(8);
 		LowDriver_Port_TogglePin(9);
-		test_count1++;
-    	test_count2++;
+		test_count1+=local_test1;
+    	test_count2+=local_test2;
 		task(&pthread_config);
-    	test_count3++;
-    	test_count4++;
-    	test_count5++;
+    	test_count3+=local_test3;
+    	test_count4+=local_test4;
+    	test_count5+=local_test5;
     	//core0_pthread_management_after_task(&pthread_config);
     	//core0_pthread_terminate(&pthread_config);  
     	__asm( " mov  d4,%0 \n"
@@ -418,17 +436,37 @@ volatile osu32_t thread2_read_arg = 0;
     	//pthread_config_t pthread_config = core0_pthread_init_config_database[(int)arg];
     	 pthread_config_t pthread_config = core0_pthread_init_config_database[(int)arg];
 
+		 static osu32_t local_test0;
+		 osu32_t local_test1=0;
+		 osu32_t local_test2=0;
+		 osu32_t local_test3=0;
+		 osu32_t local_test4=0;
+		 osu32_t local_test5=0;
+
+        local_test0+=1;
+		if(local_test0%1== 0)
+		{
+         local_test1+=1;
+         local_test2+=1;
+		}
+		else
+		{
+         local_test3+=1;
+         local_test4+=1;
+         local_test5+=1;
+		}
+		
     	//core0_pthread_management_before_task(&pthread_config); 
     	//task(&pthread_config);
     	thread2_read_arg = (int)arg;
     	//LowDriver_Port_TogglePin(8);
 		//LowDriver_Port_TogglePin(9);
-		thread2_test_count1++;
-    	thread2_test_count2++;
+		thread2_test_count1+=local_test1;
+    	thread2_test_count2+=local_test2;
 		task(&pthread_config);
-    	thread2_test_count3++;
-    	thread2_test_count4++;
-    	thread2_test_count5++;
+    	thread2_test_count3+=local_test3;
+    	thread2_test_count4+=local_test4;
+    	thread2_test_count5+=local_test5;
     	//core0_pthread_management_after_task(&pthread_config);
     	//core0_pthread_terminate(&pthread_config);  
     	__asm( " mov  d4,%0 \n"
