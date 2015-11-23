@@ -358,6 +358,14 @@ volatile osu32_t test_count4 = 0;
 volatile osu32_t test_count5 = 0;
 volatile osu32_t read_arg = 0;
 
+volatile osu32_t thread2_test_count0 = 0;
+volatile osu32_t thread2_test_count1 = 0;
+volatile osu32_t thread2_test_count2 = 0;
+volatile osu32_t thread2_test_count3 = 0;
+volatile osu32_t thread2_test_count4 = 0;
+volatile osu32_t thread2_test_count5 = 0;
+volatile osu32_t thread2_read_arg = 0;
+
 #if (CORE0_THREAD0_SWITCH == ON) 
   #if (OS_STACK_MODE == MORE_STACKS)
     CORE0_PTHREAD_DEFINITION_BLOCK(0)
@@ -383,7 +391,7 @@ volatile osu32_t read_arg = 0;
      void core0_os_thread1(void* arg,task_ptr_t task)
     { 
     	//pthread_config_t pthread_config = core0_pthread_init_config_database[(int)arg];
-    	 pthread_config_t pthread_config = core0_pthread_init_config_database[1];
+    	 pthread_config_t pthread_config = core0_pthread_init_config_database[(int)arg];
 
     	//core0_pthread_management_before_task(&pthread_config); 
     	//task(&pthread_config);
@@ -404,7 +412,29 @@ volatile osu32_t read_arg = 0;
     }
 #endif
 #if (CORE0_THREAD2_SWITCH == ON) 
-	CORE0_PTHREAD_DEFINITION_BLOCK(2)
+	//CORE0_PTHREAD_DEFINITION_BLOCK(2)
+	 void core0_os_thread2(void* arg,task_ptr_t task)
+    { 
+    	//pthread_config_t pthread_config = core0_pthread_init_config_database[(int)arg];
+    	 pthread_config_t pthread_config = core0_pthread_init_config_database[(int)arg];
+
+    	//core0_pthread_management_before_task(&pthread_config); 
+    	//task(&pthread_config);
+    	thread2_read_arg = (int)arg;
+    	//LowDriver_Port_TogglePin(8);
+		//LowDriver_Port_TogglePin(9);
+		thread2_test_count1++;
+    	thread2_test_count2++;
+		task(&pthread_config);
+    	thread2_test_count3++;
+    	thread2_test_count4++;
+    	thread2_test_count5++;
+    	//core0_pthread_management_after_task(&pthread_config);
+    	//core0_pthread_terminate(&pthread_config);  
+    	__asm( " mov  d4,%0 \n"
+               " jg pthread_cond_timedwait_np  "
+               ::"d"(pthread_config.curr_task_period),"a"(pthread_cond_timedwait_np):"d4");
+    }
 #endif
 #if (CORE0_THREAD3_SWITCH == ON) 
 	CORE0_PTHREAD_DEFINITION_BLOCK(3)
