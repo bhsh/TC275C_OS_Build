@@ -44,6 +44,7 @@ static volatile unsigned int App_shared_var_CPU_Load_Backg_Count[APP_MAX_CORE_US
 static volatile unsigned int App_shared_var_CPU_load[APP_MAX_CORE_USED];
 static APP_SHARE_CPU_LOAD_LOGIC_STATUS_t App_shared_var_state_machine_state[APP_MAX_CORE_USED] = { RUNNING, RUNNING, RUNNING };
 static volatile unsigned int App_shared_var_test_count;
+static volatile unsigned int App_shared_var_stack_used_in_percent[APP_MAX_CORE_USED];
 
 
 /****************************************************************************/
@@ -103,6 +104,11 @@ void App_shared_func_trigger_software_interrupt1(void)
 void  App_shared_func_test_count()
 {
    App_shared_var_test_count ++;
+}
+
+void App_shared_func_stack_measured(unsigned int channel)
+{
+  App_shared_var_stack_used_in_percent[channel] = get_the_stack_used(channel);
 }
 
 

@@ -119,12 +119,12 @@ void initialize_stack_memory(osu32_t core_id,osu32_t* stack_end_address,osu32_t 
 /****************************************************************************/ 
 osu32_t get_the_stack_used(osu32_t core_id)
 { 
-  osu8_t* stack_begin_address;
+  osu8_t* stack_end_address;
   os32_t  byte_counter =0;
 
-  stack_begin_address = (osu8_t*)stack_info[core_id][STACK_END]; 
+  stack_end_address = (osu8_t*)stack_info[core_id][STACK_END]; 
 
-  while(*stack_begin_address++ == 0xAA)
+  while(*stack_end_address++ == 0xAA)
   {
      byte_counter++;  
   }	

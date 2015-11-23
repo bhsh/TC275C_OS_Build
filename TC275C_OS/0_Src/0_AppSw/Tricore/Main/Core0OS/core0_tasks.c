@@ -14,6 +14,13 @@
 #include "os_task.h"
 
 /****************************************************************************/
+/* <CORE0> Macro Definitions                                                */
+/****************************************************************************/
+#define  STACK_MEASURE    0
+#define  TIMES_MEASURE    1
+#define  MEASURE_STATUS   STACK_MEASURE 
+
+/****************************************************************************/
 /* <CORE0> Task Definitions                                                 */
 /****************************************************************************/
 
@@ -29,7 +36,11 @@
 OS_CORE0_TASK(0)
 {
   App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);
+#if (MEASURE_STATUS == TIMES_MEASURE )
   App_shared_func_stack_background_count(task_cfg->curr_task_core_id);
+#else
+  App_shared_func_stack_measured(0);
+#endif
   App_priv0_func_test_count();
 }
 
@@ -77,7 +88,9 @@ OS_CORE0_TASK(9)
 OS_CORE0_TASK(10)
 {
   App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);
+#if (MEASURE_STATUS == TIMES_MEASURE )
   App_shared_func_stack_calculated(task_cfg->curr_task_core_id);
+#endif
   App_shared_func_flash_led_4();
 }
 OS_CORE0_TASK(11){}
