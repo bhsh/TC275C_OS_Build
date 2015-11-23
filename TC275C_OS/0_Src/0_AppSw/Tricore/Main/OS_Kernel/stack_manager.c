@@ -22,6 +22,7 @@
 #define PTHREAD_STACK_SIZE_IN_BYTE  (256)
 #define STACK_MEA_MAX_CORE_NUM      (3)
 #define STACK_MEA_MAX_THREAD_NUM    (11)
+#define FACTOR                      (1000)
 
 /****************************************************************************/
 /* Type Definitions                                                         */
@@ -35,10 +36,23 @@ typedef struct
 	
 } pthread_stack_t; 
 
+typedef enum 
+{
+    STACK_BGEGIN,
+    STACK_END,
+    STACK_SIZE_IN_BYTE,
+    STACK_SIZE_USED_IN_BYTE,
+    STACK_SIZE_USED_IN_PERCENT,
+
+	STACK_INFO_MAX_ITEMS
+	
+} pthread_stack_info_t; 
+
 /****************************************************************************/
 /* Static Variable Definitions                                              */
 /****************************************************************************/
 static pthread_stack_t pthread_stack[STACK_MEA_MAX_CORE_NUM][STACK_MEA_MAX_THREAD_NUM][STACK_MEA_MAX_POS_NUM];
+static osu32_t stack_info[STACK_MEA_MAX_CORE_NUM][STACK_INFO_MAX_ITEMS];
 
 /****************************************************************************/
 /* FUNTION NAME:get_stack_used_percent                                      */
@@ -78,3 +92,47 @@ void get_thread_init_stack_address(osu32_t core_id,osu32_t thread_id,osu32_t ini
    }
 } /* End of get_thread_init_stack_address function */
 
+/****************************************************************************/
+/* FUNTION NAME:get_thread_init_stack_address                               */
+/* DESCRIPTION: Get the initial stack address of every thread               */
+/****************************************************************************/
+void initialize_stack_memory(osu32_t core_id,osu32_t* stack_end_address,osu32_t stack_size)
+{ 
+  /* The stack memory is filled with 0xAA in byte*/
+  osu32_t stack_size_in_word,index;
+
+  stack_info[core_id][STACK_BGEGIN]        = (osu32_t)stack_end_address + stack_size;
+  stack_info[core_id][STACK_END]           = (osu32_t)stack_end_address;
+  stack_info[core_id][STACK_SIZE_IN_BYTE]  = stack_size;
+  
+  stack_size_in_word = stack_size/4;
+  for(index = 0 ; index < stack_size_in_word; index++ )
+  {
+     *stack_end_address++ = 0xAAAAAAAA;
+  }
+}
+
+/****************************************************************************/
+/* FUNTION NAME:get_the_stack_used                                          */
+/* DESCRIPTION: Get the initial stack address of every thread               */
+/*              The function should be called in idle thread                */
+/****************************************************************************/ 
+osu32_t get_the_stack_used(osu32_t core_id)
+{ 
+  osu8_t* stack_begin_address;
+  os32_t  byte_counter =0;
+
+  stack_begin_address = (osu8_t*)stack_info[core_id][STACK_END]; 
+
+  while(*stack_begin_address++ == 0xAA)
+  {
+     byte_counter++;  
+  }	
+  stack_info[core_id][STACK_SIZE_USED_IN_BYTE]    = 
+    stack_info[core_id][STACK_SIZE_IN_BYTE] - byte_counter;
+  
+  stack_info[core_id][STACK_SIZE_USED_IN_PERCENT] = 
+  	(stack_info[core_id][STACK_SIZE_USED_IN_BYTE]*FACTOR)/stack_info[core_id][STACK_SIZE_IN_BYTE]; 
+
+  return stack_info[core_id][STACK_SIZE_USED_IN_PERCENT];
+}

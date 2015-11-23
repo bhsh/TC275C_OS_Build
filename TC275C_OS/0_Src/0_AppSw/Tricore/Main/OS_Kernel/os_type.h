@@ -39,6 +39,8 @@ typedef long long  os64_t;
 #define OS_CONST   const
 #define OS_STATIC  static
 
+#define STACK_SIZE_KB(size)   size*1024
+
 //#define OS_NULL (void*)0
  
 #endif /* End of OS_TYPE_H */

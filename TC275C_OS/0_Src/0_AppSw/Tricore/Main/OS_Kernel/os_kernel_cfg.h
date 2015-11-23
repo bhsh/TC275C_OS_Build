@@ -60,4 +60,11 @@
 #define CORE1_KERNEL_TICK_INT_LEVEL  11
 #define CORE2_KERNEL_TICK_INT_LEVEL  12
 
+/****************************************************************************/
+/* Stack size when one stack block                                          */
+/****************************************************************************/
+#define CORE0_STACK_SIZE     STACK_SIZE_KB(1)
+#define CORE1_STACK_SIZE     STACK_SIZE_KB(1)
+#define CORE2_STACK_SIZE     STACK_SIZE_KB(1)
+
 #endif /* OS_KERNEL_CFG_H_ */

@@ -308,7 +308,7 @@ OS_INLINE void pthread_start_np(void) {
 	extern  pthreads_status_t core1_os_pthreads_status;
 	extern  pthreads_status_t core2_os_pthreads_status;
 
-	extern  osu32_t core0_os_stack[256];
+	extern  osu32_t core0_os_stack[CORE0_STACK_SIZE];
 	extern volatile osu32_t test_counter_pos0;
 	extern volatile osu32_t test_counter_pos2;
 
@@ -354,7 +354,7 @@ OS_INLINE void pthread_start_np(void) {
 	 	  {
 	           //curr_stack_pos = (osu32_t *)((osu32_t)core0_os_stack+65);
 	           /* <CORE0> Initial stack address that is defined by array core0_os_stack */
-	           curr_stack_pos = (osu32_t *)((osu32_t)(&core0_os_stack[0])+1024);
+	           curr_stack_pos = (osu32_t *)((osu32_t)(&core0_os_stack[0])+CORE0_STACK_SIZE);
 	 	  }
 		 
 		 /* <CORE0> Get ready thread with highest priority ready */  

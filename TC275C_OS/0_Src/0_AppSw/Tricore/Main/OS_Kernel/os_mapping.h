@@ -27,9 +27,17 @@
 #define  CORE1_INITIALIZE_OS_TICK_BLOCK()   LowDriver_Initialize_CORE1_OS_Tick();
 #define  CORE2_INITIALIZE_OS_TICK_BLOCK()   LowDriver_Initialize_CORE2_OS_Tick(); 
 
+#define  CORE0_INITIALIZE_OS_STACK_MEASURE(stack_end_address,stack_size) \
+	       initialize_stack_memory(0,stack_end_address,stack_size); 
+#define  CORE1_INITIALIZE_OS_STACK_MEASURE(stack_end_address,stack_size) \
+	       initialize_stack_memory(1,stack_end_address,stack_size); 
+#define  CORE2_INITIALIZE_OS_STACK_MEASURE(stack_end_address,stack_size) \
+	       initialize_stack_memory(2,stack_end_address,stack_size); 
+	       
 /****************************************************************************/
 /* Function Prototype Definitions                                           */
 /****************************************************************************/
 extern void get_thread_init_stack_address(osu32_t,osu32_t,osu32_t);
+extern void initialize_stack_memory(osu32_t core_id,osu32_t* stack_end_address,osu32_t stack_size);
 
 #endif /* End of OS_MAPPING_H_ */

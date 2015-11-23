@@ -38,7 +38,9 @@
 	    CORE0_PTHREAD_TERMINATION_BLOCK}
 #else
 
-/* <CORE0> The structure definiton for app thread */
+/****************************************************************************/
+/* Funtion Definitions <CORE0>: One stack for normal threads                */
+/****************************************************************************/
 #define CORE0_PTHREAD_INITIALIZATION_BLOCK  \
 	pthread_config_t pthread_config = \
 	core0_pthread_init_config_database[(int)arg]; \
@@ -48,8 +50,16 @@
 	task(&pthread_config);   
 
 #define CORE0_PTHREAD_TERMINATION_BLOCK  \
-	core0_pthread_management_after_task(&pthread_config);\
-	core0_pthread_terminate(&pthread_config);
+	      core0_pthread_management_after_task(&pthread_config);\
+          if(pthread_config.curr_task_type == EVENT) \
+	  	  { \
+		    __asm( " mov.aa a4,%0 \t\n jg pthread_cond_wait \n" ::"a"(&core0_pthread_cond[pthread_config.curr_task_id]),"a"(pthread_cond_wait):"a4"); \
+		  } \
+	      else if(pthread_config.curr_task_type == PERIODIC) \
+		  { \
+		    __asm( " mov d4,%0 \t\n jg pthread_cond_timedwait_np \n"::"d"(pthread_config.curr_task_period),"a"(pthread_cond_timedwait_np):"d4"); \
+		  } \
+	      else if(pthread_config.curr_task_type == NO_DEFINITION){}
 
 #define CORE0_PTHREAD_DEFINITION_BLOCK(thread_order_num)  \
 	      void core0_os_thread##thread_order_num(void* arg,task_ptr_t task){ \
@@ -57,8 +67,9 @@
 	    CORE0_PTHREAD_TASKCALLBACK_BLOCK  \
 	    CORE0_PTHREAD_TERMINATION_BLOCK}
 
-
-/* <CORE0> The structure definiton for idle thread */
+/****************************************************************************/
+/* Funtion Definitions <CORE0>: One stack for idle threads                  */
+/****************************************************************************/
 #define CORE0_PTHREAD_IDLE_INITIALIZATION_BLOCK  \
 	      pthread_config_t pthread_config = \
 	      core0_pthread_init_config_database[(int)arg]; \
