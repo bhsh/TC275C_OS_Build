@@ -23,30 +23,12 @@
 #pragma align 16
 osu32_t core0_os_stack[CORE0_STACK_SIZE];
 #pragma align restore
-
 #endif
-
 
 /****************************************************************************/
 /* Funtion Definitions <CORE0>: The thread definiton ranges from 0 thread to*/
 /*                              100 thread                                  */
 /****************************************************************************/
-volatile osu32_t test_count0 = 0;
-volatile osu32_t test_count1 = 0;
-volatile osu32_t test_count2 = 0;
-volatile osu32_t test_count3 = 0;
-volatile osu32_t test_count4 = 0;
-volatile osu32_t test_count5 = 0;
-volatile osu32_t read_arg = 0;
-
-volatile osu32_t thread2_test_count0 = 0;
-volatile osu32_t thread2_test_count1 = 0;
-volatile osu32_t thread2_test_count2 = 0;
-volatile osu32_t thread2_test_count3 = 0;
-volatile osu32_t thread2_test_count4 = 0;
-volatile osu32_t thread2_test_count5 = 0;
-volatile osu32_t thread2_read_arg = 0;
-
 #if (CORE0_THREAD0_SWITCH == ON) 
   #if (OS_STACK_MODE == MORE_STACKS)
     CORE0_PTHREAD_DEFINITION_BLOCK(0)
