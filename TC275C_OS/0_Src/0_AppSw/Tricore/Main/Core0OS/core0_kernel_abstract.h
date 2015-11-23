@@ -24,22 +24,22 @@
 /* Macro Definitions <CORE0>: Many stacks structure for core0 OS threads    */
 /****************************************************************************/
 #define CORE0_PTHREAD_INITIALIZATION_BLOCK  \
-	pthread_config_t pthread_config = \
-	core0_pthread_init_config_database[(int)arg]; \
-    for (;;){ \
-	  core0_pthread_management_before_task(&pthread_config); 
+	      pthread_config_t pthread_config = \
+		  core0_pthread_init_config_database[(int)arg]; \
+          for (;;){ \
+	        core0_pthread_management_before_task(&pthread_config); 
 	
 #define CORE0_PTHREAD_TASKCALLBACK_BLOCK \
-	  task(&pthread_config);   
+	      task(&pthread_config);   
 
 #define CORE0_PTHREAD_TERMINATION_BLOCK  \
-	  core0_pthread_management_after_task(&pthread_config);}
+	      core0_pthread_management_after_task(&pthread_config);}
 
 #define CORE0_PTHREAD_DEFINITION_BLOCK(thread_order_num)  \
-	void core0_os_thread##thread_order_num(void* arg,task_ptr_t task){ \
-	    CORE0_PTHREAD_INITIALIZATION_BLOCK  \
-	    CORE0_PTHREAD_TASKCALLBACK_BLOCK  \
-	    CORE0_PTHREAD_TERMINATION_BLOCK}
+	      void core0_os_thread##thread_order_num(void* arg,task_ptr_t task){ \
+	        CORE0_PTHREAD_INITIALIZATION_BLOCK  \
+	        CORE0_PTHREAD_TASKCALLBACK_BLOCK  \
+	        CORE0_PTHREAD_TERMINATION_BLOCK}
 #else
 /****************************************************************************/
 /* Macro Definitions <CORE0>: One stack structure for core0 OS threads      */
@@ -49,30 +49,26 @@
 /* Macro Definitions <CORE0>: One stack structure for application threads   */
 /****************************************************************************/
 #define CORE0_PTHREAD_INITIALIZATION_BLOCK  \
-	pthread_config_t pthread_config = \
-	core0_pthread_init_config_database[(int)arg]; \
-	core0_pthread_management_before_task(&pthread_config); 
+	      pthread_config_t pthread_config = \
+	      core0_pthread_init_config_database[(int)arg]; \
+	      core0_pthread_management_before_task(&pthread_config); 
 
 #define CORE0_PTHREAD_TASKCALLBACK_BLOCK \
-	task(&pthread_config);   
+	      task(&pthread_config);   
 
 #define CORE0_PTHREAD_TERMINATION_BLOCK  \
 	      core0_pthread_management_after_task(&pthread_config);\
           if(pthread_config.curr_task_type == EVENT) \
-	  	  { \
-		    __asm( " mov.aa a4,%0 \t\n jg pthread_cond_wait \n" ::"a"(&core0_pthread_cond[pthread_config.curr_task_id]),"a"(pthread_cond_wait):"a4"); \
-		  } \
+	  	  { __asm( " mov.aa a4,%0 \t\n jg pthread_cond_wait \n" ::"a"(&core0_pthread_cond[pthread_config.curr_task_id]),"a"(pthread_cond_wait):"a4");} \
 	      else if(pthread_config.curr_task_type == PERIODIC) \
-		  { \
-		    __asm( " mov d4,%0 \t\n jg pthread_cond_timedwait_np \n"::"d"(pthread_config.curr_task_period),"a"(pthread_cond_timedwait_np):"d4"); \
-		  } \
+		  { __asm( " mov d4,%0 \t\n jg pthread_cond_timedwait_np \n"::"d"(pthread_config.curr_task_period),"a"(pthread_cond_timedwait_np):"d4");} \
 	      else if(pthread_config.curr_task_type == NO_DEFINITION){}
 
 #define CORE0_PTHREAD_DEFINITION_BLOCK(thread_order_num)  \
 	      void core0_os_thread##thread_order_num(void* arg,task_ptr_t task){ \
-	    CORE0_PTHREAD_INITIALIZATION_BLOCK  \
-	    CORE0_PTHREAD_TASKCALLBACK_BLOCK  \
-	    CORE0_PTHREAD_TERMINATION_BLOCK}
+	      CORE0_PTHREAD_INITIALIZATION_BLOCK  \
+	      CORE0_PTHREAD_TASKCALLBACK_BLOCK  \
+	      CORE0_PTHREAD_TERMINATION_BLOCK}
 
 /****************************************************************************/
 /* Funtion Definitions <CORE0>: One stack for idle threads                  */
@@ -90,11 +86,10 @@
 	        core0_pthread_management_after_task(&pthread_config);}
 
 #define CORE0_PTHREAD_IDLE_DEFINITION_BLOCK(thread_order_num)  \
-	void core0_os_thread##thread_order_num(void* arg,task_ptr_t task){ \
-	    CORE0_PTHREAD_IDLE_INITIALIZATION_BLOCK  \
-	    CORE0_PTHREAD_IDLE_TASKCALLBACK_BLOCK  \
-	    CORE0_PTHREAD_IDLE_TERMINATION_BLOCK}
-
+	      void core0_os_thread##thread_order_num(void* arg,task_ptr_t task){ \
+	        CORE0_PTHREAD_IDLE_INITIALIZATION_BLOCK  \
+	        CORE0_PTHREAD_IDLE_TASKCALLBACK_BLOCK  \
+	        CORE0_PTHREAD_IDLE_TERMINATION_BLOCK}
 #endif
 
 /****************************************************************************/
@@ -102,42 +97,41 @@
 /****************************************************************************/
 #if(OS_STACK_MODE == MORE_STACKS)
 #define _CORE0_PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_stacksize) \
-	PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_stacksize)  
+	      PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_stacksize)  
 	
 #define CORE0_PTHREAD_CONTROL_BLOCK(thread_order_num) \
-	_CORE0_PTHREAD_CONTROL_BLOCK(core0_os_th##thread_order_num, \
-	                             CORE0_THREAD##thread_order_num##_PRIORITY, \
-	                             SCHED_FIFO, \
-	                             CORE0_THREAD##thread_order_num##_STACK_SIZE)
+	      _CORE0_PTHREAD_CONTROL_BLOCK(core0_os_th##thread_order_num, \
+	                                   CORE0_THREAD##thread_order_num##_PRIORITY, \
+	                                   SCHED_FIFO, \
+	                                   CORE0_THREAD##thread_order_num##_STACK_SIZE)
 #else
 
 /****************************************************************************/
 /* Macro Definitions <CORE0>:One stack control block for threads            */
 /****************************************************************************/
 #define _CORE0_PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_ini_stack_address,_thread_ptr) \
-	PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_ini_stack_address,_thread_ptr)  
+	      PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_ini_stack_address,_thread_ptr)  
 	
 #define CORE0_PTHREAD_CONTROL_BLOCK(thread_order_num) \
-	_CORE0_PTHREAD_CONTROL_BLOCK(core0_os_th##thread_order_num, \
-	                             CORE0_THREAD##thread_order_num##_PRIORITY, \
-	                             SCHED_FIFO, \
-	                             core0_os_stack,\
-	                             core0_os_thread##thread_order_num)
+	      _CORE0_PTHREAD_CONTROL_BLOCK(core0_os_th##thread_order_num, \
+	                                   CORE0_THREAD##thread_order_num##_PRIORITY, \
+	                                   SCHED_FIFO, \
+	                                   core0_os_stack,\
+	                                   core0_os_thread##thread_order_num)
 #endif
-
 
 /****************************************************************************/
 /* Macro Definitions <CORE0>:CREATION BLOCK                                 */
 /****************************************************************************/
 #define _CORE0_PTHREAD_CREATION_BLOCK(thread_var,thread_attr,thread_name,thread_order_num,callback_task_name)  \
-	 pthread_create_np(thread_var,thread_attr,thread_name,thread_order_num,callback_task_name);
+	      pthread_create_np(thread_var,thread_attr,thread_name,thread_order_num,callback_task_name);
 
 #define CORE0_PTHREAD_CREATION_BLOCK(thread_order_num) \
-	_CORE0_PTHREAD_CREATION_BLOCK(core0_os_th##thread_order_num, \
-		                          &core0_thread_attr[CORE0_THREAD_ID##thread_order_num],\
-		                          core0_os_thread##thread_order_num,\
-		                          (void*) CORE0_THREAD_ID##thread_order_num, \
-		                          CORE0_TASK##thread_order_num)
+	      _CORE0_PTHREAD_CREATION_BLOCK(core0_os_th##thread_order_num, \
+		                                &core0_thread_attr[CORE0_THREAD_ID##thread_order_num],\
+		                                core0_os_thread##thread_order_num,\
+		                                (void*) CORE0_THREAD_ID##thread_order_num, \
+		                                CORE0_TASK##thread_order_num)
 
 /****************************************************************************/
 /* Macro Definitions <CORE0>:START BLOCK                                    */
