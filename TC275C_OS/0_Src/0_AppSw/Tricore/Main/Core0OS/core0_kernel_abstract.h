@@ -123,6 +123,20 @@
 /****************************************************************************/
 /* Macro Definitions <CORE0>:CREATION BLOCK                                 */
 /****************************************************************************/
+#if(OS_STACK_MODE == MORE_STACKS)
+#define _CORE0_PTHREAD_CREATION_BLOCK(thread_var,thread_attr,thread_name,thread_order_num,callback_task_name)  \
+	      pthread_create_np(thread_var,thread_attr,thread_name,thread_order_num,callback_task_name);
+
+#define CORE0_PTHREAD_CREATION_BLOCK(thread_order_num) \
+	      _CORE0_PTHREAD_CREATION_BLOCK(core0_os_th##thread_order_num, \
+		                                &core0_thread_attr[CORE0_THREAD_ID##thread_order_num],\
+		                                core0_os_thread##thread_order_num,\
+		                                (void*) CORE0_THREAD_ID##thread_order_num, \
+		                                CORE0_TASK##thread_order_num) \
+		  CORE0_INITIALIZE_MANY_STACKS_MEMORY(thread_order_num, \
+		                                      core0_os_th##thread_order_num->stack, \
+		                                      *core0_os_th##thread_order_num->stack)
+#else
 #define _CORE0_PTHREAD_CREATION_BLOCK(thread_var,thread_attr,thread_name,thread_order_num,callback_task_name)  \
 	      pthread_create_np(thread_var,thread_attr,thread_name,thread_order_num,callback_task_name);
 
@@ -132,6 +146,7 @@
 		                                core0_os_thread##thread_order_num,\
 		                                (void*) CORE0_THREAD_ID##thread_order_num, \
 		                                CORE0_TASK##thread_order_num)
+#endif
 
 /****************************************************************************/
 /* Macro Definitions <CORE0>:START BLOCK                                    */

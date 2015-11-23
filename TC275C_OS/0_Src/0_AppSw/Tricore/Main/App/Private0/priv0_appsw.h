@@ -14,6 +14,6 @@
 /* Function Prototype Definitions                                           */
 /****************************************************************************/
 extern void  App_priv0_func_test_count(void);
-
+extern void  App_priv0_func_many_stacks_measured(void);
 
 #endif /* End of PRIV0_APPSW_H_*/

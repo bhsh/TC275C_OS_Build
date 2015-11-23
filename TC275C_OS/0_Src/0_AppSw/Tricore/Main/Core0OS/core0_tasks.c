@@ -44,6 +44,8 @@ OS_CORE0_TASK(0)
 #else
 
     #if (OS_STACK_MODE == MORE_STACKS)
+	  /* Many threads are measured */
+	  App_priv0_func_many_stacks_measured();
     #else
 	  /* Measure the usage of stack ,there is not any measure taken when the stack has overflown */
 	  /* Here,the is only one stack for all threads */

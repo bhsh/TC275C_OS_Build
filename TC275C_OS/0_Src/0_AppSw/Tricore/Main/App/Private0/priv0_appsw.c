@@ -12,6 +12,7 @@
 /* Feature Include Files                                                    */
 /****************************************************************************/
 #include "low_driver_port.h"
+#include "stack_manager.h"
 
 /****************************************************************************/
 /* Macro Definitions                                                        */
@@ -27,5 +28,10 @@ static volatile unsigned int App_priv0_var_test_count;
 /****************************************************************************/
 void  App_priv0_func_test_count(void)
 {
-   App_priv0_var_test_count ++;
+  App_priv0_var_test_count ++;
+}
+
+void App_priv0_func_many_stacks_measured(void)
+{
+  core0_get_all_stacks_used();
 }
