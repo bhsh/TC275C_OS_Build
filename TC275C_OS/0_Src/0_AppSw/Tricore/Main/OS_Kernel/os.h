@@ -18,6 +18,14 @@
 #define OS_CORE1_TASK(task_num) void CORE1_TASK##task_num(USER_CFG)
 #define OS_CORE2_TASK(task_num) void CORE2_TASK##task_num(USER_CFG)
 
+#define CURR_CORE_ID          task_cfg->curr_task_core_id
+#define CURR_TASK_ID          task_cfg->curr_task_id
+#define CURR_TASK_TYPE        task_cfg->curr_task_type
+#define CURR_TASK_PERIOD      task_cfg->curr_task_period
+#define CURR_TASK_ORDER_NUM   task_cfg->curr_task_order_num
+#define ACTIVED_CORE_ID       task_cfg->actived_task_core_id
+#define ACTIVED_TASK_ID       task_cfg->actived_task_id
+
 /****************************************************************************/
 /* Type Definitions                                                         */
 /****************************************************************************/

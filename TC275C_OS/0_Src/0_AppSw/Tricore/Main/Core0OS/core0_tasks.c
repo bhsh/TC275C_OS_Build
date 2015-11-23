@@ -16,9 +16,9 @@
 /****************************************************************************/
 /* <CORE0> Macro Definitions                                                */
 /****************************************************************************/
-#define  STACK_MEASURE    0
-#define  TIMES_MEASURE    1
-#define  MEASURE_STATUS   STACK_MEASURE 
+#define  STACK_MEASURE      0
+#define  CPULOAD_MEASURE    1
+#define  MEASURE_STATUS     CPULOAD_MEASURE 
 
 /****************************************************************************/
 /* <CORE0> Task Definitions                                                 */
@@ -35,11 +35,11 @@
 /****************************************************************************/
 OS_CORE0_TASK(0)
 {
-  App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);
-#if (MEASURE_STATUS == TIMES_MEASURE )
-  App_shared_func_stack_background_count(task_cfg->curr_task_core_id);
+  App_shared_func_task_test_count(CURR_CORE_ID,CURR_TASK_ID);
+#if (MEASURE_STATUS == CPULOAD_MEASURE )
+  App_shared_func_stack_background_count(CURR_CORE_ID);
 #else
-  App_shared_func_stack_measured(0);
+  App_shared_func_stack_measured(CURR_CORE_ID);
 #endif
   App_priv0_func_test_count();
 }
@@ -49,47 +49,47 @@ OS_CORE0_TASK(0)
 /****************************************************************************/
 OS_CORE0_TASK(1)
 {
-  App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);
+  App_shared_func_task_test_count(CURR_CORE_ID,CURR_TASK_ID);
   App_shared_func_flash_led_1();
 }
 OS_CORE0_TASK(2)
 {
-  App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);
+  App_shared_func_task_test_count(CURR_CORE_ID,CURR_TASK_ID);
   App_shared_func_flash_led_2();
 }
 OS_CORE0_TASK(3)
 {
-  App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);
+  App_shared_func_task_test_count(CURR_CORE_ID,CURR_TASK_ID);
 }
 OS_CORE0_TASK(4)
 {
-  App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);
+  App_shared_func_task_test_count(CURR_CORE_ID,CURR_TASK_ID);
 }
 OS_CORE0_TASK(5)
 {
-  App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);
+  App_shared_func_task_test_count(CURR_CORE_ID,CURR_TASK_ID);
 }
 OS_CORE0_TASK(6)
 {
-  App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);
+  App_shared_func_task_test_count(CURR_CORE_ID,CURR_TASK_ID);
 }
 OS_CORE0_TASK(7)
 {
-  App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);
+  App_shared_func_task_test_count(CURR_CORE_ID,CURR_TASK_ID);
 }
 OS_CORE0_TASK(8)
 {
-  App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);
+  App_shared_func_task_test_count(CURR_CORE_ID,CURR_TASK_ID);
 }
 OS_CORE0_TASK(9)
 {
-  App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);
+  App_shared_func_task_test_count(CURR_CORE_ID,CURR_TASK_ID);
 }
 OS_CORE0_TASK(10)
 {
-  App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);
-#if (MEASURE_STATUS == TIMES_MEASURE )
-  App_shared_func_stack_calculated(task_cfg->curr_task_core_id);
+  App_shared_func_task_test_count(CURR_CORE_ID,CURR_TASK_ID);
+#if (MEASURE_STATUS == CPULOAD_MEASURE )
+  App_shared_func_stack_calculated(CURR_CORE_ID);
 #endif
   App_shared_func_flash_led_4();
 }
