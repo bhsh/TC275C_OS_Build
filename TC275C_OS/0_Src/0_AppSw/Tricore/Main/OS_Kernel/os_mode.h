@@ -22,7 +22,7 @@
 /****************************************************************************/
 /* MODE SELECTION                                                           */
 /****************************************************************************/
-//#define OS_STACK_MODE     MORE_STACKS
-#define OS_STACK_MODE    ONE_STACK
+#define OS_STACK_MODE     MORE_STACKS
+//#define OS_STACK_MODE    ONE_STACK
 
 #endif /* End of OS_MODE_H_ */

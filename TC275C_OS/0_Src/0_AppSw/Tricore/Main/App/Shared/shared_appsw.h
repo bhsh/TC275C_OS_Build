@@ -22,7 +22,7 @@ extern void  App_shared_func_stack_background_count(unsigned int channel);
 extern void  App_shared_func_task_test_count(unsigned int current_core_id,unsigned int channel);
 extern void  App_shared_func_trigger_software_interrupt1(void);
 extern void  App_shared_func_test_count();
-extern void  App_shared_func_stack_measured(unsigned int channel);
+extern void  App_shared_func_one_stack_measured(unsigned int channel);
 
 #endif /* End of SHARED_APPSW_H_ */
 

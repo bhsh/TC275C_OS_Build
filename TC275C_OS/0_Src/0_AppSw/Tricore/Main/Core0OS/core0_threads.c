@@ -661,9 +661,12 @@ void start_core0_os(void) {
 #if (CORE0_OS_SWITCH == ON)
     /* <CORE0> Setup os tick */
     CORE0_INITIALIZE_OS_TICK_BLOCK()
-
+    
+    #if (OS_STACK_MODE == MORE_STACKS)
+    #else
     CORE0_INITIALIZE_OS_STACK_MEASURE(core0_os_stack,CORE0_STACK_SIZE)
-
+    #endif
+	
     /* <CORE0> Create threads that are used */
 #if (CORE0_THREAD0_SWITCH == ON) 
     CORE0_PTHREAD_CREATION_BLOCK(0)

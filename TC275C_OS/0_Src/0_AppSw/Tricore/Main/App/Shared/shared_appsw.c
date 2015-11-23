@@ -106,7 +106,7 @@ void  App_shared_func_test_count()
    App_shared_var_test_count ++;
 }
 
-void App_shared_func_stack_measured(unsigned int channel)
+void App_shared_func_one_stack_measured(unsigned int channel)
 {
   App_shared_var_stack_used_in_percent[channel] = get_the_stack_used(channel);
 }

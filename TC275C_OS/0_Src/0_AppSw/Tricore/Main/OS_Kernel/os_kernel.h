@@ -31,7 +31,7 @@
     osu32_t policy; \
     osu32_t *arg; \
     osu32_t stack[_stacksize]; \
-    } _##_name = {0,(pthread_t)&_##_name,0,_priority,_policy,NULL,{_stacksize+1}};\
+    } _##_name = {0,(pthread_t)&_##_name,0,_priority,_policy,NULL,{_stacksize}};\
     \
     pthread_t _name = (pthread_t)&_##_name;
 #else

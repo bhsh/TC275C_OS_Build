@@ -34,12 +34,22 @@
 /*              4. Other background task                                    */
 /****************************************************************************/
 OS_CORE0_TASK(0)
-{
+{ 
+  /* There is a counter associated with task and increasing in by one when the task is entered */
   App_shared_func_task_test_count(CURR_CORE_ID,CURR_TASK_ID);
+
+  /* There are two background tasks:1,stack measure;2,cpu load measure */
 #if (MEASURE_STATUS == CPULOAD_MEASURE )
   App_shared_func_stack_background_count(CURR_CORE_ID);
 #else
-  App_shared_func_stack_measured(CURR_CORE_ID);
+
+    #if (OS_STACK_MODE == MORE_STACKS)
+    #else
+	  /* Measure the usage of stack ,there is not any measure taken when the stack has overflown */
+	  /* Here,the is only one stack for all threads */
+	  App_shared_func_one_stack_measured(CURR_CORE_ID);
+	#endif
+	
 #endif
   App_priv0_func_test_count();
 }
