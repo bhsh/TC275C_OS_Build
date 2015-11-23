@@ -47,7 +47,7 @@
     void *  thread_ptr; \
     void *  thread_a4; \
 	void *  thread_a5; \
-    } _##_name = {0,(pthread_t)&_##_name,0,_priority,_policy,NULL,(osu32_t *)((osu32_t)_ini_stack_address+1025),NULL,S_READY,_thread_ptr,NULL,NULL};\
+    } _##_name = {0,(pthread_t)&_##_name,0,_priority,_policy,NULL,(osu32_t *)((osu32_t)_ini_stack_address+1024),NULL,S_READY,_thread_ptr,NULL,NULL};\
     \
     pthread_t _name = (pthread_t)&_##_name;
 #endif
@@ -307,16 +307,7 @@ OS_INLINE void pthread_start_np(void) {
 	extern  pthreads_status_t core0_os_pthreads_status;
 	extern  pthreads_status_t core1_os_pthreads_status;
 	extern  pthreads_status_t core2_os_pthreads_status;
-
-	extern  osu32_t core0_os_stack[CORE0_STACK_SIZE];
-	extern volatile osu32_t test_counter_pos0;
-	extern volatile osu32_t test_counter_pos2;
-
-	extern volatile pthread_t test_counter_pthread_pos0;
-	extern volatile pthread_t test_counter_pthread_pos1;
-	extern volatile pthread_t test_counter_pthread_pos2;
-	extern volatile context_t *cx_l;
-	extern volatile context_t *cx_u;
+	extern  osu32_t           core0_os_stack[(CORE0_STACK_SIZE/4)];
 
     pthread_t thread = (void*)0;
 	osu32_t   current_core_id = os_getCoreId();
@@ -382,28 +373,6 @@ OS_INLINE void pthread_start_np(void) {
 		 cx = cx_to_addr(core0_os_pthread_running->lcx);
          cx = cx_to_addr(cx->l.pcxi);
   	     cx->u.a10 = curr_stack_pos;
-		 
-		 test_counter_pos0++;
-		 
-		 if( test_counter_pos0 == 1)
-		 {
-           test_counter_pthread_pos0 = core0_os_pthread_running; 
-		 }
-		 else if( test_counter_pos0 == 2 )
-		 {
-           test_counter_pthread_pos1 = core0_os_pthread_running; 
-		 }
-		 else if( test_counter_pos0 == 3 )
-		 {
-           test_counter_pthread_pos2 = core0_os_pthread_running; 
-		   cx = cx_to_addr(core0_os_pthread_running->lcx);
-		   //cx->l.pc =(osu32_t *)(0x80001974);
-
-           cx_l=cx;		 
-           cx = cx_to_addr(cx->l.pcxi);
-		   cx_u=cx;
-		 }
-		 
 	  }
 	  else if(core0_os_pthreads_status == ALLTHREADS_SUSPENDED)
 	  {
@@ -440,10 +409,7 @@ OS_INLINE void pthread_start_np(void) {
          /* <CORE2> Do nothing in order to keep core2_os_pthread_running unchanged */
 	     thread = core2_os_pthread_running;
 	  }
-	}
-	
-	test_counter_pos2++;
-		
+	}		
 	assert(thread);
     assert(thread->lcx);
     __mtcr(CPU_PSW, 0x00000980);   /* <EVERY CORE> Clear PSW.IS */

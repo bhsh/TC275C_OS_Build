@@ -21,7 +21,7 @@
 #if (OS_STACK_MODE == MORE_STACKS)
 #else
 #pragma align 16
-osu32_t core0_os_stack[CORE0_STACK_SIZE];
+osu32_t core0_os_stack[(CORE0_STACK_SIZE/4)];
 #pragma align restore
 #endif
 
