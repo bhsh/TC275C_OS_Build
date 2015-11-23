@@ -18,7 +18,7 @@
 /****************************************************************************/
 #define  STACK_MEASURE      0
 #define  CPULOAD_MEASURE    1
-#define  MEASURE_STATUS     CPULOAD_MEASURE 
+#define  MEASURE_STATUS     STACK_MEASURE 
 
 /****************************************************************************/
 /* <CORE0> Task Definitions                                                 */
