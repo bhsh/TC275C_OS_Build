@@ -350,15 +350,55 @@ void core0_os_thread10(void* arg,task_ptr_t task);
 /* Funtion Definitions <CORE0>: The thread definiton ranges from 0 thread to*/
 /*                              100 thread                                  */
 /****************************************************************************/
+volatile osu32_t test_count0 = 0;
+volatile osu32_t test_count1 = 0;
+volatile osu32_t test_count2 = 0;
+volatile osu32_t test_count3 = 0;
+volatile osu32_t test_count4 = 0;
+volatile osu32_t test_count5 = 0;
+
 #if (CORE0_THREAD0_SWITCH == ON) 
   #if (OS_STACK_MODE == MORE_STACKS)
     CORE0_PTHREAD_DEFINITION_BLOCK(0)
   #else
-    CORE0_PTHREAD_IDLE_DEFINITION_BLOCK(0)
-  #endif
+    //CORE0_PTHREAD_IDLE_DEFINITION_BLOCK(0)
+    void core0_os_thread0(void* arg,task_ptr_t task)
+    { 
+  	   pthread_config_t pthread_config = core0_pthread_init_config_database[(int)arg]; 
+  	 
+	   for (;;)
+	   { 
+	     core0_pthread_management_before_task(&pthread_config);
+	     //task(&pthread_config); 
+		 test_count0++;
+	     while(1);
+	     core0_pthread_management_after_task(&pthread_config);
+	   } 
+    }
+   #endif
 #endif
 #if (CORE0_THREAD1_SWITCH == ON) 
-	CORE0_PTHREAD_DEFINITION_BLOCK(1)
+	//CORE0_PTHREAD_DEFINITION_BLOCK(1)
+     void core0_os_thread1(void* arg,task_ptr_t task)
+    { 
+    	//pthread_config_t pthread_config = core0_pthread_init_config_database[(int)arg];
+    	 pthread_config_t pthread_config = core0_pthread_init_config_database[1];
+
+    	//core0_pthread_management_before_task(&pthread_config); 
+    	//task(&pthread_config);
+    	LowDriver_Port_TogglePin(8);
+		LowDriver_Port_TogglePin(9);
+    	test_count1++;
+    	test_count2++;
+    	test_count3++;
+    	test_count4++;
+    	test_count5++;
+    	//core0_pthread_management_after_task(&pthread_config);
+    	//core0_pthread_terminate(&pthread_config);  
+    	__asm( " mov  d4,%0 \n"
+               " jg pthread_cond_timedwait_np  "
+               ::"d"(pthread_config.curr_task_period),"a"(pthread_cond_timedwait_np):"d4");
+    }
 #endif
 #if (CORE0_THREAD2_SWITCH == ON) 
 	CORE0_PTHREAD_DEFINITION_BLOCK(2)

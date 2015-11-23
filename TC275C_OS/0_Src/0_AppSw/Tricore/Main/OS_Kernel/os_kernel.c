@@ -35,6 +35,15 @@ PTHREAD_MEMORY_QUALIFIER pthreads_status_t core0_os_pthreads_status;
 PTHREAD_MEMORY_QUALIFIER pthreads_status_t core1_os_pthreads_status;
 PTHREAD_MEMORY_QUALIFIER pthreads_status_t core2_os_pthreads_status;
 
+volatile osu32_t test_counter_pos0;
+volatile osu32_t test_counter_pos1;
+volatile osu32_t test_counter_pos2;
+volatile pthread_t test_counter_pthread_pos0;
+volatile pthread_t test_counter_pthread_pos1;
+volatile pthread_t test_counter_pthread_pos2;
+volatile context_t *cx_l;
+volatile context_t *cx_u;
+
 /****************************************************************************/
 /* Static Variable Definitions                                              */
 /****************************************************************************/
@@ -839,6 +848,10 @@ OS_STATIC void os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_thread)
 
     if(current_core_id == CORE0_ID)
     {
+	  //test code begins
+      test_counter_pos1++;
+	  //test code ends 
+	  
       core0_os_pthread_running->lcx = __mfcr(CPU_PCXI);
       i = core0_os_pthread_running->priority;
       assert(core0_os_pthread_runnable_threads[i] == core0_os_pthread_running);
@@ -1117,6 +1130,7 @@ os32_t pthread_cond_timedwait_np(osu16_t reltime) /* <reltime> Waiting time, uni
       core0_os_timewait_cond_ptr[task_id] = cond;           /* <CORE0> Load the cond.(lconfig 2.) */            
 
       os32_t err = dispatch_wait(&cond->blocked_threads, NULL);
+	 // while(1);
 	}
 	else if(current_core_id == CORE1_ID)
 	{ 
@@ -1139,7 +1153,7 @@ os32_t pthread_cond_timedwait_np(osu16_t reltime) /* <reltime> Waiting time, uni
       core1_os_timewait_cond_ptr[task_id] = cond;        /* <CORE1> Load the cond.(lconfig 2.) */              
 	
       os32_t err = dispatch_wait(&cond->blocked_threads, NULL);
-
+	  
 	}
 	else if(current_core_id == CORE2_ID)
 	{
