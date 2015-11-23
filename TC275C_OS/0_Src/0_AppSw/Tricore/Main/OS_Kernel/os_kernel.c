@@ -312,6 +312,8 @@ os32_t pthread_create_np(pthread_t thread, /* <thread> Thread control block poin
     cx->l.pc = start_routine; /* <EVERY CORE> init new thread start address */ 
     cx->l.a4 = arg;
 	cx->l.a5 = core0_task_ptr;
+	thread->thread_a4 = arg;
+	thread->thread_a5 = core0_task_ptr;
     thread->arg = arg;
 	
 	//PTHREAD_OBTAIN_INIT_STACK_ADD_CALLBACK(current_core_id,(os32_t)arg,(os32_t)(thread->stack + *thread->stack))
@@ -875,7 +877,8 @@ OS_STATIC void os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_thread)
 			/* Notice:the initial point is placed in task_ptr when the thread  */
 			/* block was being initialized                                     */
 			cx->l.pc = core0_os_pthread_running->thread_ptr; /* <EVERY CORE> init new thread start address */ 
-
+            cx->l.a4 = core0_os_pthread_running->thread_a4;
+            cx->l.a5 = core0_os_pthread_running->thread_a5;
 			/* <CORE0> Get the upper context address */
 			//cx = cx_to_addr(cx->l.pcxi);
 
@@ -1130,7 +1133,6 @@ os32_t pthread_cond_timedwait_np(osu16_t reltime) /* <reltime> Waiting time, uni
       core0_os_timewait_cond_ptr[task_id] = cond;           /* <CORE0> Load the cond.(lconfig 2.) */            
 
       os32_t err = dispatch_wait(&cond->blocked_threads, NULL);
-	 // while(1);
 	}
 	else if(current_core_id == CORE1_ID)
 	{ 

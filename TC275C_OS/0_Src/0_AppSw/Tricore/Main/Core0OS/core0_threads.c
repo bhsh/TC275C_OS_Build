@@ -356,6 +356,7 @@ volatile osu32_t test_count2 = 0;
 volatile osu32_t test_count3 = 0;
 volatile osu32_t test_count4 = 0;
 volatile osu32_t test_count5 = 0;
+volatile osu32_t read_arg = 0;
 
 #if (CORE0_THREAD0_SWITCH == ON) 
   #if (OS_STACK_MODE == MORE_STACKS)
@@ -386,10 +387,12 @@ volatile osu32_t test_count5 = 0;
 
     	//core0_pthread_management_before_task(&pthread_config); 
     	//task(&pthread_config);
+    	read_arg = (int)arg;
     	LowDriver_Port_TogglePin(8);
 		LowDriver_Port_TogglePin(9);
-    	test_count1++;
+		test_count1++;
     	test_count2++;
+		task(&pthread_config);
     	test_count3++;
     	test_count4++;
     	test_count5++;

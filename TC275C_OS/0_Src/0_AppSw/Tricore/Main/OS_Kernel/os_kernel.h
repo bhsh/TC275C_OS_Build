@@ -45,7 +45,9 @@
     osu32_t *curr_stack_address; \
     osu32_t thread_status; \
     void *  thread_ptr; \
-    } _##_name = {0,(pthread_t)&_##_name,0,_priority,_policy,NULL,(osu32_t *)((osu32_t)_ini_stack_address+1025),NULL,S_READY,_thread_ptr};\
+    void *  thread_a4; \
+	void *  thread_a5; \
+    } _##_name = {0,(pthread_t)&_##_name,0,_priority,_policy,NULL,(osu32_t *)((osu32_t)_ini_stack_address+1025),NULL,S_READY,_thread_ptr,NULL,NULL};\
     \
     pthread_t _name = (pthread_t)&_##_name;
 #endif
@@ -121,6 +123,8 @@ typedef struct pthread_s { /* <struct><pthread_t> Describe the thread record */
     osu32_t *curr_stack_address; 
     osu32_t thread_status; 
     void *  thread_ptr;
+    void *  thread_a4;
+	void *  thread_a5;
 }*pthread_t;
 #endif
 
@@ -393,7 +397,7 @@ OS_INLINE void pthread_start_np(void) {
 		 {
            test_counter_pthread_pos2 = core0_os_pthread_running; 
 		   cx = cx_to_addr(core0_os_pthread_running->lcx);
-		   cx->l.pc =(osu32_t *)(0x80001974);
+		   //cx->l.pc =(osu32_t *)(0x80001974);
 
            cx_l=cx;		 
            cx = cx_to_addr(cx->l.pcxi);
