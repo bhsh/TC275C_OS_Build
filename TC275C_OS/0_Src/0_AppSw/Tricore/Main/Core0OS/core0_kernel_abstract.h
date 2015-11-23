@@ -19,6 +19,10 @@
 /* Macro Definitions                                                        */
 /****************************************************************************/
 #if(OS_STACK_MODE == MORE_STACKS)
+
+/****************************************************************************/
+/* Macro Definitions <CORE0>: Many stacks structure for core0 OS threads    */
+/****************************************************************************/
 #define CORE0_PTHREAD_INITIALIZATION_BLOCK  \
 	pthread_config_t pthread_config = \
 	core0_pthread_init_config_database[(int)arg]; \
@@ -37,9 +41,12 @@
 	    CORE0_PTHREAD_TASKCALLBACK_BLOCK  \
 	    CORE0_PTHREAD_TERMINATION_BLOCK}
 #else
+/****************************************************************************/
+/* Macro Definitions <CORE0>: One stack structure for core0 OS threads      */
+/****************************************************************************/
 
 /****************************************************************************/
-/* Funtion Definitions <CORE0>: One stack for normal threads                */
+/* Macro Definitions <CORE0>: One stack structure for application threads   */
 /****************************************************************************/
 #define CORE0_PTHREAD_INITIALIZATION_BLOCK  \
 	pthread_config_t pthread_config = \
@@ -90,6 +97,9 @@
 
 #endif
 
+/****************************************************************************/
+/* Macro Definitions <CORE0>: Many stacks control block threads             */
+/****************************************************************************/
 #if(OS_STACK_MODE == MORE_STACKS)
 #define _CORE0_PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_stacksize) \
 	PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_stacksize)  
@@ -100,6 +110,10 @@
 	                             SCHED_FIFO, \
 	                             CORE0_THREAD##thread_order_num##_STACK_SIZE)
 #else
+
+/****************************************************************************/
+/* Macro Definitions <CORE0>:One stack control block for threads            */
+/****************************************************************************/
 #define _CORE0_PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_ini_stack_address,_thread_ptr) \
 	PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_ini_stack_address,_thread_ptr)  
 	
@@ -112,6 +126,9 @@
 #endif
 
 
+/****************************************************************************/
+/* Macro Definitions <CORE0>:CREATION BLOCK                                 */
+/****************************************************************************/
 #define _CORE0_PTHREAD_CREATION_BLOCK(thread_var,thread_attr,thread_name,thread_order_num,callback_task_name)  \
 	 pthread_create_np(thread_var,thread_attr,thread_name,thread_order_num,callback_task_name);
 
@@ -121,7 +138,10 @@
 		                          core0_os_thread##thread_order_num,\
 		                          (void*) CORE0_THREAD_ID##thread_order_num, \
 		                          CORE0_TASK##thread_order_num)
-		                           
+
+/****************************************************************************/
+/* Macro Definitions <CORE0>:START BLOCK                                    */
+/****************************************************************************/		                           
 #define CORE0_PTHREAD_START_BLOCK() pthread_start_np();
 
 #endif /* End of CORE0_KERNEL_ABSTRACT_H_*/
