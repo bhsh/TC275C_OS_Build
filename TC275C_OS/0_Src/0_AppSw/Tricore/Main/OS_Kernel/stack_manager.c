@@ -59,65 +59,28 @@ typedef enum
 /****************************************************************************/
 /* Static Variable Definitions                                              */
 /****************************************************************************/
-static pthread_stack_t pthread_stack[STACK_MEA_MAX_CORE_NUM][STACK_MEA_MAX_THREAD_NUM][STACK_MEA_MAX_POS_NUM];
-static osu32_t stack_info[STACK_MEA_MAX_CORE_NUM][STACK_INFO_MAX_ITEMS];
+
+static osu32_t core0_one_stack_info[STACK_INFO_MAX_ITEMS];
 
 #if (OS_STACK_MODE == MORE_STACKS)
   static osu32_t core0_many_stacks_info[MAX_MEASURE_THREADS][STACK_INFO_MAX_ITEMS];
   static osu32_t core0_thread_num = 0;
 #else
+  
 #endif
 
 /****************************************************************************/
-/* FUNTION NAME:get_stack_used_percent                                      */
-/* DESCRIPTION: Get percent of stack usage for each task                    */
-/* RETURN RESOLUTION : 100% - 1000                                          */
-/****************************************************************************/
-osu32_t get_stack_used_percent(osu32_t thread_id, osu32_t pos)
-{
-	osu32_t current_cpu_id = LowDriver_Get_Curr_Core_ID();
-
-	pthread_stack[current_cpu_id][thread_id][pos].stack_current_address = LowDriver_GetUstack_Address();
-
-	pthread_stack[current_cpu_id][thread_id][pos].stack_used_size_byte = 
-		    pthread_stack[current_cpu_id][thread_id][pos].stack_init_address -
-                         pthread_stack[current_cpu_id][thread_id][pos].stack_current_address;
-
-	pthread_stack[current_cpu_id][thread_id][pos].stack_used_percent =
-            (pthread_stack[current_cpu_id][thread_id][pos].stack_used_size_byte*TIME_UNIT_SWITCH)/PTHREAD_STACK_SIZE_IN_BYTE;
-
-	return pthread_stack[current_cpu_id][thread_id][pos].stack_used_percent;
-} /* End of get_stack_used_percent function */
-
-/****************************************************************************/
 /* FUNTION NAME:get_thread_init_stack_address                               */
 /* DESCRIPTION: Get the initial stack address of every thread               */
 /****************************************************************************/
-void get_thread_init_stack_address(osu32_t core_id,osu32_t thread_id,osu32_t init_sp_address)
-{  
-   osu32_t index;
-   
-   if(thread_id < STACK_MEA_MAX_THREAD_NUM)
-   {
-     for(index = 0 ; index < STACK_MEA_MAX_POS_NUM ; index++ )
-     {
-       pthread_stack[core_id][thread_id][index].stack_init_address = init_sp_address;
-     }
-   }
-} /* End of get_thread_init_stack_address function */
-
-/****************************************************************************/
-/* FUNTION NAME:get_thread_init_stack_address                               */
-/* DESCRIPTION: Get the initial stack address of every thread               */
-/****************************************************************************/
-void initialize_stack_memory(osu32_t core_id,osu32_t* stack_end_address,osu32_t stack_size)
+void initialize_core0_stack_memory(osu32_t* stack_end_address,osu32_t stack_size)
 { 
   /* The stack memory is filled with 0xAA in byte*/
   osu32_t stack_size_in_word,index;
 
-  stack_info[core_id][STACK_BGEGIN]        = (osu32_t)stack_end_address + stack_size;
-  stack_info[core_id][STACK_END]           = (osu32_t)stack_end_address;
-  stack_info[core_id][STACK_SIZE_IN_BYTE]  = stack_size;
+  core0_one_stack_info[STACK_BGEGIN]        = (osu32_t)stack_end_address + stack_size;
+  core0_one_stack_info[STACK_END]           = (osu32_t)stack_end_address;
+  core0_one_stack_info[STACK_SIZE_IN_BYTE]  = stack_size;
   
   stack_size_in_word = stack_size/4;
   for(index = 0 ; index < stack_size_in_word; index++ )
@@ -127,28 +90,28 @@ void initialize_stack_memory(osu32_t core_id,osu32_t* stack_end_address,osu32_t 
 }
 
 /****************************************************************************/
-/* FUNTION NAME:get_the_stack_used                                          */
+/* FUNTION NAME:core0_get_the_one_stack_used                                */
 /* DESCRIPTION: Get the initial stack address of every thread               */
 /*              The function should be called in idle thread                */
 /****************************************************************************/ 
-osu32_t get_the_stack_used(osu32_t core_id)
+osu32_t core0_get_the_one_stack_used(void)
 { 
   osu8_t* stack_end_address;
   osu32_t byte_counter =0;
 
-  stack_end_address = (osu8_t*)stack_info[core_id][STACK_END]; 
+  stack_end_address = (osu8_t*)core0_one_stack_info[STACK_END]; 
 
   while(*stack_end_address++ == 0xAA)
   {
      byte_counter++;  
   }	
-  stack_info[core_id][STACK_SIZE_USED_IN_BYTE]    = 
-    stack_info[core_id][STACK_SIZE_IN_BYTE] - byte_counter;
+  core0_one_stack_info[STACK_SIZE_USED_IN_BYTE]    = 
+    core0_one_stack_info[STACK_SIZE_IN_BYTE] - byte_counter;
   
-  stack_info[core_id][STACK_SIZE_USED_IN_PERCENT] = 
-  	(stack_info[core_id][STACK_SIZE_USED_IN_BYTE]*FACTOR)/stack_info[core_id][STACK_SIZE_IN_BYTE]; 
+  core0_one_stack_info[STACK_SIZE_USED_IN_PERCENT] = 
+  	(core0_one_stack_info[STACK_SIZE_USED_IN_BYTE]*FACTOR)/core0_one_stack_info[STACK_SIZE_IN_BYTE]; 
 
-  return stack_info[core_id][STACK_SIZE_USED_IN_PERCENT];
+  return core0_one_stack_info[STACK_SIZE_USED_IN_PERCENT];
 }
 
 #if (OS_STACK_MODE == MORE_STACKS)
@@ -181,11 +144,11 @@ void initialize_core0_many_stacks_memory(osu32_t thread_order_num,osu32_t* stack
   }
 }
 /****************************************************************************/
-/* FUNTION NAME:get_the_stack_used                                          */
+/* FUNTION NAME:core0_get_the_many_stacks_used                              */
 /* DESCRIPTION: Get the initial stack address of every thread               */
 /*              The function should be called in idle thread                */
 /****************************************************************************/ 
-osu32_t core0_get_the_stack_used(osu32_t thread_num)
+static osu32_t core0_get_the_many_stacks_used(osu32_t thread_num)
 { 
   osu8_t* stack_end_address;
   osu32_t byte_counter =0;
@@ -210,8 +173,7 @@ void core0_get_all_stacks_used(void)
   
   for(index = 0 ;index < core0_thread_num;index++)
   {
-    core0_get_the_stack_used(index);
+    core0_get_the_many_stacks_used(index);
   } 	
 } 
-
 #endif

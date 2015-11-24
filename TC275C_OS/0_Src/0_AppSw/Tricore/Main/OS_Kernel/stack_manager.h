@@ -13,9 +13,8 @@
 /****************************************************************************/
 /* Function Prototype Definitions                                           */
 /****************************************************************************/
-OS_EXTERN osu32_t get_stack_used_percent(osu32_t task_id, osu32_t pos);
-OS_EXTERN osu32_t get_the_stack_used(osu32_t core_id);
-void core0_get_all_stacks_used(void);
+OS_EXTERN void    core0_get_all_stacks_used(void);
+OS_EXTERN osu32_t core0_get_the_one_stack_used(void);
 
 #endif /* End of STACK_MANAGER_H_ */
 

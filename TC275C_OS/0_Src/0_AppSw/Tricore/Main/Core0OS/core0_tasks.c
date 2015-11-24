@@ -49,7 +49,7 @@ OS_CORE0_TASK(0)
     #else
 	  /* Measure the usage of stack ,there is not any measure taken when the stack has overflown */
 	  /* Here,the is only one stack for all threads */
-	  App_shared_func_one_stack_measured(CURR_CORE_ID);
+	  App_priv0_func_one_stack_measured();
 	#endif
 	
 #endif

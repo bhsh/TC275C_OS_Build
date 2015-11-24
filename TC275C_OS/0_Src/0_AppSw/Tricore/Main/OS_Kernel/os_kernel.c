@@ -242,8 +242,6 @@ os32_t pthread_create_np(pthread_t thread, /* <thread> Thread control block poin
 	cx->l.a5 = core0_task_ptr;
     thread->arg = arg;
 	
-	PTHREAD_OBTAIN_INIT_STACK_ADD_CALLBACK(current_core_id,(os32_t)arg,(os32_t)(thread->stack + *thread->stack))
-
     osu32_t i = thread->priority;
 	
     if(current_core_id == CORE0_ID)

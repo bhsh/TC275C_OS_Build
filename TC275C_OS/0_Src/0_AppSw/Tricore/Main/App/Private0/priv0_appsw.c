@@ -22,6 +22,8 @@
 /* Static Variable Definitions                                              */
 /****************************************************************************/
 static volatile unsigned int App_priv0_var_test_count;
+static volatile unsigned int App_priv0_var_one_stack_used_in_per;
+
 
 /****************************************************************************/
 /* Private1 Function Definitions                                            */
@@ -35,3 +37,9 @@ void App_priv0_func_many_stacks_measured(void)
 {
   core0_get_all_stacks_used();
 }
+
+void App_priv0_func_one_stack_measured(void)
+{
+  App_priv0_var_one_stack_used_in_per = core0_get_the_one_stack_used();
+}
+
