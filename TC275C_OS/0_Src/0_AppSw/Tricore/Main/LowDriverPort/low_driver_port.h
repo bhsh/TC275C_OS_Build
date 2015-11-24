@@ -33,6 +33,36 @@ inline unsigned int LowDriver_GetStmLower_Count(void)
 } /* End of LowDriver_GetStmLower_Count function */
 
 /****************************************************************************/
+/* FUNTION NAME: LowDriver_GetStm0_LowerCount                               */
+/* DESCRIPTION: Wait by querying the tick of STM TIM0 (tick unit:0.1Us)in   */
+/*              the current STM configuration                               */ 
+/****************************************************************************/
+inline unsigned int LowDriver_GetStm0_LowerCount(void)
+{
+    return (unsigned int)(IfxStm_getLower(&MODULE_STM0)/10);
+} /* End of LowDriver_GetStmLower_Count function */
+
+/****************************************************************************/
+/* FUNTION NAME: LowDriver_GetStm1_LowerCount                               */
+/* DESCRIPTION: Wait by querying the tick of STM TIM1 (tick unit:0.1Us)in   */
+/*              the current STM configuration                               */ 
+/****************************************************************************/
+inline unsigned int LowDriver_GetStm1_LowerCount(void)
+{
+    return (unsigned int)(IfxStm_getLower(&MODULE_STM1)/10);
+} /* End of LowDriver_GetStmLower_Count function */
+
+/****************************************************************************/
+/* FUNTION NAME: LowDriver_GetStm2_LowerCount                               */
+/* DESCRIPTION: Wait by querying the tick of STM TIM2 (tick unit:0.1Us)in   */
+/*              the current STM configuration                               */ 
+/****************************************************************************/
+inline unsigned int LowDriver_GetStm2_LowerCount(void)
+{
+    return (unsigned int)(IfxStm_getLower(&MODULE_STM2)/10);
+} /* End of LowDriver_GetStmLower_Count function */
+
+/****************************************************************************/
 /* DESCRIPTION: <CORE0> Update stm0 compare1                                */
 /****************************************************************************/
 inline unsigned int  LowDriver_GetUstack_Address(void)
@@ -49,10 +79,32 @@ inline unsigned int  LowDriver_GetUstack_Address(void)
 /****************************************************************************/
 inline void os_trace_thread_timeslot(unsigned int curr_core_id)
 {   
-	extern osu32_t os_thread_thread_timeslot[3];
+	extern osu32_t core0_os_thread_thread_timeslot;
+	extern osu32_t core1_os_thread_thread_timeslot;
+	extern osu32_t core2_os_thread_thread_timeslot;
+
+    switch(curr_core_id)
+	{
+      case 0:
+	  	core0_os_thread_thread_timeslot = LowDriver_GetStm0_LowerCount()/10;
+	  	break;
+      case 1:
+	  	core1_os_thread_thread_timeslot = LowDriver_GetStm1_LowerCount()/10;
+	  	break;
+	  case 2:
+	  	core2_os_thread_thread_timeslot = LowDriver_GetStm2_LowerCount()/10;
+	  	break;
+	  default:
+	  	break;
+	}
 	
-    os_thread_thread_timeslot[curr_core_id] = LowDriver_GetStmLower_Count()/10 ;
 } /* End of LowDriver_GetStmLower_Count function */
+
+/****************************************************************************/
+/* FUNTION NAME: core0_os_trace_thread_timeslot                             */
+/* DESCRIPTION: Wait by querying the tick of STM TIM0 (tick unit:1Us)in     */
+/*              the current STM configuration                               */ 
+/****************************************************************************/
 
 /****************************************************************************/
 /* DESCRIPTION: <CORE0> Update stm0 compare1                                */

@@ -2421,7 +2421,7 @@ extern pthread_cond_t core2_pthread_cond[CORE2_TASK_MAX_ID_NUM];
 void core0_pthread_management_after_task(pthread_config_t *pthread_config)
 { 	
   /* Trace */
-  os_trace_task_time_end(pthread_config->curr_task_core_id,pthread_config->curr_task_id);
+  core0_os_trace_task_time_end(pthread_config->curr_task_id);
 
 #if(OS_STACK_MODE == MANY_STACKS)
   if(pthread_config->actived_task_id != NO_ACTIVED_THREAD)
@@ -2469,7 +2469,7 @@ void core0_pthread_management_before_task(pthread_config_t *pthread_config)
   }
 #endif
   /* trace */
-  os_trace_task_time_begin(pthread_config->curr_task_core_id,pthread_config->curr_task_id);
+  core0_os_trace_task_time_begin(pthread_config->curr_task_id);
 } /* End of core0_pthread_management_before_task function */
 
 #endif /* End of CORE0_THREAD_CONFIG_H_ */

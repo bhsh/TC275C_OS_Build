@@ -13,7 +13,11 @@
 /****************************************************************************/
 /* Function Prototype Definitions                                           */
 /****************************************************************************/
-extern void os_trace_task_time_begin(osu32_t curr_core_id,osu32_t thread_id);
-extern void os_trace_task_time_end(osu32_t curr_core_id,osu32_t thread_id);
+extern void core0_os_trace_task_time_begin(osu32_t thread_id);
+extern void core0_os_trace_task_time_end(osu32_t thread_id);
+extern void core1_os_trace_task_time_begin(osu32_t thread_id);
+extern void core1_os_trace_task_time_end(osu32_t thread_id);
+extern void core2_os_trace_task_time_begin(osu32_t thread_id);
+extern void core2_os_trace_task_time_end(osu32_t thread_id);
 
 #endif /* End of OS_TRACE_H_ */
