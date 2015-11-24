@@ -18,7 +18,7 @@
 /****************************************************************************/
 /* Function Prototype Definitions                                           */
 /****************************************************************************/
-#if (OS_STACK_MODE == MORE_STACKS)
+#if (OS_STACK_MODE == MANY_STACKS)
   OS_EXTERN void    core0_get_all_stacks_used(void);
 #else
   OS_EXTERN osu32_t core0_get_the_one_stack_used(void);

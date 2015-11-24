@@ -23,7 +23,7 @@
 static volatile unsigned int App_priv2_var_test_count;
 
 /****************************************************************************/
-/* Private1 Function Definitions                                            */
+/* Private2 Function Definitions                                            */
 /****************************************************************************/
 void  App_priv2_func_test_count(void)
 {

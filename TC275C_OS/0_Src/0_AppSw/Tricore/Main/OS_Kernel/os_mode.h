@@ -16,13 +16,13 @@
 /****************************************************************************/
 /* STACK MODE                                                               */
 /****************************************************************************/
-#define MORE_STACKS  0
+#define MANY_STACKS  0
 #define ONE_STACK    1
 
 /****************************************************************************/
 /* MODE SELECTION                                                           */
 /****************************************************************************/
-#define OS_STACK_MODE     MORE_STACKS
+#define OS_STACK_MODE     MANY_STACKS
 //#define OS_STACK_MODE    ONE_STACK
 
 #endif /* End of OS_MODE_H_ */

@@ -13,13 +13,14 @@
 /****************************************************************************/
 #include "os_type.h"
 #include "low_driver_port.h"
+#include "os_mode.h"
 
 /****************************************************************************/
 /* Macro Definitions                                                        */
 /****************************************************************************/
 #define FACTOR                      (1000)
 
-#if (OS_STACK_MODE == MORE_STACKS)
+#if (OS_STACK_MODE == MANY_STACKS)
   #define MAX_MEASURE_THREADS       (10)
 #else
 #endif
@@ -34,7 +35,7 @@ typedef enum
     STACK_SIZE_IN_BYTE,
     STACK_SIZE_USED_IN_BYTE,
     STACK_SIZE_USED_IN_PERCENT,
-#if (OS_STACK_MODE == MORE_STACKS)
+#if (OS_STACK_MODE == MANY_STACKS)
     THREAD_ORDER_NUM,
 #endif 
 	STACK_INFO_MAX_ITEMS
@@ -44,19 +45,21 @@ typedef enum
 /****************************************************************************/
 /* Static Variable Definitions                                              */
 /****************************************************************************/
-#if (OS_STACK_MODE == MORE_STACKS)
+#if (OS_STACK_MODE == MANY_STACKS)
   static osu32_t core0_many_stacks_info[MAX_MEASURE_THREADS][STACK_INFO_MAX_ITEMS];
   static osu32_t core0_thread_num = 0;
 #else
   static osu32_t core0_one_stack_info[STACK_INFO_MAX_ITEMS];
 #endif
 
+/****************************************************************************/
+/*  The Function Definitions Of Stack manager                               */
+/****************************************************************************/
 
-
-#if (OS_STACK_MODE == MORE_STACKS)
+#if (OS_STACK_MODE == MANY_STACKS)
   /****************************************************************************/
-  /* FUNTION NAME:get_thread_init_stack_address                               */
-  /* DESCRIPTION: Get the initial stack address of every thread               */
+  /* FUNTION NAME:initialize_core0_many_stacks_memory                         */
+  /* DESCRIPTION: Initialize the stack memory of many-stack mode              */
   /****************************************************************************/
   void initialize_core0_many_stacks_memory(osu32_t thread_order_num,osu32_t* stack_end_address,osu32_t stack_size)
   { 
@@ -81,11 +84,11 @@ typedef enum
          *stack_end_address++ = 0xAAAAAAAA;
       }
     }
-  }
+  }/* End of function initialize_core0_many_stacks_memory */
+  
   /****************************************************************************/
   /* FUNTION NAME:core0_get_the_many_stacks_used                              */
-  /* DESCRIPTION: Get the initial stack address of every thread               */
-  /*              The function should be called in idle thread                */
+  /* DESCRIPTION: Get usage percent of every stack for many-stack mode        */
   /****************************************************************************/ 
   static osu32_t core0_get_the_many_stacks_used(osu32_t thread_num)
   { 
@@ -105,12 +108,11 @@ typedef enum
     	(core0_many_stacks_info[thread_num][STACK_SIZE_USED_IN_BYTE]*FACTOR)/core0_many_stacks_info[thread_num][STACK_SIZE_IN_BYTE]; 
   
     return core0_many_stacks_info[thread_num][STACK_SIZE_USED_IN_PERCENT];
-  }
+  } /* End of function core0_get_the_many_stacks_used */
   
   /****************************************************************************/
   /* FUNTION NAME:core0_get_the_many_stacks_used                              */
-  /* DESCRIPTION: Get the initial stack address of every thread               */
-  /*              The function should be called in idle thread                */
+  /* DESCRIPTION: Get usage percent of all stacks for many-stack mode         */
   /****************************************************************************/ 
   void core0_get_all_stacks_used(void)
   {
@@ -120,12 +122,12 @@ typedef enum
     {
       core0_get_the_many_stacks_used(index);
     } 	
-  } 
+  } /* End of function core0_get_all_stacks_used */
 
 #else
   /****************************************************************************/
   /* FUNTION NAME:get_thread_init_stack_address                               */
-  /* DESCRIPTION: Get the initial stack address of every thread               */
+  /* DESCRIPTION: Initialize the stack memory of one-stack mode               */
   /****************************************************************************/
   void initialize_core0_one_stack_memory(osu32_t* stack_end_address,osu32_t stack_size)
   { 
@@ -141,12 +143,11 @@ typedef enum
     {
        *stack_end_address++ = 0xAAAAAAAA;
     }
-  }
+  } /* End of function initialize_core0_one_stack_memory */
   
   /****************************************************************************/
   /* FUNTION NAME:core0_get_the_one_stack_used                                */
-  /* DESCRIPTION: Get the initial stack address of every thread               */
-  /*              The function should be called in idle thread                */
+  /* DESCRIPTION: Get the usage percent of the stack for one-stack mode       */
   /****************************************************************************/ 
   osu32_t core0_get_the_one_stack_used(void)
   { 
@@ -166,5 +167,5 @@ typedef enum
     	(core0_one_stack_info[STACK_SIZE_USED_IN_BYTE]*FACTOR)/core0_one_stack_info[STACK_SIZE_IN_BYTE]; 
   
     return core0_one_stack_info[STACK_SIZE_USED_IN_PERCENT];
-  }
+  } /* End of function core0_get_the_one_stack_used */
 #endif

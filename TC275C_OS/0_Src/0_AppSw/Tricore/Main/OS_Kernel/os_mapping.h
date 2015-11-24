@@ -24,7 +24,7 @@
 #define  CORE1_INITIALIZE_OS_TICK_BLOCK()   LowDriver_Initialize_CORE1_OS_Tick();
 #define  CORE2_INITIALIZE_OS_TICK_BLOCK()   LowDriver_Initialize_CORE2_OS_Tick(); 
 
-#if (OS_STACK_MODE == MORE_STACKS)
+#if (OS_STACK_MODE == MANY_STACKS)
   #define  CORE0_INITIALIZE_MANY_STACKS_MEMORY(thread_order_num,stack_end_address,stack_size) \
 	         initialize_core0_many_stacks_memory(thread_order_num,stack_end_address,stack_size); 
 #else 
@@ -35,7 +35,7 @@
 /****************************************************************************/
 /* Function Prototype Definitions                                           */
 /****************************************************************************/
-#if (OS_STACK_MODE == MORE_STACKS)
+#if (OS_STACK_MODE == MANY_STACKS)
   extern void initialize_core0_many_stacks_memory(osu32_t thread_order_num,osu32_t* stack_end_address,osu32_t stack_size);
 #else
   extern void initialize_core0_one_stack_memory(osu32_t* stack_end_address,osu32_t stack_size);

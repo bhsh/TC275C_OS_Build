@@ -18,7 +18,7 @@
 #include "core0_kernel_abstract.h"
 #include "os_trace.h"
 
-#if (OS_STACK_MODE == MORE_STACKS)
+#if (OS_STACK_MODE == MANY_STACKS)
 #else
 #pragma align 16
 osu32_t core0_os_stack[(CORE0_STACK_SIZE/4)];
@@ -30,7 +30,7 @@ osu32_t core0_os_stack[(CORE0_STACK_SIZE/4)];
 /*                              100 thread                                  */
 /****************************************************************************/
 #if (CORE0_THREAD0_SWITCH == ON) 
-  #if (OS_STACK_MODE == MORE_STACKS)
+  #if (OS_STACK_MODE == MANY_STACKS)
     CORE0_PTHREAD_DEFINITION_BLOCK(0)
   #else
     CORE0_PTHREAD_IDLE_DEFINITION_BLOCK(0)
@@ -662,9 +662,8 @@ void start_core0_os(void) {
     /* <CORE0> Setup os tick */
     CORE0_INITIALIZE_OS_TICK_BLOCK()
     
-    #if (OS_STACK_MODE == MORE_STACKS)
-    #else
-    CORE0_INITIALIZE_ONE_STACK_MEMORY(core0_os_stack,CORE0_STACK_SIZE)
+    #if (OS_STACK_MODE == ONE_STACK)
+      CORE0_INITIALIZE_ONE_STACK_MEMORY(core0_os_stack,CORE0_STACK_SIZE)
     #endif
 	
     /* <CORE0> Create threads that are used */

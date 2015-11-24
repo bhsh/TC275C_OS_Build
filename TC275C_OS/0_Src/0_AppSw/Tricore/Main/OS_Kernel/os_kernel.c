@@ -191,19 +191,10 @@ OS_STATIC void list_delete_first(pthread_t *head)  /* <*head> list head pointer 
     *head = new;
 } /* End of list_delete_first function */
 
-#if(OS_STACK_MODE == MORE_STACKS)  /* <MORE_STACKS> More stacks interface */
-#else
-void pthread_initialize_stack(void)
-{
-
-}
-
-#endif
-
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Create threads                                 */
 /****************************************************************************/
-#if(OS_STACK_MODE == MORE_STACKS)  /* <MORE_STACKS> More stacks interface */
+#if(OS_STACK_MODE == MANY_STACKS)  /* <MORE_STACKS> More stacks interface */
 os32_t pthread_create_np(pthread_t thread, /* <thread> Thread control block pointer */
                                const pthread_attr_t *attr, /* <*attr> Thread attribute. Can be NULL to use default */
                                void(*start_routine)(void *,task_ptr_t),/* <*start_routine> Thread function pointer */
@@ -557,7 +548,7 @@ os32_t pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition pointer
 /*              one thread actived newly left and not be inserted into the  */
 /*              scheduling table                                            */
 /****************************************************************************/
-#if(OS_STACK_MODE == MORE_STACKS)  /* <MORE_STACKS> More stacks interface */
+#if(OS_STACK_MODE == MANY_STACKS)  /* <MORE_STACKS> More stacks interface */
 OS_INLINE void dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t last_thread) 
 {
 	os32_t    i;
@@ -687,7 +678,7 @@ OS_INLINE void dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t
 /*    <EVERY CORE> Only reschedule all threads that have been actived       */
 /*    without changing the scheduling table                                 */
 /****************************************************************************/
-#if(OS_STACK_MODE == MORE_STACKS)  /* <MORE_STACKS> More stacks interface */
+#if(OS_STACK_MODE == MANY_STACKS)  /* <MORE_STACKS> More stacks interface */
 OS_STATIC void os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_thread) 
 {
     os32_t tin, i;

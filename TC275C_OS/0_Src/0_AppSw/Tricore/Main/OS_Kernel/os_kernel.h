@@ -23,7 +23,7 @@
 #define assert(_expr)  \
        ((void) (!(_expr) ? __debug(): (void) 0))
        
-#if (OS_STACK_MODE == MORE_STACK)
+#if (OS_STACK_MODE == MANY_STACKS)
 #define PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_stacksize) static struct { \
     pthread_t next,prev;\
     osu32_t lcx; \
@@ -54,7 +54,7 @@
 /****************************************************************************/
 /* Type Definitions                                                         */
 /****************************************************************************/
-#if (OS_STACK_MODE == MORE_STACK)
+#if (OS_STACK_MODE == MANY_STACKS)
 #else
 typedef enum   {
 
@@ -101,7 +101,7 @@ typedef struct { /* <struct><pthread_attr_t>  Description of the thread attribut
     osu32_t call_depth_overflow;/* call depth overflow */
 } pthread_attr_t;
 
-#if (OS_STACK_MODE == MORE_STACK)
+#if (OS_STACK_MODE == MANY_STACKS)
 typedef struct pthread_s { /* <struct><pthread_t> Describe the thread record */
     struct pthread_s *next; /* Next thread pointer */
     struct pthread_s *prev; /* Previous thread pointer */
@@ -219,7 +219,7 @@ OS_INLINE context_t *cx_to_addr(osu32_t cx)
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Start threads                                  */
 /****************************************************************************/
-#if(OS_STACK_MODE == MORE_STACKS)  /* <MORE_STACKS> More stacks interface */
+#if(OS_STACK_MODE == MANY_STACKS)  /* <MORE_STACKS> More stacks interface */
 OS_INLINE void pthread_start_np(void) {
     extern  osu32_t           core0_os_pthread_runnable;
 	extern  osu32_t           core1_os_pthread_runnable;

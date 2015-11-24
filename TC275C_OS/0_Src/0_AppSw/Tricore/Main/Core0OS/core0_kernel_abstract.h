@@ -18,7 +18,7 @@
 /****************************************************************************/
 /* Macro Definitions                                                        */
 /****************************************************************************/
-#if(OS_STACK_MODE == MORE_STACKS)
+#if(OS_STACK_MODE == MANY_STACKS)
 
 /****************************************************************************/
 /* Macro Definitions <CORE0>: Many stacks structure for core0 OS threads    */
@@ -95,7 +95,7 @@
 /****************************************************************************/
 /* Macro Definitions <CORE0>: Many stacks control block threads             */
 /****************************************************************************/
-#if(OS_STACK_MODE == MORE_STACKS)
+#if(OS_STACK_MODE == MANY_STACKS)
 #define _CORE0_PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_stacksize) \
 	      PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_stacksize)  
 	

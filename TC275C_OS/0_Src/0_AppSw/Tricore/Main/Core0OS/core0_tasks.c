@@ -43,7 +43,7 @@ OS_CORE0_TASK(0)
   App_shared_func_stack_background_count(CURR_CORE_ID);
 #else
 
-    #if (OS_STACK_MODE == MORE_STACKS)
+    #if (OS_STACK_MODE == MANY_STACKS)
 	  /* Many threads are measured */
 	  App_priv0_func_many_stacks_measured();
     #else
