@@ -22,7 +22,6 @@
 
 #if (OS_STACK_MODE == MANY_STACKS)
   #define MAX_MEASURE_THREADS       (10)
-#else
 #endif
 
 /****************************************************************************/

@@ -18,11 +18,10 @@
 #include "core0_kernel_abstract.h"
 #include "os_trace.h"
 
-#if (OS_STACK_MODE == MANY_STACKS)
-#else
-#pragma align 16
-osu32_t core0_os_stack[(CORE0_STACK_SIZE/4)];
-#pragma align restore
+#if (OS_STACK_MODE == ONE_STACK)
+  #pragma align 16
+  osu32_t core0_os_stack[(CORE0_STACK_SIZE/4)];
+  #pragma align restore
 #endif
 
 /****************************************************************************/

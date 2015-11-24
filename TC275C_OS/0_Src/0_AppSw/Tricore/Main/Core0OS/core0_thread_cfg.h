@@ -2444,7 +2444,6 @@ void core0_pthread_management_after_task(pthread_config_t *pthread_config)
   {
       /* Do nothing */
   }
-#else
 #endif
 } /* End of core0_pthread_management_after_task function */
 
@@ -2468,7 +2467,6 @@ void core0_pthread_management_before_task(pthread_config_t *pthread_config)
   {
      /* Do nothing. */
   }
-#else
 #endif
   /* trace */
   os_trace_task_time_begin(pthread_config->curr_task_core_id,pthread_config->curr_task_id);
