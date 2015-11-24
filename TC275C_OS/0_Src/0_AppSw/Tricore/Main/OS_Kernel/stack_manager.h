@@ -11,10 +11,18 @@
 #define  STACK_MANAGER_H_
 
 /****************************************************************************/
+/* Feature Include Files                                                    */
+/****************************************************************************/
+#include "os_mode.h"
+
+/****************************************************************************/
 /* Function Prototype Definitions                                           */
 /****************************************************************************/
-OS_EXTERN void    core0_get_all_stacks_used(void);
-OS_EXTERN osu32_t core0_get_the_one_stack_used(void);
+#if (OS_STACK_MODE == MORE_STACKS)
+  OS_EXTERN void    core0_get_all_stacks_used(void);
+#else
+  OS_EXTERN osu32_t core0_get_the_one_stack_used(void);
+#endif
 
 #endif /* End of STACK_MANAGER_H_ */
 

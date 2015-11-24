@@ -664,7 +664,7 @@ void start_core0_os(void) {
     
     #if (OS_STACK_MODE == MORE_STACKS)
     #else
-    CORE0_INITIALIZE_OS_STACK_MEASURE(core0_os_stack,CORE0_STACK_SIZE)
+    CORE0_INITIALIZE_ONE_STACK_MEMORY(core0_os_stack,CORE0_STACK_SIZE)
     #endif
 	
     /* <CORE0> Create threads that are used */
