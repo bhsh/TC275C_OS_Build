@@ -36,11 +36,11 @@
 OS_CORE0_TASK(0)
 { 
   /* There is a counter associated with task and increasing in by one when the task is entered */
-  App_shared_func_task_test_count(CURR_CORE_ID,CURR_TASK_ID);
+  App_priv0_func_task_test_count(CURR_TASK_ID);
 
   /* There are two background tasks:1,stack measure;2,cpu load measure */
 #if (MEASURE_STATUS == CPULOAD_MEASURE )
-  App_shared_func_stack_background_count(CURR_CORE_ID);
+  App_priv0_func_stack_background_count();
 #else
 
     #if (OS_STACK_MODE == MANY_STACKS)
@@ -61,47 +61,47 @@ OS_CORE0_TASK(0)
 /****************************************************************************/
 OS_CORE0_TASK(1)
 {
-  App_shared_func_task_test_count(CURR_CORE_ID,CURR_TASK_ID);
+  App_priv0_func_task_test_count(CURR_TASK_ID);
   App_shared_func_flash_led_1();
 }
 OS_CORE0_TASK(2)
 {
-  App_shared_func_task_test_count(CURR_CORE_ID,CURR_TASK_ID);
+  App_priv0_func_task_test_count(CURR_TASK_ID);
   App_shared_func_flash_led_2();
 }
 OS_CORE0_TASK(3)
 {
-  App_shared_func_task_test_count(CURR_CORE_ID,CURR_TASK_ID);
+  App_priv0_func_task_test_count(CURR_TASK_ID);
 }
 OS_CORE0_TASK(4)
 {
-  App_shared_func_task_test_count(CURR_CORE_ID,CURR_TASK_ID);
+  App_priv0_func_task_test_count(CURR_TASK_ID);
 }
 OS_CORE0_TASK(5)
 {
-  App_shared_func_task_test_count(CURR_CORE_ID,CURR_TASK_ID);
+  App_priv0_func_task_test_count(CURR_TASK_ID);
 }
 OS_CORE0_TASK(6)
 {
-  App_shared_func_task_test_count(CURR_CORE_ID,CURR_TASK_ID);
+  App_priv0_func_task_test_count(CURR_TASK_ID);
 }
 OS_CORE0_TASK(7)
 {
-  App_shared_func_task_test_count(CURR_CORE_ID,CURR_TASK_ID);
+  App_priv0_func_task_test_count(CURR_TASK_ID);
 }
 OS_CORE0_TASK(8)
 {
-  App_shared_func_task_test_count(CURR_CORE_ID,CURR_TASK_ID);
+  App_priv0_func_task_test_count(CURR_TASK_ID);
 }
 OS_CORE0_TASK(9)
 {
-  App_shared_func_task_test_count(CURR_CORE_ID,CURR_TASK_ID);
+  App_priv0_func_task_test_count(CURR_TASK_ID);
 }
 OS_CORE0_TASK(10)
 {
-  App_shared_func_task_test_count(CURR_CORE_ID,CURR_TASK_ID);
+  App_priv0_func_task_test_count(CURR_TASK_ID);
 #if (MEASURE_STATUS == CPULOAD_MEASURE )
-  App_shared_func_stack_calculated(CURR_CORE_ID);
+  App_priv0_func_stack_calculated();
 #endif
   App_shared_func_flash_led_4();
 }
