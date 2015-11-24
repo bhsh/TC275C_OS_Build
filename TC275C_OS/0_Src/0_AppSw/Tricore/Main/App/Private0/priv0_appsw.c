@@ -92,14 +92,19 @@ void App_priv0_func_task_test_count(unsigned int channel)
 /* FUNCTION NAME: App_shared_func_task_test_count                           */
 /* DESCRIPTION: Measure the stack usage of many stacks mode                 */
 /****************************************************************************/
-void App_priv0_func_stack_background_count(void)
+void App_priv0_func_cpuload_bkg_count(void)
 {
   while((App_priv0_var_CPU_Load_Backg_Count < CORE0_TOTAL_COUNT)&&(App_priv0_var_state_machine_state == RUNNING ))
   {
      App_priv0_var_CPU_Load_Backg_Count++;
   }
 }
-void App_priv0_func_stack_calculated(void)
+
+/****************************************************************************/
+/* FUNCTION NAME: App_priv0_func_stack_calculated                           */
+/* DESCRIPTION: Measure the stack usage of many stacks mode                 */
+/****************************************************************************/
+void App_priv0_func_cpuload_calculated(void)
 {
   /*<CPU load> can be got here. <Section begins> */
   /* Core0_CPU_LOAD = (Core0_CPU_Load_Background_Count * 100)/(1000*1000); */

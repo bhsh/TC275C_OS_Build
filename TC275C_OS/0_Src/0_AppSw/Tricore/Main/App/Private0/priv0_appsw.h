@@ -17,8 +17,8 @@ extern void  App_priv0_func_test_count(void);
 extern void  App_priv0_func_many_stacks_measured(void);
 extern void  App_priv0_func_one_stack_measured(void);
 extern void  App_priv0_func_task_test_count(unsigned int channel);
-extern void  App_priv0_func_stack_background_count(void);
-extern void  App_priv0_func_stack_calculated(void);
+extern void  App_priv0_func_cpuload_bkg_count(void);
+extern void  App_priv0_func_cpuload_calculated(void);
 
 
 #endif /* End of PRIV0_APPSW_H_*/
