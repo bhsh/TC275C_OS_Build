@@ -14,5 +14,10 @@
 /* Function Prototype Definitions                                           */
 /****************************************************************************/
 extern void  App_priv1_func_test_count(void);
+extern void  App_priv1_func_many_stacks_measured(void);
+extern void  App_priv1_func_one_stack_measured(void);
+extern void  App_priv1_func_task_test_count(unsigned int channel);
+extern void  App_priv1_func_cpuload_bkg_count(void);
+extern void  App_priv1_func_cpuload_calculated(void);
 
 #endif /* End of PRIV1_APPSW_H_  */

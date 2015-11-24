@@ -13,6 +13,13 @@
 #include "priv1_appsw.h"
 
 /****************************************************************************/
+/* <CORE1> Macro Definitions                                                */
+/****************************************************************************/
+#define  STACK_MEASURE      0
+#define  CPULOAD_MEASURE    1
+#define  MEASURE_STATUS     STACK_MEASURE 
+
+/****************************************************************************/
 /* <CORE1> Task Definitions                                                 */
 /****************************************************************************/
 
@@ -27,8 +34,24 @@
 /****************************************************************************/
 OS_CORE1_TASK(0)
 {
-  App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);
-  App_shared_func_stack_background_count(task_cfg->curr_task_core_id);
+  /* There is a counter associated with task and increasing in by one when the task is entered */
+  App_priv1_func_task_test_count(CURR_TASK_ID);
+
+  /* There are two background tasks:1,stack measure;2,cpu load measure */
+#if (MEASURE_STATUS == CPULOAD_MEASURE )
+  App_priv1_func_cpuload_bkg_count();
+#else
+
+    #if (OS_STACK_MODE == MANY_STACKS)
+	  /* Many threads are measured */
+	  App_priv1_func_many_stacks_measured();
+    #else
+	  /* Measure the usage of stack ,there is not any measure taken when the stack has overflown */
+	  /* Here,the is only one stack for all threads */
+	  App_priv1_func_one_stack_measured();
+	#endif
+	
+#endif
   App_priv1_func_test_count();
 }
 
@@ -37,46 +60,48 @@ OS_CORE1_TASK(0)
 /****************************************************************************/
 OS_CORE1_TASK(1)
 {
-  App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);
+  App_priv1_func_task_test_count(CURR_TASK_ID);
   //App_shared_func_flash_led_1();
 }
 OS_CORE1_TASK(2)
 {
-  App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);
+  App_priv1_func_task_test_count(CURR_TASK_ID);
   //App_shared_func_flash_led_2();
 }
 OS_CORE1_TASK(3)
 {
-  App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);
+  App_priv1_func_task_test_count(CURR_TASK_ID);
 }
 OS_CORE1_TASK(4)
 {
-  App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);
+  App_priv1_func_task_test_count(CURR_TASK_ID);
 }
 OS_CORE1_TASK(5)
 {
-  App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);
+  App_priv1_func_task_test_count(CURR_TASK_ID);
 }
 OS_CORE1_TASK(6)
 {
-  App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);
+  App_priv1_func_task_test_count(CURR_TASK_ID);
 }
 OS_CORE1_TASK(7)
 {
-  App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);
+  App_priv1_func_task_test_count(CURR_TASK_ID);
 }
 OS_CORE1_TASK(8)
 {
-  App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);
+  App_priv1_func_task_test_count(CURR_TASK_ID);
 }
 OS_CORE1_TASK(9)
 {
-  App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);
+  App_priv1_func_task_test_count(CURR_TASK_ID);
 }
 OS_CORE1_TASK(10)
 {
-  App_shared_func_task_test_count(task_cfg->curr_task_core_id,task_cfg->curr_task_id);
-  App_shared_func_stack_calculated(task_cfg->curr_task_core_id);
+  App_priv1_func_task_test_count(CURR_TASK_ID);
+#if (MEASURE_STATUS == CPULOAD_MEASURE )
+  App_priv1_func_cpuload_calculated();
+#endif
   //App_shared_func_flash_led_4();
 }
 OS_CORE1_TASK(11){}
