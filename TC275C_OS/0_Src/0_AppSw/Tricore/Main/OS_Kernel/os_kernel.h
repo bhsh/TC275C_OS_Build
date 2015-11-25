@@ -242,64 +242,64 @@ OS_INLINE void core0_pthread_start_np(void) {
 	{     
 	
 #if(OS_STACK_MODE == ONE_STACK)  /* <MORE_STACKS> More stacks interface */
-		if(core0_os_pthread_running != (void *)0)
+	  if(core0_os_pthread_running != (void *)0)
+      {
+		/* <CORE0><Get effective stack address for the next thread scheduled><Begin> */  
+		if(core0_os_pthread_running->thread_status == S_RUNNING)
 		{
-			  /* <CORE0><Get effective stack address for the next thread scheduled><Begin> */  
-		    if(core0_os_pthread_running->thread_status == S_RUNNING)
-			  {
-		      core0_os_pthread_running->thread_status = S_INTERRUPTED;
+		  core0_os_pthread_running->thread_status = S_INTERRUPTED;
 				
-		      /* <CORE0> Get the stack pointer of the thread interrupted */  
-			    cx = cx_to_addr(core0_os_pthread_running->lcx);
-			    cx = cx_to_addr(cx->l.pcxi);
-			    core0_os_pthread_running->curr_stack_address = cx->u.a10;
+		  /* <CORE0> Get the stack pointer of the thread interrupted */  
+		  cx = cx_to_addr(core0_os_pthread_running->lcx);
+		  cx = cx_to_addr(cx->l.pcxi);
+		  core0_os_pthread_running->curr_stack_address = cx->u.a10;
 
-			    /* <CORE0> Update buffer with the stack pointer */
-			    curr_stack_pos = core0_os_pthread_running->curr_stack_address;
-			  }
-			  else if(core0_os_pthread_running->thread_status == S_TERMINATED)
-			  {
-		      curr_stack_pos = core0_os_pthread_running->init_stack_address;
-			  }
-			  /* <CORE0> The effecive stack address is stored in curr_stack_pos          */  
-			  /* <CORE0><Get effective stack address for the next thread scheduled><End> */  
+		  /* <CORE0> Update buffer with the stack pointer */
+		  curr_stack_pos = core0_os_pthread_running->curr_stack_address;
+	    }
+		else if(core0_os_pthread_running->thread_status == S_TERMINATED)
+	    {
+		  curr_stack_pos = core0_os_pthread_running->init_stack_address;
 		}
-		else
-		{
-	     //curr_stack_pos = (osu32_t *)((osu32_t)core0_os_stack+65);
-	     /* <CORE0> Initial stack address that is defined by array core0_os_stack */
-	     curr_stack_pos = (osu32_t *)((osu32_t)(&core0_os_stack[0])+CORE0_STACK_SIZE);
-		}
+	    /* <CORE0> The effecive stack address is stored in curr_stack_pos          */  
+	    /* <CORE0><Get effective stack address for the next thread scheduled><End> */  
+	  }
+	  else
+      {
+	    //curr_stack_pos = (osu32_t *)((osu32_t)core0_os_stack+65);
+	    /* <CORE0> Initial stack address that is defined by array core0_os_stack */
+	    curr_stack_pos = (osu32_t *)((osu32_t)(&core0_os_stack[0])+CORE0_STACK_SIZE);
+      }
 		 
-		 /* <CORE0> Get ready thread with highest priority ready */  
-         thread = core0_os_pthread_runnable_threads[31 - __clz(core0_os_pthread_runnable)]; 	
+	  /* <CORE0> Get ready thread with highest priority ready */  
+      thread = core0_os_pthread_runnable_threads[31 - __clz(core0_os_pthread_runnable)]; 	
 
-		 /* <CORE0> Update core0_os_pthread_running with highest priority thread  */
-		 core0_os_pthread_running = thread;
+	  /* <CORE0> Update core0_os_pthread_running with highest priority thread  */
+	  core0_os_pthread_running = thread;
 
-		 /* <CORE0> Check the status of the highest priority thread and update     */
-		 /* init_stack_address or curr_stack_address with the stack pointer buffer */
-		 if(core0_os_pthread_running->thread_status == S_READY)
-         { 
-		 	core0_os_pthread_running->init_stack_address = curr_stack_pos;
-		 }
-		 else if(core0_os_pthread_running->thread_status == S_INTERRUPTED)
-		 {
-		   core0_os_pthread_running->curr_stack_address = curr_stack_pos;
-		 } 
+	  /* <CORE0> Check the status of the highest priority thread and update     */
+	  /* init_stack_address or curr_stack_address with the stack pointer buffer */
+	  if(core0_os_pthread_running->thread_status == S_READY)
+      { 
+		core0_os_pthread_running->init_stack_address = curr_stack_pos;
+	  }
+	  else if(core0_os_pthread_running->thread_status == S_INTERRUPTED)
+	  {
+	    core0_os_pthread_running->curr_stack_address = curr_stack_pos;
+	  } 
 
-		 /* <CORE0> Set the status of the thread that will be scheduled to S_RUNNING */  
-		 core0_os_pthread_running->thread_status = S_RUNNING;
+	  /* <CORE0> Set the status of the thread that will be scheduled to S_RUNNING */  
+	  core0_os_pthread_running->thread_status = S_RUNNING;
 
-		 /* <CORE0> Set the stack address of the thread that will be scheduled with "curr_stack_pos" */
-		 /* <CORE0> Update the stack pointer of the running thread */  
-		 cx = cx_to_addr(core0_os_pthread_running->lcx);
-         cx = cx_to_addr(cx->l.pcxi);
-  	     cx->u.a10 = curr_stack_pos;
+	  /* <CORE0> Set the stack address of the thread that will be scheduled with "curr_stack_pos" */
+	  /* <CORE0> Update the stack pointer of the running thread */  
+	  cx = cx_to_addr(core0_os_pthread_running->lcx);
+      cx = cx_to_addr(cx->l.pcxi);
+  	  cx->u.a10 = curr_stack_pos;
 #else
-	    /* <CORE1> Get ready thread with highest priority ready */  
-        thread = core0_os_pthread_runnable_threads[31 - __clz(core0_os_pthread_runnable)];
-	    core0_os_pthread_running = thread;
+	  /* <CORE1> Get ready thread with highest priority ready */  
+      thread = core0_os_pthread_runnable_threads[31 - __clz(core0_os_pthread_runnable)];
+	  core0_os_pthread_running = thread;
 #endif
 
 	}
@@ -340,71 +340,71 @@ OS_INLINE void core1_pthread_start_np(void) {
 	if(core1_os_pthreads_status == ALLTHREADS_WORKING)
 	{     
 #if(OS_STACK_MODE == ONE_STACK)  /* <MORE_STACKS> More stacks interface */
-		if(core1_os_pthread_running != (void *)0)
-		{
+	  if(core1_os_pthread_running != (void *)0)
+	  {
 			  /* <CORE1><Get effective stack address for the next thread scheduled><Begin> */  
-		    if(core1_os_pthread_running->thread_status == S_RUNNING)
-			  {
-		      core1_os_pthread_running->thread_status = S_INTERRUPTED;
+		if(core1_os_pthread_running->thread_status == S_RUNNING)
+	    {
+		  core1_os_pthread_running->thread_status = S_INTERRUPTED;
 				
-		      /* <CORE1> Get the stack pointer of the thread interrupted */  
-			    cx = cx_to_addr(core1_os_pthread_running->lcx);
-			    cx = cx_to_addr(cx->l.pcxi);
-			    core1_os_pthread_running->curr_stack_address = cx->u.a10;
+		  /* <CORE1> Get the stack pointer of the thread interrupted */  
+	      cx = cx_to_addr(core1_os_pthread_running->lcx);
+		  cx = cx_to_addr(cx->l.pcxi);
+		  core1_os_pthread_running->curr_stack_address = cx->u.a10;
 
-			    /* <CORE1> Update buffer with the stack pointer */
-			    curr_stack_pos = core1_os_pthread_running->curr_stack_address;
-			  }
-			  else if(core1_os_pthread_running->thread_status == S_TERMINATED)
-			  {
-		      curr_stack_pos = core1_os_pthread_running->init_stack_address;
-			  }
-			  /* <CORE1> The effecive stack address is stored in curr_stack_pos          */  
-			  /* <CORE1><Get effective stack address for the next thread scheduled><End> */  
+		  /* <CORE1> Update buffer with the stack pointer */
+	      curr_stack_pos = core1_os_pthread_running->curr_stack_address;
 		}
-		else
-		{
-	     //curr_stack_pos = (osu32_t *)((osu32_t)core1_os_stack+65);
-	     /* <CORE1> Initial stack address that is defined by array core1_os_stack */
-	     curr_stack_pos = (osu32_t *)((osu32_t)(&core1_os_stack[0])+CORE1_STACK_SIZE);
-		}
+	    else if(core1_os_pthread_running->thread_status == S_TERMINATED)
+	    {
+		  curr_stack_pos = core1_os_pthread_running->init_stack_address;
+        }
+		/* <CORE1> The effecive stack address is stored in curr_stack_pos          */  
+		/* <CORE1><Get effective stack address for the next thread scheduled><End> */  
+	  }
+	  else
+      {
+	    //curr_stack_pos = (osu32_t *)((osu32_t)core1_os_stack+65);
+	    /* <CORE1> Initial stack address that is defined by array core1_os_stack */
+	    curr_stack_pos = (osu32_t *)((osu32_t)(&core1_os_stack[0])+CORE1_STACK_SIZE);
+	  }
 		 
-		 /* <CORE1> Get ready thread with highest priority ready */  
-         thread = core1_os_pthread_runnable_threads[31 - __clz(core1_os_pthread_runnable)]; 	
+	  /* <CORE1> Get ready thread with highest priority ready */  
+      thread = core1_os_pthread_runnable_threads[31 - __clz(core1_os_pthread_runnable)]; 	
 
-		 /* <CORE1> Update core1_os_pthread_running with highest priority thread  */
-		 core1_os_pthread_running = thread;
+	  /* <CORE1> Update core1_os_pthread_running with highest priority thread  */
+	  core1_os_pthread_running = thread;
 
-		 /* <CORE1> Check the status of the highest priority thread and update     */
-		 /* init_stack_address or curr_stack_address with the stack pointer buffer */
-		 if(core1_os_pthread_running->thread_status == S_READY)
-         { 
-		 	core1_os_pthread_running->init_stack_address = curr_stack_pos;
-		 }
-		 else if(core1_os_pthread_running->thread_status == S_INTERRUPTED)
-		 {
-		   core1_os_pthread_running->curr_stack_address = curr_stack_pos;
-		 } 
+	  /* <CORE1> Check the status of the highest priority thread and update     */
+	  /* init_stack_address or curr_stack_address with the stack pointer buffer */
+	  if(core1_os_pthread_running->thread_status == S_READY)
+      { 
+	    core1_os_pthread_running->init_stack_address = curr_stack_pos;
+	  }
+	  else if(core1_os_pthread_running->thread_status == S_INTERRUPTED)
+	  {
+	    core1_os_pthread_running->curr_stack_address = curr_stack_pos;
+	  } 
 
-		 /* <CORE1> Set the status of the thread that will be scheduled to S_RUNNING */  
-		 core1_os_pthread_running->thread_status = S_RUNNING;
+	  /* <CORE1> Set the status of the thread that will be scheduled to S_RUNNING */  
+	  core1_os_pthread_running->thread_status = S_RUNNING;
 
-		 /* <CORE1> Set the stack address of the thread that will be scheduled with "curr_stack_pos" */
-		 /* <CORE1> Update the stack pointer of the running thread */  
-		 cx = cx_to_addr(core1_os_pthread_running->lcx);
-         cx = cx_to_addr(cx->l.pcxi);
-  	     cx->u.a10 = curr_stack_pos;
+	  /* <CORE1> Set the stack address of the thread that will be scheduled with "curr_stack_pos" */
+	  /* <CORE1> Update the stack pointer of the running thread */  
+      cx = cx_to_addr(core1_os_pthread_running->lcx);
+      cx = cx_to_addr(cx->l.pcxi);
+  	  cx->u.a10 = curr_stack_pos;
 #else
-	    /* <CORE1> Get ready thread with highest priority ready */  
-        thread = core1_os_pthread_runnable_threads[31 - __clz(core1_os_pthread_runnable)];
-	    core1_os_pthread_running = thread;
+	  /* <CORE1> Get ready thread with highest priority ready */  
+      thread = core1_os_pthread_runnable_threads[31 - __clz(core1_os_pthread_runnable)];
+	  core1_os_pthread_running = thread;
 #endif
 
 	}
 	else if(core1_os_pthreads_status == ALLTHREADS_SUSPENDED)
 	{
-       /* <CORE1> In order to keep core1_os_pthread_running unchanged */
-	   thread = core1_os_pthread_running;
+      /* <CORE1> In order to keep core1_os_pthread_running unchanged */
+	  thread = core1_os_pthread_running;
 	}
 			
 	assert(thread);
@@ -436,75 +436,75 @@ OS_INLINE void core2_pthread_start_np(void) {
 	osu32_t   *curr_stack_pos =(void*)0;
 #endif
 
-  assert(core2_os_pthread_runnable != 0);
+    assert(core2_os_pthread_runnable != 0);
 	if(core2_os_pthreads_status == ALLTHREADS_WORKING)
 	{       
 #if(OS_STACK_MODE == ONE_STACK)  /* <MORE_STACKS> More stacks interface */
-		if(core2_os_pthread_running != (void *)0)
+	  if(core2_os_pthread_running != (void *)0)
+      {
+		/* <CORE2><Get effective stack address for the next thread scheduled><Begin> */  
+		if(core2_os_pthread_running->thread_status == S_RUNNING)
 		{
-			  /* <CORE2><Get effective stack address for the next thread scheduled><Begin> */  
-		    if(core2_os_pthread_running->thread_status == S_RUNNING)
-			  {
-		      core2_os_pthread_running->thread_status = S_INTERRUPTED;
+		  core2_os_pthread_running->thread_status = S_INTERRUPTED;
 				
-		      /* <CORE2> Get the stack pointer of the thread interrupted */  
-			    cx = cx_to_addr(core2_os_pthread_running->lcx);
-			    cx = cx_to_addr(cx->l.pcxi);
-			    core2_os_pthread_running->curr_stack_address = cx->u.a10;
+		  /* <CORE2> Get the stack pointer of the thread interrupted */  
+		  cx = cx_to_addr(core2_os_pthread_running->lcx);
+		  cx = cx_to_addr(cx->l.pcxi);
+		  core2_os_pthread_running->curr_stack_address = cx->u.a10;
 
-			    /* <CORE2> Update buffer with the stack pointer */
-			    curr_stack_pos = core2_os_pthread_running->curr_stack_address;
-			  }
-			  else if(core2_os_pthread_running->thread_status == S_TERMINATED)
-			  {
-		      curr_stack_pos = core2_os_pthread_running->init_stack_address;
-			  }
-			  /* <CORE2> The effecive stack address is stored in curr_stack_pos          */  
-			  /* <CORE2><Get effective stack address for the next thread scheduled><End> */  
+		  /* <CORE2> Update buffer with the stack pointer */
+		  curr_stack_pos = core2_os_pthread_running->curr_stack_address;
 		}
-		else
-		{
-	       //curr_stack_pos = (osu32_t *)((osu32_t)core2_os_stack+65);
-	       /* <CORE2> Initial stack address that is defined by array core2_os_stack */
-	       curr_stack_pos = (osu32_t *)((osu32_t)(&core2_os_stack[0])+CORE2_STACK_SIZE);
+		else if(core2_os_pthread_running->thread_status == S_TERMINATED)
+	    {
+		  curr_stack_pos = core2_os_pthread_running->init_stack_address;
 		}
+		/* <CORE2> The effecive stack address is stored in curr_stack_pos          */  
+		/* <CORE2><Get effective stack address for the next thread scheduled><End> */  
+	  }
+      else
+      {
+	    //curr_stack_pos = (osu32_t *)((osu32_t)core2_os_stack+65);
+	    /* <CORE2> Initial stack address that is defined by array core2_os_stack */
+	    curr_stack_pos = (osu32_t *)((osu32_t)(&core2_os_stack[0])+CORE2_STACK_SIZE);
+	  }
 		 
-		 /* <CORE2> Get ready thread with highest priority ready */  
-         thread = core2_os_pthread_runnable_threads[31 - __clz(core2_os_pthread_runnable)]; 	
+	  /* <CORE2> Get ready thread with highest priority ready */  
+      thread = core2_os_pthread_runnable_threads[31 - __clz(core2_os_pthread_runnable)]; 	
 
-		 /* <CORE2> Update core2_os_pthread_running with highest priority thread  */
-		 core2_os_pthread_running = thread;
+      /* <CORE2> Update core2_os_pthread_running with highest priority thread  */
+	  core2_os_pthread_running = thread;
 
-		 /* <CORE2> Check the status of the highest priority thread and update     */
-		 /* init_stack_address or curr_stack_address with the stack pointer buffer */
-		 if(core2_os_pthread_running->thread_status == S_READY)
-         { 
-		 	core2_os_pthread_running->init_stack_address = curr_stack_pos;
-		 }
-		 else if(core2_os_pthread_running->thread_status == S_INTERRUPTED)
-		 {
-		   core2_os_pthread_running->curr_stack_address = curr_stack_pos;
-		 } 
+	  /* <CORE2> Check the status of the highest priority thread and update     */
+	  /* init_stack_address or curr_stack_address with the stack pointer buffer */
+	  if(core2_os_pthread_running->thread_status == S_READY)
+      { 
+	    core2_os_pthread_running->init_stack_address = curr_stack_pos;
+	  }
+	  else if(core2_os_pthread_running->thread_status == S_INTERRUPTED)
+	  {
+		core2_os_pthread_running->curr_stack_address = curr_stack_pos;
+	  } 
 
-		 /* <CORE2> Set the status of the thread that will be scheduled to S_RUNNING */  
-		 core2_os_pthread_running->thread_status = S_RUNNING;
+	  /* <CORE2> Set the status of the thread that will be scheduled to S_RUNNING */  
+	  core2_os_pthread_running->thread_status = S_RUNNING;
 
-		 /* <CORE2> Set the stack address of the thread that will be scheduled with "curr_stack_pos" */
-		 /* <CORE2> Update the stack pointer of the running thread */  
-		 cx = cx_to_addr(core2_os_pthread_running->lcx);
-         cx = cx_to_addr(cx->l.pcxi);
-  	     cx->u.a10 = curr_stack_pos;
+	  /* <CORE2> Set the stack address of the thread that will be scheduled with "curr_stack_pos" */
+	  /* <CORE2> Update the stack pointer of the running thread */  
+      cx = cx_to_addr(core2_os_pthread_running->lcx);
+      cx = cx_to_addr(cx->l.pcxi);
+  	  cx->u.a10 = curr_stack_pos;
 #else
-	    /* <CORE1> Get ready thread with highest priority ready */  
-        thread = core2_os_pthread_runnable_threads[31 - __clz(core2_os_pthread_runnable)];
-	    core2_os_pthread_running = thread;
+	  /* <CORE1> Get ready thread with highest priority ready */  
+      thread = core2_os_pthread_runnable_threads[31 - __clz(core2_os_pthread_runnable)];
+	  core2_os_pthread_running = thread;
 #endif
 
     } 
 	else if(core2_os_pthreads_status == ALLTHREADS_SUSPENDED)
 	{
       /* <CORE2> Do nothing in order to keep core2_os_pthread_running unchanged */
-	   thread = core2_os_pthread_running;
+	  thread = core2_os_pthread_running;
 	}
 	assert(thread);
     assert(thread->lcx);
