@@ -18,6 +18,13 @@
 #include "core2_kernel_abstract.h"
 #include "os_trace.h"
 
+
+#if (OS_STACK_MODE == ONE_STACK)
+  #pragma align 16
+  osu32_t core2_os_stack[(CORE2_STACK_SIZE/4)];
+  #pragma align restore
+#endif
+
 /****************************************************************************/
 /* Static Variable Definitions <CORE2>: The thread number ranges from 0     */
 /*                                      thread to 100 thread                */
