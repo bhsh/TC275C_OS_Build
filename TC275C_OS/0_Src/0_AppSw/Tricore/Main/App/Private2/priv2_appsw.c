@@ -12,20 +12,116 @@
 /* Feature Include Files                                                    */
 /****************************************************************************/
 #include "low_driver_port.h"
+#include "stack_manager.h"
 
 /****************************************************************************/
 /* Macro Definitions                                                        */
 /****************************************************************************/
+#define  CORE2_TASK_NUM                (11)
+#define  CORE2_TOTAL_COUNT             (500000000)
+#define  CORE2_TIME_PER_COUNT_NS       (60)
+
+/****************************************************************************/
+/* Type Definitions                                                         */
+/****************************************************************************/
+typedef enum  {
+
+	 FINISH,
+	 RUNNING	
+}APP_PRIV2_CPU_LOAD_LOGIC_STATUS_t;
 
 /****************************************************************************/
 /* Static Variable Definitions                                              */
 /****************************************************************************/
 static volatile unsigned int App_priv2_var_test_count;
 
+#if (OS_STACK_MODE == ONE_STACK)
+  static volatile unsigned int App_priv2_var_one_stack_used_in_per;
+#endif
+
+static volatile unsigned int App_priv2_var_task_test_count[CORE2_TASK_NUM];
+static volatile unsigned int App_priv2_var_CPU_Load_Backg_Count;
+static volatile unsigned int App_priv2_var_CPU_load;
+static APP_PRIV2_CPU_LOAD_LOGIC_STATUS_t App_priv2_var_state_machine_state = RUNNING;
+
 /****************************************************************************/
-/* Private2 Function Definitions                                            */
+/* Private0 Function Definitions                                            */
+/****************************************************************************/
+
+/****************************************************************************/
+/* FUNCTION NAME: App_priv2_func_test_count                                 */
+/* DESCRIPTION: Test counter increases by 1 when the task is entered        */
 /****************************************************************************/
 void  App_priv2_func_test_count(void)
 {
-   App_priv2_var_test_count ++;
+  App_priv2_var_test_count ++;
+} /* End of function App_priv2_func_test_count */
+
+/****************************************************************************/
+/* FUNCTION NAME: App_priv2_func_many_stacks_measured                       */
+/* DESCRIPTION: Measure the stack usage of one stack mode                   */
+/****************************************************************************/
+void App_priv2_func_many_stacks_measured(void)
+{
+#if 0
+#if (OS_STACK_MODE == MANY_STACKS)
+  core2_get_all_stacks_used();
+#endif
+#endif
+} /* End of function App_priv2_func_many_stacks_measured */
+
+/****************************************************************************/
+/* FUNCTION NAME: App_priv2_func_one_stack_measured                         */
+/* DESCRIPTION: Measure the stack usage of many stacks mode                 */
+/****************************************************************************/
+void App_priv2_func_one_stack_measured(void)
+{
+#if 0
+#if (OS_STACK_MODE == ONE_STACK)
+  App_priv2_var_one_stack_used_in_per = core2_get_the_one_stack_used();
+#endif
+#endif
+} /* End of function App_priv2_func_one_stack_measured */
+
+/****************************************************************************/
+/* FUNCTION NAME: App_shared_func_task_test_count                           */
+/* DESCRIPTION: Measure the stack usage of many stacks mode                 */
+/****************************************************************************/
+void App_priv2_func_task_test_count(unsigned int channel)
+{
+  App_priv2_var_task_test_count[channel]++;
 }
+
+/****************************************************************************/
+/* FUNCTION NAME: App_shared_func_task_test_count                           */
+/* DESCRIPTION: Measure the stack usage of many stacks mode                 */
+/****************************************************************************/
+void App_priv2_func_cpuload_bkg_count(void)
+{
+  while((App_priv2_var_CPU_Load_Backg_Count < CORE2_TOTAL_COUNT)&&(App_priv2_var_state_machine_state == RUNNING ))
+  {
+     App_priv2_var_CPU_Load_Backg_Count++;
+  }
+}
+
+/****************************************************************************/
+/* FUNCTION NAME: App_priv2_func_stack_calculated                           */
+/* DESCRIPTION: Measure the stack usage of many stacks mode                 */
+/****************************************************************************/
+void App_priv2_func_cpuload_calculated(void)
+{
+  /*<CPU load> can be got here. <Section begins> */
+  /* Core0_CPU_LOAD = (Core0_CPU_Load_Background_Count * 100)/(1000*1000); */
+  if(App_priv2_var_CPU_Load_Backg_Count < CORE2_TOTAL_COUNT)
+  {
+    App_priv2_var_CPU_load = 1000 - (App_priv2_var_CPU_Load_Backg_Count * CORE2_TIME_PER_COUNT_NS)/(1000*1000);
+  }
+  else
+  {
+    App_priv2_var_CPU_load = 0;
+  }
+  App_priv2_var_state_machine_state = RUNNING;
+  App_priv2_var_CPU_Load_Backg_Count = 0;
+  /*<CPU load> can be got here. <Section ends> */
+}
+
