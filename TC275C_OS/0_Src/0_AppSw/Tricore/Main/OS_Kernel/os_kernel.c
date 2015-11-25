@@ -676,7 +676,109 @@ os32_t pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition pointer
 /*    without changing the scheduling table                                 */
 /****************************************************************************/
 #if(OS_STACK_MODE == MANY_STACKS)  /* <MORE_STACKS> More stacks interface */
-  OS_STATIC void os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_thread) 
+  OS_STATIC void core0_os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_thread) 
+  {
+      os32_t tin, i;
+      pthread_t thread, tmp;
+  
+      __asm(" mov %0,d15 \n"
+              " svlcx        "
+              : "=d"(tin)); /* Put d15 in C variable tin */
+    
+     core0_os_pthread_running->lcx = __mfcr(CPU_PCXI);
+     i = core0_os_pthread_running->priority;
+     assert(core0_os_pthread_runnable_threads[i] == core0_os_pthread_running);
+     switch (tin) 
+     {
+      case DISPATCH_WAIT: 
+        {
+          list_delete_first(&core0_os_pthread_runnable_threads[i]);
+          list_append(blocked_threads_ptr, core0_os_pthread_running, core0_os_pthread_running, NULL);
+          __putbit(neza(core0_os_pthread_runnable_threads[i]),(os32_t*)&core0_os_pthread_runnable,i);
+         }
+        break;
+      case DISPATCH_SIGNAL:
+         {
+          tmp = NULL;
+          assert(blocked_threads_ptr);
+          thread = *blocked_threads_ptr;
+          while (thread != NULL)
+        {
+            tmp = thread->next;
+            i = thread->priority;
+            list_append(&core0_os_pthread_runnable_threads[i], thread, thread,
+               core0_os_pthread_runnable_threads[i]);
+            __putbit(1,(os32_t*)&core0_os_pthread_runnable,i);
+            if (thread == last_thread) break;
+            thread = tmp;
+          }
+          *blocked_threads_ptr = tmp;
+          break;
+      }
+       case DISPATCH_ONLY:
+     	  break;
+      default:
+        break;
+    }
+    
+    /* <CORE0> Unlock core0_os_mutex */
+    core_returnMutex(&core0_os_mutex);
+	
+    core0_pthread_start_np();
+  } /* End of os_kernel function */
+
+OS_STATIC void core1_os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_thread) 
+  {
+      os32_t tin, i;
+      pthread_t thread, tmp;
+  
+      __asm(" mov %0,d15 \n"
+              " svlcx        "
+              : "=d"(tin)); /* Put d15 in C variable tin */
+    
+      core1_os_pthread_running->lcx = __mfcr(CPU_PCXI);
+      i = core1_os_pthread_running->priority;
+      assert(core1_os_pthread_runnable_threads[i] == core1_os_pthread_running);
+      switch (tin) 
+  	  {
+        case DISPATCH_WAIT: 
+          {
+              list_delete_first(&core1_os_pthread_runnable_threads[i]);
+              list_append(blocked_threads_ptr, core1_os_pthread_running, core1_os_pthread_running, NULL);
+              __putbit(neza(core1_os_pthread_runnable_threads[i]),(os32_t*)&core1_os_pthread_runnable,i);
+  		  }
+            break;
+        case DISPATCH_SIGNAL:
+  		  {
+            tmp = NULL;
+            assert(blocked_threads_ptr);
+            thread = *blocked_threads_ptr;
+            while (thread != NULL)
+  			{
+                tmp = thread->next;
+                i = thread->priority;
+                list_append(&core1_os_pthread_runnable_threads[i], thread, thread,
+                   core1_os_pthread_runnable_threads[i]);
+                 __putbit(1,(os32_t*)&core1_os_pthread_runnable,i);
+                if (thread == last_thread) break;
+                thread = tmp;
+             }
+             *blocked_threads_ptr = tmp;
+             break;
+  	      }
+  		case DISPATCH_ONLY:
+  		    break;		  
+        default:
+            break;
+      }
+  		
+  	  /* <CORE1> Unlock core1_os_mutex */
+  	  core_returnMutex(&core1_os_mutex);
+  	
+      core1_pthread_start_np();
+  } /* End of os_kernel function */
+
+  OS_STATIC void core2_os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_thread) 
   {
       os32_t tin, i;
       pthread_t thread, tmp;
@@ -685,96 +787,10 @@ os32_t pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition pointer
               " svlcx        "
               : "=d"(tin)); /* Put d15 in C variable tin */
   
-  	osu32_t current_core_id = os_getCoreId();
-  
-      if(current_core_id == CORE0_ID)
-      {
-        core0_os_pthread_running->lcx = __mfcr(CPU_PCXI);
-        i = core0_os_pthread_running->priority;
-        assert(core0_os_pthread_runnable_threads[i] == core0_os_pthread_running);
-        switch (tin) 
-    	  {
-          case DISPATCH_WAIT: 
-            {
-              list_delete_first(&core0_os_pthread_runnable_threads[i]);
-              list_append(blocked_threads_ptr, core0_os_pthread_running, core0_os_pthread_running, NULL);
-              __putbit(neza(core0_os_pthread_runnable_threads[i]),(os32_t*)&core0_os_pthread_runnable,i);
-    	      }
-            break;
-          case DISPATCH_SIGNAL:
-    	      {
-              tmp = NULL;
-              assert(blocked_threads_ptr);
-              thread = *blocked_threads_ptr;
-              while (thread != NULL)
-    		    {
-                tmp = thread->next;
-                i = thread->priority;
-                list_append(&core0_os_pthread_runnable_threads[i], thread, thread,
-                   core0_os_pthread_runnable_threads[i]);
-                __putbit(1,(os32_t*)&core0_os_pthread_runnable,i);
-                if (thread == last_thread) break;
-                thread = tmp;
-              }
-              *blocked_threads_ptr = tmp;
-              break;
-    		  }
-    	    case DISPATCH_ONLY:
-    	  	  break;
-          default:
-            break;
-        }
-    	
-    	  /* <CORE0> Unlock core0_os_mutex */
-    	  core_returnMutex(&core0_os_mutex);
-      }
-  	else if(current_core_id == CORE1_ID)
-  	{
-        core1_os_pthread_running->lcx = __mfcr(CPU_PCXI);
-        i = core1_os_pthread_running->priority;
-        assert(core1_os_pthread_runnable_threads[i] == core1_os_pthread_running);
-        switch (tin) 
-  	  {
-          case DISPATCH_WAIT: 
-            {
-              list_delete_first(&core1_os_pthread_runnable_threads[i]);
-              list_append(blocked_threads_ptr, core1_os_pthread_running, core1_os_pthread_running, NULL);
-              __putbit(neza(core1_os_pthread_runnable_threads[i]),(os32_t*)&core1_os_pthread_runnable,i);
-  		  }
-            break;
-          case DISPATCH_SIGNAL:
-  		  {
-              tmp = NULL;
-              assert(blocked_threads_ptr);
-              thread = *blocked_threads_ptr;
-              while (thread != NULL)
-  			{
-                tmp = thread->next;
-                i = thread->priority;
-                list_append(&core1_os_pthread_runnable_threads[i], thread, thread,
-                   core1_os_pthread_runnable_threads[i]);
-                 __putbit(1,(os32_t*)&core1_os_pthread_runnable,i);
-                if (thread == last_thread) break;
-                thread = tmp;
-              }
-              *blocked_threads_ptr = tmp;
-              break;
-  	      }
-  		case DISPATCH_ONLY:
-  		  break;		  
-          default:
-            break;
-        }
-  		
-  	  /* <CORE1> Unlock core1_os_mutex */
-  	  core_returnMutex(&core1_os_mutex);
-  	}
-  	else if(current_core_id == CORE2_ID)
-  	{
-        core2_os_pthread_running->lcx = __mfcr(CPU_PCXI);
-        i = core2_os_pthread_running->priority;
-        assert(core2_os_pthread_runnable_threads[i] == core2_os_pthread_running);
-        switch (tin) 
+      core2_os_pthread_running->lcx = __mfcr(CPU_PCXI);
+      i = core2_os_pthread_running->priority;
+      assert(core2_os_pthread_runnable_threads[i] == core2_os_pthread_running);
+      switch (tin) 
   	  {
           case DISPATCH_WAIT: 
             {
@@ -803,101 +819,113 @@ os32_t pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition pointer
   		  }
   		case DISPATCH_ONLY:
   		  break;		  
-          default:
-            break;
-        }
+        default:
+          break;
+      }
   		
   	  /* <CORE2> Unlock core2_os_mutex */
-        core_returnMutex(&core2_os_mutex);		
-  	}
-      pthread_start_np();
+      core_returnMutex(&core2_os_mutex);		
+      core2_pthread_start_np();
   } /* End of os_kernel function */
+
+
 #else
-  OS_STATIC void os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_thread) 
+
+ OS_STATIC void core0_os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_thread) 
   {
       os32_t tin, i;
       pthread_t thread, tmp;
-  	context_t *cx;
+  	  context_t *cx;
   
       __asm(" mov %0,d15 \n"
             " svlcx        "
             : "=d"(tin)); /* Put d15 in C variable tin */
   
-  	osu32_t current_core_id = os_getCoreId();
+  	  osu32_t current_core_id = os_getCoreId();
+    
+      core0_os_pthread_running->lcx = __mfcr(CPU_PCXI);
+      i = core0_os_pthread_running->priority;
+      assert(core0_os_pthread_runnable_threads[i] == core0_os_pthread_running);
+      switch (tin) 
+      {
+        case DISPATCH_WAIT: 
+          {
+            list_delete_first(&core0_os_pthread_runnable_threads[i]);
+            list_append(blocked_threads_ptr, core0_os_pthread_running, core0_os_pthread_running, NULL);
+            __putbit(neza(core0_os_pthread_runnable_threads[i]),(os32_t*)&core0_os_pthread_runnable,i);
   
-      if(current_core_id == CORE0_ID)
-      {	  
-        core0_os_pthread_running->lcx = __mfcr(CPU_PCXI);
-        i = core0_os_pthread_running->priority;
-        assert(core0_os_pthread_runnable_threads[i] == core0_os_pthread_running);
-        switch (tin) 
-    	  {
-          case DISPATCH_WAIT: 
-            {
-              list_delete_first(&core0_os_pthread_runnable_threads[i]);
-              list_append(blocked_threads_ptr, core0_os_pthread_running, core0_os_pthread_running, NULL);
-              __putbit(neza(core0_os_pthread_runnable_threads[i]),(os32_t*)&core0_os_pthread_runnable,i);
-  
-  			/* <CORE0> Section used for one stack for all threads begins */
-  			/* <CORE0> Set the status of the current thread to "terminated" */
-  			core0_os_pthread_running->thread_status = S_TERMINATED;
-  			 
-  			/* <CORE0> Update the entry point of the current thread into the sintial point */
-  			/* <CORE0> Get the lower context address */
-  			cx = cx_to_addr(core0_os_pthread_running->lcx);
-  
-  			/* <CORE0> Reset the enrty point of thread to the initial position */
-  			/* Notice:the initial point is placed in task_ptr when the thread  */
-  			/* block was being initialized                                     */
-  			cx->l.pc = core0_os_pthread_running->thread_ptr; /* <EVERY CORE> init new thread start address */ 
-              cx->l.a4 = core0_os_pthread_running->thread_a4;
-              cx->l.a5 = core0_os_pthread_running->thread_a5;
-  			/* <CORE0> Get the upper context address */
-  			//cx = cx_to_addr(cx->l.pcxi);
-  
-  			/* <CORE0> Set the curr_stack_address of the thread to the stack  */
-  			/* address the current thread                                     */
-  			//core0_os_pthread_running->curr_stack_address = cx->u.a10;
-  			/* <CORE0> Section used for one stack for all threads ends */
-    	      }
+	   		/* <CORE0> Section used for one stack for all threads begins */
+	   		/* <CORE0> Set the status of the current thread to "terminated" */
+	   		core0_os_pthread_running->thread_status = S_TERMINATED;
+	   		 
+	   		/* <CORE0> Update the entry point of the current thread into the sintial point */
+	   		/* <CORE0> Get the lower context address */
+	   		cx = cx_to_addr(core0_os_pthread_running->lcx);
+	   
+	   		/* <CORE0> Reset the enrty point of thread to the initial position */
+	   		/* Notice:the initial point is placed in task_ptr when the thread  */
+	   		/* block was being initialized                                     */
+	   		cx->l.pc = core0_os_pthread_running->thread_ptr; /* <EVERY CORE> init new thread start address */ 
+	        cx->l.a4 = core0_os_pthread_running->thread_a4;
+	        cx->l.a5 = core0_os_pthread_running->thread_a5;
+	   		/* <CORE0> Get the upper context address */
+	   		//cx = cx_to_addr(cx->l.pcxi);
+	   
+	   		/* <CORE0> Set the curr_stack_address of the thread to the stack  */
+	   		/* address the current thread                                     */
+	   		//core0_os_pthread_running->curr_stack_address = cx->u.a10;
+	   		/* <CORE0> Section used for one stack for all threads ends */
+          }
+          break;
+        case DISPATCH_SIGNAL:
+          {
+            tmp = NULL;
+            assert(blocked_threads_ptr);
+            thread = *blocked_threads_ptr;
+            while (thread != NULL)
+    	    {
+              tmp = thread->next;
+              i = thread->priority;
+  		  
+	  		  /* <CORE0> Set the status of the current thread to "ready" */
+	  		  thread->thread_status = S_READY;
+  		  
+              list_append(&core0_os_pthread_runnable_threads[i], thread, thread,
+                 core0_os_pthread_runnable_threads[i]);
+              __putbit(1,(os32_t*)&core0_os_pthread_runnable,i);
+              if (thread == last_thread) break;
+              thread = tmp;
+            }
+            *blocked_threads_ptr = tmp;
             break;
-          case DISPATCH_SIGNAL:
-    	      {
-              tmp = NULL;
-              assert(blocked_threads_ptr);
-              thread = *blocked_threads_ptr;
-              while (thread != NULL)
-    		    {
-                tmp = thread->next;
-                i = thread->priority;
-  			  
-  			  /* <CORE0> Set the status of the current thread to "ready" */
-  			  thread->thread_status = S_READY;
-  			  
-                list_append(&core0_os_pthread_runnable_threads[i], thread, thread,
-                   core0_os_pthread_runnable_threads[i]);
-                __putbit(1,(os32_t*)&core0_os_pthread_runnable,i);
-                if (thread == last_thread) break;
-                thread = tmp;
-              }
-              *blocked_threads_ptr = tmp;
-              break;
-    		  }
-    	    case DISPATCH_ONLY:
-    	  	  break;
-          default:
-            break;
-        }
-    	
-    	  /* <CORE0> Unlock core0_os_mutex */
-    	  core_returnMutex(&core0_os_mutex);
+    	  }
+        case DISPATCH_ONLY:
+      	  break;
+        default:
+          break;
       }
-  	else if(current_core_id == CORE1_ID)
-  	{
-        core1_os_pthread_running->lcx = __mfcr(CPU_PCXI);
-        i = core1_os_pthread_running->priority;
-        assert(core1_os_pthread_runnable_threads[i] == core1_os_pthread_running);
-        switch (tin) 
+    
+      /* <CORE0> Unlock core0_os_mutex */
+      core_returnMutex(&core0_os_mutex);
+  
+      core0_pthread_start_np();
+  } /* End of os_kernel function */
+
+  OS_STATIC void core1_os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_thread) 
+  {
+      os32_t tin, i;
+      pthread_t thread, tmp;
+	  
+      __asm(" mov %0,d15 \n"
+            " svlcx        "
+            : "=d"(tin)); /* Put d15 in C variable tin */
+  
+  	  osu32_t current_core_id = os_getCoreId();
+  
+      core1_os_pthread_running->lcx = __mfcr(CPU_PCXI);
+      i = core1_os_pthread_running->priority;
+      assert(core1_os_pthread_runnable_threads[i] == core1_os_pthread_running);
+      switch (tin) 
   	  {
           case DISPATCH_WAIT: 
             {
@@ -912,7 +940,7 @@ os32_t pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition pointer
               assert(blocked_threads_ptr);
               thread = *blocked_threads_ptr;
               while (thread != NULL)
-  			{
+  			  {
                 tmp = thread->next;
                 i = thread->priority;
                 list_append(&core1_os_pthread_runnable_threads[i], thread, thread,
@@ -925,57 +953,69 @@ os32_t pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition pointer
               break;
   	      }
   		case DISPATCH_ONLY:
-  		  break;		  
-          default:
+  		    break;		  
+        default:
             break;
-        }
+      }
   		
   	  /* <CORE1> Unlock core1_os_mutex */
-  	  core_returnMutex(&core1_os_mutex);
-  	}
-  	else if(current_core_id == CORE2_ID)
-  	{
-        core2_os_pthread_running->lcx = __mfcr(CPU_PCXI);
-        i = core2_os_pthread_running->priority;
-        assert(core2_os_pthread_runnable_threads[i] == core2_os_pthread_running);
-        switch (tin) 
+  	core_returnMutex(&core1_os_mutex);  	
+    core1_pthread_start_np();
+  } /* End of os_kernel function */
+
+  OS_STATIC void core2_os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_thread) 
+  {
+      os32_t tin, i;
+      pthread_t thread, tmp;
+  
+      __asm(" mov %0,d15 \n"
+            " svlcx        "
+            : "=d"(tin)); /* Put d15 in C variable tin */
+  
+  	  osu32_t current_core_id = os_getCoreId();
+  	
+      core2_os_pthread_running->lcx = __mfcr(CPU_PCXI);
+      i = core2_os_pthread_running->priority;
+      assert(core2_os_pthread_runnable_threads[i] == core2_os_pthread_running);
+      switch (tin) 
   	  {
-          case DISPATCH_WAIT: 
-            {
-              list_delete_first(&core2_os_pthread_runnable_threads[i]);
-              list_append(blocked_threads_ptr, core2_os_pthread_running, core2_os_pthread_running, NULL);
-              __putbit(neza(core2_os_pthread_runnable_threads[i]),(os32_t*)&core2_os_pthread_runnable,i);
+        case DISPATCH_WAIT: 
+          {
+            list_delete_first(&core2_os_pthread_runnable_threads[i]);
+            list_append(blocked_threads_ptr, core2_os_pthread_running, core2_os_pthread_running, NULL);
+            __putbit(neza(core2_os_pthread_runnable_threads[i]),(os32_t*)&core2_os_pthread_runnable,i);
   		  }
-            break;
-          case DISPATCH_SIGNAL:
+          break;
+        case DISPATCH_SIGNAL:
   		  {
-              tmp = NULL;
-              assert(blocked_threads_ptr);
-              thread = *blocked_threads_ptr;
-              while (thread != NULL)
+            tmp = NULL;
+            assert(blocked_threads_ptr);
+            thread = *blocked_threads_ptr;
+            while (thread != NULL)
   			{
-                tmp = thread->next;
-                i = thread->priority;
-                list_append(&core2_os_pthread_runnable_threads[i], thread, thread,
-                   core2_os_pthread_runnable_threads[i]);
-                 __putbit(1,(os32_t*)&core2_os_pthread_runnable,i);
-                if (thread == last_thread) break;
-                thread = tmp;
-              }
-              *blocked_threads_ptr = tmp;
-              break;
+              tmp = thread->next;
+              i = thread->priority;
+              list_append(&core2_os_pthread_runnable_threads[i], thread, thread,
+                 core2_os_pthread_runnable_threads[i]);
+               __putbit(1,(os32_t*)&core2_os_pthread_runnable,i);
+              if (thread == last_thread) break;
+              thread = tmp;
+            }
+            *blocked_threads_ptr = tmp;
+            break;
   		  }
   		case DISPATCH_ONLY:
   		  break;		  
-          default:
+        default:
             break;
-        }
+      }
   		
   	  /* <CORE2> Unlock core2_os_mutex */
-        core_returnMutex(&core2_os_mutex);		
-  	}
-      pthread_start_np();
+      core_returnMutex(&core2_os_mutex);		
+      core2_pthread_start_np();
   } /* End of os_kernel function */
+
+
 #endif
 
 /****************************************************************************/
@@ -1028,8 +1068,8 @@ OS_INLINE void core0_os_kernel_in_tick(void)
 	  __asm( " mov.aa a4,%0 \n"
 	         " mov.aa a5,%1 \n"
 	         " mov d15,%2   \n"
-	         " jg os_kernel  "
-	         ::"a"(&cond->blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(os_kernel):"a4","a5","d15");
+	         " jg core0_os_kernel  "
+	         ::"a"(&cond->blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(core0_os_kernel):"a4","a5","d15");
 	}
 } /* End of os_kernel_in_tick function */
 
@@ -1078,8 +1118,8 @@ OS_INLINE void core1_os_kernel_in_tick(void)
 	  __asm( " mov.aa a4,%0 \n"
 	         " mov.aa a5,%1 \n"
 	         " mov d15,%2   \n"
-	         " jg os_kernel  "
-	         ::"a"(&cond->blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(os_kernel):"a4","a5","d15");
+	         " jg core1_os_kernel  "
+	         ::"a"(&cond->blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(core1_os_kernel):"a4","a5","d15");
 	}
 } /* End of os_kernel_in_tick function */
 
@@ -1129,8 +1169,8 @@ OS_INLINE void core2_os_kernel_in_tick(void)
 	  __asm( " mov.aa a4,%0 \n"
 	         " mov.aa a5,%1 \n"
 	         " mov d15,%2   \n"
-	         " jg os_kernel  "
-	         ::"a"(&cond->blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(os_kernel):"a4","a5","d15");
+	         " jg core2_os_kernel  "
+	         ::"a"(&cond->blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(core2_os_kernel):"a4","a5","d15");
 	}
 } /* End of os_kernel_in_tick function */
 /****************************************************************************/
@@ -1397,8 +1437,8 @@ void __interrupt(CORE0_KERNEL_SOFT_INT_LEVEL) __vector_table(VECTOR_TABLE0) core
             " mov.aa a4,%0 \n"
             " mov.aa a5,%1 \n"
             " mov d15,%2 \n"
-            " jg os_kernel"
-            ::"a"(&core0_os_blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(os_kernel):"a4","a5","d15");
+            " jg core0_os_kernel"
+            ::"a"(&core0_os_blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(core0_os_kernel):"a4","a5","d15");
 } /* End of core0_kernel_soft_isr interrupt */
 
 /****************************************************************************/
@@ -1412,8 +1452,8 @@ void __interrupt(CORE1_KERNEL_SOFT_INT_LEVEL) __vector_table(VECTOR_TABLE0) core
             " mov.aa a4,%0 \n"
             " mov.aa a5,%1 \n"
             " mov d15,%2 \n"
-            " jg os_kernel"
-            ::"a"(&core1_os_blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(os_kernel):"a4","a5","d15");
+            " jg core1_os_kernel"
+            ::"a"(&core1_os_blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(core1_os_kernel):"a4","a5","d15");
 } /* End of core1_kernel_soft_isr interrupt */
 
 /****************************************************************************/
@@ -1427,8 +1467,8 @@ void __interrupt(CORE2_KERNEL_SOFT_INT_LEVEL) __vector_table(VECTOR_TABLE0) core
             " mov.aa a4,%0 \n"
             " mov.aa a5,%1 \n"
             " mov d15,%2 \n"
-            " jg os_kernel"
-            ::"a"(&core2_os_blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(os_kernel):"a4","a5","d15");
+            " jg core2_os_kernel"
+            ::"a"(&core2_os_blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(core2_os_kernel):"a4","a5","d15");
 } /* End of core2_kernel_soft_isr interrupt */
 
 /****************************************************************************/
@@ -1438,8 +1478,8 @@ void core0_kernel_trap_systemcall(osu32_t tin)
 {
     __asm(  " mtcr #ICR,%0    \n"
             " isync           \n"
-            " jg os_kernel     "
-            ::"d"(1 << 15 | PTHREAD_USER_INT_LEVEL),"a"(os_kernel):"a4","a5","d15");
+            " jg core0_os_kernel     "
+            ::"d"(1 << 15 | PTHREAD_USER_INT_LEVEL),"a"(core0_os_kernel):"a4","a5","d15");
 } /* End of core0_kernel_trap_systemcall function */
 
 /****************************************************************************/
@@ -1451,8 +1491,8 @@ void core1_kernel_trap_systemcall(osu32_t tin)
 	/* Kernel begins        */
     __asm(  " mtcr #ICR,%0    \n"
             " isync           \n"
-            " jg os_kernel     "
-            ::"d"(1 << 15 | PTHREAD_USER_INT_LEVEL),"a"(os_kernel):"a4","a5","d15");
+            " jg core1_os_kernel     "
+            ::"d"(1 << 15 | PTHREAD_USER_INT_LEVEL),"a"(core1_os_kernel):"a4","a5","d15");
 } /* End of core1_kernel_trap_systemcall function */
 
 /****************************************************************************/
@@ -1462,7 +1502,7 @@ void core2_kernel_trap_systemcall(osu32_t tin)
 {
     __asm(  " mtcr #ICR,%0    \n"
             " isync           \n"
-            " jg os_kernel     "
-            ::"d"(1 << 15 | PTHREAD_USER_INT_LEVEL),"a"(os_kernel):"a4","a5","d15");
+            " jg core2_os_kernel     "
+            ::"d"(1 << 15 | PTHREAD_USER_INT_LEVEL),"a"(core2_os_kernel):"a4","a5","d15");
 } /* End of core2_kernel_trap_systemcall function */
 
