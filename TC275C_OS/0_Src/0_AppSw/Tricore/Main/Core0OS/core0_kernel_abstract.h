@@ -147,6 +147,6 @@
 /****************************************************************************/
 /* Macro Definitions <CORE0>:START BLOCK                                    */
 /****************************************************************************/		                           
-#define CORE0_PTHREAD_START_BLOCK() pthread_start_np();
+#define CORE0_PTHREAD_START_BLOCK() core0_pthread_start_np();
 
 #endif /* End of CORE0_KERNEL_ABSTRACT_H_*/

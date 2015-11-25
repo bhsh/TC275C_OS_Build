@@ -55,6 +55,6 @@
 		                          (void*) CORE1_THREAD_ID##thread_order_num, \
 		                          CORE1_TASK##thread_order_num)
 		                           
-#define CORE1_PTHREAD_START_BLOCK() pthread_start_np();
+#define CORE1_PTHREAD_START_BLOCK() core1_pthread_start_np();
 
 #endif /* End of CORE1_KERNEL_ABSTRACT_H_*/
