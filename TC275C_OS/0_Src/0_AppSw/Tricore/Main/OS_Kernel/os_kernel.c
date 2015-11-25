@@ -477,18 +477,21 @@ os32_t pthread_cond_wait(pthread_cond_t *cond)/* <*cond> condition pointer */
     assert(cppn()==0); /* CCPN must be 0, pthread_create cannot be called from ISR */
     assert(cond!= NULL); /* Make sure there is one condition argument. If no, __debug() will be entered */
 
-	//if(cond->semaphore <= 1)
-	//{  
-	//    cond->semaphore = 0;
-
+#if (COND_SEMAPHORE_STATUS == ENABLE)
+	if(cond->semaphore <= 1)
+	{  
+	    cond->semaphore = 0;
 	    /* <EVERY CORE> Add this thread to the list of blocked threads by this cond */
         dispatch_wait(&cond->blocked_threads, NULL);
-    //}
-    //else
-	//{  
+    }
+    else
+	{  
 	   /* cond->semaphore > 1 */
-    //   cond->semaphore --;
-	//}	
+       cond->semaphore--;
+	}	
+#else
+    dispatch_wait(&cond->blocked_threads, NULL);
+#endif
     return 0;/* Dummy to avoid warning */
 } /* End of pthread_cond_wait function */
 
@@ -504,7 +507,7 @@ os32_t pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition pointer
 	osu32_t current_core_id = os_getCoreId();
 	osu32_t cond_core_id   = cond->core_id;
 
-#if 0
+#if (COND_SEMAPHORE_STATUS == ENABLE)
 	if(cond->semaphore == 0)
 	{
       cond->semaphore = 1;
@@ -584,11 +587,11 @@ os32_t pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition pointer
 		  }
 		}		
       }
-#if 0
+#if (COND_SEMAPHORE_STATUS == ENABLE)
 	}
 	else
 	{
-       cond->semaphore ++;
+       cond->semaphore++;
 	}
 #endif
 	return 0; /* Dummy to avoid warning */
@@ -643,6 +646,12 @@ OS_INLINE void core1_dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pth
  	{
      tmp = thread->next;
      i = thread->priority;
+
+#if(OS_STACK_MODE == ONE_STACK)  /* <MORE_STACKS> More stacks interface */
+	  /* <CORE0> Set the status of the current thread to "ready" */
+	  thread->thread_status = S_READY;
+#endif
+
      list_append(&core1_os_pthread_runnable_threads[i], thread, thread,
                    core1_os_pthread_runnable_threads[i]);
      __putbit(1,(os32_t*)&core1_os_pthread_runnable,i);
@@ -665,6 +674,12 @@ OS_INLINE void core2_dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pth
  	{
      tmp = thread->next;
      i = thread->priority;
+
+#if(OS_STACK_MODE == ONE_STACK)  /* <MORE_STACKS> More stacks interface */
+	  /* <CORE0> Set the status of the current thread to "ready" */
+	  thread->thread_status = S_READY;
+#endif
+
        list_append(&core2_os_pthread_runnable_threads[i], thread, thread,
                    core2_os_pthread_runnable_threads[i]);
      __putbit(1,(os32_t*)&core2_os_pthread_runnable,i);
@@ -692,8 +707,7 @@ OS_INLINE void core2_dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pth
 OS_STATIC void core0_os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_thread) 
 {
     os32_t tin, i;
-    pthread_t thread, tmp;
-	
+    pthread_t thread, tmp;	
 #if(OS_STACK_MODE == ONE_STACK)  /* <MORE_STACKS> More stacks interface */  
 	context_t *cx;
 #endif
@@ -777,7 +791,9 @@ OS_STATIC void core1_os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_th
 {
     os32_t tin, i;
     pthread_t thread, tmp;
-  
+#if(OS_STACK_MODE == ONE_STACK)  /* <MORE_STACKS> More stacks interface */  
+	context_t *cx;
+#endif
     __asm(" mov %0,d15 \n"
           " svlcx        "
           : "=d"(tin)); /* Put d15 in C variable tin */
@@ -792,6 +808,31 @@ OS_STATIC void core1_os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_th
             list_delete_first(&core1_os_pthread_runnable_threads[i]);
             list_append(blocked_threads_ptr, core1_os_pthread_running, core1_os_pthread_running, NULL);
             __putbit(neza(core1_os_pthread_runnable_threads[i]),(os32_t*)&core1_os_pthread_runnable,i);
+
+#if(OS_STACK_MODE == ONE_STACK)  /* <MORE_STACKS> More stacks interface */  
+	   		/* <CORE1> Section used for one stack for all threads begins */
+	   		/* <CORE1> Set the status of the current thread to "terminated" */
+	   		core1_os_pthread_running->thread_status = S_TERMINATED;
+	   		 
+	   		/* <CORE1> Update the entry point of the current thread into the sintial point */
+	   		/* <CORE1> Get the lower context address */
+	   		cx = cx_to_addr(core1_os_pthread_running->lcx);
+	   
+	   		/* <CORE1> Reset the enrty point of thread to the initial position */
+	   		/* Notice:the initial point is placed in task_ptr when the thread  */
+	   		/* block was being initialized                                     */
+	   		cx->l.pc = core1_os_pthread_running->thread_ptr; /* <EVERY CORE> init new thread start address */ 
+	        cx->l.a4 = core1_os_pthread_running->thread_a4;
+	        cx->l.a5 = core1_os_pthread_running->thread_a5;
+	   		/* <CORE1> Get the upper context address */
+	   		//cx = cx_to_addr(cx->l.pcxi);
+	   
+	   		/* <CORE1> Set the curr_stack_address of the thread to the stack  */
+	   		/* address the current thread                                     */
+	   		//core0_os_pthread_running->curr_stack_address = cx->u.a10;
+	   		/* <CORE1> Section used for one stack for all threads ends */
+#endif
+			
 		  }
           break;
         case DISPATCH_SIGNAL:
@@ -803,6 +844,11 @@ OS_STATIC void core1_os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_th
 			  {
               tmp = thread->next;
               i = thread->priority;
+
+#if(OS_STACK_MODE == ONE_STACK)  /* <MORE_STACKS> More stacks interface */    		  
+  		      /* <CORE0> Set the status of the current thread to "ready" */
+  		      thread->thread_status = S_READY;
+#endif			
               list_append(&core1_os_pthread_runnable_threads[i], thread, thread,
                  core1_os_pthread_runnable_threads[i]);
                __putbit(1,(os32_t*)&core1_os_pthread_runnable,i);
@@ -827,7 +873,9 @@ OS_STATIC void core2_os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_th
 {
     os32_t tin, i;
     pthread_t thread, tmp;
-
+#if(OS_STACK_MODE == ONE_STACK)  /* <MORE_STACKS> More stacks interface */  
+	context_t *cx;
+#endif
     __asm(" mov %0,d15 \n"
           " svlcx        "
           : "=d"(tin)); /* Put d15 in C variable tin */
@@ -842,6 +890,30 @@ OS_STATIC void core2_os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_th
           list_delete_first(&core2_os_pthread_runnable_threads[i]);
           list_append(blocked_threads_ptr, core2_os_pthread_running, core2_os_pthread_running, NULL);
           __putbit(neza(core2_os_pthread_runnable_threads[i]),(os32_t*)&core2_os_pthread_runnable,i);
+
+#if(OS_STACK_MODE == ONE_STACK)  /* <MORE_STACKS> More stacks interface */  
+	   		/* <CORE2> Section used for one stack for all threads begins */
+	   		/* <CORE2> Set the status of the current thread to "terminated" */
+	   		core2_os_pthread_running->thread_status = S_TERMINATED;
+	   		 
+	   		/* <CORE2> Update the entry point of the current thread into the sintial point */
+	   		/* <CORE2> Get the lower context address */
+	   		cx = cx_to_addr(core2_os_pthread_running->lcx);
+	   
+	   		/* <CORE2> Reset the enrty point of thread to the initial position */
+	   		/* Notice:the initial point is placed in task_ptr when the thread  */
+	   		/* block was being initialized                                     */
+	   		cx->l.pc = core2_os_pthread_running->thread_ptr; /* <EVERY CORE> init new thread start address */ 
+	        cx->l.a4 = core2_os_pthread_running->thread_a4;
+	        cx->l.a5 = core2_os_pthread_running->thread_a5;
+	   		/* <CORE2> Get the upper context address */
+	   		//cx = cx_to_addr(cx->l.pcxi);
+	   
+	   		/* <CORE2> Set the curr_stack_address of the thread to the stack  */
+	   		/* address the current thread                                     */
+	   		//core0_os_pthread_running->curr_stack_address = cx->u.a10;
+	   		/* <CORE2> Section used for one stack for all threads ends */
+#endif
 		  }
         break;
       case DISPATCH_SIGNAL:
@@ -853,6 +925,11 @@ OS_STATIC void core2_os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_th
 			{
             tmp = thread->next;
             i = thread->priority;
+
+#if(OS_STACK_MODE == ONE_STACK)  /* <MORE_STACKS> More stacks interface */    		  
+  		    /* <CORE0> Set the status of the current thread to "ready" */
+  		    thread->thread_status = S_READY;
+#endif
             list_append(&core2_os_pthread_runnable_threads[i], thread, thread,
                core2_os_pthread_runnable_threads[i]);
              __putbit(1,(os32_t*)&core2_os_pthread_runnable,i);

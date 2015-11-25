@@ -67,4 +67,10 @@
 #define CORE1_STACK_SIZE     STACK_SIZE_KB(1)
 #define CORE2_STACK_SIZE     STACK_SIZE_KB(1)
 
+/****************************************************************************/
+/* Stack size when one stack block                                          */
+/****************************************************************************/
+//#define COND_SEMAPHORE_STATUS  ENABLE
+#define COND_SEMAPHORE_STATUS  DISABLE
+
 #endif /* OS_KERNEL_CFG_H_ */
