@@ -40,7 +40,36 @@
   	        CORE0_PTHREAD_INITIALIZATION_BLOCK  \
   	        CORE0_PTHREAD_TASKCALLBACK_BLOCK  \
   	        CORE0_PTHREAD_TERMINATION_BLOCK}
+
+  /****************************************************************************/
+  /* Macro Definitions <CORE0>: Many stacks control block threads             */
+  /****************************************************************************/
+  #define _CORE0_PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_stacksize) \
+  	      PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_stacksize)  
+  	
+  #define CORE0_PTHREAD_CONTROL_BLOCK(thread_order_num) \
+  	      _CORE0_PTHREAD_CONTROL_BLOCK(core0_os_th##thread_order_num, \
+  	                                   CORE0_THREAD##thread_order_num##_PRIORITY, \
+  	                                   SCHED_FIFO, \
+  	                                   CORE0_THREAD##thread_order_num##_STACK_SIZE)
+  /****************************************************************************/
+  /* Macro Definitions <CORE0>:CREATION BLOCK                                 */
+  /****************************************************************************/
+  #define _CORE0_PTHREAD_CREATION_BLOCK(thread_var,thread_attr,thread_name,thread_order_num,callback_task_name)  \
+  	      pthread_create_np(thread_var,thread_attr,thread_name,thread_order_num,callback_task_name);
+  
+  #define CORE0_PTHREAD_CREATION_BLOCK(thread_order_num) \
+  	      _CORE0_PTHREAD_CREATION_BLOCK(core0_os_th##thread_order_num, \
+  		                                &core0_thread_attr[CORE0_THREAD_ID##thread_order_num],\
+  		                                core0_os_thread##thread_order_num,\
+  		                                (void*) CORE0_THREAD_ID##thread_order_num, \
+  		                                CORE0_TASK##thread_order_num) \
+  		  CORE0_INITIALIZE_MANY_STACKS_MEMORY(thread_order_num, \
+  		                                      core0_os_th##thread_order_num->stack, \
+  		                                      *core0_os_th##thread_order_num->stack)
+  		                                      
 #else
+
   /****************************************************************************/
   /* Macro Definitions <CORE0>: One stack structure for core0 OS threads      */
   /****************************************************************************/
@@ -90,21 +119,6 @@
   	        CORE0_PTHREAD_IDLE_INITIALIZATION_BLOCK  \
   	        CORE0_PTHREAD_IDLE_TASKCALLBACK_BLOCK  \
   	        CORE0_PTHREAD_IDLE_TERMINATION_BLOCK}
-#endif
-
-/****************************************************************************/
-/* Macro Definitions <CORE0>: Many stacks control block threads             */
-/****************************************************************************/
-#if(OS_STACK_MODE == MANY_STACKS)
-  #define _CORE0_PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_stacksize) \
-  	      PTHREAD_CONTROL_BLOCK(_name,_priority,_policy,_stacksize)  
-  	
-  #define CORE0_PTHREAD_CONTROL_BLOCK(thread_order_num) \
-  	      _CORE0_PTHREAD_CONTROL_BLOCK(core0_os_th##thread_order_num, \
-  	                                   CORE0_THREAD##thread_order_num##_PRIORITY, \
-  	                                   SCHED_FIFO, \
-  	                                   CORE0_THREAD##thread_order_num##_STACK_SIZE)
-#else
 
   /****************************************************************************/
   /* Macro Definitions <CORE0>:One stack control block for threads            */
@@ -118,12 +132,7 @@
   	                                   SCHED_FIFO, \
   	                                   core0_os_stack,\
   	                                   core0_os_thread##thread_order_num)
-#endif
 
-/****************************************************************************/
-/* Macro Definitions <CORE0>:CREATION BLOCK                                 */
-/****************************************************************************/
-#if(OS_STACK_MODE == MANY_STACKS)
   #define _CORE0_PTHREAD_CREATION_BLOCK(thread_var,thread_attr,thread_name,thread_order_num,callback_task_name)  \
   	      pthread_create_np(thread_var,thread_attr,thread_name,thread_order_num,callback_task_name);
   
@@ -132,20 +141,7 @@
   		                                &core0_thread_attr[CORE0_THREAD_ID##thread_order_num],\
   		                                core0_os_thread##thread_order_num,\
   		                                (void*) CORE0_THREAD_ID##thread_order_num, \
-  		                                CORE0_TASK##thread_order_num) \
-  		  CORE0_INITIALIZE_MANY_STACKS_MEMORY(thread_order_num, \
-  		                                      core0_os_th##thread_order_num->stack, \
-  		                                      *core0_os_th##thread_order_num->stack)
-#else
-  #define _CORE0_PTHREAD_CREATION_BLOCK(thread_var,thread_attr,thread_name,thread_order_num,callback_task_name)  \
-  	      pthread_create_np(thread_var,thread_attr,thread_name,thread_order_num,callback_task_name);
-  
-  #define CORE0_PTHREAD_CREATION_BLOCK(thread_order_num) \
-  	      _CORE0_PTHREAD_CREATION_BLOCK(core0_os_th##thread_order_num, \
-  		                                &core0_thread_attr[CORE0_THREAD_ID##thread_order_num],\
-  		                                core0_os_thread##thread_order_num,\
-  		                                (void*) CORE0_THREAD_ID##thread_order_num, \
-  		                                CORE0_TASK##thread_order_num)
+  		                                CORE0_TASK##thread_order_num)  
 #endif
 
 /****************************************************************************/
