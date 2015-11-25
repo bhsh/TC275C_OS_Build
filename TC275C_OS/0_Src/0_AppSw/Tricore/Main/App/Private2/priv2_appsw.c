@@ -63,10 +63,8 @@ void  App_priv2_func_test_count(void)
 /****************************************************************************/
 void App_priv2_func_many_stacks_measured(void)
 {
-#if 0
 #if (OS_STACK_MODE == MANY_STACKS)
   core2_get_all_stacks_used();
-#endif
 #endif
 } /* End of function App_priv2_func_many_stacks_measured */
 
@@ -76,10 +74,8 @@ void App_priv2_func_many_stacks_measured(void)
 /****************************************************************************/
 void App_priv2_func_one_stack_measured(void)
 {
-#if 0
 #if (OS_STACK_MODE == ONE_STACK)
   App_priv2_var_one_stack_used_in_per = core2_get_the_one_stack_used();
-#endif
 #endif
 } /* End of function App_priv2_func_one_stack_measured */
 

@@ -20,8 +20,14 @@
 /****************************************************************************/
 #if (OS_STACK_MODE == MANY_STACKS)
   OS_EXTERN void    core0_get_all_stacks_used(void);
+  OS_EXTERN void    core1_get_all_stacks_used(void);
+  OS_EXTERN void    core2_get_all_stacks_used(void);
+
 #else
   OS_EXTERN osu32_t core0_get_the_one_stack_used(void);
+  OS_EXTERN osu32_t core1_get_the_one_stack_used(void);
+  OS_EXTERN osu32_t core2_get_the_one_stack_used(void);
+
 #endif
 
 #endif /* End of STACK_MANAGER_H_ */
