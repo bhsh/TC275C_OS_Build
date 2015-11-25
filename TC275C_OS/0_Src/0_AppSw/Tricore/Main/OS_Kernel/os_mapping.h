@@ -27,18 +27,32 @@
 #if (OS_STACK_MODE == MANY_STACKS)
   #define  CORE0_INITIALIZE_MANY_STACKS_MEMORY(thread_order_num,stack_end_address,stack_size) \
 	         initialize_core0_many_stacks_memory(thread_order_num,stack_end_address,stack_size); 
+  #define  CORE1_INITIALIZE_MANY_STACKS_MEMORY(thread_order_num,stack_end_address,stack_size) \
+	         initialize_core1_many_stacks_memory(thread_order_num,stack_end_address,stack_size);   
+  #define  CORE2_INITIALIZE_MANY_STACKS_MEMORY(thread_order_num,stack_end_address,stack_size) \
+	         initialize_core2_many_stacks_memory(thread_order_num,stack_end_address,stack_size);     
 #else 
   #define  CORE0_INITIALIZE_ONE_STACK_MEMORY(stack_end_address,stack_size) \
 	         initialize_core0_one_stack_memory(stack_end_address,stack_size); 
+  #define  CORE1_INITIALIZE_ONE_STACK_MEMORY(stack_end_address,stack_size) \
+	         initialize_core1_one_stack_memory(stack_end_address,stack_size); 
+  #define  CORE2_INITIALIZE_ONE_STACK_MEMORY(stack_end_address,stack_size) \
+	         initialize_core2_one_stack_memory(stack_end_address,stack_size); 
 #endif
 
 /****************************************************************************/
 /* Function Prototype Definitions                                           */
 /****************************************************************************/
 #if (OS_STACK_MODE == MANY_STACKS)
-  extern void initialize_core0_many_stacks_memory(osu32_t thread_order_num,osu32_t* stack_end_address,osu32_t stack_size);
+  extern void initialize_core0_many_stacks_memory(osu32_t,osu32_t*,osu32_t);
+  extern void initialize_core1_many_stacks_memory(osu32_t,osu32_t*,osu32_t);
+  extern void initialize_core2_many_stacks_memory(osu32_t,osu32_t*,osu32_t);
+
 #else
-  extern void initialize_core0_one_stack_memory(osu32_t* stack_end_address,osu32_t stack_size);
+  extern void initialize_core0_one_stack_memory(osu32_t*,osu32_t);
+  extern void initialize_core1_one_stack_memory(osu32_t*,osu32_t);
+  extern void initialize_core2_one_stack_memory(osu32_t*,osu32_t);
+
 #endif
 
 #endif /* End of OS_MAPPING_H_ */
