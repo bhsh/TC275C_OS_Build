@@ -219,6 +219,10 @@ OS_INLINE context_t *cx_to_addr(osu32_t cx)
 /* DESCRIPTION: <EVERY CORE> Start threads                                  */
 /****************************************************************************/
 #if(OS_STACK_MODE == MANY_STACKS)  /* <MORE_STACKS> More stacks interface */
+
+  /****************************************************************************/
+  /* DESCRIPTION: <CORE0> Start threads                                       */
+  /****************************************************************************/
   OS_INLINE void pthread_start_np(void) {
       extern  osu32_t           core0_os_pthread_runnable;
   	extern  osu32_t           core1_os_pthread_runnable;
@@ -290,8 +294,106 @@ OS_INLINE context_t *cx_to_addr(osu32_t cx)
       __asm(" mov d2,#0"); /* <EVERY CORE> The return value is 0     */
       __asm(" rfe");       /* <EVERY CORE>restore the upper context  */
   } /* End of pthread_start_np function */
-#else
 
+  /****************************************************************************/
+  /* DESCRIPTION: <CORE0> Start threads                                       */
+  /****************************************************************************/
+  OS_INLINE void core0_pthread_start_np(void) {
+  	extern  osu32_t           core0_os_pthread_runnable;
+    extern  pthread_t         core0_os_pthread_running;
+    extern  pthread_t         core0_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
+  	extern  pthreads_status_t core0_os_pthreads_status;
+    pthread_t thread = (void*)0;
+	
+    assert(core0_os_pthread_runnable != 0);
+  	if(core0_os_pthreads_status == ALLTHREADS_WORKING)
+  	{     
+  	   /* <CORE1> Get ready thread with highest priority ready */  
+       thread = core0_os_pthread_runnable_threads[31 - __clz(core0_os_pthread_runnable)];
+  	   core0_os_pthread_running = thread;
+  	}
+  	else if(core0_os_pthreads_status == ALLTHREADS_SUSPENDED)
+  	{
+       /* <CORE1> In order to keep core0_os_pthread_running unchanged */
+  	   thread = core0_os_pthread_running;
+  	}
+  	assert(thread);
+    assert(thread->lcx);
+    __mtcr(CPU_PSW, 0x00000980);   /* <EVERY CORE> Clear PSW.IS */
+    __dsync();
+    __mtcr(CPU_PCXI,  thread->lcx);
+    __rslcx();           /* <EVERY CORE> Restore the lower context */
+    __asm(" mov d2,#0"); /* <EVERY CORE> The return value is 0     */
+    __asm(" rfe");       /* <EVERY CORE>restore the upper context  */
+  } /* End of pthread_start_np function */
+
+  /****************************************************************************/
+  /* DESCRIPTION: <CORE1> Start threads                                       */
+  /****************************************************************************/
+  OS_INLINE void core1_pthread_start_np(void) {
+  	extern  osu32_t           core1_os_pthread_runnable;
+    extern  pthread_t         core1_os_pthread_running;
+    extern  pthread_t         core1_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
+  	extern  pthreads_status_t core1_os_pthreads_status;
+    pthread_t thread = (void*)0;
+	
+    assert(core1_os_pthread_runnable != 0);
+  	if(core1_os_pthreads_status == ALLTHREADS_WORKING)
+  	{     
+  	   /* <CORE1> Get ready thread with highest priority ready */  
+       thread = core1_os_pthread_runnable_threads[31 - __clz(core1_os_pthread_runnable)];
+  	   core1_os_pthread_running = thread;
+  	}
+  	else if(core1_os_pthreads_status == ALLTHREADS_SUSPENDED)
+  	{
+         /* <CORE1> In order to keep core1_os_pthread_running unchanged */
+  	   thread = core1_os_pthread_running;
+  	}
+  	assert(thread);
+    assert(thread->lcx);
+    __mtcr(CPU_PSW, 0x00000980);   /* <EVERY CORE> Clear PSW.IS */
+    __dsync();
+    __mtcr(CPU_PCXI,  thread->lcx);
+    __rslcx();           /* <EVERY CORE> Restore the lower context */
+    __asm(" mov d2,#0"); /* <EVERY CORE> The return value is 0     */
+    __asm(" rfe");       /* <EVERY CORE>restore the upper context  */
+  } /* End of pthread_start_np function */
+
+  /****************************************************************************/
+  /* DESCRIPTION: <CORE2> Start threads                                       */
+  /****************************************************************************/
+  OS_INLINE void core2_pthread_start_np(void) {
+  	extern  osu32_t           core2_os_pthread_runnable;
+    extern  pthread_t         core2_os_pthread_running;
+    extern  pthread_t         core2_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
+  	extern  pthreads_status_t core2_os_pthreads_status;
+    pthread_t thread = (void*)0;
+	
+    assert(core2_os_pthread_runnable != 0);
+  	if(core2_os_pthreads_status == ALLTHREADS_WORKING)
+  	{     
+  	   /* <CORE1> Get ready thread with highest priority ready */  
+         thread = core2_os_pthread_runnable_threads[31 - __clz(core2_os_pthread_runnable)];
+  	   core2_os_pthread_running = thread;
+  	}
+  	else if(core2_os_pthreads_status == ALLTHREADS_SUSPENDED)
+  	{
+         /* <CORE1> In order to keep core2_os_pthread_running unchanged */
+  	   thread = core2_os_pthread_running;
+  	}
+  	assert(thread);
+    assert(thread->lcx);
+    __mtcr(CPU_PSW, 0x00000980);   /* <EVERY CORE> Clear PSW.IS */
+    __dsync();
+    __mtcr(CPU_PCXI,  thread->lcx);
+    __rslcx();           /* <EVERY CORE> Restore the lower context */
+    __asm(" mov d2,#0"); /* <EVERY CORE> The return value is 0     */
+    __asm(" rfe");       /* <EVERY CORE>restore the upper context  */
+  } /* End of pthread_start_np function */
+#else
+  /****************************************************************************/
+  /* DESCRIPTION: <CORE0> Start threads                                       */
+  /****************************************************************************/
   OS_INLINE void pthread_start_np(void) {
       extern  osu32_t           core0_os_pthread_runnable;
   	extern  osu32_t           core1_os_pthread_runnable;
@@ -417,6 +519,163 @@ OS_INLINE context_t *cx_to_addr(osu32_t cx)
       __asm(" mov d2,#0"); /* <EVERY CORE> The return value is 0     */
       __asm(" rfe");       /* <EVERY CORE>restore the upper context  */
   } /* End of pthread_start_np function */
+
+  /****************************************************************************/
+  /* DESCRIPTION: <CORE0> Start threads                                       */
+  /****************************************************************************/
+  OS_INLINE void core0_pthread_start_np(void) {
+    extern  osu32_t           core0_os_pthread_runnable;
+    extern  pthread_t         core0_os_pthread_running;
+    extern  pthread_t         core0_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
+  	extern  pthreads_status_t core0_os_pthreads_status;
+  	extern  osu32_t           core0_os_stack[(CORE0_STACK_SIZE/4)];
+  
+    pthread_t thread = (void*)0;
+  	context_t *cx;
+  	osu32_t   *curr_stack_pos =(void*)0;
+  
+    assert(core0_os_pthread_runnable != 0);
+  	if(core0_os_pthreads_status == ALLTHREADS_WORKING)
+  	{   
+  		  if(core0_os_pthread_running != (void *)0)
+  		  {
+  			  /* <CORE0><Get effective stack address for the next thread scheduled><Begin> */  
+  		      if(core0_os_pthread_running->thread_status == S_RUNNING)
+  		  	  {
+  		        core0_os_pthread_running->thread_status = S_INTERRUPTED;
+  				
+  		        /* <CORE0> Get the stack pointer of the thread interrupted */  
+  		  	    cx = cx_to_addr(core0_os_pthread_running->lcx);
+  		  	    cx = cx_to_addr(cx->l.pcxi);
+  		  	    core0_os_pthread_running->curr_stack_address = cx->u.a10;
+  
+  			    /* <CORE0> Update buffer with the stack pointer */
+  		  	    curr_stack_pos = core0_os_pthread_running->curr_stack_address;
+  		  	  }
+  		  	  else if(core0_os_pthread_running->thread_status == S_TERMINATED)
+  		  	  {
+  		        curr_stack_pos = core0_os_pthread_running->init_stack_address;
+  		  	  }
+  			  /* <CORE0> The effecive stack address is stored in curr_stack_pos          */  
+  			  /* <CORE0><Get effective stack address for the next thread scheduled><End> */  
+  		  }
+  		  else
+  		  {
+  	         //curr_stack_pos = (osu32_t *)((osu32_t)core0_os_stack+65);
+  	         /* <CORE0> Initial stack address that is defined by array core0_os_stack */
+  	         curr_stack_pos = (osu32_t *)((osu32_t)(&core0_os_stack[0])+CORE0_STACK_SIZE);
+  		  }
+  		 
+  		 /* <CORE0> Get ready thread with highest priority ready */  
+         thread = core0_os_pthread_runnable_threads[31 - __clz(core0_os_pthread_runnable)]; 	
+  
+  		 /* <CORE0> Update core0_os_pthread_running with highest priority thread  */
+  		 core0_os_pthread_running = thread;
+  
+  		 /* <CORE0> Check the status of the highest priority thread and update     */
+  		 /* init_stack_address or curr_stack_address with the stack pointer buffer */
+  		 if(core0_os_pthread_running->thread_status == S_READY)
+         { 
+  		 	core0_os_pthread_running->init_stack_address = curr_stack_pos;
+  		 }
+  		 else if(core0_os_pthread_running->thread_status == S_INTERRUPTED)
+  		 {
+  		   core0_os_pthread_running->curr_stack_address = curr_stack_pos;
+  		 } 
+  
+  		 /* <CORE0> Set the status of the thread that will be scheduled to S_RUNNING */  
+  		 core0_os_pthread_running->thread_status = S_RUNNING;
+  
+  		 /* <CORE0> Set the stack address of the thread that will be scheduled with "curr_stack_pos" */
+  		 /* <CORE0> Update the stack pointer of the running thread */  
+  		 cx = cx_to_addr(core0_os_pthread_running->lcx);
+         cx = cx_to_addr(cx->l.pcxi);
+    	     cx->u.a10 = curr_stack_pos;
+  	}
+  	else if(core0_os_pthreads_status == ALLTHREADS_SUSPENDED)
+  	{
+         /* <CORE0> In order to keep core0_os_pthread_running unchanged */
+  	   thread = core0_os_pthread_running;
+  	}
+  	assert(thread);
+    assert(thread->lcx);
+    __mtcr(CPU_PSW, 0x00000980);   /* <EVERY CORE> Clear PSW.IS */
+    __dsync();
+    __mtcr(CPU_PCXI,  thread->lcx);
+    __rslcx();           /* <EVERY CORE> Restore the lower context */
+    __asm(" mov d2,#0"); /* <EVERY CORE> The return value is 0     */
+    __asm(" rfe");       /* <EVERY CORE>restore the upper context  */
+  } /* End of pthread_start_np function */
+
+  /****************************************************************************/
+  /* DESCRIPTION: <CORE1> Start threads                                       */
+  /****************************************************************************/
+  OS_INLINE void core1_pthread_start_np(void) {
+  	extern  osu32_t           core1_os_pthread_runnable;
+    extern  pthread_t         core1_os_pthread_running;
+    extern  pthread_t         core1_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
+  	extern  pthreads_status_t core1_os_pthreads_status;
+  	extern  osu32_t           core1_os_stack[(CORE1_STACK_SIZE/4)];
+  
+    pthread_t thread = (void*)0;
+  	
+    assert(core1_os_pthread_runnable != 0);
+  	if(core1_os_pthreads_status == ALLTHREADS_WORKING)
+  	{     
+  	   /* <CORE1> Get ready thread with highest priority ready */  
+         thread = core1_os_pthread_runnable_threads[31 - __clz(core1_os_pthread_runnable)];
+  	   core1_os_pthread_running = thread;
+  	}
+  	else if(core1_os_pthreads_status == ALLTHREADS_SUSPENDED)
+  	{
+         /* <CORE1> In order to keep core1_os_pthread_running unchanged */
+  	   thread = core1_os_pthread_running;
+  	}
+  			
+  	assert(thread);
+    assert(thread->lcx);
+    __mtcr(CPU_PSW, 0x00000980);   /* <EVERY CORE> Clear PSW.IS */
+    __dsync();
+    __mtcr(CPU_PCXI,  thread->lcx);
+    __rslcx();           /* <EVERY CORE> Restore the lower context */
+    __asm(" mov d2,#0"); /* <EVERY CORE> The return value is 0     */
+    __asm(" rfe");       /* <EVERY CORE>restore the upper context  */
+  } /* End of pthread_start_np function */
+
+
+  /****************************************************************************/
+  /* DESCRIPTION: <CORE2> Start threads                                       */
+  /****************************************************************************/
+  OS_INLINE void core2_pthread_start_np(void) {
+    extern  osu32_t           core2_os_pthread_runnable;
+    extern  pthread_t         core2_os_pthread_running;
+    extern  pthread_t         core2_os_pthread_runnable_threads[PTHREAD_PRIO_MAX];
+    extern  pthreads_status_t core2_os_pthreads_status;
+    extern  osu32_t           core2_os_stack[(CORE2_STACK_SIZE/4)];
+  
+    pthread_t thread = (void*)0;
+    assert(core2_os_pthread_runnable != 0);
+  	if(core2_os_pthreads_status == ALLTHREADS_WORKING)
+  	{       
+  	   /* <CORE2> Get ready thread with highest priority ready */  
+        thread = core2_os_pthread_runnable_threads[31 - __clz(core2_os_pthread_runnable)]; 
+        core2_os_pthread_running = thread;
+    } 
+  	else if(core2_os_pthreads_status == ALLTHREADS_SUSPENDED)
+  	{
+        /* <CORE2> Do nothing in order to keep core2_os_pthread_running unchanged */
+  	   thread = core2_os_pthread_running;
+  	}
+  	assert(thread);
+    assert(thread->lcx);
+    __mtcr(CPU_PSW, 0x00000980);   /* <EVERY CORE> Clear PSW.IS */
+    __dsync();
+    __mtcr(CPU_PCXI,  thread->lcx);
+    __rslcx();           /* <EVERY CORE> Restore the lower context */
+    __asm(" mov d2,#0"); /* <EVERY CORE> The return value is 0     */
+    __asm(" rfe");       /* <EVERY CORE>restore the upper context  */
+  } /* End of pthread_start_np function */
+
 #endif
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Delay                                          */
