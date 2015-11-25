@@ -87,7 +87,7 @@
   #define CORE0_PTHREAD_TASKCALLBACK_BLOCK \
   	      task(&pthread_config);  
 				  	
-  #define core0_termination_event() \
+  #define core0_thread_termination_event() \
             if(pthread_config.curr_task_type == EVENT) \
   	  	    { __asm( " mov.aa a4,%0 \t\n jg pthread_cond_wait \n" ::"a"(&core0_pthread_cond[pthread_config.curr_task_id]),"a"(pthread_cond_wait):"a4");} \
   	        else if(pthread_config.curr_task_type == PERIODIC) \
@@ -96,7 +96,7 @@
   
   #define CORE0_PTHREAD_TERMINATION_BLOCK  \
   	        core0_pthread_management_after_task(&pthread_config);\
-  	        core0_termination_event()
+  	        core0_thread_termination_event()
   
   #define CORE0_PTHREAD_DEFINITION_BLOCK(thread_order_num)  \
   	        void core0_os_thread##thread_order_num(void* arg,task_ptr_t task){ \
