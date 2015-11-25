@@ -2423,7 +2423,7 @@ void core0_pthread_management_after_task(pthread_config_t *pthread_config)
   /* Trace */
   core0_os_trace_task_time_end(pthread_config->curr_task_id);
 
-#if(OS_STACK_MODE == MANY_STACKS)
+#if((OS_STACK_MODE == MANY_STACKS)||(OS_STACK_MODE == ONE_STACK))
   if(pthread_config->actived_task_id != NO_ACTIVED_THREAD)
   { 
   	 if(pthread_config->actived_task_core_id == CORE_ID0)
