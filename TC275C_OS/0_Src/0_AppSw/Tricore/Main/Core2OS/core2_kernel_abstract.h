@@ -18,6 +18,8 @@
 /****************************************************************************/
 /* Macro Definitions                                                        */
 /****************************************************************************/
+
+
 #if(OS_STACK_MODE == MANY_STACKS)
 
   /****************************************************************************/
@@ -78,26 +80,29 @@
   /* Macro Definitions <CORE2>: One stack structure for application threads   */
   /****************************************************************************/
   #define CORE2_PTHREAD_INITIALIZATION_BLOCK  \
-  	      pthread_config_t pthread_config = \
-  	      core2_pthread_init_config_database[(int)arg]; \
-  	      core2_pthread_management_before_task(&pthread_config); 
+  	        pthread_config_t pthread_config = \
+  	        core2_pthread_init_config_database[(int)arg]; \
+  	        core2_pthread_management_before_task(&pthread_config); 
   
   #define CORE2_PTHREAD_TASKCALLBACK_BLOCK \
-  	      task(&pthread_config);   
+  	      task(&pthread_config);  
+				  	
+  #define core2_termination_event() \
+            if(pthread_config.curr_task_type == EVENT) \
+  	  	    { __asm( " mov.aa a4,%0 \t\n jg pthread_cond_wait \n" ::"a"(&core2_pthread_cond[pthread_config.curr_task_id]),"a"(pthread_cond_wait):"a4");} \
+  	        else if(pthread_config.curr_task_type == PERIODIC) \
+  		    { __asm( " mov d4,%0 \t\n jg core2_pthread_cond_timedwait_np \n"::"d"(pthread_config.curr_task_period),"a"(core2_pthread_cond_timedwait_np):"d4");} \
+  	        else if(pthread_config.curr_task_type == NO_DEFINITION){/* Do nothing*/} 
   
   #define CORE2_PTHREAD_TERMINATION_BLOCK  \
-  	      core2_pthread_management_after_task(&pthread_config);\
-            if(pthread_config.curr_task_type == EVENT) \
-  	  	  { __asm( " mov.aa a4,%0 \t\n jg pthread_cond_wait \n" ::"a"(&core2_pthread_cond[pthread_config.curr_task_id]),"a"(pthread_cond_wait):"a4");} \
-  	      else if(pthread_config.curr_task_type == PERIODIC) \
-  		  { __asm( " mov d4,%0 \t\n jg core2_pthread_cond_timedwait_np \n"::"d"(pthread_config.curr_task_period),"a"(core2_pthread_cond_timedwait_np):"d4");} \
-  	      else if(pthread_config.curr_task_type == NO_DEFINITION){}
+  	        core2_pthread_management_after_task(&pthread_config);\
+  	        core2_termination_event()
   
   #define CORE2_PTHREAD_DEFINITION_BLOCK(thread_order_num)  \
-  	      void core2_os_thread##thread_order_num(void* arg,task_ptr_t task){ \
-  	      CORE2_PTHREAD_INITIALIZATION_BLOCK  \
-  	      CORE2_PTHREAD_TASKCALLBACK_BLOCK  \
-  	      CORE2_PTHREAD_TERMINATION_BLOCK}
+  	        void core2_os_thread##thread_order_num(void* arg,task_ptr_t task){ \
+  	          CORE2_PTHREAD_INITIALIZATION_BLOCK  \
+  	          CORE2_PTHREAD_TASKCALLBACK_BLOCK  \
+  	          CORE2_PTHREAD_TERMINATION_BLOCK}
   
   /****************************************************************************/
   /* Funtion Definitions <CORE2>: One stack for idle threads                  */
