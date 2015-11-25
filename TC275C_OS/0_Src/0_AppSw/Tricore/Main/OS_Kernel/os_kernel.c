@@ -983,61 +983,25 @@ os32_t pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition pointer
 /*              tick interrupts of STM0,STM1 and STM2 to deal with periodic */
 /*              thread scheduling events                                    */
 /****************************************************************************/
-OS_INLINE void os_kernel_in_tick(void)
+OS_INLINE void core0_os_kernel_in_tick(void)
 {
     osu32_t             index;
 	osu32_t             release_count = 0;
 	osu32_t             tempt_index;
-	osu32_t             current_core_id = os_getCoreId();
 	pthread_timewait_t  *cond;
 	pthread_timewait_t  *cond_buffer[PTHREAD_COND_TIMEDWAIT_SIZE];
 	
-	if(current_core_id == CORE0_ID)
-	{  	
-	  tempt_index = PTHREAD_COND_TIMEDWAIT_SIZE - __clz(core0_os_pthread_timewait_table);
-	  if( tempt_index == 0) return;
-	  tempt_index = tempt_index - 1;
-	  for(index = 0 ; index <= tempt_index ; index++)
-	  {
-	    if(core0_os_timewait_ticks[index] == core0_os_tick_count)
-	    {		
+	tempt_index = PTHREAD_COND_TIMEDWAIT_SIZE - __clz(core0_os_pthread_timewait_table);
+	if( tempt_index == 0) return;
+	tempt_index = tempt_index - 1;
+	for(index = 0 ; index <= tempt_index ; index++)
+	{
+	  if(core0_os_timewait_ticks[index] == core0_os_tick_count)
+	  {		
   		  cond_buffer[release_count] = core0_os_timewait_cond_ptr[index];
   		  core0_os_timewait_ticks[index] = USHRT_MAX;     /* <CORE0> Free place in array */
   		  __putbit(0,(os32_t*)&core0_os_pthread_timewait_table,index); 
   		  release_count++;
-	    }
-	  }
-	}
-	else if(current_core_id == CORE1_ID)
-	{		
-	  tempt_index = PTHREAD_COND_TIMEDWAIT_SIZE - __clz(core1_os_pthread_timewait_table);
-	  if( tempt_index == 0) return;
-	  tempt_index = tempt_index - 1;
-	  for(index = 0 ; index <= tempt_index ; index++)
-	  {
-  	     if(core1_os_timewait_ticks[index] == core1_os_tick_count)
-  	    {		
-  		  cond_buffer[release_count] = core1_os_timewait_cond_ptr[index];
-  		  core1_os_timewait_ticks[index] = USHRT_MAX;   /* <CORE1> Free place in array */    
-  		  __putbit(0,(os32_t*)&core1_os_pthread_timewait_table,index); 
-  		  release_count++;
-  	    }
-	  }
-	}
-	else if(current_core_id == CORE2_ID)
-	{
-	  tempt_index = PTHREAD_COND_TIMEDWAIT_SIZE - __clz(core2_os_pthread_timewait_table);
-	  if( tempt_index == 0) return;
-	  tempt_index = tempt_index - 1;
-	  for(index = 0 ; index <= tempt_index ; index++)
-	  {
-    	if(core2_os_timewait_ticks[index] == core2_os_tick_count)
-    	{		
-    	  cond_buffer[release_count] = core2_os_timewait_cond_ptr[index];
-    	  core2_os_timewait_ticks[index] = USHRT_MAX;  /* <CORE2> Free place in array */
-    	  __putbit(0,(os32_t*)&core2_os_pthread_timewait_table,index); 
-    	  release_count++;
-    	}
 	  }
 	}
 
@@ -1058,7 +1022,7 @@ OS_INLINE void os_kernel_in_tick(void)
 		
 	  cond = cond_buffer[0];  /* <EVERY CORE> Get the current condition */
 
-	  PTHREAD_OBTAIN_TIMESLOT_CALLBACK(current_core_id)
+	  PTHREAD_OBTAIN_TIMESLOT_CALLBACK(0)
 
 	  /* <EVERY CORE> Setup parameter and jump to os_kernel */
 	  __asm( " mov.aa a4,%0 \n"
@@ -1069,6 +1033,106 @@ OS_INLINE void os_kernel_in_tick(void)
 	}
 } /* End of os_kernel_in_tick function */
 
+OS_INLINE void core1_os_kernel_in_tick(void)
+{
+    osu32_t             index;
+	osu32_t             release_count = 0;
+	osu32_t             tempt_index;
+	pthread_timewait_t  *cond;
+	pthread_timewait_t  *cond_buffer[PTHREAD_COND_TIMEDWAIT_SIZE];
+	
+	tempt_index = PTHREAD_COND_TIMEDWAIT_SIZE - __clz(core1_os_pthread_timewait_table);
+	if( tempt_index == 0) return;
+	tempt_index = tempt_index - 1;
+	for(index = 0 ; index <= tempt_index ; index++)
+	{
+  	   if(core1_os_timewait_ticks[index] == core1_os_tick_count)
+  	  {		
+  		  cond_buffer[release_count] = core1_os_timewait_cond_ptr[index];
+  		  core1_os_timewait_ticks[index] = USHRT_MAX;   /* <CORE1> Free place in array */    
+  		  __putbit(0,(os32_t*)&core1_os_pthread_timewait_table,index); 
+  		  release_count++;
+  	  }
+	}
+	
+    /* <EVERY CORE> If more than one threads that haved been set to periodic */
+	/* mode have reached the waiting time,the logic is entered in order to   */
+	/* reschedule the threads                                                */
+	if(release_count != 0)
+	{
+	  assert(cond_buffer[0] != NULL);
+	  if(release_count > 1)
+	  {
+        while( -- release_count)
+	    {
+          dispatch_signal_in_tick(&cond_buffer[release_count]->blocked_threads ,NULL );
+	    }
+	  }
+	  assert(cond_buffer[0] != NULL);
+		
+	  cond = cond_buffer[0];  /* <EVERY CORE> Get the current condition */
+
+	  PTHREAD_OBTAIN_TIMESLOT_CALLBACK(1)
+
+	  /* <EVERY CORE> Setup parameter and jump to os_kernel */
+	  __asm( " mov.aa a4,%0 \n"
+	         " mov.aa a5,%1 \n"
+	         " mov d15,%2   \n"
+	         " jg os_kernel  "
+	         ::"a"(&cond->blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(os_kernel):"a4","a5","d15");
+	}
+} /* End of os_kernel_in_tick function */
+
+OS_INLINE void core2_os_kernel_in_tick(void)
+{
+    osu32_t             index;
+	osu32_t             release_count = 0;
+	osu32_t             tempt_index;
+	osu32_t             current_core_id = os_getCoreId();
+	pthread_timewait_t  *cond;
+	pthread_timewait_t  *cond_buffer[PTHREAD_COND_TIMEDWAIT_SIZE];
+	
+	tempt_index = PTHREAD_COND_TIMEDWAIT_SIZE - __clz(core2_os_pthread_timewait_table);
+	if( tempt_index == 0) return;
+	tempt_index = tempt_index - 1;
+	for(index = 0 ; index <= tempt_index ; index++)
+	{
+    	if(core2_os_timewait_ticks[index] == core2_os_tick_count)
+    	{		
+    	  cond_buffer[release_count] = core2_os_timewait_cond_ptr[index];
+    	  core2_os_timewait_ticks[index] = USHRT_MAX;  /* <CORE2> Free place in array */
+    	  __putbit(0,(os32_t*)&core2_os_pthread_timewait_table,index); 
+    	  release_count++;
+    	}
+	}
+
+    /* <EVERY CORE> If more than one threads that haved been set to periodic */
+	/* mode have reached the waiting time,the logic is entered in order to   */
+	/* reschedule the threads                                                */
+	if(release_count != 0)
+	{
+	  assert(cond_buffer[0] != NULL);
+	  if(release_count > 1)
+	  {
+        while( -- release_count)
+	    {
+          dispatch_signal_in_tick(&cond_buffer[release_count]->blocked_threads ,NULL );
+	    }
+	  }
+	  assert(cond_buffer[0] != NULL);
+		
+	  cond = cond_buffer[0];  /* <EVERY CORE> Get the current condition */
+
+	  PTHREAD_OBTAIN_TIMESLOT_CALLBACK(2)
+
+	  /* <EVERY CORE> Setup parameter and jump to os_kernel */
+	  __asm( " mov.aa a4,%0 \n"
+	         " mov.aa a5,%1 \n"
+	         " mov d15,%2   \n"
+	         " jg os_kernel  "
+	         ::"a"(&cond->blocked_threads),"a"(0),"d"(DISPATCH_SIGNAL),"a"(os_kernel):"a4","a5","d15");
+	}
+} /* End of os_kernel_in_tick function */
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> The API(pthread_cond_timedwait_np) can be used */
 /*              inside threads to let the current thread blocked in for     */
@@ -1281,7 +1345,7 @@ void __interrupt(CORE0_KERNEL_TICK_INT_LEVEL) __vector_table(VECTOR_TABLE0) core
 
     /* <CORE0> Call the scheduler part in the interrupt to deal with the */
     /* periodic thread activation of core0 */   
-    os_kernel_in_tick();
+    core0_os_kernel_in_tick();
 } /* End of core1_kernel_tick_isr intterrupt */
 
 /****************************************************************************/
@@ -1299,7 +1363,7 @@ void __interrupt(CORE1_KERNEL_TICK_INT_LEVEL) __vector_table(VECTOR_TABLE0) core
 
     /* <CORE1> Call the scheduler part in the interrupt to deal with the */
     /* periodic thread activation of core1 */   
-    os_kernel_in_tick();
+    core1_os_kernel_in_tick();
 
 } /* End of core1_kernel_tick_isr interrupt */
 
@@ -1318,7 +1382,7 @@ void __interrupt(CORE2_KERNEL_TICK_INT_LEVEL) __vector_table(VECTOR_TABLE0) core
 
     /* <CORE2> Call the scheduler part in the interrupt to deal with the */
     /* periodic thread activation of core2 */
-    os_kernel_in_tick();
+    core2_os_kernel_in_tick();
 
 } /* End of core2_kernel_tick_isr interrupt */
 
