@@ -202,7 +202,6 @@ OS_STATIC void list_delete_first(pthread_t *head)  /* <*head> list head pointer 
                                  task_ptr_t core0_task_ptr) /* <*arg> 2nd argument of thread */
   {
       osu32_t              fcx;
-  	  osu32_t              current_core_id = os_getCoreId();
   	  context_t            *cx;
       const pthread_attr_t default_attr = PTHREAD_DEFAULT_ATTR;
   	
@@ -250,7 +249,6 @@ OS_STATIC void list_delete_first(pthread_t *head)  /* <*head> list head pointer 
                                  task_ptr_t core0_task_ptr) /* <*arg> 2nd argument of thread */
   {
       osu32_t              fcx;
-  	  osu32_t              current_core_id = os_getCoreId();
   	  context_t            *cx;
       const pthread_attr_t default_attr = PTHREAD_DEFAULT_ATTR;
   	
@@ -298,7 +296,6 @@ OS_STATIC void list_delete_first(pthread_t *head)  /* <*head> list head pointer 
                                  task_ptr_t core0_task_ptr) /* <*arg> 2nd argument of thread */
   {
       osu32_t              fcx;
-  	  osu32_t              current_core_id = os_getCoreId();
   	  context_t            *cx;
       const pthread_attr_t default_attr = PTHREAD_DEFAULT_ATTR;
   	
@@ -346,7 +343,6 @@ OS_STATIC void list_delete_first(pthread_t *head)  /* <*head> list head pointer 
                                  task_ptr_t core0_task_ptr) /* <*arg> 2nd argument of thread */
   {
       osu32_t              fcx;
-  	  osu32_t              current_core_id = os_getCoreId();
   	  context_t            *cx;
       const pthread_attr_t default_attr = PTHREAD_DEFAULT_ATTR;
   	
@@ -395,7 +391,6 @@ OS_STATIC void list_delete_first(pthread_t *head)  /* <*head> list head pointer 
                                  task_ptr_t core0_task_ptr) /* <*arg> 2nd argument of thread */
   {
       osu32_t              fcx;
-  	  osu32_t              current_core_id = os_getCoreId();
   	  context_t            *cx;
       const pthread_attr_t default_attr = PTHREAD_DEFAULT_ATTR;
   	
@@ -444,7 +439,6 @@ OS_STATIC void list_delete_first(pthread_t *head)  /* <*head> list head pointer 
                                  task_ptr_t core0_task_ptr) /* <*arg> 2nd argument of thread */
   {
       osu32_t              fcx;
-  	  osu32_t              current_core_id = os_getCoreId();
   	  context_t            *cx;
       const pthread_attr_t default_attr = PTHREAD_DEFAULT_ATTR;
   	
@@ -492,46 +486,54 @@ OS_STATIC void list_delete_first(pthread_t *head)  /* <*head> list head pointer 
 /* DESCRIPTION: <EVERY CORE> Lock an resource.This is an OS API that is     */
 /*              provided to os user                                         */
 /****************************************************************************/
-os32_t pthread_mutex_lock(pthread_mutex_t *mutex) /* <*mutex> mutex pointer */
-{
-	osu32_t  current_core_id = os_getCoreId();
-		
+os32_t core0_pthread_mutex_lock(pthread_mutex_t *mutex) /* <*mutex> mutex pointer */
+{	
     assert(cppn()==0); /* CCPN must be 0, function cannot be called from ISR */
     assert (mutex != NULL); /* Make sure there is one mutex argument. If no, __debug() will be entered */
 
-	if(current_core_id == CORE0_ID)
-	{
-      if (mutex->owner == core0_os_pthread_running) return -1;
+    if (mutex->owner == core0_os_pthread_running) return -1;
 
-	  /* <CORE0> Swap out if already looked by another thread */
-      while (true == __swap(&mutex->lock, true)) 
-	  {  
-        dispatch_wait(&mutex->blocked_threads, NULL); /* <CORE0> Block this thread */
-      }
-      mutex->owner = core0_os_pthread_running;
-	}
-	else if(current_core_id == CORE1_ID)
-	{
-      if (mutex->owner == core1_os_pthread_running) return -1;
+	/* <CORE0> Swap out if already looked by another thread */
+    while (true == __swap(&mutex->lock, true)) 
+	{  
+      dispatch_wait(&mutex->blocked_threads, NULL); /* <CORE0> Block this thread */
+    }
+    mutex->owner = core0_os_pthread_running;
 	
-	  /* <CORE1> Swap out if already looked by another thread */
-      while (true == __swap(&mutex->lock, true))
-	  { 
-        dispatch_wait(&mutex->blocked_threads, NULL); /* <CORE1> Block this thread */
-      }
-      mutex->owner = core1_os_pthread_running;
-	}
-	else if(current_core_id == CORE2_ID)
-	{
-      if (mutex->owner == core2_os_pthread_running) return -1;
+    return 0;/* Dummy to avoid warning */
+} /* End of pthread_mutex_lock function */
 
-	  /* <CORE2> Swap out if already looked by another thread */
-      while (true == __swap(&mutex->lock, true))
-	  { 
-        dispatch_wait(&mutex->blocked_threads, NULL); /* <CORE2> Block this thread */
-      }
-      mutex->owner = core2_os_pthread_running;
-	}
+os32_t core1_pthread_mutex_lock(pthread_mutex_t *mutex) /* <*mutex> mutex pointer */
+{
+    assert(cppn()==0); /* CCPN must be 0, function cannot be called from ISR */
+    assert (mutex != NULL); /* Make sure there is one mutex argument. If no, __debug() will be entered */
+
+    if (mutex->owner == core1_os_pthread_running) return -1;
+	
+	/* <CORE1> Swap out if already looked by another thread */
+    while (true == __swap(&mutex->lock, true))
+	{ 
+      dispatch_wait(&mutex->blocked_threads, NULL); /* <CORE1> Block this thread */
+    }
+    mutex->owner = core1_os_pthread_running;
+	
+    return 0;/* Dummy to avoid warning */
+} /* End of pthread_mutex_lock function */
+
+os32_t core2_pthread_mutex_lock(pthread_mutex_t *mutex) /* <*mutex> mutex pointer */
+{		
+    assert(cppn()==0); /* CCPN must be 0, function cannot be called from ISR */
+    assert (mutex != NULL); /* Make sure there is one mutex argument. If no, __debug() will be entered */
+
+    if (mutex->owner == core2_os_pthread_running) return -1;
+
+	/* <CORE2> Swap out if already looked by another thread */
+    while (true == __swap(&mutex->lock, true))
+	{ 
+      dispatch_wait(&mutex->blocked_threads, NULL); /* <CORE2> Block this thread */
+    }
+    mutex->owner = core2_os_pthread_running;
+
     return 0;/* Dummy to avoid warning */
 } /* End of pthread_mutex_lock function */
 
@@ -539,46 +541,53 @@ os32_t pthread_mutex_lock(pthread_mutex_t *mutex) /* <*mutex> mutex pointer */
 /* DESCRIPTION: <EVERY CORE> Unlock an resource.This is an OS API that is   */
 /*              provided to os user                                         */
 /****************************************************************************/
-os32_t pthread_mutex_unlock(pthread_mutex_t *mutex) /* <*mutex> mutex pointer */
+os32_t core0_pthread_mutex_unlock(pthread_mutex_t *mutex) /* <*mutex> mutex pointer */
 {
-    osu32_t   current_core_id = os_getCoreId();
-		
     assert(cppn()==0); /* CCPN must be 0, function cannot be called from ISR */
     assert (mutex != NULL); /* Make sure there is one mutex argument. If no, __debug() will be entered */ 
 	
-	if(current_core_id == CORE0_ID)
-	{
-      if (mutex->owner != core0_os_pthread_running) return -1;
+    if (mutex->owner != core0_os_pthread_running) return -1;
 
-      pthread_t threads = mutex->blocked_threads;
-      mutex->owner = NULL;
-      mutex->lock = false;
-      mutex->blocked_threads = NULL;
-      if (threads != NULL) dispatch_signal(&threads, NULL);
-	}
-	else if(current_core_id == CORE1_ID)
-	{
-      if (mutex->owner != core1_os_pthread_running) return -1;
+    pthread_t threads = mutex->blocked_threads;
+    mutex->owner = NULL;
+    mutex->lock = false;
+    mutex->blocked_threads = NULL;
+    if (threads != NULL) dispatch_signal(&threads, NULL);
 
-      pthread_t threads = mutex->blocked_threads;
-      mutex->owner = NULL;
-      mutex->lock = false;
-      mutex->blocked_threads = NULL;
-      if (threads != NULL) dispatch_signal(&threads, NULL);
-	}
-	else if(current_core_id == CORE2_ID)
-	{
-      if (mutex->owner != core2_os_pthread_running) return -1;
-
-      pthread_t threads = mutex->blocked_threads;
-      mutex->owner = NULL;
-      mutex->lock = false;
-      mutex->blocked_threads = NULL;
-      if (threads != NULL) dispatch_signal(&threads, NULL);
-	}
     return 0; /* Dummy to avoid warning */
 } /* End of pthread_mutex_unlock function */
 
+os32_t core1_pthread_mutex_unlock(pthread_mutex_t *mutex) /* <*mutex> mutex pointer */
+{		
+    assert(cppn()==0); /* CCPN must be 0, function cannot be called from ISR */
+    assert (mutex != NULL); /* Make sure there is one mutex argument. If no, __debug() will be entered */ 
+	
+    if (mutex->owner != core1_os_pthread_running) return -1;
+
+    pthread_t threads = mutex->blocked_threads;
+    mutex->owner = NULL;
+    mutex->lock = false;
+    mutex->blocked_threads = NULL;
+    if (threads != NULL) dispatch_signal(&threads, NULL);
+	
+    return 0; /* Dummy to avoid warning */
+} /* End of pthread_mutex_unlock function */
+
+os32_t core2_pthread_mutex_unlock(pthread_mutex_t *mutex) /* <*mutex> mutex pointer */
+{		
+    assert(cppn()==0); /* CCPN must be 0, function cannot be called from ISR */
+    assert (mutex != NULL); /* Make sure there is one mutex argument. If no, __debug() will be entered */ 
+	
+    if (mutex->owner != core2_os_pthread_running) return -1;
+
+    pthread_t threads = mutex->blocked_threads;
+    mutex->owner = NULL;
+    mutex->lock = false;
+    mutex->blocked_threads = NULL;
+    if (threads != NULL) dispatch_signal(&threads, NULL);
+	
+    return 0; /* Dummy to avoid warning */
+} /* End of pthread_mutex_unlock function */
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Wait a condition.This is an OS API that is     */
 /*              provided to os user                                         */

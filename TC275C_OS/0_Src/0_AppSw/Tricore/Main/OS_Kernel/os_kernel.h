@@ -504,10 +504,14 @@ void    start_core0_os(void);
 void    start_core1_os(void);
 void    start_core2_os(void);
 os32_t  core0_pthread_create_np(pthread_t, const pthread_attr_t *, void(*)(void *,task_ptr_t),void *,task_ptr_t);
-os32_t  core0_pthread_create_np(pthread_t, const pthread_attr_t *, void(*)(void *,task_ptr_t),void *,task_ptr_t);
-os32_t  core0_pthread_create_np(pthread_t, const pthread_attr_t *, void(*)(void *,task_ptr_t),void *,task_ptr_t);
-os32_t  pthread_mutex_lock(pthread_mutex_t *mutex); /* <*mutex> Mutex pointer*/
-os32_t  pthread_mutex_unlock(pthread_mutex_t *mutex); /* <*mutex> Mutex pointer*/
+os32_t  core1_pthread_create_np(pthread_t, const pthread_attr_t *, void(*)(void *,task_ptr_t),void *,task_ptr_t);
+os32_t  core2_pthread_create_np(pthread_t, const pthread_attr_t *, void(*)(void *,task_ptr_t),void *,task_ptr_t);
+os32_t  core0_pthread_mutex_lock(pthread_mutex_t *mutex); /* <*mutex> Mutex pointer*/
+os32_t  core1_pthread_mutex_lock(pthread_mutex_t *mutex); /* <*mutex> Mutex pointer*/
+os32_t  core2_pthread_mutex_lock(pthread_mutex_t *mutex); /* <*mutex> Mutex pointer*/
+os32_t  core0_pthread_mutex_unlock(pthread_mutex_t *mutex); /* <*mutex> Mutex pointer*/
+os32_t  core1_pthread_mutex_unlock(pthread_mutex_t *mutex); /* <*mutex> Mutex pointer*/
+os32_t  core2_pthread_mutex_unlock(pthread_mutex_t *mutex); /* <*mutex> Mutex pointer*/
 os32_t  pthread_cond_wait(pthread_cond_t *cond); /* <*cond> Condition pointer*/
 os32_t  pthread_cond_broadcast(pthread_cond_t *cond); /* <*cond> Condition pointer*/
 os32_t  pthread_cond_timedwait_np(osu16_t reltime); /* <reltime> Waiting time ,unit:ms */

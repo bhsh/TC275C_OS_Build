@@ -43,7 +43,9 @@ typedef pthread_cond_t*  task_cond_t;
 /*   Task_Mutex_Unlock(mutex);                                              */
 /*   ......                                                                 */
 /****************************************************************************/
-#define Task_Mutex_Lock(mutex_ptr)          pthread_mutex_lock(mutex_ptr)
+#define Core0_Task_Mutex_Lock(mutex_ptr)   core0_pthread_mutex_lock(mutex_ptr)
+#define Core1_Task_Mutex_Lock(mutex_ptr)   core1_pthread_mutex_lock(mutex_ptr)
+#define Core2_Task_Mutex_Lock(mutex_ptr)   core2_pthread_mutex_lock(mutex_ptr)
 
 /****************************************************************************/
 /* MACRO NAME: Task_Mutex_Unlock                                            */
@@ -56,7 +58,9 @@ typedef pthread_cond_t*  task_cond_t;
 /****************************************************************************/
 /* USAGE DESCRIPTION :  Please refer to Task_Mutex_Lock                     */
 /****************************************************************************/
-#define Task_Mutex_Unlock(mutex_ptr)        pthread_mutex_lock(mutex_ptr)
+#define Core0_Task_Mutex_Unlock(mutex_ptr) core0_pthread_mutex_unlock(mutex_ptr)
+#define Core1_Task_Mutex_Unlock(mutex_ptr) core1_pthread_mutex_unlock(mutex_ptr)
+#define Core2_Task_Mutex_Unlock(mutex_ptr) core2_pthread_mutex_unlock(mutex_ptr)
 
 /****************************************************************************/
 /* MACRO NAME: Task_Cond_Wait                                               */
