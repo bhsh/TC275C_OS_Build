@@ -1315,83 +1315,99 @@ OS_INLINE void core2_os_kernel_in_tick(void)
 /*              reltime(unit ms).This is an OS API that is provided to os   */
 /*              user                                                        */
 /****************************************************************************/
-os32_t pthread_cond_timedwait_np(osu16_t reltime) /* <reltime> Waiting time, unit:ms */
+os32_t core0_pthread_cond_timedwait_np(osu16_t reltime) /* <reltime> Waiting time, unit:ms */
 {
 	osu16_t new_tick_count;
     osu16_t set_count;
 	osu32_t task_id = 0;
-	osu32_t current_core_id = os_getCoreId();
+	pthread_timewait_t *cond;
+		
+    assert(cppn()==0); /* CCPN must be 0, pthread_cond_timedwait_np cannot be called from ISR */
+	  	
+	new_tick_count  = core0_os_tick_count + 1;
+	set_count = ((osu16_t)(new_tick_count + reltime))%0xFFFF;  /* <CORE0> set_count ranges from 0 to 0xFFFE */
+
+    /* <CORE0> Search the empty position. */
+    while((core0_os_timewait_ticks[task_id] != USHRT_MAX)&&(task_id < PTHREAD_COND_TIMEDWAIT_SIZE ))
+	{
+      task_id++;
+	}
+	
+	/* <CORE0> There is not any empty position now. the call is returned. */
+	if(task_id == PTHREAD_COND_TIMEDWAIT_SIZE ) return 0;
+ 
+    cond = &core0_os_timewait_cond[task_id];
+	__putbit(1,(os32_t*)&core0_os_pthread_timewait_table,task_id); /* <CORE0> mark current thread ready */
+	
+    core0_os_timewait_ticks[task_id] = set_count;     /* <CORE0> Load the current tick set(lconfig 1.) */ 
+    core0_os_timewait_cond_ptr[task_id] = cond;           /* <CORE0> Load the cond.(lconfig 2.) */            
+
+    os32_t err = dispatch_wait(&cond->blocked_threads, NULL);
+	
+    return 0; /* Dummy to avoid warning */
+} /* End of pthread_cond_timedwait_np function */
+
+os32_t core1_pthread_cond_timedwait_np(osu16_t reltime) /* <reltime> Waiting time, unit:ms */
+{
+	osu16_t new_tick_count;
+    osu16_t set_count;
+	osu32_t task_id = 0;
 	pthread_timewait_t *cond;
 		
     assert(cppn()==0); /* CCPN must be 0, pthread_cond_timedwait_np cannot be called from ISR */
 
-	if(current_core_id == CORE0_ID)
-	{	  	
-	  new_tick_count  = core0_os_tick_count + 1;
-	  set_count = ((osu16_t)(new_tick_count + reltime))%0xFFFF;  /* <CORE0> set_count ranges from 0 to 0xFFFE */
+	new_tick_count = core1_os_tick_count + 1;
+	set_count = ((osu16_t)(new_tick_count + reltime))%0xFFFF;  /* <CORE1> set_count ranges from 0 to 0xFFFE */
 
-      /* <CORE0> Search the empty position. */
-      while((core0_os_timewait_ticks[task_id] != USHRT_MAX)&&(task_id < PTHREAD_COND_TIMEDWAIT_SIZE ))
-	  {
-        task_id++;
-	  }
-	  
-	  /* <CORE0> There is not any empty position now. the call is returned. */
-	  if(task_id == PTHREAD_COND_TIMEDWAIT_SIZE ) return 0;
- 
-      cond = &core0_os_timewait_cond[task_id];
-	  __putbit(1,(os32_t*)&core0_os_pthread_timewait_table,task_id); /* <CORE0> mark current thread ready */
-	  
-      core0_os_timewait_ticks[task_id] = set_count;     /* <CORE0> Load the current tick set(lconfig 1.) */ 
-      core0_os_timewait_cond_ptr[task_id] = cond;           /* <CORE0> Load the cond.(lconfig 2.) */            
-
-      os32_t err = dispatch_wait(&cond->blocked_threads, NULL);
-	}
-	else if(current_core_id == CORE1_ID)
-	{ 
-	  new_tick_count = core1_os_tick_count + 1;
-	  set_count = ((osu16_t)(new_tick_count + reltime))%0xFFFF;  /* <CORE1> set_count ranges from 0 to 0xFFFE */
-
-      /* <CORE1> Search the empty position. */
-      while((core1_os_timewait_ticks[task_id] != USHRT_MAX)&&(task_id < PTHREAD_COND_TIMEDWAIT_SIZE ))
-	  {
-        task_id++;
-	  }
-	  
-	  /* <CORE1> There is not any empty position now. the call is returned. */
-	  if(task_id == PTHREAD_COND_TIMEDWAIT_SIZE ) return 0;
-
-      cond = &core1_os_timewait_cond[task_id];
-	  __putbit(1,(os32_t*)&core1_os_pthread_timewait_table,task_id); /* <CORE1> mark current thread ready */
-	  
-	  core1_os_timewait_ticks[task_id] = set_count;  /* <CORE1> Load the current tick set(lconfig 1.) */    
-      core1_os_timewait_cond_ptr[task_id] = cond;        /* <CORE1> Load the cond.(lconfig 2.) */              
-	
-      os32_t err = dispatch_wait(&cond->blocked_threads, NULL);
-	  
-	}
-	else if(current_core_id == CORE2_ID)
+    /* <CORE1> Search the empty position. */
+    while((core1_os_timewait_ticks[task_id] != USHRT_MAX)&&(task_id < PTHREAD_COND_TIMEDWAIT_SIZE ))
 	{
-	  new_tick_count  = core2_os_tick_count + 1;
-	  set_count = ((osu16_t)(new_tick_count + reltime))%0xFFFF;  /* <CORE2> set_count ranges from 0 to 0xFFFE */
-
-      /* <CORE2> Search the empty position. */
-      while((core2_os_timewait_ticks[task_id] != USHRT_MAX)&&(task_id < PTHREAD_COND_TIMEDWAIT_SIZE ))
-	  {
-        task_id++;
-	  }
-	  
-	  /* <CORE2> There is not any empty position now. the call is returned. */
-	  if(task_id == PTHREAD_COND_TIMEDWAIT_SIZE ) return 0;
-
-      cond = &core2_os_timewait_cond[task_id];
-	  __putbit(1,(os32_t*)&core2_os_pthread_timewait_table,task_id); /* <CORE2> mark current thread ready */
-
-	  core2_os_timewait_ticks[task_id] = set_count;  /* <CORE2> Load the current tick set(lconfig 1.) */
-      core2_os_timewait_cond_ptr[task_id] = cond;        /* <CORE2> Load the cond.(lconfig 2.) */
-
-      os32_t err = dispatch_wait(&cond->blocked_threads, NULL);
+      task_id++;
 	}
+	
+	/* <CORE1> There is not any empty position now. the call is returned. */
+	if(task_id == PTHREAD_COND_TIMEDWAIT_SIZE ) return 0;
+
+    cond = &core1_os_timewait_cond[task_id];
+	__putbit(1,(os32_t*)&core1_os_pthread_timewait_table,task_id); /* <CORE1> mark current thread ready */
+	
+	core1_os_timewait_ticks[task_id] = set_count;  /* <CORE1> Load the current tick set(lconfig 1.) */    
+    core1_os_timewait_cond_ptr[task_id] = cond;        /* <CORE1> Load the cond.(lconfig 2.) */              
+	
+    os32_t err = dispatch_wait(&cond->blocked_threads, NULL);
+	
+    return 0; /* Dummy to avoid warning */
+} /* End of pthread_cond_timedwait_np function */
+
+os32_t core2_pthread_cond_timedwait_np(osu16_t reltime) /* <reltime> Waiting time, unit:ms */
+{
+	osu16_t new_tick_count;
+    osu16_t set_count;
+	osu32_t task_id = 0;
+	pthread_timewait_t *cond;
+		
+    assert(cppn()==0); /* CCPN must be 0, pthread_cond_timedwait_np cannot be called from ISR */
+	
+	new_tick_count  = core2_os_tick_count + 1;
+	set_count = ((osu16_t)(new_tick_count + reltime))%0xFFFF;  /* <CORE2> set_count ranges from 0 to 0xFFFE */
+
+    /* <CORE2> Search the empty position. */
+    while((core2_os_timewait_ticks[task_id] != USHRT_MAX)&&(task_id < PTHREAD_COND_TIMEDWAIT_SIZE ))
+	{
+      task_id++;
+	}
+	
+	/* <CORE2> There is not any empty position now. the call is returned. */
+	if(task_id == PTHREAD_COND_TIMEDWAIT_SIZE ) return 0;
+
+    cond = &core2_os_timewait_cond[task_id];
+	__putbit(1,(os32_t*)&core2_os_pthread_timewait_table,task_id); /* <CORE2> mark current thread ready */
+
+	core2_os_timewait_ticks[task_id] = set_count;  /* <CORE2> Load the current tick set(lconfig 1.) */
+    core2_os_timewait_cond_ptr[task_id] = cond;        /* <CORE2> Load the cond.(lconfig 2.) */
+
+    os32_t err = dispatch_wait(&cond->blocked_threads, NULL);
+
     return 0; /* Dummy to avoid warning */
 } /* End of pthread_cond_timedwait_np function */
 

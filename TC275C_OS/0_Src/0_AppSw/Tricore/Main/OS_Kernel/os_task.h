@@ -121,7 +121,9 @@ typedef pthread_cond_t*  task_cond_t;
 /*   Task_Cond_Timedwait(500); // Wait 500ms                                */
 /*   ......                                                                 */
 /****************************************************************************/
-#define Task_Cond_Timedwait(wait_time)      pthread_cond_timedwait_np(wait_time)
+#define Core0_Task_Cond_Timedwait(wait_time)    core0_pthread_cond_timedwait_np(wait_time)
+#define Core1_Task_Cond_Timedwait(wait_time)    core1_pthread_cond_timedwait_np(wait_time)
+#define Core2_Task_Cond_Timedwait(wait_time)    core2_pthread_cond_timedwait_np(wait_time)
 
 /****************************************************************************/
 /* MACRO NAME: Task_Disable_AllInterrupts                                   */

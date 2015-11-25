@@ -514,7 +514,9 @@ os32_t  core1_pthread_mutex_unlock(pthread_mutex_t *mutex); /* <*mutex> Mutex po
 os32_t  core2_pthread_mutex_unlock(pthread_mutex_t *mutex); /* <*mutex> Mutex pointer*/
 os32_t  pthread_cond_wait(pthread_cond_t *cond); /* <*cond> Condition pointer*/
 os32_t  pthread_cond_broadcast(pthread_cond_t *cond); /* <*cond> Condition pointer*/
-os32_t  pthread_cond_timedwait_np(osu16_t reltime); /* <reltime> Waiting time ,unit:ms */
+os32_t  core0_pthread_cond_timedwait_np(osu16_t reltime); /* <reltime> Waiting time ,unit:ms */
+os32_t  core1_pthread_cond_timedwait_np(osu16_t reltime); /* <reltime> Waiting time ,unit:ms */
+os32_t  core2_pthread_cond_timedwait_np(osu16_t reltime); /* <reltime> Waiting time ,unit:ms */
 void    pthread_enable_allinterrupts(void);
 void    pthread_disable_allinterrupts(void);
 void    core0_pthread_suspend_allthreads(void);
