@@ -2423,6 +2423,7 @@ void core1_pthread_management_after_task(pthread_config_t *pthread_config)
   /* Trace */
   core1_os_trace_task_time_end(pthread_config->curr_task_id);
 
+#if(OS_STACK_MODE == MANY_STACKS)
   if(pthread_config->actived_task_id != NO_ACTIVED_THREAD)
   { 
   	 if(pthread_config->actived_task_core_id == CORE_ID0)
@@ -2443,6 +2444,7 @@ void core1_pthread_management_after_task(pthread_config_t *pthread_config)
   {
       /* Do nothing */
   }
+#endif
 } /* End of core1_pthread_management_after_task function */
 
 /****************************************************************************/
@@ -2451,7 +2453,8 @@ void core1_pthread_management_after_task(pthread_config_t *pthread_config)
 /*              in order to setup measurement and thread management         */
 /****************************************************************************/
 void core1_pthread_management_before_task(pthread_config_t *pthread_config)
-{ 
+{
+#if(OS_STACK_MODE == MANY_STACKS)
   if(pthread_config->curr_task_type == EVENT)
   {
       pthread_cond_wait(&core1_pthread_cond[pthread_config->curr_task_id]);
@@ -2464,6 +2467,7 @@ void core1_pthread_management_before_task(pthread_config_t *pthread_config)
   {
      /* Do nothing. */
   }
+#endif
   /* trace */
   core1_os_trace_task_time_begin(pthread_config->curr_task_id);
 } /* End of core1_pthread_management_before_task function */

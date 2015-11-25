@@ -194,293 +194,172 @@ OS_STATIC void list_delete_first(pthread_t *head)  /* <*head> list head pointer 
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Create threads                                 */
 /****************************************************************************/
+os32_t core0_pthread_create_np(pthread_t thread, /* <thread> Thread control block pointer */
+                               const pthread_attr_t *attr, /* <*attr> Thread attribute. Can be NULL to use default */
+                               void(*start_routine)(void *,task_ptr_t),/* <*start_routine> Thread function pointer */
+                               void *arg,  /* <*arg> 1st argument of thread */
+                               task_ptr_t os_task_ptr) /* <*arg> 2nd argument of thread */
+{
+    osu32_t              fcx;
+	context_t            *cx;
+    const pthread_attr_t default_attr = PTHREAD_DEFAULT_ATTR;
+	
+    if (attr == NULL)
+        attr = &default_attr;
+
+    fcx = __mfcr(CPU_FCX);
+    thread->lcx = fcx - 1;
+    __mtcr(CPU_FCX, fcx - 2);
+
+    cx = cx_to_addr(fcx);
+    cx->u.psw = 0 << 12          /* <EVERY CORE> Protection Register Set PRS=0 */
+            | attr->mode << 10   /* <EVERY CORE> I/O Privilege */
+            | 0 << 9             /* <EVERY CORE> Current task uses a user stack IS=0 */
+            | 0 << 8             /* <EVERY CORE> Write permission to global registers A0, A1, A8, A9 is disabled */
+            | 1L << 7            /* <EVERY CORE> Call depth counting is enabled CDE=1 */
+            | attr->call_depth_overflow; /* <EVERY CORE>  Call Depth Overflow */
+  
 #if(OS_STACK_MODE == MANY_STACKS)  /* <MORE_STACKS> More stacks interface */
-  os32_t core0_pthread_create_np(pthread_t thread, /* <thread> Thread control block pointer */
-                                 const pthread_attr_t *attr, /* <*attr> Thread attribute. Can be NULL to use default */
-                                 void(*start_routine)(void *,task_ptr_t),/* <*start_routine> Thread function pointer */
-                                 void *arg,  /* <*arg> 1st argument of thread */
-                                 task_ptr_t core0_task_ptr) /* <*arg> 2nd argument of thread */
-  {
-      osu32_t              fcx;
-  	  context_t            *cx;
-      const pthread_attr_t default_attr = PTHREAD_DEFAULT_ATTR;
-  	
-      if (attr == NULL)
-          attr = &default_attr;
-  
-      fcx = __mfcr(CPU_FCX);
-      thread->lcx = fcx - 1;
-      __mtcr(CPU_FCX, fcx - 2);
-  
-      cx = cx_to_addr(fcx);
-      cx->u.psw = 0 << 12          /* <EVERY CORE> Protection Register Set PRS=0 */
-              | attr->mode << 10   /* <EVERY CORE> I/O Privilege */
-              | 0 << 9             /* <EVERY CORE> Current task uses a user stack IS=0 */
-              | 0 << 8             /* <EVERY CORE> Write permission to global registers A0, A1, A8, A9 is disabled */
-              | 1L << 7            /* <EVERY CORE> Call depth counting is enabled CDE=1 */
-              | attr->call_depth_overflow; /* <EVERY CORE>  Call Depth Overflow */
-      cx->u.a10 = thread->stack + *thread->stack; /* <EVERY CORE> Stack grow down */
-      cx->u.a11 = 0;  /* <EVERY CORE> New task has no return address */
-      cx->u.pcxi = 0; /* <EVERY CORE> No previous context; */
-      cx--;
-      cx->l.pcxi = 0L << 22 /* <EVERY CORE> Previous CPU Priority Number PCPN=0 TriCore:  0L << 24  different PCXI between */
-              | 1L << 21    /* <EVERY CORE> Previous Interrupt Enable PIE=1     TriCore:| 1L << 23  Aurix and TriCores     */
-              | 1L << 20    /* <EVERY CORE> Upper Context Tag.                  TriCore:| 1L << 22                         */
-              | fcx;        /* <EVERY CORE> Previous Context Pointer is the upper context                                  */
-      cx->l.pc = start_routine; /* <EVERY CORE> init new thread start address */ 
-      cx->l.a4 = arg;
-  	  cx->l.a5 = core0_task_ptr;
-      thread->arg = arg;
-  	
-      osu32_t i = thread->priority;
-  	  
-      list_append(&core0_os_pthread_runnable_threads[i], thread, thread,
-                  core0_os_pthread_runnable_threads[i]);
-      __putbit(1,(os32_t*)&core0_os_pthread_runnable,i); /* <CORE0> Mark current thread ready */
-      
-      return 0; /* Dummy to avoid warning */
-  } /* End of pthread_create_np function */
+    cx->u.a10 = thread->stack + *thread->stack; /* <EVERY CORE> Stack grow down */
+#endif      
+    cx->u.a11 = 0;  /* <EVERY CORE> New task has no return address */
+    cx->u.pcxi = 0; /* <EVERY CORE> No previous context; */
+    cx--;
+    cx->l.pcxi = 0L << 22 /* <EVERY CORE> Previous CPU Priority Number PCPN=0 TriCore:  0L << 24  different PCXI between */
+            | 1L << 21    /* <EVERY CORE> Previous Interrupt Enable PIE=1     TriCore:| 1L << 23  Aurix and TriCores     */
+            | 1L << 20    /* <EVERY CORE> Upper Context Tag.                  TriCore:| 1L << 22                         */
+            | fcx;        /* <EVERY CORE> Previous Context Pointer is the upper context                                  */
+    cx->l.pc = start_routine; /* <EVERY CORE> init new thread start address */ 
+    cx->l.a4 = arg;
+	cx->l.a5 = os_task_ptr;
 
-
-  os32_t core1_pthread_create_np(pthread_t thread, /* <thread> Thread control block pointer */
-                                 const pthread_attr_t *attr, /* <*attr> Thread attribute. Can be NULL to use default */
-                                 void(*start_routine)(void *,task_ptr_t),/* <*start_routine> Thread function pointer */
-                                 void *arg,  /* <*arg> 1st argument of thread */
-                                 task_ptr_t core0_task_ptr) /* <*arg> 2nd argument of thread */
-  {
-      osu32_t              fcx;
-  	  context_t            *cx;
-      const pthread_attr_t default_attr = PTHREAD_DEFAULT_ATTR;
-  	
-      if (attr == NULL)
-          attr = &default_attr;
-  
-      fcx = __mfcr(CPU_FCX);
-      thread->lcx = fcx - 1;
-      __mtcr(CPU_FCX, fcx - 2);
-  
-      cx = cx_to_addr(fcx);
-      cx->u.psw = 0 << 12          /* <EVERY CORE> Protection Register Set PRS=0 */
-              | attr->mode << 10   /* <EVERY CORE> I/O Privilege */
-              | 0 << 9             /* <EVERY CORE> Current task uses a user stack IS=0 */
-              | 0 << 8             /* <EVERY CORE> Write permission to global registers A0, A1, A8, A9 is disabled */
-              | 1L << 7            /* <EVERY CORE> Call depth counting is enabled CDE=1 */
-              | attr->call_depth_overflow; /* <EVERY CORE>  Call Depth Overflow */
-      cx->u.a10 = thread->stack + *thread->stack; /* <EVERY CORE> Stack grow down */
-      cx->u.a11 = 0;  /* <EVERY CORE> New task has no return address */
-      cx->u.pcxi = 0; /* <EVERY CORE> No previous context; */
-      cx--;
-      cx->l.pcxi = 0L << 22 /* <EVERY CORE> Previous CPU Priority Number PCPN=0 TriCore:  0L << 24  different PCXI between */
-              | 1L << 21    /* <EVERY CORE> Previous Interrupt Enable PIE=1     TriCore:| 1L << 23  Aurix and TriCores     */
-              | 1L << 20    /* <EVERY CORE> Upper Context Tag.                  TriCore:| 1L << 22                         */
-              | fcx;        /* <EVERY CORE> Previous Context Pointer is the upper context                                  */
-      cx->l.pc = start_routine; /* <EVERY CORE> init new thread start address */ 
-      cx->l.a4 = arg;
-  	  cx->l.a5 = core0_task_ptr;
-      thread->arg = arg;
-  	
-      osu32_t i = thread->priority;
-  	
-      list_append(&core1_os_pthread_runnable_threads[i], thread, thread,
-                   core1_os_pthread_runnable_threads[i]);
-      __putbit(1,(os32_t*)&core1_os_pthread_runnable,i); /* <CORE1> Mark current thread ready */
-
-      return 0; /* Dummy to avoid warning */
-  } /* End of pthread_create_np function */
-
-
-  os32_t core2_pthread_create_np(pthread_t thread, /* <thread> Thread control block pointer */
-                                 const pthread_attr_t *attr, /* <*attr> Thread attribute. Can be NULL to use default */
-                                 void(*start_routine)(void *,task_ptr_t),/* <*start_routine> Thread function pointer */
-                                 void *arg,  /* <*arg> 1st argument of thread */
-                                 task_ptr_t core0_task_ptr) /* <*arg> 2nd argument of thread */
-  {
-      osu32_t              fcx;
-  	  context_t            *cx;
-      const pthread_attr_t default_attr = PTHREAD_DEFAULT_ATTR;
-  	
-      if (attr == NULL)
-          attr = &default_attr;
-  
-      fcx = __mfcr(CPU_FCX);
-      thread->lcx = fcx - 1;
-      __mtcr(CPU_FCX, fcx - 2);
-  
-      cx = cx_to_addr(fcx);
-      cx->u.psw = 0 << 12          /* <EVERY CORE> Protection Register Set PRS=0 */
-              | attr->mode << 10   /* <EVERY CORE> I/O Privilege */
-              | 0 << 9             /* <EVERY CORE> Current task uses a user stack IS=0 */
-              | 0 << 8             /* <EVERY CORE> Write permission to global registers A0, A1, A8, A9 is disabled */
-              | 1L << 7            /* <EVERY CORE> Call depth counting is enabled CDE=1 */
-              | attr->call_depth_overflow; /* <EVERY CORE>  Call Depth Overflow */
-      cx->u.a10 = thread->stack + *thread->stack; /* <EVERY CORE> Stack grow down */
-      cx->u.a11 = 0;  /* <EVERY CORE> New task has no return address */
-      cx->u.pcxi = 0; /* <EVERY CORE> No previous context; */
-      cx--;
-      cx->l.pcxi = 0L << 22 /* <EVERY CORE> Previous CPU Priority Number PCPN=0 TriCore:  0L << 24  different PCXI between */
-              | 1L << 21    /* <EVERY CORE> Previous Interrupt Enable PIE=1     TriCore:| 1L << 23  Aurix and TriCores     */
-              | 1L << 20    /* <EVERY CORE> Upper Context Tag.                  TriCore:| 1L << 22                         */
-              | fcx;        /* <EVERY CORE> Previous Context Pointer is the upper context                                  */
-      cx->l.pc = start_routine; /* <EVERY CORE> init new thread start address */ 
-      cx->l.a4 = arg;
-  	  cx->l.a5 = core0_task_ptr;
-      thread->arg = arg;
-  	
-      osu32_t i = thread->priority;
-
-      list_append(&core2_os_pthread_runnable_threads[i], thread, thread,
-                 core2_os_pthread_runnable_threads[i]);
-      __putbit(1,(os32_t*)&core2_os_pthread_runnable,i); /* <CORE2> Mark current thread ready */
-
-      return 0; /* Dummy to avoid warning */
-  } /* End of pthread_create_np function */
-
-#else
-  os32_t core0_pthread_create_np(pthread_t thread, /* <thread> Thread control block pointer */
-                                 const pthread_attr_t *attr, /* <*attr> Thread attribute. Can be NULL to use default */
-                                 void(*start_routine)(void *,task_ptr_t),/* <*start_routine> Thread function pointer */
-                                 void *arg,  /* <*arg> 1st argument of thread */
-                                 task_ptr_t core0_task_ptr) /* <*arg> 2nd argument of thread */
-  {
-      osu32_t              fcx;
-  	  context_t            *cx;
-      const pthread_attr_t default_attr = PTHREAD_DEFAULT_ATTR;
-  	
-      if (attr == NULL)
-          attr = &default_attr;
-  
-      fcx = __mfcr(CPU_FCX);
-      thread->lcx = fcx - 1;
-      __mtcr(CPU_FCX, fcx - 2);
-  
-      cx = cx_to_addr(fcx);
-      cx->u.psw = 0 << 12          /* <EVERY CORE> Protection Register Set PRS=0 */
-              | attr->mode << 10   /* <EVERY CORE> I/O Privilege */
-              | 0 << 9             /* <EVERY CORE> Current task uses a user stack IS=0 */
-              | 0 << 8             /* <EVERY CORE> Write permission to global registers A0, A1, A8, A9 is disabled */
-              | 1L << 7            /* <EVERY CORE> Call depth counting is enabled CDE=1 */
-              | attr->call_depth_overflow; /* <EVERY CORE>  Call Depth Overflow */
-      //cx->u.a10 = thread->stack + *thread->stack; /* <EVERY CORE> Stack grow down */
-      cx->u.a11 = 0;  /* <EVERY CORE> New task has no return address */
-      cx->u.pcxi = 0; /* <EVERY CORE> No previous context; */
-      cx--;
-      cx->l.pcxi = 0L << 22 /* <EVERY CORE> Previous CPU Priority Number PCPN=0 TriCore:  0L << 24  different PCXI between */
-              | 1L << 21    /* <EVERY CORE> Previous Interrupt Enable PIE=1     TriCore:| 1L << 23  Aurix and TriCores     */
-              | 1L << 20    /* <EVERY CORE> Upper Context Tag.                  TriCore:| 1L << 22                         */
-              | fcx;        /* <EVERY CORE> Previous Context Pointer is the upper context                                  */
-      cx->l.pc = start_routine; /* <EVERY CORE> init new thread start address */ 
-      cx->l.a4 = arg;
-  	  cx->l.a5 = core0_task_ptr;
-  	  thread->thread_a4 = arg;
-  	  thread->thread_a5 = core0_task_ptr;
-      thread->arg = arg;
-  	  
-      osu32_t i = thread->priority;
-  	 
-      list_append(&core0_os_pthread_runnable_threads[i], thread, thread,
-                 core0_os_pthread_runnable_threads[i]);
-      __putbit(1,(os32_t*)&core0_os_pthread_runnable,i); /* <CORE0> Mark current thread ready */
-
-      return 0; /* Dummy to avoid warning */
-  } /* End of pthread_create_np function */
-
-  os32_t core1_pthread_create_np(pthread_t thread, /* <thread> Thread control block pointer */
-                                 const pthread_attr_t *attr, /* <*attr> Thread attribute. Can be NULL to use default */
-                                 void(*start_routine)(void *,task_ptr_t),/* <*start_routine> Thread function pointer */
-                                 void *arg,  /* <*arg> 1st argument of thread */
-                                 task_ptr_t core0_task_ptr) /* <*arg> 2nd argument of thread */
-  {
-      osu32_t              fcx;
-  	  context_t            *cx;
-      const pthread_attr_t default_attr = PTHREAD_DEFAULT_ATTR;
-  	
-      if (attr == NULL)
-          attr = &default_attr;
-  
-      fcx = __mfcr(CPU_FCX);
-      thread->lcx = fcx - 1;
-      __mtcr(CPU_FCX, fcx - 2);
-  
-      cx = cx_to_addr(fcx);
-      cx->u.psw = 0 << 12          /* <EVERY CORE> Protection Register Set PRS=0 */
-              | attr->mode << 10   /* <EVERY CORE> I/O Privilege */
-              | 0 << 9             /* <EVERY CORE> Current task uses a user stack IS=0 */
-              | 0 << 8             /* <EVERY CORE> Write permission to global registers A0, A1, A8, A9 is disabled */
-              | 1L << 7            /* <EVERY CORE> Call depth counting is enabled CDE=1 */
-              | attr->call_depth_overflow; /* <EVERY CORE>  Call Depth Overflow */
-      //cx->u.a10 = thread->stack + *thread->stack; /* <EVERY CORE> Stack grow down */
-      cx->u.a11 = 0;  /* <EVERY CORE> New task has no return address */
-      cx->u.pcxi = 0; /* <EVERY CORE> No previous context; */
-      cx--;
-      cx->l.pcxi = 0L << 22 /* <EVERY CORE> Previous CPU Priority Number PCPN=0 TriCore:  0L << 24  different PCXI between */
-              | 1L << 21    /* <EVERY CORE> Previous Interrupt Enable PIE=1     TriCore:| 1L << 23  Aurix and TriCores     */
-              | 1L << 20    /* <EVERY CORE> Upper Context Tag.                  TriCore:| 1L << 22                         */
-              | fcx;        /* <EVERY CORE> Previous Context Pointer is the upper context                                  */
-      cx->l.pc = start_routine; /* <EVERY CORE> init new thread start address */ 
-      cx->l.a4 = arg;
-  	  cx->l.a5 = core0_task_ptr;
-  	  thread->thread_a4 = arg;
-  	  thread->thread_a5 = core0_task_ptr;
-      thread->arg = arg;
-  	  
-      osu32_t i = thread->priority;
-  	
-      list_append(&core1_os_pthread_runnable_threads[i], thread, thread,
-                 core1_os_pthread_runnable_threads[i]);
-      __putbit(1,(os32_t*)&core1_os_pthread_runnable,i); /* <CORE1> Mark current thread ready */
-
-      return 0; /* Dummy to avoid warning */
-  } /* End of pthread_create_np function */
-
-  os32_t core2_pthread_create_np(pthread_t thread, /* <thread> Thread control block pointer */
-                                 const pthread_attr_t *attr, /* <*attr> Thread attribute. Can be NULL to use default */
-                                 void(*start_routine)(void *,task_ptr_t),/* <*start_routine> Thread function pointer */
-                                 void *arg,  /* <*arg> 1st argument of thread */
-                                 task_ptr_t core0_task_ptr) /* <*arg> 2nd argument of thread */
-  {
-      osu32_t              fcx;
-  	  context_t            *cx;
-      const pthread_attr_t default_attr = PTHREAD_DEFAULT_ATTR;
-  	
-      if (attr == NULL)
-          attr = &default_attr;
-  
-      fcx = __mfcr(CPU_FCX);
-      thread->lcx = fcx - 1;
-      __mtcr(CPU_FCX, fcx - 2);
-  
-      cx = cx_to_addr(fcx);
-      cx->u.psw = 0 << 12          /* <EVERY CORE> Protection Register Set PRS=0 */
-              | attr->mode << 10   /* <EVERY CORE> I/O Privilege */
-              | 0 << 9             /* <EVERY CORE> Current task uses a user stack IS=0 */
-              | 0 << 8             /* <EVERY CORE> Write permission to global registers A0, A1, A8, A9 is disabled */
-              | 1L << 7            /* <EVERY CORE> Call depth counting is enabled CDE=1 */
-              | attr->call_depth_overflow; /* <EVERY CORE>  Call Depth Overflow */
-      //cx->u.a10 = thread->stack + *thread->stack; /* <EVERY CORE> Stack grow down */
-      cx->u.a11 = 0;  /* <EVERY CORE> New task has no return address */
-      cx->u.pcxi = 0; /* <EVERY CORE> No previous context; */
-      cx--;
-      cx->l.pcxi = 0L << 22 /* <EVERY CORE> Previous CPU Priority Number PCPN=0 TriCore:  0L << 24  different PCXI between */
-              | 1L << 21    /* <EVERY CORE> Previous Interrupt Enable PIE=1     TriCore:| 1L << 23  Aurix and TriCores     */
-              | 1L << 20    /* <EVERY CORE> Upper Context Tag.                  TriCore:| 1L << 22                         */
-              | fcx;        /* <EVERY CORE> Previous Context Pointer is the upper context                                  */
-      cx->l.pc = start_routine; /* <EVERY CORE> init new thread start address */ 
-      cx->l.a4 = arg;
-  	  cx->l.a5 = core0_task_ptr;
-  	  thread->thread_a4 = arg;
-  	  thread->thread_a5 = core0_task_ptr;
-      thread->arg = arg;
-  	  
-      osu32_t i = thread->priority;
-
-      list_append(&core2_os_pthread_runnable_threads[i], thread, thread,
-                 core2_os_pthread_runnable_threads[i]);
-      __putbit(1,(os32_t*)&core2_os_pthread_runnable,i); /* <CORE2> Mark current thread ready */
-
-      return 0; /* Dummy to avoid warning */
-  } /* End of pthread_create_np function */
-
+#if(OS_STACK_MODE == ONE_STACK)  /* <MORE_STACKS> More stacks interface */
+	thread->thread_a4 = arg;
+	thread->thread_a5 = os_task_ptr;
 #endif
+
+    thread->arg = arg;
+	  
+    osu32_t i = thread->priority;
+	 
+    list_append(&core0_os_pthread_runnable_threads[i], thread, thread,
+               core0_os_pthread_runnable_threads[i]);
+    __putbit(1,(os32_t*)&core0_os_pthread_runnable,i); /* <CORE0> Mark current thread ready */
+
+    return 0; /* Dummy to avoid warning */
+} /* End of pthread_create_np function */
+
+os32_t core1_pthread_create_np(pthread_t thread, /* <thread> Thread control block pointer */
+                               const pthread_attr_t *attr, /* <*attr> Thread attribute. Can be NULL to use default */
+                               void(*start_routine)(void *,task_ptr_t),/* <*start_routine> Thread function pointer */
+                               void *arg,  /* <*arg> 1st argument of thread */
+                               task_ptr_t os_task_ptr) /* <*arg> 2nd argument of thread */
+{
+    osu32_t              fcx;
+	context_t            *cx;
+    const pthread_attr_t default_attr = PTHREAD_DEFAULT_ATTR;
+	
+    if (attr == NULL)
+        attr = &default_attr;
+
+    fcx = __mfcr(CPU_FCX);
+    thread->lcx = fcx - 1;
+    __mtcr(CPU_FCX, fcx - 2);
+
+    cx = cx_to_addr(fcx);
+    cx->u.psw = 0 << 12          /* <EVERY CORE> Protection Register Set PRS=0 */
+            | attr->mode << 10   /* <EVERY CORE> I/O Privilege */
+            | 0 << 9             /* <EVERY CORE> Current task uses a user stack IS=0 */
+            | 0 << 8             /* <EVERY CORE> Write permission to global registers A0, A1, A8, A9 is disabled */
+            | 1L << 7            /* <EVERY CORE> Call depth counting is enabled CDE=1 */
+            | attr->call_depth_overflow; /* <EVERY CORE>  Call Depth Overflow */
+  
+#if(OS_STACK_MODE == MANY_STACKS)  /* <MORE_STACKS> More stacks interface */
+    cx->u.a10 = thread->stack + *thread->stack; /* <EVERY CORE> Stack grow down */
+#endif
+
+    cx->u.a11 = 0;  /* <EVERY CORE> New task has no return address */
+    cx->u.pcxi = 0; /* <EVERY CORE> No previous context; */
+    cx--;
+    cx->l.pcxi = 0L << 22 /* <EVERY CORE> Previous CPU Priority Number PCPN=0 TriCore:  0L << 24  different PCXI between */
+            | 1L << 21    /* <EVERY CORE> Previous Interrupt Enable PIE=1     TriCore:| 1L << 23  Aurix and TriCores     */
+            | 1L << 20    /* <EVERY CORE> Upper Context Tag.                  TriCore:| 1L << 22                         */
+            | fcx;        /* <EVERY CORE> Previous Context Pointer is the upper context                                  */
+    cx->l.pc = start_routine; /* <EVERY CORE> init new thread start address */ 
+    cx->l.a4 = arg;
+	  cx->l.a5 = os_task_ptr;
+
+#if(OS_STACK_MODE == ONE_STACK)  /* <MORE_STACKS> More stacks interface */
+	  thread->thread_a4 = arg;
+	  thread->thread_a5 = os_task_ptr;
+#endif
+
+    thread->arg = arg;
+	  
+    osu32_t i = thread->priority;
+	
+    list_append(&core1_os_pthread_runnable_threads[i], thread, thread,
+               core1_os_pthread_runnable_threads[i]);
+    __putbit(1,(os32_t*)&core1_os_pthread_runnable,i); /* <CORE1> Mark current thread ready */
+
+    return 0; /* Dummy to avoid warning */
+} /* End of pthread_create_np function */
+
+os32_t core2_pthread_create_np(pthread_t thread, /* <thread> Thread control block pointer */
+                               const pthread_attr_t *attr, /* <*attr> Thread attribute. Can be NULL to use default */
+                               void(*start_routine)(void *,task_ptr_t),/* <*start_routine> Thread function pointer */
+                               void *arg,  /* <*arg> 1st argument of thread */
+                               task_ptr_t os_task_ptr) /* <*arg> 2nd argument of thread */
+{
+    osu32_t              fcx;
+	context_t            *cx;
+    const pthread_attr_t default_attr = PTHREAD_DEFAULT_ATTR;
+	
+    if (attr == NULL)
+        attr = &default_attr;
+
+    fcx = __mfcr(CPU_FCX);
+    thread->lcx = fcx - 1;
+    __mtcr(CPU_FCX, fcx - 2);
+
+    cx = cx_to_addr(fcx);
+    cx->u.psw = 0 << 12          /* <EVERY CORE> Protection Register Set PRS=0 */
+            | attr->mode << 10   /* <EVERY CORE> I/O Privilege */
+            | 0 << 9             /* <EVERY CORE> Current task uses a user stack IS=0 */
+            | 0 << 8             /* <EVERY CORE> Write permission to global registers A0, A1, A8, A9 is disabled */
+            | 1L << 7            /* <EVERY CORE> Call depth counting is enabled CDE=1 */
+            | attr->call_depth_overflow; /* <EVERY CORE>  Call Depth Overflow */
+
+#if(OS_STACK_MODE == MANY_STACKS)  /* <MORE_STACKS> More stacks interface */
+    cx->u.a10 = thread->stack + *thread->stack; /* <EVERY CORE> Stack grow down */
+#endif 
+
+    cx->u.a11 = 0;  /* <EVERY CORE> New task has no return address */
+    cx->u.pcxi = 0; /* <EVERY CORE> No previous context; */
+    cx--;
+    cx->l.pcxi = 0L << 22 /* <EVERY CORE> Previous CPU Priority Number PCPN=0 TriCore:  0L << 24  different PCXI between */
+            | 1L << 21    /* <EVERY CORE> Previous Interrupt Enable PIE=1     TriCore:| 1L << 23  Aurix and TriCores     */
+            | 1L << 20    /* <EVERY CORE> Upper Context Tag.                  TriCore:| 1L << 22                         */
+            | fcx;        /* <EVERY CORE> Previous Context Pointer is the upper context                                  */
+    cx->l.pc = start_routine; /* <EVERY CORE> init new thread start address */ 
+    cx->l.a4 = arg;
+	cx->l.a5 = os_task_ptr;
+
+#if(OS_STACK_MODE == ONE_STACK)  /* <MORE_STACKS> More stacks interface */
+	  thread->thread_a4 = arg;
+	  thread->thread_a5 = os_task_ptr;
+#endif
+
+    thread->arg = arg;
+	  
+    osu32_t i = thread->priority;
+
+    list_append(&core2_os_pthread_runnable_threads[i], thread, thread,
+               core2_os_pthread_runnable_threads[i]);
+    __putbit(1,(os32_t*)&core2_os_pthread_runnable,i); /* <CORE2> Mark current thread ready */
+
+    return 0; /* Dummy to avoid warning */
+} /* End of pthread_create_np function */
 
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Lock an resource.This is an OS API that is     */
@@ -723,36 +602,36 @@ os32_t pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition pointer
 /*              one thread actived newly left and not be inserted into the  */
 /*              scheduling table                                            */
 /****************************************************************************/
- OS_INLINE void core0_dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t last_thread) 
- {
- 	os32_t    i;
- 	pthread_t thread, tmp;
- 
- 	tmp = NULL;
-   assert(blocked_threads_ptr);
-   thread = *blocked_threads_ptr;
- 	
-   while (thread != NULL) 
- 	{
-     tmp = thread->next;
-     i = thread->priority;
+OS_INLINE void core0_dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t last_thread) 
+{
+	os32_t    i;
+	pthread_t thread, tmp;
+
+	tmp = NULL;
+    assert(blocked_threads_ptr);
+    thread = *blocked_threads_ptr;
+	
+    while (thread != NULL) 
+	{
+      tmp = thread->next;
+      i = thread->priority;
 
 #if(OS_STACK_MODE == ONE_STACK)  /* <MORE_STACKS> More stacks interface */
- 	 /* <CORE0> Set the status of the current thread to "ready" */
- 	 thread->thread_status = S_READY;
+	  /* <CORE0> Set the status of the current thread to "ready" */
+	  thread->thread_status = S_READY;
 #endif
- 				  
-     list_append(&core0_os_pthread_runnable_threads[i], thread, thread,
-                   core0_os_pthread_runnable_threads[i]);
-     __putbit(1,(os32_t*)&core0_os_pthread_runnable,i);
-     if (thread == last_thread) break;
-     thread = tmp;
-   }
-   *blocked_threads_ptr = tmp;
- }/* End of dispatch_signal_in_tick functio */
+				  
+      list_append(&core0_os_pthread_runnable_threads[i], thread, thread,
+                  core0_os_pthread_runnable_threads[i]);
+      __putbit(1,(os32_t*)&core0_os_pthread_runnable,i);
+      if (thread == last_thread) break;
+      thread = tmp;
+    }
+    *blocked_threads_ptr = tmp;
+}/* End of dispatch_signal_in_tick functio */
 
-   OS_INLINE void core1_dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t last_thread) 
- {
+OS_INLINE void core1_dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t last_thread) 
+{
  	os32_t    i;
  	pthread_t thread, tmp;
  
@@ -771,11 +650,10 @@ os32_t pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition pointer
      thread = tmp;
    }
    *blocked_threads_ptr = tmp;
- 	
- }/* End of dispatch_signal_in_tick functio */
+}/* End of dispatch_signal_in_tick functio */
 
- OS_INLINE void core2_dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t last_thread) 
- {
+OS_INLINE void core2_dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t last_thread) 
+{
  	os32_t    i;
  	pthread_t thread, tmp;
  
@@ -794,7 +672,7 @@ os32_t pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition pointer
      thread = tmp;
    }
    *blocked_threads_ptr = tmp;
- }/* End of dispatch_signal_in_tick functio */
+}/* End of dispatch_signal_in_tick functio */
 
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE>  Os kernel logic that can be called by trap 6  */
@@ -941,8 +819,8 @@ OS_STATIC void core1_os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_th
     }
 		
 	  /* <CORE1> Unlock core1_os_mutex */
-	core_returnMutex(&core1_os_mutex);  	
-  core1_pthread_start_np();
+    core_returnMutex(&core1_os_mutex);  	
+    core1_pthread_start_np();
 } /* End of os_kernel function */
 
 OS_STATIC void core2_os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_thread) 
