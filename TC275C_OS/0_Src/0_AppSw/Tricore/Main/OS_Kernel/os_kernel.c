@@ -737,10 +737,10 @@ os32_t pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition pointer
      tmp = thread->next;
      i = thread->priority;
 
-	  #if(OS_STACK_MODE == ONE_STACK)  /* <MORE_STACKS> More stacks interface */
- 	    /* <CORE0> Set the status of the current thread to "ready" */
- 	    thread->thread_status = S_READY;
-	  #endif
+#if(OS_STACK_MODE == ONE_STACK)  /* <MORE_STACKS> More stacks interface */
+ 	 /* <CORE0> Set the status of the current thread to "ready" */
+ 	 thread->thread_status = S_READY;
+#endif
  				  
      list_append(&core0_os_pthread_runnable_threads[i], thread, thread,
                    core0_os_pthread_runnable_threads[i]);
@@ -866,7 +866,7 @@ OS_STATIC void core0_os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_th
           assert(blocked_threads_ptr);
           thread = *blocked_threads_ptr;
           while (thread != NULL)
-  	    {
+  	      {
             tmp = thread->next;
             i = thread->priority;
 
