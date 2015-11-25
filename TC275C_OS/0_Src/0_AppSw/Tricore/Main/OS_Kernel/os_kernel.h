@@ -517,8 +517,12 @@ os32_t  pthread_cond_broadcast(pthread_cond_t *cond); /* <*cond> Condition point
 os32_t  pthread_cond_timedwait_np(osu16_t reltime); /* <reltime> Waiting time ,unit:ms */
 void    pthread_enable_allinterrupts(void);
 void    pthread_disable_allinterrupts(void);
-void    pthread_suspend_allthreads(void);
-void    pthread_restore_allthreads(void);
+void    core0_pthread_suspend_allthreads(void);
+void    core1_pthread_suspend_allthreads(void);
+void    core2_pthread_suspend_allthreads(void);
+void    core0_pthread_restore_allthreads(void);
+void    core1_pthread_restore_allthreads(void);
+void    core2_pthread_restore_allthreads(void);
 osu16_t pthread_obtain_os_tick(os32_t core_id);
 
 #include "low_driver_port.h"

@@ -178,7 +178,9 @@ typedef pthread_cond_t*  task_cond_t;
 /*   Task_Restore_AllTasks                                                  */
 /*   ......                                                                 */
 /****************************************************************************/
-#define Task_Suspend_AllTasks()           pthread_suspend_allthreads()
+#define Core0_Task_Suspend_AllTasks()   core0_pthread_suspend_allthreads()
+#define Core1_Task_Suspend_AllTasks()   core1_pthread_suspend_allthreads()
+#define Core2_Task_Suspend_AllTasks()   core2_pthread_suspend_allthreads()
 
 /****************************************************************************/
 /* MACRO NAME: Task_Restore_AllTasks                                        */
@@ -197,9 +199,11 @@ typedef pthread_cond_t*  task_cond_t;
 /*   Task_Restore_AllTasks                                                  */
 /*   ......                                                                 */
 /****************************************************************************/
-#define Task_Restore_AllTasks()           pthread_restore_allthreads()
+#define Core0_Task_Restore_AllTasks()    core0_pthread_restore_allthreads()
+#define Core1_Task_Restore_AllTasks()    core1_pthread_restore_allthreads()
+#define Core2_Task_Restore_AllTasks()    core2_pthread_restore_allthreads()
 
-/****************************************************************************/
+/***************************************************************************/
 /* MACRO NAME: Task_Obtain_OS_Tick                                          */
 /* FUNCTION PROTOTYPE:  Task_Obtain_OS_Tick(usigned int cpu_id)             */
 /* ARGUMENT NAME: cpu_id                                                    */

@@ -723,119 +723,78 @@ os32_t pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition pointer
 /*              one thread actived newly left and not be inserted into the  */
 /*              scheduling table                                            */
 /****************************************************************************/
-#if(OS_STACK_MODE == MANY_STACKS)  /* <MORE_STACKS> More stacks interface */
-  OS_INLINE void dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t last_thread) 
-  {
-  	os32_t    i;
-  	osu32_t   current_core_id = os_getCoreId();
-  	pthread_t thread, tmp;
-  
-  	tmp = NULL;
-      assert(blocked_threads_ptr);
-      thread = *blocked_threads_ptr;
-  	
-      if(current_core_id == CORE0_ID)
-  	{
-        while (thread != NULL) 
-  	  {
-          tmp = thread->next;
-          i = thread->priority;
-          list_append(&core0_os_pthread_runnable_threads[i], thread, thread,
-                        core0_os_pthread_runnable_threads[i]);
-          __putbit(1,(os32_t*)&core0_os_pthread_runnable,i);
-          if (thread == last_thread) break;
-          thread = tmp;
-        }
-        *blocked_threads_ptr = tmp;
-  	}
-  	else if(current_core_id== CORE1_ID)
-  	{
-        while (thread != NULL) 
-  	  {
-          tmp = thread->next;
-          i = thread->priority;
-            list_append(&core1_os_pthread_runnable_threads[i], thread, thread,
-                        core1_os_pthread_runnable_threads[i]);
-          __putbit(1,(os32_t*)&core1_os_pthread_runnable,i);
-          if (thread == last_thread)break;
-          thread = tmp;
-        }
-        *blocked_threads_ptr = tmp;
-  	}
-  	else if(current_core_id == CORE2_ID)
-  	{
-        while (thread != NULL) 
-  	  {
-          tmp = thread->next;
-          i = thread->priority;
-            list_append(&core2_os_pthread_runnable_threads[i], thread, thread,
-                        core2_os_pthread_runnable_threads[i]);
-          __putbit(1,(os32_t*)&core2_os_pthread_runnable,i);
-          if (thread == last_thread)break;
-          thread = tmp;
-        }
-        *blocked_threads_ptr = tmp;
-  	}
-  }/* End of dispatch_signal_in_tick functio */
-#else
-  OS_INLINE void dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t last_thread) 
-  {
-  	os32_t    i;
-  	osu32_t   current_core_id = os_getCoreId();
-  	pthread_t thread, tmp;
-  
-  	tmp = NULL;
-      assert(blocked_threads_ptr);
-      thread = *blocked_threads_ptr;
-  	
-      if(current_core_id == CORE0_ID)
-  	{
-        while (thread != NULL) 
-  	  {
-          tmp = thread->next;
-          i = thread->priority;
-  
-  		/* <CORE0> Set the status of the current thread to "ready" */
-  		thread->thread_status = S_READY;
-  					  
-          list_append(&core0_os_pthread_runnable_threads[i], thread, thread,
-                        core0_os_pthread_runnable_threads[i]);
-          __putbit(1,(os32_t*)&core0_os_pthread_runnable,i);
-          if (thread == last_thread) break;
-          thread = tmp;
-        }
-        *blocked_threads_ptr = tmp;
-  	}
-  	else if(current_core_id== CORE1_ID)
-  	{
-        while (thread != NULL) 
-  	  {
-          tmp = thread->next;
-          i = thread->priority;
-            list_append(&core1_os_pthread_runnable_threads[i], thread, thread,
-                        core1_os_pthread_runnable_threads[i]);
-          __putbit(1,(os32_t*)&core1_os_pthread_runnable,i);
-          if (thread == last_thread)break;
-          thread = tmp;
-        }
-        *blocked_threads_ptr = tmp;
-  	}
-  	else if(current_core_id == CORE2_ID)
-  	{
-        while (thread != NULL) 
-  	  {
-          tmp = thread->next;
-          i = thread->priority;
-            list_append(&core2_os_pthread_runnable_threads[i], thread, thread,
-                        core2_os_pthread_runnable_threads[i]);
-          __putbit(1,(os32_t*)&core2_os_pthread_runnable,i);
-          if (thread == last_thread)break;
-          thread = tmp;
-        }
-        *blocked_threads_ptr = tmp;
-  	}
-  }/* End of dispatch_signal_in_tick functio */
-#endif
+ OS_INLINE void core0_dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t last_thread) 
+ {
+ 	os32_t    i;
+ 	pthread_t thread, tmp;
+ 
+ 	tmp = NULL;
+   assert(blocked_threads_ptr);
+   thread = *blocked_threads_ptr;
+ 	
+   while (thread != NULL) 
+ 	{
+     tmp = thread->next;
+     i = thread->priority;
+
+	  #if(OS_STACK_MODE == ONE_STACK)  /* <MORE_STACKS> More stacks interface */
+ 	    /* <CORE0> Set the status of the current thread to "ready" */
+ 	    thread->thread_status = S_READY;
+	  #endif
+ 				  
+     list_append(&core0_os_pthread_runnable_threads[i], thread, thread,
+                   core0_os_pthread_runnable_threads[i]);
+     __putbit(1,(os32_t*)&core0_os_pthread_runnable,i);
+     if (thread == last_thread) break;
+     thread = tmp;
+   }
+   *blocked_threads_ptr = tmp;
+ }/* End of dispatch_signal_in_tick functio */
+
+   OS_INLINE void core1_dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t last_thread) 
+ {
+ 	os32_t    i;
+ 	pthread_t thread, tmp;
+ 
+ 	tmp = NULL;
+   assert(blocked_threads_ptr);
+   thread = *blocked_threads_ptr;
+
+   while (thread != NULL) 
+ 	{
+     tmp = thread->next;
+     i = thread->priority;
+     list_append(&core1_os_pthread_runnable_threads[i], thread, thread,
+                   core1_os_pthread_runnable_threads[i]);
+     __putbit(1,(os32_t*)&core1_os_pthread_runnable,i);
+     if (thread == last_thread)break;
+     thread = tmp;
+   }
+   *blocked_threads_ptr = tmp;
+ 	
+ }/* End of dispatch_signal_in_tick functio */
+
+ OS_INLINE void core2_dispatch_signal_in_tick(pthread_t *blocked_threads_ptr, pthread_t last_thread) 
+ {
+ 	os32_t    i;
+ 	pthread_t thread, tmp;
+ 
+ 	tmp = NULL;
+   assert(blocked_threads_ptr);
+   thread = *blocked_threads_ptr;
+
+   while (thread != NULL) 
+ 	{
+     tmp = thread->next;
+     i = thread->priority;
+       list_append(&core2_os_pthread_runnable_threads[i], thread, thread,
+                   core2_os_pthread_runnable_threads[i]);
+     __putbit(1,(os32_t*)&core2_os_pthread_runnable,i);
+     if (thread == last_thread)break;
+     thread = tmp;
+   }
+   *blocked_threads_ptr = tmp;
+ }/* End of dispatch_signal_in_tick functio */
 
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE>  Os kernel logic that can be called by trap 6  */
@@ -1232,7 +1191,7 @@ OS_INLINE void core0_os_kernel_in_tick(void)
 	  {
         while( -- release_count)
 	    {
-          dispatch_signal_in_tick(&cond_buffer[release_count]->blocked_threads ,NULL );
+          core0_dispatch_signal_in_tick(&cond_buffer[release_count]->blocked_threads ,NULL );
 	    }
 	  }
 	  assert(cond_buffer[0] != NULL);
@@ -1282,7 +1241,7 @@ OS_INLINE void core1_os_kernel_in_tick(void)
 	  {
         while( -- release_count)
 	    {
-          dispatch_signal_in_tick(&cond_buffer[release_count]->blocked_threads ,NULL );
+          core1_dispatch_signal_in_tick(&cond_buffer[release_count]->blocked_threads ,NULL );
 	    }
 	  }
 	  assert(cond_buffer[0] != NULL);
@@ -1333,7 +1292,7 @@ OS_INLINE void core2_os_kernel_in_tick(void)
 	  {
         while( -- release_count)
 	    {
-          dispatch_signal_in_tick(&cond_buffer[release_count]->blocked_threads ,NULL );
+          core2_dispatch_signal_in_tick(&cond_buffer[release_count]->blocked_threads ,NULL );
 	    }
 	  }
 	  assert(cond_buffer[0] != NULL);
@@ -1441,23 +1400,27 @@ os32_t pthread_cond_timedwait_np(osu16_t reltime) /* <reltime> Waiting time, uni
 /*              inside threads to suspend all that happend after the API is */
 /*              called.This is an OS API that is provided to os user        */
 /****************************************************************************/
-void pthread_suspend_allthreads(void)
+void core0_pthread_suspend_allthreads(void)
 {
-	/* Because the scheduler logic is located in stm tick interrupt, and */
-    osu32_t current_core_id = os_getCoreId();
- 
-    if((current_core_id == CORE0_ID)&&
-       (core0_os_pthreads_status == ALLTHREADS_WORKING))
+	/* Because the scheduler logic is located in stm tick interrupt, and */ 
+    if(core0_os_pthreads_status == ALLTHREADS_WORKING)
     {	
       core0_os_pthreads_status = ALLTHREADS_SUSPENDED;
     }
-    else if((current_core_id == CORE1_ID)&&
-    	    (core1_os_pthreads_status == ALLTHREADS_WORKING))
+
+} /* End of pthread_suspend_allthreads function */
+void core1_pthread_suspend_allthreads(void)
+{
+	/* Because the scheduler logic is located in stm tick interrupt, and */
+    if(core1_os_pthreads_status == ALLTHREADS_WORKING)
     {
       core1_os_pthreads_status = ALLTHREADS_SUSPENDED;
     }
-    else if((current_core_id == CORE2_ID)&&
-    	    (core2_os_pthreads_status == ALLTHREADS_WORKING))
+} /* End of pthread_suspend_allthreads function */
+void core2_pthread_suspend_allthreads(void)
+{
+	/* Because the scheduler logic is located in stm tick interrupt, and */
+    if(core2_os_pthreads_status == ALLTHREADS_WORKING)
     {
       core2_os_pthreads_status = ALLTHREADS_SUSPENDED;
     }
@@ -1470,12 +1433,9 @@ void pthread_suspend_allthreads(void)
 /*              os_restore_allthreads can be restore immediately This is    */
 /*              an OS API that is provided to os user                       */
 /****************************************************************************/
-void pthread_restore_allthreads(void)
+void core0_pthread_restore_allthreads(void)
 {
-    osu32_t current_core_id = os_getCoreId();
-
-    if((current_core_id == CORE0_ID)&&
-   	   (core0_os_pthreads_status == ALLTHREADS_SUSPENDED))
+    if(core0_os_pthreads_status == ALLTHREADS_SUSPENDED)
     {  
 	  core0_os_pthreads_status = ALLTHREADS_WORKING;
 	  
@@ -1483,8 +1443,11 @@ void pthread_restore_allthreads(void)
 	  if(core0_os_pthread_running->priority < 
 	  	 ((PTHREAD_PRIO_MAX-1) - __clz(core0_os_pthread_runnable))) dispatch_only(NULL,NULL);     
     }
-    else if((current_core_id == CORE1_ID)&&
-   	        (core1_os_pthreads_status == ALLTHREADS_SUSPENDED))
+    
+} /* End of pthread_restore_allthreads function */
+void core1_pthread_restore_allthreads(void)
+{   
+    if(core1_os_pthreads_status == ALLTHREADS_SUSPENDED)
     {
 	  core1_os_pthreads_status = ALLTHREADS_WORKING;
 	   
@@ -1492,8 +1455,11 @@ void pthread_restore_allthreads(void)
 	  if(core1_os_pthread_running->priority < 
 	   	 ((PTHREAD_PRIO_MAX-1) - __clz(core1_os_pthread_runnable))) dispatch_only(NULL,NULL);     
     }
-    else if((current_core_id == CORE2_ID)&&
-   	       (core2_os_pthreads_status == ALLTHREADS_SUSPENDED))
+    
+} /* End of pthread_restore_allthreads function */
+void core2_pthread_restore_allthreads(void)
+{ 
+    if(core2_os_pthreads_status == ALLTHREADS_SUSPENDED)
     {
 	  core2_os_pthreads_status = ALLTHREADS_WORKING;
 	   
@@ -1502,6 +1468,7 @@ void pthread_restore_allthreads(void)
 	   	 ((PTHREAD_PRIO_MAX-1) - __clz(core2_os_pthread_runnable))) dispatch_only(NULL,NULL);     
     }
 } /* End of pthread_restore_allthreads function */
+
 
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> The API(os_disable_allinterrupts) can be used   */
