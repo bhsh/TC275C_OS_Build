@@ -19,7 +19,7 @@
 /****************************************************************************/
 #define  CORE0_OS_SWITCH        ON  /* <CORE0> Switch off or on the os of core0 */
 
-#define	 CORE0_TASK0_SWITCH	    ON
+#define	 CORE0_TASK0_SWITCH	    ON  /* <CORE0> The option must be on, or there will a comiling error */
 #define	 CORE0_TASK1_SWITCH 	ON
 #define	 CORE0_TASK2_SWITCH 	ON
 #define	 CORE0_TASK3_SWITCH	    OFF
@@ -430,5 +430,9 @@ typedef enum  {
 #endif	
 	 CORE0_TASK_MAX_ID_NUM,
 }CORE0_TASK_ID_t;
+
+#if (CORE0_TASK0_SWITCH != ON)
+  #error "<CORE0> The TASK0 must be on, or there will a compiler error."
+#endif
 
 #endif /* End of CORE0_TASK_MANAGER_H_ */

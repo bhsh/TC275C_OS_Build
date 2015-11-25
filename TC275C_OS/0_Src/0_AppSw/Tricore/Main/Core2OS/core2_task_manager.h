@@ -430,4 +430,8 @@ typedef enum  {
 	 CORE2_TASK_MAX_ID_NUM,
 }CORE2_TASK_ID_t;
 
+#if (CORE2_TASK0_SWITCH != ON)
+  #error "<CORE2> The TASK0 must be on, or there will a compiler error."
+#endif
+
 #endif  /* End of CORE2_TASK_MANAGER_H_ */
