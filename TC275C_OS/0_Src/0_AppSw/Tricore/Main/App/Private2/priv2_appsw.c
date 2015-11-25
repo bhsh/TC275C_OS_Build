@@ -13,6 +13,7 @@
 /****************************************************************************/
 #include "low_driver_port.h"
 #include "stack_manager.h"
+#include "context_manager.h"
 
 /****************************************************************************/
 /* Macro Definitions                                                        */
@@ -119,5 +120,15 @@ void App_priv2_func_cpuload_calculated(void)
   App_priv2_var_state_machine_state = RUNNING;
   App_priv2_var_CPU_Load_Backg_Count = 0;
   /*<CPU load> can be got here. <Section ends> */
+}
+
+
+/****************************************************************************/
+/* FUNCTION NAME: App_priv2_func_get_context_status                         */
+/* DESCRIPTION: Get the context status of core2                             */
+/****************************************************************************/
+void App_priv2_func_get_context_status(void)
+{
+  core2_get_context_status();
 }
 

@@ -152,6 +152,22 @@ inline void LowDriver_Update_CORE2_OS_Tick(void)
 } /* End of LowDriver_Update_CORE2_OS_Tick function */
 
 /****************************************************************************/
+/* FUNTION NAME: LowDriver_Get_Core0_Context_End_Addr                       */
+/* DESCRIPTION:  Toggle the LED in the diver kit by providing the API       */
+/*               special argument                                           */
+/****************************************************************************/
+inline unsigned int LowDriver_Get_Fcx_Physical_Addr(void)
+{   
+	unsigned int fcx,fcx_phy_addr,seg_nr;
+	
+	fcx          = __mfcr(CPU_FCX);
+	seg_nr       = __extru(fcx, 16, 4);
+    fcx_phy_addr = __insert(seg_nr << 28, fcx, 6, 16);
+    
+    return (unsigned int)fcx_phy_addr;
+} /* End of LowDriver_Get_Core2_Context_End_Addr function */
+
+/****************************************************************************/
 /* Extern Statements                                                        */
 /****************************************************************************/
 extern void         LowDriver_Wait_In_Us(unsigned int time);

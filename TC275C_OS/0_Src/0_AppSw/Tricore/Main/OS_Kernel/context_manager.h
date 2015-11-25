@@ -9,7 +9,7 @@
 #ifndef CONTEXT_MANAGER_H_
 #define CONTEXT_MANAGER_H_
 
-
-
-
+extern void core0_get_context_status(void);
+extern void core1_get_context_status(void);
+extern void core2_get_context_status(void);
 #endif /* End of function CONTEXT_MANAGER_H_ */
