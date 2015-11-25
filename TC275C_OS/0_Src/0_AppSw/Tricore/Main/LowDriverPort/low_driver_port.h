@@ -163,4 +163,11 @@ extern void         LowDriver_Initialize_CORE0_OS_Tick(void);
 extern void         LowDriver_Initialize_CORE1_OS_Tick(void);
 extern void         LowDriver_Initialize_CORE2_OS_Tick(void);
 extern unsigned int LowDriver_Get_Curr_Core_ID(void);
+extern unsigned int LowDriver_Get_Core0_Context_Begin_Addr(void);
+extern unsigned int LowDriver_Get_Core1_Context_Begin_Addr(void);
+extern unsigned int LowDriver_Get_Core2_Context_Begin_Addr(void);
+extern unsigned int LowDriver_Get_Core0_Context_End_Addr(void);
+extern unsigned int LowDriver_Get_Core1_Context_End_Addr(void);
+extern unsigned int LowDriver_Get_Core2_Context_End_Addr(void);
+
 #endif /* End of LOW_DRIVER_PORT_H_ */

@@ -662,9 +662,12 @@ void start_core1_os(void) {
 #if (CORE1_OS_SWITCH == ON)
     /* <CORE1> Setup os tick */
     CORE1_INITIALIZE_OS_TICK_BLOCK()
+
+    /* <CORE1> Context manager */
+    CORE1_INITIALIZE_CONTEXT_MANAGER()
     
     #if (OS_STACK_MODE == ONE_STACK)
-      CORE1_INITIALIZE_ONE_STACK_MEMORY(core0_os_stack,CORE0_STACK_SIZE)
+      CORE1_INITIALIZE_ONE_STACK_MEMORY(core1_os_stack,CORE1_STACK_SIZE)
     #endif
 	
     /* <CORE1> Create threads that are used */

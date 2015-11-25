@@ -660,6 +660,9 @@ void start_core0_os(void) {
 #if (CORE0_OS_SWITCH == ON)
     /* <CORE0> Setup os tick */
     CORE0_INITIALIZE_OS_TICK_BLOCK()
+
+    /* <CORE0> Context manager */
+    CORE0_INITIALIZE_CONTEXT_MANAGER()
     
     #if (OS_STACK_MODE == ONE_STACK)
       CORE0_INITIALIZE_ONE_STACK_MEMORY(core0_os_stack,CORE0_STACK_SIZE)

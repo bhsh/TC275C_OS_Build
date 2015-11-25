@@ -27,6 +27,14 @@
 #define CORE1_SOFT1_ISR_PRIORITY       	    21   
 #define CORE2_SOFT1_ISR_PRIORITY      	    22 
 
+extern unsigned int __CSA0[];       /* <CORE0> context save area begin */  
+extern unsigned int __CSA0_END[];   /* <CORE0> context save area end   */
+extern unsigned int __CSA1[];       /* <CORE1> context save area begin */  
+extern unsigned int __CSA1_END[];   /* <CORE1> context save area end   */
+extern unsigned int __CSA2[];       /* <CORE2> context save area begin */  
+extern unsigned int __CSA2_END[];   /* <CORE2> context save area end   */
+
+
 /****************************************************************************/
 /* Global Variable Definitions                                              */
 /****************************************************************************/
@@ -56,6 +64,82 @@ void LowDriver_Port_TogglePin(unsigned char pin_num)
 {
     IfxPort_togglePin(&MODULE_P33, pin_num);
 } /* End of LowDriver_Port_TogglePin function */
+
+/****************************************************************************/
+/* FUNTION NAME: LowDriver_Get_Core0_Context_End_Addr                       */
+/* DESCRIPTION:  Toggle the LED in the diver kit by providing the API       */
+/*               special argument                                           */
+/****************************************************************************/
+unsigned int LowDriver_Get_Core0_Context_End_Addr(void)
+{
+    return (unsigned int)__CSA0_END;
+} /* End of LowDriver_Get_Core0_Context_End_Addr function */
+
+/****************************************************************************/
+/* FUNTION NAME: LowDriver_Get_Core0_Context_End_Addr                       */
+/* DESCRIPTION:  Toggle the LED in the diver kit by providing the API       */
+/*               special argument                                           */
+/****************************************************************************/
+unsigned int LowDriver_Get_Core1_Context_End_Addr(void)
+{
+    return (unsigned int)__CSA1_END;
+} /* End of LowDriver_Get_Core1_Context_End_Addr function */
+
+/****************************************************************************/
+/* FUNTION NAME: LowDriver_Get_Core0_Context_End_Addr                       */
+/* DESCRIPTION:  Toggle the LED in the diver kit by providing the API       */
+/*               special argument                                           */
+/****************************************************************************/
+unsigned int LowDriver_Get_Core2_Context_End_Addr(void)
+{
+    return (unsigned int)__CSA2_END;
+} /* End of LowDriver_Get_Core2_Context_End_Addr function */
+
+/****************************************************************************/
+/* FUNTION NAME: LowDriver_Get_Core0_Context_Begin_Addr                     */
+/* DESCRIPTION:  Toggle the LED in the diver kit by providing the API       */
+/*               special argument                                           */
+/****************************************************************************/
+unsigned int LowDriver_Get_Core0_Context_Begin_Addr(void)
+{
+    return (unsigned int)__CSA0;
+} /* End of LowDriver_Get_Core0_Context_End_Addr function */
+
+/****************************************************************************/
+/* FUNTION NAME: LowDriver_Get_Core0_Context_End_Addr                       */
+/* DESCRIPTION:  Toggle the LED in the diver kit by providing the API       */
+/*               special argument                                           */
+/****************************************************************************/
+unsigned int LowDriver_Get_Core1_Context_Begin_Addr(void)
+{
+    return (unsigned int)__CSA1;
+} /* End of LowDriver_Get_Core1_Context_End_Addr function */
+
+/****************************************************************************/
+/* FUNTION NAME: LowDriver_Get_Core0_Context_End_Addr                       */
+/* DESCRIPTION:  Toggle the LED in the diver kit by providing the API       */
+/*               special argument                                           */
+/****************************************************************************/
+unsigned int LowDriver_Get_Core2_Context_Begin_Addr(void)
+{
+    return (unsigned int)__CSA2;
+} /* End of LowDriver_Get_Core2_Context_End_Addr function */
+
+/****************************************************************************/
+/* FUNTION NAME: LowDriver_Get_Core0_Context_End_Addr                       */
+/* DESCRIPTION:  Toggle the LED in the diver kit by providing the API       */
+/*               special argument                                           */
+/****************************************************************************/
+unsigned int LowDriver_Get_Fcx_Physical_Addr(void)
+{   
+	unsigned int fcx,fcx_phy_addr,seg_nr;
+	
+	fcx          = __mfcr(CPU_FCX);
+	seg_nr       = __extru(fcx, 16, 4);
+    fcx_phy_addr = __insert(seg_nr << 28, fcx, 6, 16);
+    
+    return (unsigned int)fcx_phy_addr;
+} /* End of LowDriver_Get_Core2_Context_End_Addr function */
 
 /****************************************************************************/
 /* FUNTION NAME: LowDriver_Get_Curr_Core_ID                                 */

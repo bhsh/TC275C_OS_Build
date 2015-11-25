@@ -24,6 +24,10 @@
 #define  CORE1_INITIALIZE_OS_TICK_BLOCK()   LowDriver_Initialize_CORE1_OS_Tick();
 #define  CORE2_INITIALIZE_OS_TICK_BLOCK()   LowDriver_Initialize_CORE2_OS_Tick(); 
 
+#define  CORE0_INITIALIZE_CONTEXT_MANAGER()  initialize_core0_context_manager(); 
+#define  CORE1_INITIALIZE_CONTEXT_MANAGER()  initialize_core1_context_manager(); 
+#define  CORE2_INITIALIZE_CONTEXT_MANAGER()  initialize_core2_context_manager(); 
+
 #if (OS_STACK_MODE == MANY_STACKS)
   #define  CORE0_INITIALIZE_MANY_STACKS_MEMORY(thread_order_num,stack_end_address,stack_size) \
 	         initialize_core0_many_stacks_memory(thread_order_num,stack_end_address,stack_size); 
@@ -54,5 +58,9 @@
   extern void initialize_core2_one_stack_memory(osu32_t*,osu32_t);
 
 #endif
+
+extern void initialize_core0_context_manager(void);
+extern void initialize_core1_context_manager(void);
+extern void initialize_core2_context_manager(void);
 
 #endif /* End of OS_MAPPING_H_ */

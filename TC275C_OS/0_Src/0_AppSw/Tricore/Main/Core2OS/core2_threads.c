@@ -660,14 +660,17 @@
 void start_core2_os(void) {
 
 #if (CORE2_OS_SWITCH == ON)
-    /* <CORE0> Setup os tick */
+    /* <CORE2> Setup os tick */
     CORE2_INITIALIZE_OS_TICK_BLOCK()
+
+    /* <CORE2> Context manager */
+    CORE2_INITIALIZE_CONTEXT_MANAGER()
     
     #if (OS_STACK_MODE == ONE_STACK)
-      CORE2_INITIALIZE_ONE_STACK_MEMORY(core0_os_stack,CORE0_STACK_SIZE)
+      CORE2_INITIALIZE_ONE_STACK_MEMORY(core2_os_stack,CORE2_STACK_SIZE)
     #endif
 	
-    /* <CORE1> Create threads that are used */
+    /* <CORE2> Create threads that are used */
 #if (CORE2_THREAD0_SWITCH == ON) 
     CORE2_PTHREAD_CREATION_BLOCK(0)
 #endif
