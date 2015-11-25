@@ -46,7 +46,7 @@
 	                             CORE2_THREAD##thread_order_num##_STACK_SIZE)
 
 #define _CORE2_PTHREAD_CREATION_BLOCK(thread_var,thread_attr,thread_name,thread_order_num,callback_task_name)  \
-	 pthread_create_np(thread_var,thread_attr,thread_name,thread_order_num,callback_task_name);
+	 core2_pthread_create_np(thread_var,thread_attr,thread_name,thread_order_num,callback_task_name);
 
 #define CORE2_PTHREAD_CREATION_BLOCK(thread_order_num) \
 	_CORE2_PTHREAD_CREATION_BLOCK(core2_os_th##thread_order_num, \
