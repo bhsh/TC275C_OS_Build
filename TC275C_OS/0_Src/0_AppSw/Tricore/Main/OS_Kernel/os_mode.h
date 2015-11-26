@@ -33,18 +33,25 @@
 /****************************************************************************/
 /* MEASURE MODE SELECTION                                                   */
 /****************************************************************************/
-#define MEASURE_MODE     STACK_CONTEXT_MEASURE 
-//#define MEASURE_MODE     CPULOAD_MEASURE 
+#define MEASURE_MODE     STACK_CONTEXT_MEASURE
+//#define MEASURE_MODE     CPULOAD_MEASURE
 
 /****************************************************************************/
 /* MEASURE SWITCH                                                           */
 /****************************************************************************/
+
 #define STACKS_MEASURE_SWITCH   ON
 #define CONTEXT_MEASURE_SWITCH  ON
 #define CPULOAD_MEASURE_SWITCH  ON
 
 /****************************************************************************/
-/* STACK MODE SELECTION                                                     */
+/* Compiler error                                                           */
 /****************************************************************************/
+#if((OS_STACK_MODE != MANY_STACKS)&&(OS_STACK_MODE != ONE_STACK))
+  #error " One of the stack modes should be selected for OS_STACK_MODE in os_mode.h"
+#endif
+#ifndef OS_STACK_MODE
+  #define OS_STACK_MODE MANY_STACKS
+#endif
 
 #endif /* End of OS_MODE_H_ */
