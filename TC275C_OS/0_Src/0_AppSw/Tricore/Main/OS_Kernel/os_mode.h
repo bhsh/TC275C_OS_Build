@@ -27,8 +27,8 @@
 /****************************************************************************/
 /* STATIC MODE SELECTION                                                    */
 /****************************************************************************/
-#define OS_STACK_MODE     MANY_STACKS
-//#define OS_STACK_MODE    ONE_STACK
+//#define OS_STACK_MODE     MANY_STACKS
+#define OS_STACK_MODE    ONE_STACK
 
 /****************************************************************************/
 /* MEASURE MODE SELECTION                                                   */
@@ -41,7 +41,7 @@
 /****************************************************************************/
 
 #define STACKS_MEASURE_SWITCH   ON
-#define CONTEXT_MEASURE_SWITCH  ON
+#define CONTEXT_MEASURE_SWITCH  OFF
 #define CPULOAD_MEASURE_SWITCH  ON
 
 /****************************************************************************/

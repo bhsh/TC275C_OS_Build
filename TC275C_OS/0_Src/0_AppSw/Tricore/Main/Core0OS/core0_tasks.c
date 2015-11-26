@@ -98,6 +98,7 @@ OS_CORE0_TASK(8)
 OS_CORE0_TASK(9)
 {
   App_priv0_func_task_test_count(CURR_TASK_ID);
+  App_shared_func_flash_led_3();
 }
 OS_CORE0_TASK(10)
 {
