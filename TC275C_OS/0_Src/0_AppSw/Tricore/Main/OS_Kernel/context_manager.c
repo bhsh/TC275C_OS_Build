@@ -77,13 +77,14 @@ inline void clear_context_section(osu32_t* context_begine_addr,osu32_t* fcx_phy_
 	context_offset_addr += WORDS_IN_CONTEXT;
 	word_offset_addr     = context_offset_addr;
   }
-}
+} /* End of function clear_context_section */
 
 /****************************************************************************/
-/* FUNTION NAME:clear_context_section                                       */
-/* DESCRIPTION: clear the context into 0                                    */
+/* FUNTION NAME:get_context_last_used_addr                                  */
+/* DESCRIPTION: get the latest address of context used by core              */
 /****************************************************************************/
-inline osu32_t get_context_last_used_addr(osu32_t* context_begine_addr,osu32_t context_size_in_size)
+inline osu32_t get_context_last_used_addr(osu32_t* context_begine_addr,
+                                                   osu32_t context_size_in_size)
 {
   osu32_t*  context_offset_addr;
   osu32_t   delta_context_size;
@@ -106,7 +107,7 @@ inline osu32_t get_context_last_used_addr(osu32_t* context_begine_addr,osu32_t c
     return_address = (osu32_t)context_offset_addr;
   }
   return return_address;
-}
+}/* End of function get_context_last_used_addr */
 
 /****************************************************************************/
 /* FUNTION NAME:initialize_core0_context_manager                            */
@@ -127,7 +128,7 @@ void initialize_core0_context_manager(void)
   core0_context_info[CONTEXT_CURR_FCX_ADDRESS]  = LowDriver_Get_Fcx_Physical_Addr(); 
   clear_context_section((osu32_t*)core0_context_info[CONTEXT_BGEGIN_ADDRESS],
   	                    (osu32_t*)core0_context_info[CONTEXT_CURR_FCX_ADDRESS]);
-}
+} /* End of function initialize_core0_context_manager */
 
 /****************************************************************************/
 /* FUNTION NAME:initialize_core1_context_manager                            */
@@ -147,7 +148,7 @@ void initialize_core1_context_manager(void)
   core1_context_info[CONTEXT_CURR_FCX_ADDRESS]  = LowDriver_Get_Fcx_Physical_Addr(); 
   clear_context_section((osu32_t*)core1_context_info[CONTEXT_BGEGIN_ADDRESS],
   	                    (osu32_t*)core1_context_info[CONTEXT_CURR_FCX_ADDRESS]);
-}
+}  /* End of function initialize_core1_context_manager */
 
 /****************************************************************************/
 /* FUNTION NAME:initialize_core2_context_manager                            */
@@ -167,13 +168,13 @@ void initialize_core2_context_manager(void)
   core2_context_info[CONTEXT_CURR_FCX_ADDRESS]  = LowDriver_Get_Fcx_Physical_Addr(); 
   clear_context_section((osu32_t*)core2_context_info[CONTEXT_BGEGIN_ADDRESS],
   	                    (osu32_t*)core2_context_info[CONTEXT_CURR_FCX_ADDRESS]);
-}
+}  /* End of function initialize_core2_context_manager */
 
 /****************************************************************************/
 /* FUNTION NAME:core0_get_context_usage                                     */
-/* DESCRIPTION: get the current context status of core0                     */
+/* DESCRIPTION: get the current context usage of core0                      */
 /****************************************************************************/
-void core0_get_context_usage(void)
+osu32_t core0_get_context_usage(void)
 {  
   core0_context_info[CONTEXT_SIZE_USED_IN_BYTE]    = 
   	core0_context_info[CONTEXT_END_ADDRESS] - get_context_last_used_addr((osu32_t*)core0_context_info[CONTEXT_BGEGIN_ADDRESS],
@@ -182,15 +183,16 @@ void core0_get_context_usage(void)
   	core0_context_info[CONTEXT_SIZE_USED_IN_BYTE]/BYTES_IN_CONTEXT;
   
   core0_context_info[CONTEXT_SIZE_USED_IN_PERCENT] = 
-  	core0_context_info[CONTEXT_SIZE_USED_IN_16WORD]*RATIO/core0_context_info[CONTEXT_SIZE_IN_16WORD];
-    
-}
+  	core0_context_info[CONTEXT_SIZE_USED_IN_16WORD]*RATIO/core0_context_info[CONTEXT_SIZE_IN_16WORD]; 
+
+  return core0_context_info[CONTEXT_SIZE_USED_IN_PERCENT];
+}  /* End of function core0_get_context_usage */
 
 /****************************************************************************/
 /* FUNTION NAME:core1_get_context_usage                                     */
 /* DESCRIPTION: get the current context status of core1                     */
 /****************************************************************************/
-void core1_get_context_usage(void)
+osu32_t core1_get_context_usage(void)
 {
   core1_context_info[CONTEXT_SIZE_USED_IN_BYTE]    = 
   	core1_context_info[CONTEXT_END_ADDRESS] - get_context_last_used_addr((osu32_t*)core1_context_info[CONTEXT_BGEGIN_ADDRESS],
@@ -200,13 +202,15 @@ void core1_get_context_usage(void)
   
   core1_context_info[CONTEXT_SIZE_USED_IN_PERCENT] = 
   	core1_context_info[CONTEXT_SIZE_USED_IN_16WORD]*RATIO/core1_context_info[CONTEXT_SIZE_IN_16WORD];
-}
+
+  return core1_context_info[CONTEXT_SIZE_USED_IN_PERCENT];
+}  /* End of function core1_get_context_usage */
 
 /****************************************************************************/
 /* FUNTION NAME:core2_get_context_usage                                     */
 /* DESCRIPTION: get the current context status of core2                     */
 /****************************************************************************/
-void core2_get_context_usage(void)
+osu32_t core2_get_context_usage(void)
 {
   core2_context_info[CONTEXT_SIZE_USED_IN_BYTE]    = 
   	core2_context_info[CONTEXT_END_ADDRESS] - get_context_last_used_addr((osu32_t*)core2_context_info[CONTEXT_BGEGIN_ADDRESS],
@@ -216,6 +220,8 @@ void core2_get_context_usage(void)
   
   core2_context_info[CONTEXT_SIZE_USED_IN_PERCENT] = 
   	core2_context_info[CONTEXT_SIZE_USED_IN_16WORD]*RATIO/core2_context_info[CONTEXT_SIZE_IN_16WORD];
-}
+
+  return core2_context_info[CONTEXT_SIZE_USED_IN_PERCENT];
+}  /* End of function core2_get_context_usage */
 
 

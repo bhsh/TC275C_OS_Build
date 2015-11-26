@@ -44,6 +44,7 @@ static volatile unsigned int App_priv0_var_task_test_count[CORE0_TASK_NUM];
 static volatile unsigned int App_priv0_var_CPU_Load_Backg_Count;
 static volatile unsigned int App_priv0_var_CPU_load;
 static APP_PRIV0_CPU_LOAD_LOGIC_STATUS_t App_priv0_var_state_machine_state = RUNNING;
+static volatile unsigned int App_priv0_var_context_usage_percent;
 
 /****************************************************************************/
 /* Private0 Function Definitions                                            */
@@ -56,7 +57,7 @@ static APP_PRIV0_CPU_LOAD_LOGIC_STATUS_t App_priv0_var_state_machine_state = RUN
 void  App_priv0_func_test_count(void)
 {
   App_priv0_var_test_count ++;
-} /* End of function App_priv0_func_test_count */
+}  /* End of function App_priv0_func_test_count */
 
 /****************************************************************************/
 /* FUNCTION NAME: App_priv0_func_many_stacks_measured                       */
@@ -67,7 +68,7 @@ void App_priv0_func_many_stacks_measured(void)
 #if (OS_STACK_MODE == MANY_STACKS)
   core0_get_all_stacks_used();
 #endif
-} /* End of function App_priv0_func_many_stacks_measured */
+}  /* End of function App_priv0_func_many_stacks_measured */
 
 /****************************************************************************/
 /* FUNCTION NAME: App_priv0_func_one_stack_measured                         */
@@ -78,20 +79,20 @@ void App_priv0_func_one_stack_measured(void)
 #if (OS_STACK_MODE == ONE_STACK)
   App_priv0_var_one_stack_used_in_per = core0_get_the_one_stack_used();
 #endif
-} /* End of function App_priv0_func_one_stack_measured */
+}  /* End of function App_priv0_func_one_stack_measured */
 
 /****************************************************************************/
-/* FUNCTION NAME: App_shared_func_task_test_count                           */
-/* DESCRIPTION: Measure the stack usage of many stacks mode                 */
+/* FUNCTION NAME: App_priv0_func_task_test_count                            */
+/* DESCRIPTION: The test count is increased by 1 when task is entered       */
 /****************************************************************************/
 void App_priv0_func_task_test_count(unsigned int channel)
 {
   App_priv0_var_task_test_count[channel]++;
-}
+}  /* End of function App_priv0_func_task_test_count */
 
 /****************************************************************************/
 /* FUNCTION NAME: App_shared_func_task_test_count                           */
-/* DESCRIPTION: Measure the stack usage of many stacks mode                 */
+/* DESCRIPTION: Update the cpuload count in background logic                */
 /****************************************************************************/
 void App_priv0_func_cpuload_bkg_count(void)
 {
@@ -99,11 +100,11 @@ void App_priv0_func_cpuload_bkg_count(void)
   {
      App_priv0_var_CPU_Load_Backg_Count++;
   }
-}
+}  /* End of function App_priv0_func_cpuload_bkg_count */
 
 /****************************************************************************/
-/* FUNCTION NAME: App_priv0_func_stack_calculated                           */
-/* DESCRIPTION: Measure the stack usage of many stacks mode                 */
+/* FUNCTION NAME: App_priv0_func_cpuload_calculated                         */
+/* DESCRIPTION: Calculate the current cpuload                               */
 /****************************************************************************/
 void App_priv0_func_cpuload_calculated(void)
 {
@@ -120,7 +121,7 @@ void App_priv0_func_cpuload_calculated(void)
   App_priv0_var_state_machine_state = RUNNING;
   App_priv0_var_CPU_Load_Backg_Count = 0;
   /*<CPU load> can be got here. <Section ends> */
-}
+}  /* End of function App_priv0_func_cpuload_calculated */
 
 /****************************************************************************/
 /* FUNCTION NAME: App_priv0_func_get_context_usage                          */
@@ -128,6 +129,6 @@ void App_priv0_func_cpuload_calculated(void)
 /****************************************************************************/
 void App_priv0_func_get_context_usage(void)
 {
-  core0_get_context_usage();
-}
+  App_priv0_var_context_usage_percent = core0_get_context_usage();
+}  /* End of function App_priv0_func_get_context_usage */
 

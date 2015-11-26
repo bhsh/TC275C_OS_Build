@@ -44,6 +44,7 @@ static volatile unsigned int App_priv1_var_task_test_count[CORE1_TASK_NUM];
 static volatile unsigned int App_priv1_var_CPU_Load_Backg_Count;
 static volatile unsigned int App_priv1_var_CPU_load;
 static APP_PRIV1_CPU_LOAD_LOGIC_STATUS_t App_priv1_var_state_machine_state = RUNNING;
+static volatile unsigned int App_priv1_var_context_usage_percent;
 
 /****************************************************************************/
 /* Private0 Function Definitions                                            */
@@ -56,7 +57,7 @@ static APP_PRIV1_CPU_LOAD_LOGIC_STATUS_t App_priv1_var_state_machine_state = RUN
 void  App_priv1_func_test_count(void)
 {
   App_priv1_var_test_count ++;
-} /* End of function App_priv1_func_test_count */
+}  /* End of function App_priv1_func_test_count */
 
 /****************************************************************************/
 /* FUNCTION NAME: App_priv1_func_many_stacks_measured                       */
@@ -81,17 +82,17 @@ void App_priv1_func_one_stack_measured(void)
 } /* End of function App_priv1_func_one_stack_measured */
 
 /****************************************************************************/
-/* FUNCTION NAME: App_shared_func_task_test_count                           */
-/* DESCRIPTION: Measure the stack usage of many stacks mode                 */
+/* FUNCTION NAME: App_priv1_func_task_test_count                            */
+/* DESCRIPTION: The test count is increased by 1 when task is entered       */
 /****************************************************************************/
 void App_priv1_func_task_test_count(unsigned int channel)
 {
   App_priv1_var_task_test_count[channel]++;
-}
+}  /* End of function App_priv1_func_task_test_count */
 
 /****************************************************************************/
 /* FUNCTION NAME: App_shared_func_task_test_count                           */
-/* DESCRIPTION: Measure the stack usage of many stacks mode                 */
+/* DESCRIPTION: Update the cpuload count in background logic                */
 /****************************************************************************/
 void App_priv1_func_cpuload_bkg_count(void)
 {
@@ -99,16 +100,16 @@ void App_priv1_func_cpuload_bkg_count(void)
   {
      App_priv1_var_CPU_Load_Backg_Count++;
   }
-}
+}  /* End of function App_priv1_func_cpuload_bkg_count */
 
 /****************************************************************************/
-/* FUNCTION NAME: App_priv1_func_stack_calculated                           */
-/* DESCRIPTION: Measure the stack usage of many stacks mode                 */
+/* FUNCTION NAME: App_priv1_func_cpuload_calculated                         */
+/* DESCRIPTION: Calculate the current cpuload                               */
 /****************************************************************************/
 void App_priv1_func_cpuload_calculated(void)
 {
   /*<CPU load> can be got here. <Section begins> */
-  /* Core0_CPU_LOAD = (Core0_CPU_Load_Background_Count * 100)/(1000*1000); */
+  /* Core1_CPU_LOAD = (Core1_CPU_Load_Background_Count * 100)/(1000*1000); */
   if(App_priv1_var_CPU_Load_Backg_Count < CORE1_TOTAL_COUNT)
   {
     App_priv1_var_CPU_load = 1000 - (App_priv1_var_CPU_Load_Backg_Count * CORE1_TIME_PER_COUNT_NS)/(1000*1000);
@@ -120,14 +121,14 @@ void App_priv1_func_cpuload_calculated(void)
   App_priv1_var_state_machine_state = RUNNING;
   App_priv1_var_CPU_Load_Backg_Count = 0;
   /*<CPU load> can be got here. <Section ends> */
-}
+}  /* End of function App_priv1_func_cpuload_calculated */
 
 /****************************************************************************/
 /* FUNCTION NAME: App_priv1_func_get_context_usage                          */
-/* DESCRIPTION: Get the context status of core1                             */
+/* DESCRIPTION: Get the context usage percent of core1                      */
 /****************************************************************************/
 void App_priv1_func_get_context_usage(void)
 {
-  core1_get_context_usage();
-}
+  App_priv1_var_context_usage_percent = core1_get_context_usage();
+}  /* End of function App_priv1_func_get_context_usage */  
 
