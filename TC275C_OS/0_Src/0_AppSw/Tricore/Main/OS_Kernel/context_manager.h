@@ -12,4 +12,5 @@
 extern void core0_get_context_usage(void);
 extern void core1_get_context_usage(void);
 extern void core2_get_context_usage(void);
+
 #endif /* End of function CONTEXT_MANAGER_H_ */
