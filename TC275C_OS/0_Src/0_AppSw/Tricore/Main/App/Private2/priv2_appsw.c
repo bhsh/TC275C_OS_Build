@@ -124,11 +124,11 @@ void App_priv2_func_cpuload_calculated(void)
 
 
 /****************************************************************************/
-/* FUNCTION NAME: App_priv2_func_get_context_status                         */
+/* FUNCTION NAME: App_priv2_func_get_context_usage                          */
 /* DESCRIPTION: Get the context status of core2                             */
 /****************************************************************************/
-void App_priv2_func_get_context_status(void)
+void App_priv2_func_get_context_usage(void)
 {
-  core2_get_context_status();
+  core2_get_context_usage();
 }
 

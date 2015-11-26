@@ -19,6 +19,6 @@ extern void  App_priv2_func_one_stack_measured(void);
 extern void  App_priv2_func_task_test_count(unsigned int channel);
 extern void  App_priv2_func_cpuload_bkg_count(void);
 extern void  App_priv2_func_cpuload_calculated(void);
-extern void  App_priv2_func_get_context_status(void);
+extern void  App_priv2_func_get_context_usage(void);
 
 #endif /* End of PRIV2_APPSW_H_*/
