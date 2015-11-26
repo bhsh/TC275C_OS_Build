@@ -664,7 +664,9 @@ void start_core0_os(void) {
     /* <CORE0> Context manager */
     CORE0_INITIALIZE_CONTEXT_MANAGER()
     
-    CORE0_INITIALIZE_ONE_STACK_MEMORY(core0_os_stack,CORE0_STACK_SIZE)
+    #if (OS_STACK_MODE == ONE_STACK)
+      CORE0_INITIALIZE_ONE_STACK_MEMORY(core0_os_stack,CORE0_STACK_SIZE)
+    #endif
  
     /* <CORE0> Create threads that are used */
 #if (CORE0_THREAD0_SWITCH == ON) 

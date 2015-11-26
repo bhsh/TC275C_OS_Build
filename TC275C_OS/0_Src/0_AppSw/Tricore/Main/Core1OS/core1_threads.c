@@ -663,14 +663,12 @@ void start_core1_os(void) {
     /* <CORE1> Setup os tick */
     CORE1_INITIALIZE_OS_TICK_BLOCK()
 
-    #if(MEASURE_MODE == STACK_CONTEXT_MEASURE)
-	  #if(CONTEXT_MEASURE_SWITCH == ON)
-        /* <CORE0> Context manager */
-        CORE1_INITIALIZE_CONTEXT_MANAGER()
-      #endif
-    #endif
+    /* <CORE1> Context manager */
+    CORE1_INITIALIZE_CONTEXT_MANAGER()
     
-    CORE1_INITIALIZE_ONE_STACK_MEMORY(core1_os_stack,CORE1_STACK_SIZE)
+    #if (OS_STACK_MODE == ONE_STACK)
+      CORE1_INITIALIZE_ONE_STACK_MEMORY(core1_os_stack,CORE1_STACK_SIZE)
+    #endif
 	
     /* <CORE1> Create threads that are used */
 #if (CORE1_THREAD0_SWITCH == ON) 
