@@ -14,15 +14,37 @@
 /****************************************************************************/
 
 /****************************************************************************/
-/* STACK MODE                                                               */
+/* MODE                                                                     */
 /****************************************************************************/
-#define MANY_STACKS  0
-#define ONE_STACK    1
+/* STACK MODE DEFINITION */
+#define MANY_STACKS        0
+#define ONE_STACK          1
+
+/* MEASURE MODE DEFINITION */
+#define STACK_CONTEXT_MEASURE      0
+#define CPULOAD_MEASURE            1
 
 /****************************************************************************/
-/* MODE SELECTION                                                           */
+/* STATIC MODE SELECTION                                                    */
 /****************************************************************************/
 //#define OS_STACK_MODE     MANY_STACKS
 #define OS_STACK_MODE    ONE_STACK
+
+/****************************************************************************/
+/* MEASURE MODE SELECTION                                                   */
+/****************************************************************************/
+#define MEASURE_MODE     STACK_CONTEXT_MEASURE 
+//#define MEASURE_MODE     CPULOAD_MEASURE 
+
+/****************************************************************************/
+/* MEASURE SWITCH                                                           */
+/****************************************************************************/
+#define STACKS_MEASURE_SWITCH   ON
+#define CONTEXT_MEASURE_SWITCH  ON
+#define CPULOAD_MEASURE_SWITCH  ON
+
+/****************************************************************************/
+/* STACK MODE SELECTION                                                     */
+/****************************************************************************/
 
 #endif /* End of OS_MODE_H_ */

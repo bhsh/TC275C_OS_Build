@@ -15,9 +15,6 @@
 /****************************************************************************/
 /* <CORE1> Macro Definitions                                                */
 /****************************************************************************/
-#define  STACK_MEASURE      0
-#define  CPULOAD_MEASURE    1
-#define  MEASURE_STATUS     STACK_MEASURE 
 
 /****************************************************************************/
 /* <CORE1> Task Definitions                                                 */
@@ -38,19 +35,24 @@ OS_CORE1_TASK(0)
   App_priv1_func_task_test_count(CURR_TASK_ID);
 
   /* There are two background tasks:1,stack measure;2,cpu load measure */
-#if (MEASURE_STATUS == CPULOAD_MEASURE )
-  App_priv1_func_cpuload_bkg_count();
+#if(MEASURE_MODE == CPULOAD_MEASURE)
+  #if(CPULOAD_MEASURE_SWITCH == ON)
+    App_priv1_func_cpuload_bkg_count();
+  #endif
 #else
-
-    #if (OS_STACK_MODE == MANY_STACKS)
+  #if(STACKS_MEASURE_SWITCH == ON)
+	#if (OS_STACK_MODE == MANY_STACKS)
 	  /* Many threads are measured */
 	  App_priv1_func_many_stacks_measured();
-    #else
+	#else
 	  /* Measure the usage of stack ,there is not any measure taken when the stack has overflown */
 	  /* Here,the is only one stack for all threads */
 	  App_priv1_func_one_stack_measured();
 	#endif
-	
+  #endif
+  #if(CONTEXT_MEASURE_SWITCH == ON)
+    App_priv1_func_get_context_usage();
+  #endif
 #endif
   App_priv1_func_test_count();
 }
@@ -99,9 +101,13 @@ OS_CORE1_TASK(9)
 OS_CORE1_TASK(10)
 {
   App_priv1_func_task_test_count(CURR_TASK_ID);
-#if (MEASURE_STATUS == CPULOAD_MEASURE )
-  App_priv1_func_cpuload_calculated();
+  
+#if (MEASURE_MODE == CPULOAD_MEASURE)
+  #if(CPULOAD_MEASURE_SWITCH == ON)
+    App_priv1_func_cpuload_calculated();
+  #endif
 #endif
+
   //App_shared_func_flash_led_4();
 }
 OS_CORE1_TASK(11){}

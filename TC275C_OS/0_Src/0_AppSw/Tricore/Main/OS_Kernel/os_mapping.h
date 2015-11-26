@@ -24,24 +24,43 @@
 #define  CORE1_INITIALIZE_OS_TICK_BLOCK()   LowDriver_Initialize_CORE1_OS_Tick();
 #define  CORE2_INITIALIZE_OS_TICK_BLOCK()   LowDriver_Initialize_CORE2_OS_Tick(); 
 
-#define  CORE0_INITIALIZE_CONTEXT_MANAGER()  initialize_core0_context_manager(); 
-#define  CORE1_INITIALIZE_CONTEXT_MANAGER()  initialize_core1_context_manager(); 
-#define  CORE2_INITIALIZE_CONTEXT_MANAGER()  initialize_core2_context_manager(); 
+#if((MEASURE_MODE == STACK_CONTEXT_MEASURE)&&(CONTEXT_MEASURE_SWITCH == ON))
+  #define  CORE0_INITIALIZE_CONTEXT_MANAGER()  initialize_core0_context_manager(); 
+  #define  CORE1_INITIALIZE_CONTEXT_MANAGER()  initialize_core1_context_manager(); 
+  #define  CORE2_INITIALIZE_CONTEXT_MANAGER()  initialize_core2_context_manager();
+#else
+  #define  CORE0_INITIALIZE_CONTEXT_MANAGER()  
+  #define  CORE1_INITIALIZE_CONTEXT_MANAGER()  
+  #define  CORE2_INITIALIZE_CONTEXT_MANAGER()  
+#endif
+
 
 #if (OS_STACK_MODE == MANY_STACKS)
-  #define  CORE0_INITIALIZE_MANY_STACKS_MEMORY(thread_order_num,stack_end_address,stack_size) \
-	         initialize_core0_many_stacks_memory(thread_order_num,stack_end_address,stack_size); 
-  #define  CORE1_INITIALIZE_MANY_STACKS_MEMORY(thread_order_num,stack_end_address,stack_size) \
-	         initialize_core1_many_stacks_memory(thread_order_num,stack_end_address,stack_size);   
-  #define  CORE2_INITIALIZE_MANY_STACKS_MEMORY(thread_order_num,stack_end_address,stack_size) \
-	         initialize_core2_many_stacks_memory(thread_order_num,stack_end_address,stack_size);     
+  #if((MEASURE_MODE == STACK_CONTEXT_MEASURE)&&(STACKS_MEASURE_SWITCH == ON))
+    #define  CORE0_INITIALIZE_MANY_STACKS_MEMORY(thread_order_num,stack_end_address,stack_size) \
+               initialize_core0_many_stacks_memory(thread_order_num,stack_end_address,stack_size); 
+    #define  CORE1_INITIALIZE_MANY_STACKS_MEMORY(thread_order_num,stack_end_address,stack_size) \
+               initialize_core1_many_stacks_memory(thread_order_num,stack_end_address,stack_size);   
+    #define  CORE2_INITIALIZE_MANY_STACKS_MEMORY(thread_order_num,stack_end_address,stack_size) \
+     	       initialize_core2_many_stacks_memory(thread_order_num,stack_end_address,stack_size); 
+  #else
+    #define  CORE0_INITIALIZE_MANY_STACKS_MEMORY(thread_order_num,stack_end_address,stack_size) 
+    #define  CORE1_INITIALIZE_MANY_STACKS_MEMORY(thread_order_num,stack_end_address,stack_size) 
+    #define  CORE2_INITIALIZE_MANY_STACKS_MEMORY(thread_order_num,stack_end_address,stack_size) 
+  #endif
 #else 
-  #define  CORE0_INITIALIZE_ONE_STACK_MEMORY(stack_end_address,stack_size) \
-	         initialize_core0_one_stack_memory(stack_end_address,stack_size); 
-  #define  CORE1_INITIALIZE_ONE_STACK_MEMORY(stack_end_address,stack_size) \
-	         initialize_core1_one_stack_memory(stack_end_address,stack_size); 
-  #define  CORE2_INITIALIZE_ONE_STACK_MEMORY(stack_end_address,stack_size) \
-	         initialize_core2_one_stack_memory(stack_end_address,stack_size); 
+  #if((MEASURE_MODE == STACK_CONTEXT_MEASURE)&&(STACKS_MEASURE_SWITCH == ON))
+    #define  CORE0_INITIALIZE_ONE_STACK_MEMORY(stack_end_address,stack_size) \
+  	         initialize_core0_one_stack_memory(stack_end_address,stack_size); 
+    #define  CORE1_INITIALIZE_ONE_STACK_MEMORY(stack_end_address,stack_size) \
+  	         initialize_core1_one_stack_memory(stack_end_address,stack_size); 
+    #define  CORE2_INITIALIZE_ONE_STACK_MEMORY(stack_end_address,stack_size) \
+  	         initialize_core2_one_stack_memory(stack_end_address,stack_size); 
+  #else
+    #define  CORE0_INITIALIZE_ONE_STACK_MEMORY(stack_end_address,stack_size) 
+    #define  CORE1_INITIALIZE_ONE_STACK_MEMORY(stack_end_address,stack_size) 
+    #define  CORE2_INITIALIZE_ONE_STACK_MEMORY(stack_end_address,stack_size) 
+  #endif
 #endif
 
 /****************************************************************************/
