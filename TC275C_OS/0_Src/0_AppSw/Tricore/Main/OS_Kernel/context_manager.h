@@ -12,8 +12,8 @@
 /****************************************************************************/
 /* Function Prototype Definitions                                           */
 /****************************************************************************/
-extern osu32_t core0_get_context_usage(void);
-extern osu32_t core1_get_context_usage(void);
-extern osu32_t core2_get_context_usage(void);
+OS_EXTERN osu32_t core0_get_context_usage(void);
+OS_EXTERN osu32_t core1_get_context_usage(void);
+OS_EXTERN osu32_t core2_get_context_usage(void);
 
 #endif /* End of function CONTEXT_MANAGER_H_ */
