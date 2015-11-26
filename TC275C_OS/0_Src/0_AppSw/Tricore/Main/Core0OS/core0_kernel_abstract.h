@@ -84,9 +84,12 @@
   	        core0_pthread_init_config_database[(int)arg]; \
   	        core0_pthread_management_before_task(&pthread_config); 
   
-  #define CORE0_PTHREAD_TASKCALLBACK_BLOCK \
-  	      task(&pthread_config);  
-				  	
+  #define CORE0_PTHREAD_TASKCALLBACK_BLOCK(thread_order_num) \
+  	        if(core0_thread_condition_##thread_order_num == true) \
+			{  task(&pthread_config); } \
+			else \
+			{ core0_thread_condition_##thread_order_num = true;}
+  	         
   #define core0_thread_termination_event() \
             if(pthread_config.curr_task_type == EVENT) \
   	  	    { __asm( " mov.aa a4,%0 \t\n jg pthread_cond_wait \n" ::"a"(&core0_pthread_cond[pthread_config.curr_task_id]),"a"(pthread_cond_wait):"a4");} \
@@ -99,9 +102,10 @@
   	        core0_thread_termination_event()
   
   #define CORE0_PTHREAD_DEFINITION_BLOCK(thread_order_num)  \
+  	        static osu8_t core0_thread_condition_##thread_order_num = false; \
   	        void core0_os_thread##thread_order_num(void* arg,task_ptr_t task){ \
   	          CORE0_PTHREAD_INITIALIZATION_BLOCK  \
-  	          CORE0_PTHREAD_TASKCALLBACK_BLOCK  \
+  	          CORE0_PTHREAD_TASKCALLBACK_BLOCK(thread_order_num)  \
   	          CORE0_PTHREAD_TERMINATION_BLOCK}
   
   /****************************************************************************/

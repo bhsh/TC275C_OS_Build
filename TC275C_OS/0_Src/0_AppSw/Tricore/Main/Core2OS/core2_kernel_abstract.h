@@ -84,8 +84,11 @@
   	        core2_pthread_init_config_database[(int)arg]; \
   	        core2_pthread_management_before_task(&pthread_config); 
   
-  #define CORE2_PTHREAD_TASKCALLBACK_BLOCK \
-  	      task(&pthread_config);  
+  #define CORE2_PTHREAD_TASKCALLBACK_BLOCK(thread_order_num) \
+  	        if(core2_thread_condition_##thread_order_num == true) \
+			{  task(&pthread_config); } \
+			else \
+			{ core2_thread_condition_##thread_order_num = true;}   
 				  	
   #define core2_thread_termination_event() \
             if(pthread_config.curr_task_type == EVENT) \
@@ -99,6 +102,7 @@
   	        core2_thread_termination_event()
   
   #define CORE2_PTHREAD_DEFINITION_BLOCK(thread_order_num)  \
+  	        static osu8_t core2_thread_condition_##thread_order_num = false; \
   	        void core2_os_thread##thread_order_num(void* arg,task_ptr_t task){ \
   	          CORE2_PTHREAD_INITIALIZATION_BLOCK  \
   	          CORE2_PTHREAD_TASKCALLBACK_BLOCK  \
