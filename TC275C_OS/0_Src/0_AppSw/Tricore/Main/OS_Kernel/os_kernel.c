@@ -537,22 +537,22 @@ os32_t core0_pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition p
 		  }
 		  else if(cond_core_id == CORE1_ID)
 		  { 
-	        while(0!=core_getMutex(&core1_os_mutex)){};
+	            while(0!=core_getMutex(&core1_os_mutex)){};
 				
-	    	  core1_os_blocked_threads=NULL;
+	    	    core1_os_blocked_threads=NULL;
 				 
-	    	  /* blocked_threads_prev_temp=cond->blocked_threads->prev; */
-	    	  list_append(&core1_os_blocked_threads, cond->blocked_threads,
-	                       cond->blocked_threads->prev, cond->blocked_threads->next);
+	    	    /* blocked_threads_prev_temp=cond->blocked_threads->prev; */
+	    	    list_append(&core1_os_blocked_threads, cond->blocked_threads,
+	                        cond->blocked_threads->prev, cond->blocked_threads->next);
 
-	        /* locked_threads=cond->blocked_threads; */
-	        cond->blocked_threads = NULL;
+	            /* locked_threads=cond->blocked_threads; */
+	            cond->blocked_threads = NULL;
 
-	        /* <CORE1>  The software interrupt 0 of core1 is used.   */
+	            /* <CORE1>  The software interrupt 0 of core1 is used.   */
 				SRC_GPSR10.U=(1<<26)| /* SRC_GPSR10.B.SETR=1;  <Set request>                     */
-			               (1<<10)| /* SRC_GPSR10.B.SRE=1;   <Service Request Enable>          */
-			               (1<<11)| /* SRC_GPSR10.B.TOS=0;   <TOS=CPU1>                        */
-			               (CORE1_KERNEL_SOFT_INT_LEVEL);     /* SRC_GPSR10.B.SRPN=8;  <Service Request Priority Number> */     
+			                 (1<<10)| /* SRC_GPSR10.B.SRE=1;   <Service Request Enable>          */
+			                 (1<<11)| /* SRC_GPSR10.B.TOS=0;   <TOS=CPU1>                        */
+			                 (CORE1_KERNEL_SOFT_INT_LEVEL);     /* SRC_GPSR10.B.SRPN=8;  <Service Request Priority Number> */     
 			               
 				/* core_returnMutex(&core1_os_mutex); */
 		  }
