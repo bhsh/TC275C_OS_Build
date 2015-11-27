@@ -19,6 +19,12 @@
 #define DISPATCH_SIGNAL   3
 #define DISPATCH_ONLY     4
 
+#define TIMEWAIT_32ELEMENTS_INITIALIZER \
+	      USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX, \
+	      USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX, \
+          USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX, \
+          USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX 
+
 /****************************************************************************/
 /* Global Variable Definitions                                              */
 /****************************************************************************/
@@ -51,75 +57,16 @@ OS_STATIC PTHREAD_MEMORY_QUALIFIER pthread_t core0_os_blocked_threads;
 OS_STATIC PTHREAD_MEMORY_QUALIFIER pthread_t core1_os_blocked_threads;
 OS_STATIC PTHREAD_MEMORY_QUALIFIER pthread_t core2_os_blocked_threads;
 
-OS_STATIC PTHREAD_MEMORY_QUALIFIER osu16_t   core0_os_timewait_ticks[PTHREAD_COND_TIMEDWAIT_SIZE]=
-{ 
-    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                      
-    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,  
-    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                     
-    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX 	
-};
-OS_STATIC PTHREAD_MEMORY_QUALIFIER pthread_timewait_t  *core0_os_timewait_cond_ptr[PTHREAD_COND_TIMEDWAIT_SIZE]=
-{
-    NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,                     
-    NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL                     
-};
-OS_STATIC PTHREAD_MEMORY_QUALIFIER pthread_timewait_t  core0_os_timewait_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
-{  
-    {NULL},{NULL},{NULL},{NULL},                     
-    {NULL},{NULL},{NULL},{NULL},                     
-    {NULL},{NULL},{NULL},{NULL},                     
-    {NULL},{NULL},{NULL},{NULL},                     
-    {NULL},{NULL},{NULL},{NULL},                     
-    {NULL},{NULL},{NULL},{NULL},                     
-    {NULL},{NULL},{NULL},{NULL},                     
-    {NULL},{NULL},{NULL},{NULL},                     
-};
-OS_STATIC PTHREAD_MEMORY_QUALIFIER osu16_t  core1_os_timewait_ticks[PTHREAD_COND_TIMEDWAIT_SIZE]=
-{
-    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                      
-    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,  
-    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                     
-    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX 
-};
-OS_STATIC PTHREAD_MEMORY_QUALIFIER pthread_timewait_t  *core1_os_timewait_cond_ptr[PTHREAD_COND_TIMEDWAIT_SIZE]=
-{
-    NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,                     
-    NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL  
-};
-OS_STATIC PTHREAD_MEMORY_QUALIFIER pthread_timewait_t  core1_os_timewait_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
-{  
-    {NULL},{NULL},{NULL},{NULL},                     
-    {NULL},{NULL},{NULL},{NULL},                     
-    {NULL},{NULL},{NULL},{NULL},                     
-    {NULL},{NULL},{NULL},{NULL},                     
-    {NULL},{NULL},{NULL},{NULL},                     
-    {NULL},{NULL},{NULL},{NULL},                     
-    {NULL},{NULL},{NULL},{NULL},                     
-    {NULL},{NULL},{NULL},{NULL},                     
-};
-OS_STATIC PTHREAD_MEMORY_QUALIFIER osu16_t  core2_os_timewait_ticks[PTHREAD_COND_TIMEDWAIT_SIZE] =
-{
-    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                      
-    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,  
-    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,                     
-    USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX,USHRT_MAX 				    
-};
-OS_STATIC PTHREAD_MEMORY_QUALIFIER pthread_timewait_t  *core2_os_timewait_cond_ptr[PTHREAD_COND_TIMEDWAIT_SIZE] =
-{
-    NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,                     
-    NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL 
-};
-OS_STATIC PTHREAD_MEMORY_QUALIFIER pthread_timewait_t  core2_os_timewait_cond[PTHREAD_COND_TIMEDWAIT_SIZE] =
-{  
-    {NULL},{NULL},{NULL},{NULL},                     
-    {NULL},{NULL},{NULL},{NULL},                     
-    {NULL},{NULL},{NULL},{NULL},                     
-    {NULL},{NULL},{NULL},{NULL},                     
-    {NULL},{NULL},{NULL},{NULL},                     
-    {NULL},{NULL},{NULL},{NULL},                     
-    {NULL},{NULL},{NULL},{NULL},                     
-    {NULL},{NULL},{NULL},{NULL},                     
-};
+OS_STATIC PTHREAD_MEMORY_QUALIFIER pthread_timewait_t  *core0_os_timewait_cond_ptr[PTHREAD_COND_TIMEDWAIT_SIZE];
+OS_STATIC PTHREAD_MEMORY_QUALIFIER pthread_timewait_t  *core1_os_timewait_cond_ptr[PTHREAD_COND_TIMEDWAIT_SIZE];
+OS_STATIC PTHREAD_MEMORY_QUALIFIER pthread_timewait_t  *core2_os_timewait_cond_ptr[PTHREAD_COND_TIMEDWAIT_SIZE];
+OS_STATIC PTHREAD_MEMORY_QUALIFIER pthread_timewait_t  core0_os_timewait_cond[PTHREAD_COND_TIMEDWAIT_SIZE];
+OS_STATIC PTHREAD_MEMORY_QUALIFIER pthread_timewait_t  core1_os_timewait_cond[PTHREAD_COND_TIMEDWAIT_SIZE];
+OS_STATIC PTHREAD_MEMORY_QUALIFIER pthread_timewait_t  core2_os_timewait_cond[PTHREAD_COND_TIMEDWAIT_SIZE];
+
+OS_STATIC PTHREAD_MEMORY_QUALIFIER osu16_t  core0_os_timewait_ticks[PTHREAD_COND_TIMEDWAIT_SIZE] = {TIMEWAIT_32ELEMENTS_INITIALIZER};
+OS_STATIC PTHREAD_MEMORY_QUALIFIER osu16_t  core1_os_timewait_ticks[PTHREAD_COND_TIMEDWAIT_SIZE] = {TIMEWAIT_32ELEMENTS_INITIALIZER};
+OS_STATIC PTHREAD_MEMORY_QUALIFIER osu16_t  core2_os_timewait_ticks[PTHREAD_COND_TIMEDWAIT_SIZE] = {TIMEWAIT_32ELEMENTS_INITIALIZER};
 
 /****************************************************************************/
 /* Function Prototype Definitions                                           */
