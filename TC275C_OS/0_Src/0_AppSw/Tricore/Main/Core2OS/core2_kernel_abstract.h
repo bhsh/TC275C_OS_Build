@@ -80,13 +80,13 @@
   /* Macro Definitions <CORE2>: One stack structure for application threads   */
   /****************************************************************************/
   #define CORE2_PTHREAD_INITIALIZATION_BLOCK  \
-  	        pthread_config_t pthread_config = \
-  	        core2_pthread_init_config_database[(int)arg]; \
-  	        core2_pthread_management_before_task(&pthread_config); 
+  	        pthread_config_t pthread_config = core2_pthread_init_config_database[(int)arg];
   
   #define CORE2_PTHREAD_TASKCALLBACK_BLOCK(thread_order_num) \
   	        if(core2_thread_condition_##thread_order_num == true) \
-			{  task(&pthread_config); } \
+			{  core2_pthread_management_before_task(&pthread_config); \
+			   task(&pthread_config); \
+			   core2_pthread_management_after_task(&pthread_config); } \
 			else \
 			{ core2_thread_condition_##thread_order_num = true;}   
 				  	
@@ -98,7 +98,6 @@
   	        else if(pthread_config.curr_task_type == NO_DEFINITION){/* Do nothing*/} 
   
   #define CORE2_PTHREAD_TERMINATION_BLOCK  \
-  	        core2_pthread_management_after_task(&pthread_config);\
   	        core2_thread_termination_event()
   
   #define CORE2_PTHREAD_DEFINITION_BLOCK(thread_order_num)  \
