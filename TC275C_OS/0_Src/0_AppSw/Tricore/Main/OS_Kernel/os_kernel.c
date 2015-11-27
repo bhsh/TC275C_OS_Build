@@ -122,7 +122,7 @@ OS_INLINE void list_append(pthread_t *head, /* <*head> list head pointer */
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Delete the first element of a list             */
 /****************************************************************************/
-OS_STATIC void list_delete_first(pthread_t *head)  /* <*head> list head pointer */
+OS_INLINE void list_delete_first(pthread_t *head)  /* <*head> list head pointer */
 {
 	assert(head);
 
