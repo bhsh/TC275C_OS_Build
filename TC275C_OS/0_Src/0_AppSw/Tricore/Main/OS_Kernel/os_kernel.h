@@ -554,8 +554,6 @@ os32_t  core2_pthread_mutex_lock(pthread_mutex_t *mutex); /* <*mutex> Mutex poin
 os32_t  core0_pthread_mutex_unlock(pthread_mutex_t *mutex); /* <*mutex> Mutex pointer*/
 os32_t  core1_pthread_mutex_unlock(pthread_mutex_t *mutex); /* <*mutex> Mutex pointer*/
 os32_t  core2_pthread_mutex_unlock(pthread_mutex_t *mutex); /* <*mutex> Mutex pointer*/
-os32_t  pthread_cond_wait(pthread_cond_t *cond); /* <*cond> Condition pointer*/
-os32_t  pthread_cond_broadcast(pthread_cond_t *cond); /* <*cond> Condition pointer*/
 os32_t  core0_pthread_cond_timedwait_np(osu16_t reltime); /* <reltime> Waiting time ,unit:ms */
 os32_t  core1_pthread_cond_timedwait_np(osu16_t reltime); /* <reltime> Waiting time ,unit:ms */
 os32_t  core2_pthread_cond_timedwait_np(osu16_t reltime); /* <reltime> Waiting time ,unit:ms */
@@ -568,6 +566,12 @@ void    core0_pthread_restore_allthreads(void);
 void    core1_pthread_restore_allthreads(void);
 void    core2_pthread_restore_allthreads(void);
 osu16_t pthread_obtain_os_tick(os32_t core_id);
+os32_t  core0_pthread_cond_wait(pthread_cond_t *cond);/* <*cond> condition pointer */
+os32_t  core1_pthread_cond_wait(pthread_cond_t *cond);/* <*cond> condition pointer */
+os32_t  core2_pthread_cond_wait(pthread_cond_t *cond);/* <*cond> condition pointer */
+os32_t  core0_pthread_cond_broadcast(pthread_cond_t *cond); /* <*cond> condition pointer */
+os32_t  core1_pthread_cond_broadcast(pthread_cond_t *cond); /* <*cond> condition pointer */
+os32_t  core2_pthread_cond_broadcast(pthread_cond_t *cond); /* <*cond> condition pointer */
 
 #include "low_driver_port.h"
 #include "os_mapping.h"

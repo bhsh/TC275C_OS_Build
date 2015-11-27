@@ -92,7 +92,7 @@
 				  	
   #define core1_thread_termination_event() \
             if(pthread_config.curr_task_type == EVENT) \
-  	  	    { __asm( " mov.aa a4,%0 \t\n jg pthread_cond_wait \n" ::"a"(&core1_pthread_cond[pthread_config.curr_task_id]),"a"(pthread_cond_wait):"a4");} \
+  	  	    { __asm( " mov.aa a4,%0 \t\n jg core1_pthread_cond_wait \n" ::"a"(&core1_pthread_cond[pthread_config.curr_task_id]),"a"(core1_pthread_cond_wait):"a4");} \
   	        else if(pthread_config.curr_task_type == PERIODIC) \
   		    { __asm( " mov d4,%0 \t\n jg core1_pthread_cond_timedwait_np \n"::"d"(pthread_config.curr_task_period),"a"(core1_pthread_cond_timedwait_np):"d4");} \
   	        else if(pthread_config.curr_task_type == NO_DEFINITION){/* Do nothing*/} 

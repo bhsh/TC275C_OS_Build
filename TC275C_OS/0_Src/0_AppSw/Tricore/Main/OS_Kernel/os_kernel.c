@@ -471,8 +471,53 @@ os32_t core2_pthread_mutex_unlock(pthread_mutex_t *mutex) /* <*mutex> mutex poin
 /* DESCRIPTION: <EVERY CORE> Wait a condition.This is an OS API that is     */
 /*              provided to os user                                         */
 /****************************************************************************/
+os32_t core0_pthread_cond_wait(pthread_cond_t *cond)/* <*cond> condition pointer */
+{
+    assert(cppn()==0); /* CCPN must be 0, pthread_create cannot be called from ISR */
+    assert(cond!= NULL); /* Make sure there is one condition argument. If no, __debug() will be entered */
 
-os32_t pthread_cond_wait(pthread_cond_t *cond)/* <*cond> condition pointer */
+#if (COND_SEMAPHORE_STATUS == ENABLE)
+	if(cond->semaphore <= 1)
+	{  
+	    cond->semaphore = 0;
+	    /* <EVERY CORE> Add this thread to the list of blocked threads by this cond */
+        dispatch_wait(&cond->blocked_threads, NULL);
+    }
+    else
+	{  
+	   /* cond->semaphore > 1 */
+       cond->semaphore--;
+	}	
+#else
+    dispatch_wait(&cond->blocked_threads, NULL);
+#endif
+    return 0;/* Dummy to avoid warning */
+} /* End of pthread_cond_wait function */
+
+os32_t core1_pthread_cond_wait(pthread_cond_t *cond)/* <*cond> condition pointer */
+{
+    assert(cppn()==0); /* CCPN must be 0, pthread_create cannot be called from ISR */
+    assert(cond!= NULL); /* Make sure there is one condition argument. If no, __debug() will be entered */
+
+#if (COND_SEMAPHORE_STATUS == ENABLE)
+	if(cond->semaphore <= 1)
+	{  
+	    cond->semaphore = 0;
+	    /* <EVERY CORE> Add this thread to the list of blocked threads by this cond */
+        dispatch_wait(&cond->blocked_threads, NULL);
+    }
+    else
+	{  
+	   /* cond->semaphore > 1 */
+       cond->semaphore--;
+	}	
+#else
+    dispatch_wait(&cond->blocked_threads, NULL);
+#endif
+    return 0;/* Dummy to avoid warning */
+} /* End of pthread_cond_wait function */
+
+os32_t core2_pthread_cond_wait(pthread_cond_t *cond)/* <*cond> condition pointer */
 {
     assert(cppn()==0); /* CCPN must be 0, pthread_create cannot be called from ISR */
     assert(cond!= NULL); /* Make sure there is one condition argument. If no, __debug() will be entered */
@@ -501,10 +546,9 @@ os32_t pthread_cond_wait(pthread_cond_t *cond)/* <*cond> condition pointer */
 /*              The thread and interrupt in one core can active the thread  */
 /*              of another core                                             */
 /****************************************************************************/
-os32_t pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition pointer */
+os32_t core0_pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition pointer */
 {
     assert(cond!=NULL);
-	osu32_t current_core_id = os_getCoreId();
 	osu32_t cond_core_id   = cond->core_id;
 
 #if (COND_SEMAPHORE_STATUS == ENABLE)
@@ -514,79 +558,81 @@ os32_t pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition pointer
 #endif
       if (cond->blocked_threads != NULL)
 	  {	 
-	  	PTHREAD_OBTAIN_TIMESLOT_CALLBACK(cond_core_id)
-		if((cond_core_id == current_core_id)&&(0 == cppn()))
-        {		
-          /* <EVERY CORE> _pthread_running on CCPN=0 */
-          dispatch_signal(&cond->blocked_threads, cond->blocked_threads->prev);
-        }
-        else
-		{
 	      if(cond_core_id == CORE0_ID)
-	      { 
-			while(0!=core_getMutex(&core0_os_mutex)){};
-			 
-    	    core0_os_blocked_threads=NULL;
-			 
-    	    /* blocked_threads_prev_temp=cond->blocked_threads->prev; */
-    	    list_append(&core0_os_blocked_threads, cond->blocked_threads,
-                         cond->blocked_threads->prev, cond->blocked_threads->next);
-
-			/* locked_threads=cond->blocked_threads; */
-            cond->blocked_threads = NULL;
-
-            /* <CORE0> The software interrupt 0 of core0 is used.   */
-			SRC_GPSR00.U=(1<<26)| /* SRC_GPSR00.B.SETR=1; <Set request>                     */
-		                 (1<<10)| /* SRC_GPSR00.B.SRE=1;  <Service Request Enable>          */
-		                 (0<<11)| /* SRC_GPSR00.B.TOS=0;  <TOS=CPU0>                        */
-		                 (CORE0_KERNEL_SOFT_INT_LEVEL);     /* SRC_GPSR00.B.SRPN=9; <Service Request Priority Number> */
-
-			/* core_returnMutex(&core0_os_mutex); */
-          }
+		  {
+   		  	PTHREAD_OBTAIN_TIMESLOT_CALLBACK(cond_core_id)
+   			if(0 == cppn())
+   	        {		
+   	          /* <EVERY CORE> _pthread_running on CCPN=0 */
+   	          dispatch_signal(&cond->blocked_threads, cond->blocked_threads->prev);
+   	        }
+   	        else
+   			{ 
+   				while(0!=core_getMutex(&core0_os_mutex)){};
+   				 
+   	    	    core0_os_blocked_threads=NULL;
+   				 
+   	    	    /* blocked_threads_prev_temp=cond->blocked_threads->prev; */
+   	    	    list_append(&core0_os_blocked_threads, cond->blocked_threads,
+   	                         cond->blocked_threads->prev, cond->blocked_threads->next);
+   
+   				/* locked_threads=cond->blocked_threads; */
+   	            cond->blocked_threads = NULL;
+   
+   	            /* <CORE0> The software interrupt 0 of core0 is used.   */
+   				SRC_GPSR00.U=(1<<26)| /* SRC_GPSR00.B.SETR=1; <Set request>                     */
+   			                 (1<<10)| /* SRC_GPSR00.B.SRE=1;  <Service Request Enable>          */
+   			                 (0<<11)| /* SRC_GPSR00.B.TOS=0;  <TOS=CPU0>                        */
+   			                 (CORE0_KERNEL_SOFT_INT_LEVEL);     /* SRC_GPSR00.B.SRPN=9; <Service Request Priority Number> */
+   
+   				/* core_returnMutex(&core0_os_mutex); */
+   	        }
+		  }
 		  else if(cond_core_id == CORE1_ID)
 		  { 
-            while(0!=core_getMutex(&core1_os_mutex)){};
-			
-    	    core1_os_blocked_threads=NULL;
-			 
-    	    /* blocked_threads_prev_temp=cond->blocked_threads->prev; */
-    	    list_append(&core1_os_blocked_threads, cond->blocked_threads,
-                           cond->blocked_threads->prev, cond->blocked_threads->next);
+	        while(0!=core_getMutex(&core1_os_mutex)){};
+				
+	    	  core1_os_blocked_threads=NULL;
+				 
+	    	  /* blocked_threads_prev_temp=cond->blocked_threads->prev; */
+	    	  list_append(&core1_os_blocked_threads, cond->blocked_threads,
+	                       cond->blocked_threads->prev, cond->blocked_threads->next);
 
-            /* locked_threads=cond->blocked_threads; */
-            cond->blocked_threads = NULL;
+	        /* locked_threads=cond->blocked_threads; */
+	        cond->blocked_threads = NULL;
 
-            /* <CORE1>  The software interrupt 0 of core1 is used.   */
-			SRC_GPSR10.U=(1<<26)| /* SRC_GPSR10.B.SETR=1;  <Set request>                     */
-		                 (1<<10)| /* SRC_GPSR10.B.SRE=1;   <Service Request Enable>          */
-		                 (1<<11)| /* SRC_GPSR10.B.TOS=0;   <TOS=CPU1>                        */
-		                 (CORE1_KERNEL_SOFT_INT_LEVEL);     /* SRC_GPSR10.B.SRPN=8;  <Service Request Priority Number> */     
-		                 
-			/* core_returnMutex(&core1_os_mutex); */
+	        /* <CORE1>  The software interrupt 0 of core1 is used.   */
+				SRC_GPSR10.U=(1<<26)| /* SRC_GPSR10.B.SETR=1;  <Set request>                     */
+			               (1<<10)| /* SRC_GPSR10.B.SRE=1;   <Service Request Enable>          */
+			               (1<<11)| /* SRC_GPSR10.B.TOS=0;   <TOS=CPU1>                        */
+			               (CORE1_KERNEL_SOFT_INT_LEVEL);     /* SRC_GPSR10.B.SRPN=8;  <Service Request Priority Number> */     
+			               
+				/* core_returnMutex(&core1_os_mutex); */
 		  }
-		  else if(cond_core_id == CORE2_ID)
+	      else if(cond_core_id == CORE2_ID)
 		  { 
-            while(0!=core_getMutex(&core2_os_mutex)){};
-			 
-    	    core2_os_blocked_threads=NULL;
-			 
-    	    /* blocked_threads_prev_temp=cond->blocked_threads->prev; */
-    	    list_append(&core2_os_blocked_threads, cond->blocked_threads,
-                              cond->blocked_threads->prev, cond->blocked_threads->next);
+	            while(0!=core_getMutex(&core2_os_mutex)){};
+				 
+	    	    core2_os_blocked_threads=NULL;
+				 
+	    	    /* blocked_threads_prev_temp=cond->blocked_threads->prev; */
+	    	    list_append(&core2_os_blocked_threads, cond->blocked_threads,
+	                              cond->blocked_threads->prev, cond->blocked_threads->next);
 
-			/* locked_threads=cond->blocked_threads; */
-            cond->blocked_threads = NULL;
+				/* locked_threads=cond->blocked_threads; */
+	            cond->blocked_threads = NULL;
 
-            /* <CORE2> The software interrupt 0 of core2 is used.   */
-			SRC_GPSR20.U=(1<<26)| /* SRC_GPSR20.B.SETR=1;  <Set request>                     */               
-		                 (1<<10)| /* SRC_GPSR20.B.SRE=1;   <Service Request Enable>          */
-		                 (2<<11)| /* SRC_GPSR20.B.TOS=2;   <TOS=CPU2>                        */
-		                 (CORE2_KERNEL_SOFT_INT_LEVEL);     /* SRC_GPSR20.B.SRPN=7;  <Service Request Priority Number> */
-		                 
-		    /* core_returnMutex(&core2_os_mutex); */
+	            /* <CORE2> The software interrupt 0 of core2 is used.   */
+				SRC_GPSR20.U=(1<<26)| /* SRC_GPSR20.B.SETR=1;  <Set request>                     */               
+			                 (1<<10)| /* SRC_GPSR20.B.SRE=1;   <Service Request Enable>          */
+			                 (2<<11)| /* SRC_GPSR20.B.TOS=2;   <TOS=CPU2>                        */
+			                 (CORE2_KERNEL_SOFT_INT_LEVEL);     /* SRC_GPSR20.B.SRPN=7;  <Service Request Priority Number> */
+			                 
+			    /* core_returnMutex(&core2_os_mutex); */
 		  }
-		}		
-      }
+               
+      } 	
+	
 #if (COND_SEMAPHORE_STATUS == ENABLE)
 	}
 	else
@@ -597,6 +643,198 @@ os32_t pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition pointer
 	return 0; /* Dummy to avoid warning */
 } /* End of pthread_cond_broadcast function */
 
+os32_t core1_pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition pointer */
+{
+    assert(cond!=NULL);
+	osu32_t cond_core_id   = cond->core_id;
+
+#if (COND_SEMAPHORE_STATUS == ENABLE)
+	if(cond->semaphore == 0)
+	{
+      cond->semaphore = 1;
+#endif
+      if (cond->blocked_threads != NULL)
+	  {	 
+	      if(cond_core_id == CORE1_ID)
+		  {
+   		  	PTHREAD_OBTAIN_TIMESLOT_CALLBACK(cond_core_id)
+   			if(0 == cppn())
+   	        {		
+   	          /* <EVERY CORE> _pthread_running on CCPN=0 */
+   	          dispatch_signal(&cond->blocked_threads, cond->blocked_threads->prev);
+   	        }
+   	        else
+   			{ 
+			    while(0!=core_getMutex(&core1_os_mutex)){};
+				
+	    	    core1_os_blocked_threads=NULL;
+				 
+	    	    /* blocked_threads_prev_temp=cond->blocked_threads->prev; */
+	    	    list_append(&core1_os_blocked_threads, cond->blocked_threads,
+	                        cond->blocked_threads->prev, cond->blocked_threads->next);
+
+	            /* locked_threads=cond->blocked_threads; */
+	            cond->blocked_threads = NULL;
+
+	            /* <CORE1>  The software interrupt 0 of core1 is used.   */
+				SRC_GPSR10.U=(1<<26)| /* SRC_GPSR10.B.SETR=1;  <Set request>                     */
+			                 (1<<10)| /* SRC_GPSR10.B.SRE=1;   <Service Request Enable>          */
+			                 (1<<11)| /* SRC_GPSR10.B.TOS=0;   <TOS=CPU1>                        */
+			                 (CORE1_KERNEL_SOFT_INT_LEVEL);     /* SRC_GPSR10.B.SRPN=8;  <Service Request Priority Number> */     
+			               
+				/* core_returnMutex(&core1_os_mutex); */
+   	        }
+		  }
+		  else if(cond_core_id == CORE0_ID)
+		  { 
+   				while(0!=core_getMutex(&core0_os_mutex)){};
+   				 
+   	    	    core0_os_blocked_threads=NULL;
+   				 
+   	    	    /* blocked_threads_prev_temp=cond->blocked_threads->prev; */
+   	    	    list_append(&core0_os_blocked_threads, cond->blocked_threads,
+   	                         cond->blocked_threads->prev, cond->blocked_threads->next);
+   
+   				/* locked_threads=cond->blocked_threads; */
+   	            cond->blocked_threads = NULL;
+   
+   	            /* <CORE0> The software interrupt 0 of core0 is used.   */
+   				SRC_GPSR00.U=(1<<26)| /* SRC_GPSR00.B.SETR=1; <Set request>                     */
+   			                 (1<<10)| /* SRC_GPSR00.B.SRE=1;  <Service Request Enable>          */
+   			                 (0<<11)| /* SRC_GPSR00.B.TOS=0;  <TOS=CPU0>                        */
+   			                 (CORE0_KERNEL_SOFT_INT_LEVEL);     /* SRC_GPSR00.B.SRPN=9; <Service Request Priority Number> */
+   
+   				/* core_returnMutex(&core0_os_mutex); */
+		  }
+	      else if(cond_core_id == CORE2_ID)
+		  { 
+	            while(0!=core_getMutex(&core2_os_mutex)){};
+				 
+	    	    core2_os_blocked_threads=NULL;
+				 
+	    	    /* blocked_threads_prev_temp=cond->blocked_threads->prev; */
+	    	    list_append(&core2_os_blocked_threads, cond->blocked_threads,
+	                              cond->blocked_threads->prev, cond->blocked_threads->next);
+
+				/* locked_threads=cond->blocked_threads; */
+	            cond->blocked_threads = NULL;
+
+	            /* <CORE2> The software interrupt 0 of core2 is used.   */
+				SRC_GPSR20.U=(1<<26)| /* SRC_GPSR20.B.SETR=1;  <Set request>                     */               
+			                 (1<<10)| /* SRC_GPSR20.B.SRE=1;   <Service Request Enable>          */
+			                 (2<<11)| /* SRC_GPSR20.B.TOS=2;   <TOS=CPU2>                        */
+			                 (CORE2_KERNEL_SOFT_INT_LEVEL);     /* SRC_GPSR20.B.SRPN=7;  <Service Request Priority Number> */
+			                 
+			    /* core_returnMutex(&core2_os_mutex); */
+		  }
+               
+      } 	
+	
+#if (COND_SEMAPHORE_STATUS == ENABLE)
+	}
+	else
+	{
+       cond->semaphore++;
+	}
+#endif
+	return 0; /* Dummy to avoid warning */
+} /* End of pthread_cond_broadcast function */
+
+os32_t core2_pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition pointer */
+{
+    assert(cond!=NULL);
+	osu32_t cond_core_id   = cond->core_id;
+
+#if (COND_SEMAPHORE_STATUS == ENABLE)
+	if(cond->semaphore == 0)
+	{
+      cond->semaphore = 1;
+#endif
+      if (cond->blocked_threads != NULL)
+	  {	 
+	      if(cond_core_id == CORE2_ID)
+		  {
+   		  	PTHREAD_OBTAIN_TIMESLOT_CALLBACK(cond_core_id)
+   			if(0 == cppn())
+   	        {		
+   	          /* <EVERY CORE> _pthread_running on CCPN=0 */
+   	          dispatch_signal(&cond->blocked_threads, cond->blocked_threads->prev);
+   	        }
+   	        else
+   			{ 
+	            while(0!=core_getMutex(&core2_os_mutex)){};
+				 
+	    	    core2_os_blocked_threads=NULL;
+				 
+	    	    /* blocked_threads_prev_temp=cond->blocked_threads->prev; */
+	    	    list_append(&core2_os_blocked_threads, cond->blocked_threads,
+	                              cond->blocked_threads->prev, cond->blocked_threads->next);
+
+				/* locked_threads=cond->blocked_threads; */
+	            cond->blocked_threads = NULL;
+
+	            /* <CORE2> The software interrupt 0 of core2 is used.   */
+				SRC_GPSR20.U=(1<<26)| /* SRC_GPSR20.B.SETR=1;  <Set request>                     */               
+			                 (1<<10)| /* SRC_GPSR20.B.SRE=1;   <Service Request Enable>          */
+			                 (2<<11)| /* SRC_GPSR20.B.TOS=2;   <TOS=CPU2>                        */
+			                 (CORE2_KERNEL_SOFT_INT_LEVEL);     /* SRC_GPSR20.B.SRPN=7;  <Service Request Priority Number> */
+			                 
+			    /* core_returnMutex(&core2_os_mutex); */
+			}
+		  }
+		  else if(cond_core_id == CORE0_ID)
+		  { 
+   				while(0!=core_getMutex(&core0_os_mutex)){};
+   				 
+   	    	    core0_os_blocked_threads=NULL;
+   				 
+   	    	    /* blocked_threads_prev_temp=cond->blocked_threads->prev; */
+   	    	    list_append(&core0_os_blocked_threads, cond->blocked_threads,
+   	                         cond->blocked_threads->prev, cond->blocked_threads->next);
+   
+   				/* locked_threads=cond->blocked_threads; */
+   	            cond->blocked_threads = NULL;
+   
+   	            /* <CORE0> The software interrupt 0 of core0 is used.   */
+   				SRC_GPSR00.U=(1<<26)| /* SRC_GPSR00.B.SETR=1; <Set request>                     */
+   			                 (1<<10)| /* SRC_GPSR00.B.SRE=1;  <Service Request Enable>          */
+   			                 (0<<11)| /* SRC_GPSR00.B.TOS=0;  <TOS=CPU0>                        */
+   			                 (CORE0_KERNEL_SOFT_INT_LEVEL);     /* SRC_GPSR00.B.SRPN=9; <Service Request Priority Number> */
+   
+   				/* core_returnMutex(&core0_os_mutex); */
+		  }
+	      else if(cond_core_id == CORE1_ID)
+		  { 
+			    while(0!=core_getMutex(&core1_os_mutex)){};
+				
+	    	    core1_os_blocked_threads=NULL;
+				 
+	    	    /* blocked_threads_prev_temp=cond->blocked_threads->prev; */
+	    	    list_append(&core1_os_blocked_threads, cond->blocked_threads,
+	                        cond->blocked_threads->prev, cond->blocked_threads->next);
+
+	            /* locked_threads=cond->blocked_threads; */
+	            cond->blocked_threads = NULL;
+
+	            /* <CORE1>  The software interrupt 0 of core1 is used.   */
+				SRC_GPSR10.U=(1<<26)| /* SRC_GPSR10.B.SETR=1;  <Set request>                     */
+			                 (1<<10)| /* SRC_GPSR10.B.SRE=1;   <Service Request Enable>          */
+			                 (1<<11)| /* SRC_GPSR10.B.TOS=0;   <TOS=CPU1>                        */
+			                 (CORE1_KERNEL_SOFT_INT_LEVEL);     /* SRC_GPSR10.B.SRPN=8;  <Service Request Priority Number> */     
+			               
+				/* core_returnMutex(&core1_os_mutex); */		  }
+               
+      } 	
+	
+#if (COND_SEMAPHORE_STATUS == ENABLE)
+	}
+	else
+	{
+       cond->semaphore++;
+	}
+#endif
+	return 0; /* Dummy to avoid warning */
+} /* End of pthread_cond_broadcast function */
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> If the number of threads that are actived      */
 /*              periodically is more than one,the API is used inside the    */

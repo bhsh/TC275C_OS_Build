@@ -2423,7 +2423,7 @@ void core0_pthread_management_prolog(pthread_config_t *pthread_config)
 #if(OS_STACK_MODE == MANY_STACKS)
   if(pthread_config->curr_task_type == EVENT)
   {
-      pthread_cond_wait(&core0_pthread_cond[pthread_config->curr_task_id]);
+      core0_pthread_cond_wait(&core0_pthread_cond[pthread_config->curr_task_id]);
   }
   else if(pthread_config->curr_task_type == PERIODIC)
   {
@@ -2453,15 +2453,15 @@ void core0_pthread_management_epilog(pthread_config_t *pthread_config)
   { 
   	 if(pthread_config->actived_task_core_id == CORE_ID0)
 	 {
-		  pthread_cond_broadcast(&core0_pthread_cond[pthread_config->actived_task_id]);
+		  core0_pthread_cond_broadcast(&core0_pthread_cond[pthread_config->actived_task_id]);
 	 }
 	 else if(pthread_config->actived_task_core_id == CORE_ID1)
 	 {
-		  pthread_cond_broadcast(&core1_pthread_cond[pthread_config->actived_task_id]);
+		  core0_pthread_cond_broadcast(&core1_pthread_cond[pthread_config->actived_task_id]);
 	 }
 	 else if(pthread_config->actived_task_core_id == CORE_ID2)
 	 {
-		  pthread_cond_broadcast(&core2_pthread_cond[pthread_config->actived_task_id]);
+		  core0_pthread_cond_broadcast(&core2_pthread_cond[pthread_config->actived_task_id]);
 	 }
   }
   else if((pthread_config->curr_task_type == PERIODIC)||

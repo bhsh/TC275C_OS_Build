@@ -81,7 +81,9 @@ typedef pthread_cond_t*  task_cond_t;
 /*   // is actived by Task_Cond_Broadcast                                   */
 /*   ......                                                                 */
 /****************************************************************************/
-#define Task_Cond_Wait(cond_ptr)            pthread_cond_wait(cond_ptr)
+#define Core0_Task_Cond_Wait(cond_ptr)      core0_pthread_cond_wait(cond_ptr)
+#define Core1_Task_Cond_Wait(cond_ptr)      core1_pthread_cond_wait(cond_ptr)
+#define Core2_Task_Cond_Wait(cond_ptr)      core2_pthread_cond_wait(cond_ptr)
 
 /****************************************************************************/
 /* MACRO NAME: Task_Cond_Broadcast                                          */
@@ -103,7 +105,9 @@ typedef pthread_cond_t*  task_cond_t;
 /*   Task_Cond_Broadcast(cond);                                             */
 /*   ......                                                                 */
 /****************************************************************************/
-#define Task_Cond_Broadcast(cond_ptr)       pthread_cond_broadcast(cond_ptr)
+#define Core0_Task_Cond_Broadcast(cond_ptr)   core0_pthread_cond_broadcast(cond_ptr)
+#define Core1_Task_Cond_Broadcast(cond_ptr)   core1_pthread_cond_broadcast(cond_ptr)
+#define Core2_Task_Cond_Broadcast(cond_ptr)   core2_pthread_cond_broadcast(cond_ptr)
 
 /****************************************************************************/
 /* MACRO NAME: Task_Cond_Timedwait                                          */
