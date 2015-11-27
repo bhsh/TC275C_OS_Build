@@ -105,7 +105,7 @@
   	        static osu8_t core2_thread_condition_##thread_order_num = false; \
   	        void core2_os_thread##thread_order_num(void* arg,task_ptr_t task){ \
   	          CORE2_PTHREAD_INITIALIZATION_BLOCK  \
-  	          CORE2_PTHREAD_TASKCALLBACK_BLOCK  \
+  	          CORE2_PTHREAD_TASKCALLBACK_BLOCK(thread_order_num)  \
   	          CORE2_PTHREAD_TERMINATION_BLOCK}
   
   /****************************************************************************/
