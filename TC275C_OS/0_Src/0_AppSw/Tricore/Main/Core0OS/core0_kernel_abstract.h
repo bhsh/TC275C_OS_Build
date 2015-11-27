@@ -29,13 +29,13 @@
   	      pthread_config_t pthread_config = \
   		  core0_pthread_init_config_database[(int)arg]; \
             for (;;){ \
-  	        core0_pthread_management_before_task(&pthread_config); 
+  	        core0_pthread_management_prolog(&pthread_config); 
   	
   #define CORE0_PTHREAD_TASKCALLBACK_BLOCK \
   	      task(&pthread_config);   
   
   #define CORE0_PTHREAD_TERMINATION_BLOCK  \
-  	      core0_pthread_management_after_task(&pthread_config);}
+  	      core0_pthread_management_epilog(&pthread_config);}
   
   #define CORE0_PTHREAD_DEFINITION_BLOCK(thread_order_num)  \
   	      void core0_os_thread##thread_order_num(void* arg,task_ptr_t task){ \
@@ -84,9 +84,9 @@
   
   #define CORE0_PTHREAD_TASKCALLBACK_BLOCK(thread_order_num) \
   	        if(core0_thread_condition_##thread_order_num == true) \
-			{  core0_pthread_management_before_task(&pthread_config); \
+			{  core0_pthread_management_prolog(&pthread_config); \
 			   task(&pthread_config); \
-			   core0_pthread_management_after_task(&pthread_config);} \
+			   core0_pthread_management_epilog(&pthread_config);} \
 			else \
 			{ core0_thread_condition_##thread_order_num = true;}
   	         
@@ -114,13 +114,13 @@
   	      pthread_config_t pthread_config = \
   	      core0_pthread_init_config_database[(int)arg]; \
             for (;;){ \
-  	        core0_pthread_management_before_task(&pthread_config);
+  	        core0_pthread_management_prolog(&pthread_config);
   
   #define CORE0_PTHREAD_IDLE_TASKCALLBACK_BLOCK \
   	        task(&pthread_config); 
   	
   #define CORE0_PTHREAD_IDLE_TERMINATION_BLOCK  \
-  	        core0_pthread_management_after_task(&pthread_config);}
+  	        core0_pthread_management_epilog(&pthread_config);}
   
   #define CORE0_PTHREAD_IDLE_DEFINITION_BLOCK(thread_order_num)  \
   	      void core0_os_thread##thread_order_num(void* arg,task_ptr_t task){ \

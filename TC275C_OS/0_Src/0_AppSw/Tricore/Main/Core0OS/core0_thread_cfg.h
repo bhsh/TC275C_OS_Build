@@ -2414,11 +2414,36 @@ extern pthread_cond_t core1_pthread_cond[CORE1_TASK_MAX_ID_NUM];
 extern pthread_cond_t core2_pthread_cond[CORE2_TASK_MAX_ID_NUM];
 
 /****************************************************************************/
-/* FUNTION NAME:core0_pthread_management_after_task                         */
+/* FUNTION NAME:core0_pthread_management_prolog                             */
+/* DESCRIPTION: The processing logic is called before task in each thread   */
+/*              in order to setup measurement and thread management         */
+/****************************************************************************/
+void core0_pthread_management_prolog(pthread_config_t *pthread_config)
+{ 
+#if(OS_STACK_MODE == MANY_STACKS)
+  if(pthread_config->curr_task_type == EVENT)
+  {
+      pthread_cond_wait(&core0_pthread_cond[pthread_config->curr_task_id]);
+  }
+  else if(pthread_config->curr_task_type == PERIODIC)
+  {
+	  core0_pthread_cond_timedwait_np((osu16_t)(pthread_config->curr_task_period));
+  }
+  else if(pthread_config->curr_task_type == NO_DEFINITION)
+  {
+     /* Do nothing. */
+  }
+#endif
+  /* trace */
+  core0_os_trace_task_time_begin(pthread_config->curr_task_id);
+} /* End of core0_pthread_management_prolog function */
+
+/****************************************************************************/
+/* FUNTION NAME:core0_pthread_management_epilog                             */
 /* DESCRIPTION: The processing logic is called after task in each thread    */
 /*              in order to setup measurement and thread management         */
 /****************************************************************************/
-void core0_pthread_management_after_task(pthread_config_t *pthread_config)
+void core0_pthread_management_epilog(pthread_config_t *pthread_config)
 { 	
   /* Trace */
   core0_os_trace_task_time_end(pthread_config->curr_task_id);
@@ -2445,32 +2470,7 @@ void core0_pthread_management_after_task(pthread_config_t *pthread_config)
       /* Do nothing */
   }
 #endif
-} /* End of core0_pthread_management_after_task function */
-
-/****************************************************************************/
-/* FUNTION NAME:core0_pthread_management_before_task                        */
-/* DESCRIPTION: The processing logic is called before task in each thread   */
-/*              in order to setup measurement and thread management         */
-/****************************************************************************/
-void core0_pthread_management_before_task(pthread_config_t *pthread_config)
-{ 
-#if(OS_STACK_MODE == MANY_STACKS)
-  if(pthread_config->curr_task_type == EVENT)
-  {
-      pthread_cond_wait(&core0_pthread_cond[pthread_config->curr_task_id]);
-  }
-  else if(pthread_config->curr_task_type == PERIODIC)
-  {
-	  core0_pthread_cond_timedwait_np((osu16_t)(pthread_config->curr_task_period));
-  }
-  else if(pthread_config->curr_task_type == NO_DEFINITION)
-  {
-     /* Do nothing. */
-  }
-#endif
-  /* trace */
-  core0_os_trace_task_time_begin(pthread_config->curr_task_id);
-} /* End of core0_pthread_management_before_task function */
+} /* End of core0_pthread_management_epilog function */
 
 #endif /* End of CORE0_THREAD_CONFIG_H_ */
 
