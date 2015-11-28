@@ -507,7 +507,7 @@ os32_t core0_pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition p
 	  {	 
 	      if(cond_core_id == CORE0_ID)
 		  {
-   		  	PTHREAD_OBTAIN_TIMESLOT_CALLBACK(cond_core_id)
+   		  	PTHREAD_OBTAIN_TIMESLOT_CALLBACK(CORE0_ID)
    			if(0 == cppn())
    	        {		
    	          /* <EVERY CORE> _pthread_running on CCPN=0 */
@@ -536,7 +536,9 @@ os32_t core0_pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition p
    	        }
 		  }
 		  else if(cond_core_id == CORE1_ID)
-		  { 
+		  {     
+		  	    PTHREAD_OBTAIN_TIMESLOT_CALLBACK(CORE1_ID)
+					
 	            while(0!=core_getMutex(&core1_os_mutex)){};
 				
 	    	    core1_os_blocked_threads=NULL;
@@ -558,6 +560,8 @@ os32_t core0_pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition p
 		  }
 	      else if(cond_core_id == CORE2_ID)
 		  { 
+		  	    PTHREAD_OBTAIN_TIMESLOT_CALLBACK(CORE2_ID)
+					
 	            while(0!=core_getMutex(&core2_os_mutex)){};
 				 
 	    	    core2_os_blocked_threads=NULL;
@@ -604,7 +608,7 @@ os32_t core1_pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition p
 	  {	 
 	      if(cond_core_id == CORE1_ID)
 		  {
-   		  	PTHREAD_OBTAIN_TIMESLOT_CALLBACK(cond_core_id)
+   		  	PTHREAD_OBTAIN_TIMESLOT_CALLBACK(CORE1_ID)
    			if(0 == cppn())
    	        {		
    	          /* <EVERY CORE> _pthread_running on CCPN=0 */
@@ -634,6 +638,8 @@ os32_t core1_pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition p
 		  }
 		  else if(cond_core_id == CORE0_ID)
 		  { 
+   		  	    PTHREAD_OBTAIN_TIMESLOT_CALLBACK(CORE0_ID)
+			
    				while(0!=core_getMutex(&core0_os_mutex)){};
    				 
    	    	    core0_os_blocked_threads=NULL;
@@ -655,7 +661,10 @@ os32_t core1_pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition p
 		  }
 	      else if(cond_core_id == CORE2_ID)
 		  { 
-	            while(0!=core_getMutex(&core2_os_mutex)){};
+
+   		     	PTHREAD_OBTAIN_TIMESLOT_CALLBACK(CORE2_ID)
+					
+				while(0!=core_getMutex(&core2_os_mutex)){};
 				 
 	    	    core2_os_blocked_threads=NULL;
 				 
@@ -701,7 +710,7 @@ os32_t core2_pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition p
 	  {	 
 	      if(cond_core_id == CORE2_ID)
 		  {
-   		  	PTHREAD_OBTAIN_TIMESLOT_CALLBACK(cond_core_id)
+   		  	PTHREAD_OBTAIN_TIMESLOT_CALLBACK(CORE2_ID)
    			if(0 == cppn())
    	        {		
    	          /* <EVERY CORE> _pthread_running on CCPN=0 */
@@ -731,6 +740,9 @@ os32_t core2_pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition p
 		  }
 		  else if(cond_core_id == CORE0_ID)
 		  { 
+
+   		  	    PTHREAD_OBTAIN_TIMESLOT_CALLBACK(CORE0_ID)
+					
    				while(0!=core_getMutex(&core0_os_mutex)){};
    				 
    	    	    core0_os_blocked_threads=NULL;
@@ -752,6 +764,9 @@ os32_t core2_pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition p
 		  }
 	      else if(cond_core_id == CORE1_ID)
 		  { 
+
+   		  	    PTHREAD_OBTAIN_TIMESLOT_CALLBACK(CORE1_ID)
+					
 			    while(0!=core_getMutex(&core1_os_mutex)){};
 				
 	    	    core1_os_blocked_threads=NULL;
