@@ -13,8 +13,12 @@
 /****************************************************************************/
 /* Macro Definitons                                                         */
 /****************************************************************************/
-#define  PTHREAD_OBTAIN_TIMESLOT_CALLBACK(current_core_id) \
-	             os_trace_thread_timeslot(current_core_id);
+#define  CORE0_PTHREAD_OBTAIN_TIMESLOT_CALLBACK \
+	       core0_os_trace_thread_timeslot();
+#define  CORE1_PTHREAD_OBTAIN_TIMESLOT_CALLBACK \
+	       core1_os_trace_thread_timeslot();
+#define  CORE2_PTHREAD_OBTAIN_TIMESLOT_CALLBACK \
+	       core2_os_trace_thread_timeslot();
 
 #define  os_kernel_update_core0_tick()  LowDriver_Update_CORE0_OS_Tick()
 #define  os_kernel_update_core1_tick()  LowDriver_Update_CORE1_OS_Tick()

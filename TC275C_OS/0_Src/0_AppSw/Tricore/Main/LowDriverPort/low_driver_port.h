@@ -73,30 +73,38 @@ inline unsigned int  LowDriver_GetUstack_Address(void)
 } /* End of LowDriver_GetUstack_Address function */
 
 /****************************************************************************/
-/* FUNTION NAME: os_trace_thread_timeslot                                   */
+/* FUNTION NAME: core0_os_trace_thread_timeslot                             */
 /* DESCRIPTION: Wait by querying the tick of STM TIM0 (tick unit:1Us)in     */
 /*              the current STM configuration                               */ 
 /****************************************************************************/
-inline void os_trace_thread_timeslot(unsigned int curr_core_id)
+inline void core0_os_trace_thread_timeslot(void)
 {   
 	extern osu32_t core0_os_thread_thread_timeslot;
-	extern osu32_t core1_os_thread_thread_timeslot;
-	extern osu32_t core2_os_thread_thread_timeslot;
+	core0_os_thread_thread_timeslot = LowDriver_GetStm0_LowerCount();
+	
+} /* End of LowDriver_GetStmLower_Count function */
 
-    switch(curr_core_id)
-	{
-      case 0:
-	  	core0_os_thread_thread_timeslot = LowDriver_GetStm0_LowerCount()/10;
-	  	break;
-      case 1:
-	  	core1_os_thread_thread_timeslot = LowDriver_GetStm1_LowerCount()/10;
-	  	break;
-	  case 2:
-	  	core2_os_thread_thread_timeslot = LowDriver_GetStm2_LowerCount()/10;
-	  	break;
-	  default:
-	  	break;
-	}
+/****************************************************************************/
+/* FUNTION NAME: core1_os_trace_thread_timeslot                             */
+/* DESCRIPTION: Wait by querying the tick of STM TIM0 (tick unit:1Us)in     */
+/*              the current STM configuration                               */ 
+/****************************************************************************/
+inline void core1_os_trace_thread_timeslot(void)
+{   
+	extern osu32_t core1_os_thread_thread_timeslot;
+	core1_os_thread_thread_timeslot = LowDriver_GetStm0_LowerCount();
+	
+} /* End of LowDriver_GetStmLower_Count function */
+
+/****************************************************************************/
+/* FUNTION NAME: core2_os_trace_thread_timeslot                             */
+/* DESCRIPTION: Wait by querying the tick of STM TIM0 (tick unit:1Us)in     */
+/*              the current STM configuration                               */ 
+/****************************************************************************/
+inline void core2_os_trace_thread_timeslot(void)
+{   
+	extern osu32_t core2_os_thread_thread_timeslot;
+	core2_os_thread_thread_timeslot = LowDriver_GetStm0_LowerCount();
 	
 } /* End of LowDriver_GetStmLower_Count function */
 

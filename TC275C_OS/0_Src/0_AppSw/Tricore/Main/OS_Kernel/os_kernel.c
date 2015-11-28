@@ -507,7 +507,7 @@ os32_t core0_pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition p
 	  {	 
 	      if(cond_core_id == CORE0_ID)
 		  {
-   		  	PTHREAD_OBTAIN_TIMESLOT_CALLBACK(CORE0_ID)
+   		  	CORE0_PTHREAD_OBTAIN_TIMESLOT_CALLBACK
    			if(0 == cppn())
    	        {		
    	          /* <EVERY CORE> _pthread_running on CCPN=0 */
@@ -537,7 +537,7 @@ os32_t core0_pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition p
 		  }
 		  else if(cond_core_id == CORE1_ID)
 		  {     
-		  	    PTHREAD_OBTAIN_TIMESLOT_CALLBACK(CORE1_ID)
+		  	    CORE1_PTHREAD_OBTAIN_TIMESLOT_CALLBACK
 					
 	            while(0!=core_getMutex(&core1_os_mutex)){};
 				
@@ -560,7 +560,7 @@ os32_t core0_pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition p
 		  }
 	      else if(cond_core_id == CORE2_ID)
 		  { 
-		  	    PTHREAD_OBTAIN_TIMESLOT_CALLBACK(CORE2_ID)
+		  	    CORE2_PTHREAD_OBTAIN_TIMESLOT_CALLBACK
 					
 	            while(0!=core_getMutex(&core2_os_mutex)){};
 				 
@@ -608,7 +608,7 @@ os32_t core1_pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition p
 	  {	 
 	      if(cond_core_id == CORE1_ID)
 		  {
-   		  	PTHREAD_OBTAIN_TIMESLOT_CALLBACK(CORE1_ID)
+   		  	CORE1_PTHREAD_OBTAIN_TIMESLOT_CALLBACK
    			if(0 == cppn())
    	        {		
    	          /* <EVERY CORE> _pthread_running on CCPN=0 */
@@ -638,7 +638,7 @@ os32_t core1_pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition p
 		  }
 		  else if(cond_core_id == CORE0_ID)
 		  { 
-   		  	    PTHREAD_OBTAIN_TIMESLOT_CALLBACK(CORE0_ID)
+   		  	    CORE0_PTHREAD_OBTAIN_TIMESLOT_CALLBACK
 			
    				while(0!=core_getMutex(&core0_os_mutex)){};
    				 
@@ -662,7 +662,7 @@ os32_t core1_pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition p
 	      else if(cond_core_id == CORE2_ID)
 		  { 
 
-   		     	PTHREAD_OBTAIN_TIMESLOT_CALLBACK(CORE2_ID)
+   		     	CORE2_PTHREAD_OBTAIN_TIMESLOT_CALLBACK
 					
 				while(0!=core_getMutex(&core2_os_mutex)){};
 				 
@@ -710,7 +710,7 @@ os32_t core2_pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition p
 	  {	 
 	      if(cond_core_id == CORE2_ID)
 		  {
-   		  	PTHREAD_OBTAIN_TIMESLOT_CALLBACK(CORE2_ID)
+   		  	CORE2_PTHREAD_OBTAIN_TIMESLOT_CALLBACK
    			if(0 == cppn())
    	        {		
    	          /* <EVERY CORE> _pthread_running on CCPN=0 */
@@ -741,7 +741,7 @@ os32_t core2_pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition p
 		  else if(cond_core_id == CORE0_ID)
 		  { 
 
-   		  	    PTHREAD_OBTAIN_TIMESLOT_CALLBACK(CORE0_ID)
+   		  	    CORE0_PTHREAD_OBTAIN_TIMESLOT_CALLBACK
 					
    				while(0!=core_getMutex(&core0_os_mutex)){};
    				 
@@ -765,7 +765,7 @@ os32_t core2_pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition p
 	      else if(cond_core_id == CORE1_ID)
 		  { 
 
-   		  	    PTHREAD_OBTAIN_TIMESLOT_CALLBACK(CORE1_ID)
+   		  	    CORE1_PTHREAD_OBTAIN_TIMESLOT_CALLBACK
 					
 			    while(0!=core_getMutex(&core1_os_mutex)){};
 				
@@ -1194,7 +1194,7 @@ OS_INLINE void core0_os_kernel_in_tick(void)
 		
 	  cond = cond_buffer[0];  /* <EVERY CORE> Get the current condition */
 
-	  PTHREAD_OBTAIN_TIMESLOT_CALLBACK(0)
+	  CORE0_PTHREAD_OBTAIN_TIMESLOT_CALLBACK
 
 	  /* <EVERY CORE> Setup parameter and jump to os_kernel */
 	  __asm( " mov.aa a4,%0 \n"
@@ -1244,7 +1244,7 @@ OS_INLINE void core1_os_kernel_in_tick(void)
 		
 	  cond = cond_buffer[0];  /* <EVERY CORE> Get the current condition */
 
-	  PTHREAD_OBTAIN_TIMESLOT_CALLBACK(1)
+	  CORE1_PTHREAD_OBTAIN_TIMESLOT_CALLBACK
 
 	  /* <EVERY CORE> Setup parameter and jump to os_kernel */
 	  __asm( " mov.aa a4,%0 \n"
@@ -1295,7 +1295,7 @@ OS_INLINE void core2_os_kernel_in_tick(void)
 		
 	  cond = cond_buffer[0];  /* <EVERY CORE> Get the current condition */
 
-	  PTHREAD_OBTAIN_TIMESLOT_CALLBACK(2)
+	  CORE2_PTHREAD_OBTAIN_TIMESLOT_CALLBACK
 
 	  /* <EVERY CORE> Setup parameter and jump to os_kernel */
 	  __asm( " mov.aa a4,%0 \n"
