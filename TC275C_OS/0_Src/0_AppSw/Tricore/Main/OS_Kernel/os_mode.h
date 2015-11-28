@@ -39,10 +39,17 @@
 /****************************************************************************/
 /* MEASURE SWITCH                                                           */
 /****************************************************************************/
+#if(MEASURE_MODE == STACK_CONTEXT_MEASURE)
+  #define STACKS_MEASURE_SWITCH   ON
+  #define CONTEXT_MEASURE_SWITCH  ON
+#else
+  #define CPULOAD_MEASURE_SWITCH  ON
+#endif
 
-#define STACKS_MEASURE_SWITCH   ON
-#define CONTEXT_MEASURE_SWITCH  ON
-#define CPULOAD_MEASURE_SWITCH  ON
+/****************************************************************************/
+/* TRACE SWITCH                                                             */
+/****************************************************************************/
+#define TRACE_MEASURE_SWITCH    OFF
 
 /****************************************************************************/
 /* Compiler error                                                           */

@@ -2435,7 +2435,9 @@ void core2_pthread_management_prolog(pthread_config_t *pthread_config)
   }
 #endif
   /* trace */
+#if(TRACE_MEASURE_SWITCH == ON)
   core2_os_trace_task_time_begin(pthread_config->curr_task_id);
+#endif
 } /* End of core2_pthread_management_prolog function */
 
 /****************************************************************************/
@@ -2446,7 +2448,9 @@ void core2_pthread_management_prolog(pthread_config_t *pthread_config)
 void core2_pthread_management_epilog(pthread_config_t *pthread_config)
 { 	
   /* Trace */
+#if(TRACE_MEASURE_SWITCH == ON)
   core2_os_trace_task_time_end(pthread_config->curr_task_id);
+#endif
 
 #if((OS_STACK_MODE == MANY_STACKS)||(OS_STACK_MODE == ONE_STACK))
   if(pthread_config->actived_task_id != NO_ACTIVED_THREAD)
