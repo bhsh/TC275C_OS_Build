@@ -63,19 +63,21 @@ inline void clear_context_section(osu32_t* context_begine_addr,osu32_t* fcx_phy_
   osu32_t*  word_offset_addr;
 
   context_offset_addr  = context_begine_addr;
-  word_offset_addr     = context_offset_addr;
-  context_num_not_used = 1 + ((osu32_t)fcx_phy_addr - (osu32_t)context_begine_addr)/WORDS_IN_CONTEXT;
+  context_num_not_used = 1 + ((osu32_t)fcx_phy_addr - (osu32_t)context_begine_addr)/BYTES_IN_CONTEXT;
 
   for(context_index = 0; context_index < context_num_not_used; context_index++)
   {
+  	/* Because the first element of csa stores the pcxi of previous csa, the */
+	/* context of its memory must not be cleared.The following logc is used  */
+	/* to clear the context except the pcxi into zero                        */
+	word_offset_addr     = context_offset_addr + 1;
     for(word_index = 1;word_index < WORDS_IN_CONTEXT ;word_index++)
 	{
-      *(word_offset_addr + word_index) = 0x0; 
+      *word_offset_addr++ = 0x0; 
 	}
 
 	/* Increase the offset address of context to next 16 word*/
 	context_offset_addr += WORDS_IN_CONTEXT;
-	word_offset_addr     = context_offset_addr;
   }
 } /* End of function clear_context_section */
 
@@ -91,9 +93,12 @@ inline osu32_t get_context_last_used_addr(osu32_t* context_begine_addr,
   osu32_t   return_address;
   
   context_offset_addr  = context_begine_addr;
-  while((*context_offset_addr++ == 0x0)||
+
+  /* Check the lowset address that is used as csa section by core */
+  while((*context_offset_addr == 0x0)||
   	     ((osu32_t)context_offset_addr%WORDS_IN_CONTEXT == 0))
   {
+  	context_offset_addr++;
   }
 
   delta_context_size =((osu32_t)context_offset_addr - (osu32_t)context_begine_addr);
@@ -198,7 +203,8 @@ osu32_t core1_get_context_usage(void)
   	core1_context_info[CONTEXT_END_ADDRESS] - get_context_last_used_addr((osu32_t*)core1_context_info[CONTEXT_BGEGIN_ADDRESS],
   	                                                                     core1_context_info[CONTEXT_SIZE_IN_BYTE]); 
   core1_context_info[CONTEXT_SIZE_USED_IN_16WORD]  = 
-  	core1_context_info[CONTEXT_SIZE_USED_IN_BYTE]/BYTES_IN_CONTEXT;
+  	core1_context_info[CONTEXT_SIZE_USED_IN_BYTE]/BYTES_IN_CONTEXT +
+  	 core1_context_info[CONTEXT_SIZE_USED_IN_BYTE]%BYTES_IN_CONTEXT == 0?0:1;
   
   core1_context_info[CONTEXT_SIZE_USED_IN_PERCENT] = 
   	core1_context_info[CONTEXT_SIZE_USED_IN_16WORD]*RATIO/core1_context_info[CONTEXT_SIZE_IN_16WORD];
