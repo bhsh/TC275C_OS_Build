@@ -30,6 +30,10 @@
 /*              3. Monitor the usage of stack                               */
 /*              4. Other background task                                    */
 /****************************************************************************/
+volatile int test0 = 0;
+volatile int test1 = 0;
+volatile int test2 = 0;
+volatile int test3 = 0;
 OS_CORE0_TASK(0)
 { 
   /* There is a counter associated with task and increasing in by one when the task is entered */
@@ -64,20 +68,24 @@ OS_CORE0_TASK(0)
 OS_CORE0_TASK(1)
 {
   App_priv0_func_task_test_count(CURR_TASK_ID);
-  App_shared_func_flash_led_1();
+ // App_shared_func_flash_led_1();
+
 }
 OS_CORE0_TASK(2)
 {
   App_priv0_func_task_test_count(CURR_TASK_ID);
-  App_shared_func_flash_led_2();
+  //App_shared_func_flash_led_2();
+  test0++;
 }
 OS_CORE0_TASK(3)
 {
   App_priv0_func_task_test_count(CURR_TASK_ID);
+  test1++;
 }
 OS_CORE0_TASK(4)
 {
   App_priv0_func_task_test_count(CURR_TASK_ID);
+  test2++;
 }
 OS_CORE0_TASK(5)
 {
@@ -98,11 +106,12 @@ OS_CORE0_TASK(8)
 OS_CORE0_TASK(9)
 {
   App_priv0_func_task_test_count(CURR_TASK_ID);
-  App_shared_func_flash_led_3();
+  //App_shared_func_flash_led_3();
 }
 OS_CORE0_TASK(10)
 {
   App_priv0_func_task_test_count(CURR_TASK_ID);
+  test3++;
   
 #if (MEASURE_MODE == CPULOAD_MEASURE)
   #if(CPULOAD_MEASURE_SWITCH == ON)
@@ -110,7 +119,7 @@ OS_CORE0_TASK(10)
   #endif
 #endif
 
-  App_shared_func_flash_led_4();
+  //App_shared_func_flash_led_4();
 }
 OS_CORE0_TASK(11){}
 OS_CORE0_TASK(12){}
