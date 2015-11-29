@@ -17,10 +17,15 @@ extern void  App_shared_func_flash_led_1(void);
 extern void  App_shared_func_flash_led_2(void);
 extern void  App_shared_func_flash_led_3(void);
 extern void  App_shared_func_flash_led_4(void);
-extern void  App_shared_func_stack_calculated(unsigned int channel);
-extern void  App_shared_func_stack_background_count(unsigned int channel);
-extern void  App_shared_func_task_test_count(unsigned int current_core_id,unsigned int channel);
 extern void  App_shared_func_trigger_software_interrupt1(void);
+extern void  App_shared_func_trigger_software_interrupt2(void);
+extern void  App_shared_func_trigger_software_interrupt3(void);
+extern void  App_shared_func_trigger_software_interrupt4(void);
+extern void  App_shared_func_trigger_software_interrupt5(void);
+extern void  App_shared_func_trigger_software_interrupt6(void);
+extern void  App_shared_func_trigger_software_interrupt7(void);
+extern void  App_shared_func_trigger_software_interrupt8(void);
+extern void  App_shared_func_trigger_software_interrupt9(void);
 extern void  App_shared_func_test_count();
 extern void  App_shared_func_one_stack_measured(unsigned int channel);
 

@@ -68,6 +68,19 @@
 #endif
 
 /****************************************************************************/
+/* Interrupt Callback                                                       */
+/****************************************************************************/
+#define SOFT_INTERRUPT1_CALLBACK App_shared_func_software_interrupt1_event();
+#define SOFT_INTERRUPT2_CALLBACK App_shared_func_software_interrupt2_event();
+#define SOFT_INTERRUPT3_CALLBACK App_shared_func_software_interrupt3_event();
+#define SOFT_INTERRUPT4_CALLBACK App_shared_func_software_interrupt4_event();
+#define SOFT_INTERRUPT5_CALLBACK App_shared_func_software_interrupt5_event();
+#define SOFT_INTERRUPT6_CALLBACK App_shared_func_software_interrupt6_event();
+#define SOFT_INTERRUPT7_CALLBACK App_shared_func_software_interrupt7_event();
+#define SOFT_INTERRUPT8_CALLBACK App_shared_func_software_interrupt8_event();
+#define SOFT_INTERRUPT9_CALLBACK App_shared_func_software_interrupt9_event();
+
+/****************************************************************************/
 /* Function Prototype Definitions                                           */
 /****************************************************************************/
 #if (OS_STACK_MODE == MANY_STACKS)
@@ -86,4 +99,13 @@ extern void initialize_core0_context_manager(void);
 extern void initialize_core1_context_manager(void);
 extern void initialize_core2_context_manager(void);
 
+extern void App_shared_func_software_interrupt1_event(void);
+extern void App_shared_func_software_interrupt2_event(void);
+extern void App_shared_func_software_interrupt3_event(void);
+extern void App_shared_func_software_interrupt4_event(void);
+extern void App_shared_func_software_interrupt5_event(void);
+extern void App_shared_func_software_interrupt6_event(void);
+extern void App_shared_func_software_interrupt7_event(void);
+extern void App_shared_func_software_interrupt8_event(void);
+extern void App_shared_func_software_interrupt9_event(void);
 #endif /* End of OS_MAPPING_H_ */

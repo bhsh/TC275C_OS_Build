@@ -91,7 +91,7 @@ void App_priv2_func_task_test_count(unsigned int channel)
 }  /* End of function App_priv2_func_task_test_count */
 
 /****************************************************************************/
-/* FUNCTION NAME: App_shared_func_task_test_count                           */
+/* FUNCTION NAME: App_priv2_func_cpuload_bkg_count                          */
 /* DESCRIPTION: Update the cpuload count in background logic                */
 /****************************************************************************/
 void App_priv2_func_cpuload_bkg_count(void)
