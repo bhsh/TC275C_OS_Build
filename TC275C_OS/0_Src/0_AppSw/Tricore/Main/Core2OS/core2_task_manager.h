@@ -17,19 +17,19 @@
 /****************************************************************************/
 /* <CORE2> Task Switch Configuration                                        */
 /****************************************************************************/
-#define  CORE2_OS_SWITCH        OFF  /* <CORE2> Switch off or on the os of core2 */
+#define  CORE2_OS_SWITCH        ON  /* <CORE2> Switch off or on the os of core2 */
 
 #define	 CORE2_TASK0_SWITCH	    ON
-#define	 CORE2_TASK1_SWITCH 	OFF
-#define	 CORE2_TASK2_SWITCH 	OFF
-#define	 CORE2_TASK3_SWITCH	    OFF
-#define	 CORE2_TASK4_SWITCH	    OFF
-#define	 CORE2_TASK5_SWITCH	    OFF
-#define	 CORE2_TASK6_SWITCH	    OFF
-#define	 CORE2_TASK7_SWITCH	    OFF
-#define	 CORE2_TASK8_SWITCH	    OFF
-#define	 CORE2_TASK9_SWITCH	    OFF
-#define	 CORE2_TASK10_SWITCH	OFF
+#define	 CORE2_TASK1_SWITCH 	ON
+#define	 CORE2_TASK2_SWITCH 	ON
+#define	 CORE2_TASK3_SWITCH	    ON
+#define	 CORE2_TASK4_SWITCH	    ON
+#define	 CORE2_TASK5_SWITCH	    ON
+#define	 CORE2_TASK6_SWITCH	    ON
+#define	 CORE2_TASK7_SWITCH	    ON
+#define	 CORE2_TASK8_SWITCH	    ON
+#define	 CORE2_TASK9_SWITCH	    ON
+#define	 CORE2_TASK10_SWITCH	ON
 #define	 CORE2_TASK11_SWITCH 	OFF
 #define	 CORE2_TASK12_SWITCH 	OFF
 #define	 CORE2_TASK13_SWITCH	OFF

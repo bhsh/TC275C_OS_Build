@@ -1044,7 +1044,7 @@ OS_STATIC void core1_os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_th
             while (thread != NULL)
 			  {
               tmp = thread->next;
-              i = thread->priority;
+              i = (os32_t)(thread->priority);
 
 #if(OS_STACK_MODE == ONE_STACK)  /* <MORE_STACKS> More stacks interface */    		  
   		      /* <CORE0> Set the status of the current thread to "ready" */
@@ -1125,7 +1125,7 @@ OS_STATIC void core2_os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_th
           while (thread != NULL)
 			{
             tmp = thread->next;
-            i = thread->priority;
+            i = (os32_t)(thread->priority);
 
 #if(OS_STACK_MODE == ONE_STACK)  /* <MORE_STACKS> More stacks interface */    		  
   		    /* <CORE0> Set the status of the current thread to "ready" */
