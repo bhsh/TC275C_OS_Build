@@ -203,11 +203,10 @@ osu32_t core1_get_context_usage(void)
   	core1_context_info[CONTEXT_END_ADDRESS] - get_context_last_used_addr((osu32_t*)core1_context_info[CONTEXT_BGEGIN_ADDRESS],
   	                                                                     core1_context_info[CONTEXT_SIZE_IN_BYTE]); 
   core1_context_info[CONTEXT_SIZE_USED_IN_16WORD]  = 
-  	core1_context_info[CONTEXT_SIZE_USED_IN_BYTE]/BYTES_IN_CONTEXT +
-  	 core1_context_info[CONTEXT_SIZE_USED_IN_BYTE]%BYTES_IN_CONTEXT == 0?0:1;
+  	core1_context_info[CONTEXT_SIZE_USED_IN_BYTE]/BYTES_IN_CONTEXT;
   
   core1_context_info[CONTEXT_SIZE_USED_IN_PERCENT] = 
-  	core1_context_info[CONTEXT_SIZE_USED_IN_16WORD]*RATIO/core1_context_info[CONTEXT_SIZE_IN_16WORD];
+  	core1_context_info[CONTEXT_SIZE_USED_IN_16WORD]*RATIO/core1_context_info[CONTEXT_SIZE_IN_16WORD]; 
 
   return core1_context_info[CONTEXT_SIZE_USED_IN_PERCENT];
 }  /* End of function core1_get_context_usage */
@@ -225,7 +224,7 @@ osu32_t core2_get_context_usage(void)
   	core2_context_info[CONTEXT_SIZE_USED_IN_BYTE]/BYTES_IN_CONTEXT;
   
   core2_context_info[CONTEXT_SIZE_USED_IN_PERCENT] = 
-  	core2_context_info[CONTEXT_SIZE_USED_IN_16WORD]*RATIO/core2_context_info[CONTEXT_SIZE_IN_16WORD];
+  	core2_context_info[CONTEXT_SIZE_USED_IN_16WORD]*RATIO/core2_context_info[CONTEXT_SIZE_IN_16WORD]; 
 
   return core2_context_info[CONTEXT_SIZE_USED_IN_PERCENT];
 }  /* End of function core2_get_context_usage */

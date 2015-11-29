@@ -138,6 +138,7 @@ OS_INLINE void list_delete_first(pthread_t *head)  /* <*head> list head pointer 
     *head = new;
 } /* End of list_delete_first function */
 
+//#pragma maxcalldepth 0
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Create threads                                 */
 /****************************************************************************/
@@ -307,7 +308,7 @@ os32_t core2_pthread_create_np(pthread_t thread, /* <thread> Thread control bloc
 
     return 0; /* Dummy to avoid warning */
 } /* End of pthread_create_np function */
-
+//#pragma maxcalldepth restore
 /****************************************************************************/
 /* DESCRIPTION: <EVERY CORE> Lock an resource.This is an OS API that is     */
 /*              provided to os user                                         */

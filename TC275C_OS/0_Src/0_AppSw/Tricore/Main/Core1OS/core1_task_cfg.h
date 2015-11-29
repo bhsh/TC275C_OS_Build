@@ -46,8 +46,8 @@
 #endif	
 #if (CORE1_TASK2_SWITCH == ON)
 #define CORE1_TASK2_TYPE             PERIODIC
-#define CORE1_TASK2_PERIOD           (500)  /* unit:ms */
-#define CORE1_TASK2_ACTIVED          NO_ACTIVED_TASK
+#define CORE1_TASK2_PERIOD           (1000)  /* unit:ms */
+#define CORE1_TASK2_ACTIVED          CORE1_TASK_ID3
 #define CORE1_TASK2_ACTIVED_COREID   CORE_ID1
 #define CORE1_TASK2_PRIORITY         LEVEL_2
 #define CORE1_TASK2_MODE             SUPER

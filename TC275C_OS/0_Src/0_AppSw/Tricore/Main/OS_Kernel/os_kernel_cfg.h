@@ -32,7 +32,8 @@
 /****************************************************************************/
 #define PTHREAD_PRIO_MAX 32               /* <EVERY CORE> Maximal priority thread level [0,31] */
 #define PTHREAD_DEFAULT_STACK_SIZE 256/4  /* <EVERY CORE> Default stack size is 256 bytes */
-#define PTHREAD_MEMORY_QUALIFIER  __a9        /* <EVERY CORE> None or global a8, a9 which are reserved for RTOS */
+//#define PTHREAD_MEMORY_QUALIFIER  __a9        /* <EVERY CORE> None or global a8, a9 which are reserved for RTOS */
+#define PTHREAD_MEMORY_QUALIFIER
 #define PTHREAD_DEFAULT_ATTR {SUPER, CALL_DEPTH_OVERFLOW_AT_64} /* <EVERY CORE> Default thread attributes: Supervisor mode, call depth = 64 */
 #define PTHREAD_SWAP_HANDLER 0            /* <EVERY CORE> No swap handler installed */
 #define PTHREAD_COND_TIMEDWAIT_SIZE 32    /* <EVERY CORE> Number of conditions that can wait for a period to be elapsed */

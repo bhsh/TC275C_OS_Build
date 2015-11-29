@@ -328,13 +328,13 @@ int core0_main (void)
 	//math1(7,6,5,4,3,2,1);
     /* Demo init */
     // configure P33.8 as general output
-    //IfxPort_setPinMode(&MODULE_P33, 8,  IfxPort_Mode_outputPushPullGeneral);
+    IfxPort_setPinMode(&MODULE_P33, 8,  IfxPort_Mode_outputPushPullGeneral);
      //configure P33.9 as general output
-    //IfxPort_setPinMode(&MODULE_P33, 9,  IfxPort_Mode_outputPushPullGeneral);
+    IfxPort_setPinMode(&MODULE_P33, 9,  IfxPort_Mode_outputPushPullGeneral);
 
-    //IfxPort_setPinMode(&MODULE_P33, 10,  IfxPort_Mode_outputPushPullGeneral);
+    IfxPort_setPinMode(&MODULE_P33, 10,  IfxPort_Mode_outputPushPullGeneral);
     // configure P33.9 as general output
-    //IfxPort_setPinMode(&MODULE_P33, 11,  IfxPort_Mode_outputPushPullGeneral);
+    IfxPort_setPinMode(&MODULE_P33, 11,  IfxPort_Mode_outputPushPullGeneral);
 
     //Init_soft_interrupt(&SRC_GPSR00,IFX_CFG_ISR_PRIORITY_CPU0_SOFTWAR0);
     //Init_soft_interrupt(&SRC_GPSR01,IFX_CFG_ISR_PRIORITY_CPU0_SOFTWAR1);

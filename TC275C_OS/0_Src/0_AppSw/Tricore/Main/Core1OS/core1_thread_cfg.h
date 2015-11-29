@@ -15,6 +15,7 @@
 /****************************************************************************/
 #include "os_thread_type.h"
 #include "core1_task_cfg.h"
+#include "os_mode.h"
 
 /****************************************************************************/
 /* Macro Definitions For thread switch                                      */
@@ -454,7 +455,7 @@
 #define CORE1_THREAD2_TYPE             CORE1_TASK2_TYPE             
 #define CORE1_THREAD2_PERIOD           CORE1_TASK2_PERIOD
 #define CORE1_THREAD2_ACTIVED          CORE1_TASK2_ACTIVED
-#define CORE1_THREAD2_ACTIVED_COREID   CORE1_TASK3_ACTIVED_COREID
+#define CORE1_THREAD2_ACTIVED_COREID   CORE1_TASK2_ACTIVED_COREID
 #define CORE1_THREAD2_PRIORITY         CORE1_TASK2_PRIORITY
 #define CORE1_THREAD2_MODE             CORE1_TASK2_MODE
 #define CORE1_THREAD2_STACK_SIZE       CORE1_TASK2_STACK_SIZE

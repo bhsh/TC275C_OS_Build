@@ -63,12 +63,12 @@ OS_CORE1_TASK(0)
 OS_CORE1_TASK(1)
 {
   App_priv1_func_task_test_count(CURR_TASK_ID);
-  //App_shared_func_flash_led_1();
+  App_shared_func_flash_led_1();
 }
 OS_CORE1_TASK(2)
 {
   App_priv1_func_task_test_count(CURR_TASK_ID);
-  //App_shared_func_flash_led_2();
+  App_shared_func_flash_led_2();
 }
 OS_CORE1_TASK(3)
 {
@@ -97,6 +97,7 @@ OS_CORE1_TASK(8)
 OS_CORE1_TASK(9)
 {
   App_priv1_func_task_test_count(CURR_TASK_ID);
+  App_shared_func_flash_led_3();
 }
 OS_CORE1_TASK(10)
 {
@@ -108,7 +109,7 @@ OS_CORE1_TASK(10)
   #endif
 #endif
 
-  //App_shared_func_flash_led_4();
+  App_shared_func_flash_led_4();
 }
 OS_CORE1_TASK(11){}
 OS_CORE1_TASK(12){}
