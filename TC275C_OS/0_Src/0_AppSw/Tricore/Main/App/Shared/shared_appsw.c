@@ -30,7 +30,15 @@
 /* Static Variable Definitions                                              */
 /****************************************************************************/
 static volatile unsigned int App_shared_var_test_count;
-
+static volatile unsigned int App_shared_var_soft_int_test_count1;
+static volatile unsigned int App_shared_var_soft_int_test_count2;
+static volatile unsigned int App_shared_var_soft_int_test_count3;
+static volatile unsigned int App_shared_var_soft_int_test_count4;
+static volatile unsigned int App_shared_var_soft_int_test_count5;
+static volatile unsigned int App_shared_var_soft_int_test_count6;
+static volatile unsigned int App_shared_var_soft_int_test_count7;
+static volatile unsigned int App_shared_var_soft_int_test_count8;
+static volatile unsigned int App_shared_var_soft_int_test_count9;
 /****************************************************************************/
 /* Shared Funtion Definitions                                               */
 /****************************************************************************/
@@ -91,30 +99,39 @@ void App_shared_func_trigger_software_interrupt9(void)
 }
 void App_shared_func_software_interrupt1_event(void)
 {
+  App_shared_var_soft_int_test_count1++;
 }
 void App_shared_func_software_interrupt2_event(void)
 {
+  App_shared_var_soft_int_test_count2++;
 }
 void App_shared_func_software_interrupt3_event(void)
 {
+  App_shared_var_soft_int_test_count3++;
 }
 void App_shared_func_software_interrupt4_event(void)
 {
+  App_shared_var_soft_int_test_count4++;
 }
 void App_shared_func_software_interrupt5_event(void)
 {
+  App_shared_var_soft_int_test_count5++;
 }
 void App_shared_func_software_interrupt6_event(void)
 {
+  App_shared_var_soft_int_test_count6++;
 }
 void App_shared_func_software_interrupt7_event(void)
 {
+  App_shared_var_soft_int_test_count7++;
 }
 void App_shared_func_software_interrupt8_event(void)
 {
+  App_shared_var_soft_int_test_count8++;
 }
 void App_shared_func_software_interrupt9_event(void)
 {
+  App_shared_var_soft_int_test_count9++;
 }
 void  App_shared_func_test_count()
 {
