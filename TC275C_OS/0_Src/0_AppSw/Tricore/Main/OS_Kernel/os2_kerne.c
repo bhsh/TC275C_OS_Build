@@ -464,7 +464,7 @@ OS_STATIC void core2_os_kernel(pthread_t *blocked_threads_ptr, pthread_t last_th
           while (thread != NULL)
 			{
             tmp = thread->next;
-            i = (os32_t)(thread->priority);
+            i = thread->priority;
 
 #if(OS_STACK_MODE == ONE_STACK)  /* <MORE_STACKS> More stacks interface */    		  
   		    /* <CORE0> Set the status of the current thread to "ready" */
@@ -500,7 +500,6 @@ OS_INLINE void core2_os_kernel_in_tick(void)
     osu32_t             index;
 	osu32_t             release_count = 0;
 	osu32_t             tempt_index;
-	osu32_t             current_core_id = os_getCoreId();
 	pthread_timewait_t  *cond;
 	pthread_timewait_t  *cond_buffer[PTHREAD_COND_TIMEDWAIT_SIZE];
 	
@@ -614,6 +613,7 @@ void core2_pthread_restore_allthreads(void)
 	  if(core2_os_pthread_running->priority < 
 	   	 ((PTHREAD_PRIO_MAX-1) - __clz(core2_os_pthread_runnable))) dispatch_only(NULL,NULL);     
     }
+    
 } /* End of pthread_restore_allthreads function */
 
 /****************************************************************************/
@@ -655,6 +655,8 @@ void __interrupt(CORE2_KERNEL_SOFT_INT_LEVEL) __vector_table(VECTOR_TABLE0) core
 /****************************************************************************/
 void core2_kernel_trap_systemcall(osu32_t tin)
 {
+	/* Add the kernel of OS */
+	/* Kernel begins        */
     __asm(  " mtcr #ICR,%0    \n"
             " isync           \n"
             " jg core2_os_kernel     "

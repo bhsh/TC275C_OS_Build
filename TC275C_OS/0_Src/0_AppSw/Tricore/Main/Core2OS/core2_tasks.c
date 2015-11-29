@@ -25,6 +25,10 @@
 /*              3. Monitor the usage of stack                               */
 /*              4. Other background task                                    */
 /****************************************************************************/
+static volatile int core2_test0 = 0;
+static volatile int core2_test1 = 0;
+static volatile int core2_test2 = 0;
+static volatile int core2_test3 = 0;
 OS_CORE2_TASK(0)
 {
   /* There is a counter associated with task and increasing in by one when the task is entered */
@@ -64,15 +68,18 @@ OS_CORE2_TASK(1)
 OS_CORE2_TASK(2)
 {
   App_priv2_func_task_test_count(CURR_TASK_ID);
+  core2_test0++;
   //App_shared_func_flash_led_2();
 }
 OS_CORE2_TASK(3)
 {
   App_priv2_func_task_test_count(CURR_TASK_ID);
+  core2_test1++;
 }
 OS_CORE2_TASK(4)
 {
   App_priv2_func_task_test_count(CURR_TASK_ID);
+  core2_test2++;
 }
 OS_CORE2_TASK(5)
 {
@@ -98,6 +105,7 @@ OS_CORE2_TASK(9)
 OS_CORE2_TASK(10)
 {
   App_priv2_func_task_test_count(CURR_TASK_ID);
+  core2_test3++;
   
 #if (MEASURE_MODE == CPULOAD_MEASURE)
   #if(CPULOAD_MEASURE_SWITCH == ON)
