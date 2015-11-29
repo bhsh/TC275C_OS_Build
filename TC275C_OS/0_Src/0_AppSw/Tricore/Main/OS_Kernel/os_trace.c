@@ -25,11 +25,11 @@
 /* Type Definitions                                                         */
 /****************************************************************************/
 typedef enum 
-{
+{   
+	REC_BEGIN_TIMESLOT,
+    REC_END_TIMESLOT,
     REC_CURR_EXE_TIME,
     REC_MAX_EXE_TIME,
-    REC_BEGIN_TIMESLOT,
-    REC_END_TIMESLOT,
     REC_CURR_SWITCHING_TIME,
 	REC_MAX_SWITCHING_TIME,
 	REC_CURR_PERIODIC_TIME,
@@ -108,16 +108,16 @@ void core0_os_trace_task_time_end(osu32_t thread_id)
 { 
 	if(thread_id < TRACE_MAX_THREAD_NUM)
 	{
-	  /* <CORE1> Record the timeslot after the task is executed */
+	  /* <CORE0> Record the timeslot after the task is executed */
       core0_os_trace_info[thread_id][REC_END_TIMESLOT] = core0_os_trace_time(); 
 
-      /* <CORE1> Record the execution time of the current task, */
+      /* <CORE0> Record the execution time of the current task, */
 	  /* unit: 0.1 us in the current software configuration     */
       core0_os_trace_info[thread_id][REC_CURR_EXE_TIME] = 
         core0_os_trace_info[thread_id][REC_END_TIMESLOT] - 
           core0_os_trace_info[thread_id][REC_BEGIN_TIMESLOT];
 
-	  /* <CORE1> Record the max execution time of task          */
+	  /* <CORE0> Record the max execution time of task          */
 	  if(core0_os_trace_info[thread_id][REC_CURR_EXE_TIME] > 
 		     core0_os_trace_info[thread_id][REC_MAX_EXE_TIME])
 	  {
@@ -150,7 +150,7 @@ void core1_os_trace_task_time_begin(osu32_t thread_id)
 		
     if(thread_id < TRACE_MAX_THREAD_NUM)
 	{
-      /* <CORE0> Record the timeslot before the task is executed */
+      /* <CORE1> Record the timeslot before the task is executed */
 	  last_begin_timeslot = core1_os_trace_info[thread_id][REC_BEGIN_TIMESLOT];
       core1_os_trace_info[thread_id][REC_BEGIN_TIMESLOT] = core1_os_trace_time();
 	  core1_os_trace_info[thread_id][REC_CURR_PERIODIC_TIME] = 
