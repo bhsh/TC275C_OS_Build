@@ -30,10 +30,10 @@
 /*              3. Monitor the usage of stack                               */
 /*              4. Other background task                                    */
 /****************************************************************************/
-volatile int test0 = 0;
-volatile int test1 = 0;
-volatile int test2 = 0;
-volatile int test3 = 0;
+static volatile int core0_test0 = 0;
+static volatile int core0_test1 = 0;
+static volatile int core0_test2 = 0;
+static volatile int core0_test3 = 0;
 OS_CORE0_TASK(0)
 { 
   /* There is a counter associated with task and increasing in by one when the task is entered */
@@ -75,17 +75,17 @@ OS_CORE0_TASK(2)
 {
   App_priv0_func_task_test_count(CURR_TASK_ID);
   //App_shared_func_flash_led_2();
-  test0++;
+  core0_test0++;
 }
 OS_CORE0_TASK(3)
 {
   App_priv0_func_task_test_count(CURR_TASK_ID);
-  test1++;
+  core0_test1++;
 }
 OS_CORE0_TASK(4)
 {
   App_priv0_func_task_test_count(CURR_TASK_ID);
-  test2++;
+  core0_test2++;
 }
 OS_CORE0_TASK(5)
 {
@@ -111,7 +111,7 @@ OS_CORE0_TASK(9)
 OS_CORE0_TASK(10)
 {
   App_priv0_func_task_test_count(CURR_TASK_ID);
-  test3++;
+  core0_test3++;
   //App_shared_func_trigger_software_interrupt7();
   
 #if (MEASURE_MODE == CPULOAD_MEASURE)
