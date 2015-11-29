@@ -112,7 +112,7 @@ OS_CORE0_TASK(10)
 {
   App_priv0_func_task_test_count(CURR_TASK_ID);
   test3++;
-  App_shared_func_trigger_software_interrupt1();
+  //App_shared_func_trigger_software_interrupt7();
   
 #if (MEASURE_MODE == CPULOAD_MEASURE)
   #if(CPULOAD_MEASURE_SWITCH == ON)

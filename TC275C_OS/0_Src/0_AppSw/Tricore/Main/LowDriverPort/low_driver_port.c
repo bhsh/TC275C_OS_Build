@@ -278,7 +278,7 @@ void LowDriver_Trigger_Software_Interrupt3(void)
 /****************************************************************************/
 void LowDriver_Trigger_Software_Interrupt4(void)
 {
-    SRC_GPSR01.U = (1<<26)|   /* SRC_GPSR01.B.SETR=1;  */ 
+    SRC_GPSR02.U = (1<<26)|   /* SRC_GPSR01.B.SETR=1;  */ 
   		           (1<<10)|   /* SRC_GPSR01.B.SRE=1;   */
   	               (0<<11)|   /* SRC_GPSR01.B.TOS=0;   */
                    (CORE0_SOFT2_ISR_PRIORITY);      /* SRC_GPSR01.B.SRPN=20; */ 
@@ -290,7 +290,7 @@ void LowDriver_Trigger_Software_Interrupt4(void)
 /****************************************************************************/
 void LowDriver_Trigger_Software_Interrupt5(void)
 {
-    SRC_GPSR11.U = (1<<26)|   /* SRC_GPSR11.B.SETR=1;  */
+    SRC_GPSR12.U = (1<<26)|   /* SRC_GPSR11.B.SETR=1;  */
     	           (1<<10)|   /* SRC_GPSR11.B.SRE=1;   */
     	           (1<<11)|   /* SRC_GPSR11.B.TOS=1;   */
     	           (CORE1_SOFT2_ISR_PRIORITY);      /* SRC_GPSR11.B.SRPN=21; */
@@ -302,7 +302,7 @@ void LowDriver_Trigger_Software_Interrupt5(void)
 /****************************************************************************/
 void LowDriver_Trigger_Software_Interrupt6(void)
 {
-    SRC_GPSR21.U = (1<<26)|   /* SRC_GPSR21.B.SETR=1;  */
+    SRC_GPSR22.U = (1<<26)|   /* SRC_GPSR21.B.SETR=1;  */
     	           (1<<10)|   /* SRC_GPSR21.B.SRE=1;   */
     	           (2<<11)|   /* SRC_GPSR21.B.TOS=2;   */
     	           (CORE2_SOFT2_ISR_PRIORITY);      /* SRC_GPSR21.B.SRPN=22; */ 
@@ -314,7 +314,7 @@ void LowDriver_Trigger_Software_Interrupt6(void)
 /****************************************************************************/
 void LowDriver_Trigger_Software_Interrupt7(void)
 {
-    SRC_GPSR01.U = (1<<26)|   /* SRC_GPSR01.B.SETR=1;  */ 
+    SRC_GPSR03.U = (1<<26)|   /* SRC_GPSR01.B.SETR=1;  */ 
   		           (1<<10)|   /* SRC_GPSR01.B.SRE=1;   */
   	               (0<<11)|   /* SRC_GPSR01.B.TOS=0;   */
                    (CORE0_SOFT3_ISR_PRIORITY);      /* SRC_GPSR01.B.SRPN=20; */ 
@@ -326,7 +326,7 @@ void LowDriver_Trigger_Software_Interrupt7(void)
 /****************************************************************************/
 void LowDriver_Trigger_Software_Interrupt8(void)
 {
-    SRC_GPSR11.U = (1<<26)|   /* SRC_GPSR11.B.SETR=1;  */
+    SRC_GPSR13.U = (1<<26)|   /* SRC_GPSR11.B.SETR=1;  */
     	           (1<<10)|   /* SRC_GPSR11.B.SRE=1;   */
     	           (1<<11)|   /* SRC_GPSR11.B.TOS=1;   */
     	           (CORE1_SOFT3_ISR_PRIORITY);      /* SRC_GPSR11.B.SRPN=21; */
@@ -338,7 +338,7 @@ void LowDriver_Trigger_Software_Interrupt8(void)
 /****************************************************************************/
 void LowDriver_Trigger_Software_Interrupt9(void)
 {
-    SRC_GPSR21.U = (1<<26)|   /* SRC_GPSR21.B.SETR=1;  */
+    SRC_GPSR23.U = (1<<26)|   /* SRC_GPSR21.B.SETR=1;  */
     	           (1<<10)|   /* SRC_GPSR21.B.SRE=1;   */
     	           (2<<11)|   /* SRC_GPSR21.B.TOS=2;   */
     	           (CORE2_SOFT3_ISR_PRIORITY);      /* SRC_GPSR21.B.SRPN=22; */ 
