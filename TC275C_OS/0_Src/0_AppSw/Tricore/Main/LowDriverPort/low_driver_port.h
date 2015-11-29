@@ -92,7 +92,7 @@ inline void core0_os_trace_thread_timeslot(void)
 inline void core1_os_trace_thread_timeslot(void)
 {   
 	extern osu32_t core1_os_thread_thread_timeslot;
-	core1_os_thread_thread_timeslot = LowDriver_GetStm0_LowerCount();
+	core1_os_thread_thread_timeslot = LowDriver_GetStm1_LowerCount();
 	
 } /* End of LowDriver_GetStmLower_Count function */
 
@@ -104,7 +104,7 @@ inline void core1_os_trace_thread_timeslot(void)
 inline void core2_os_trace_thread_timeslot(void)
 {   
 	extern osu32_t core2_os_thread_thread_timeslot;
-	core2_os_thread_thread_timeslot = LowDriver_GetStm0_LowerCount();
+	core2_os_thread_thread_timeslot = LowDriver_GetStm2_LowerCount();
 	
 } /* End of LowDriver_GetStmLower_Count function */
 
