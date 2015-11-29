@@ -57,7 +57,7 @@ static volatile osu32_t core2_os_trace_info[TRACE_MAX_THREAD_NUM][REC_MAX_ITEMS]
 /****************************************************************************/
 
 /****************************************************************************/
-/* FUNTION NAME:core0_os_trace_info_time                                         */
+/* FUNTION NAME:core0_os_trace_info_time                                    */
 /* DESCRIPTION: Get time slot by call lowdriver API                         */
 /****************************************************************************/
 static osu32_t core0_os_trace_time(void)
@@ -75,7 +75,7 @@ void core0_os_trace_task_time_begin(osu32_t thread_id)
 		
     if(thread_id < TRACE_MAX_THREAD_NUM)
 	{
-      /* <CORE 0> Record the timeslot before the task is executed */
+      /* <CORE0> Record the timeslot before the task is executed */
 	  last_begin_timeslot = core0_os_trace_info[thread_id][REC_BEGIN_TIMESLOT];
       core0_os_trace_info[thread_id][REC_BEGIN_TIMESLOT] = core0_os_trace_time();
 	  core0_os_trace_info[thread_id][REC_CURR_PERIODIC_TIME] = 
@@ -101,23 +101,23 @@ void core0_os_trace_task_time_begin(osu32_t thread_id)
 } /* End of core0_os_trace_task_time_begin function  */
 
 /****************************************************************************/
-/* FUNTION NAME:core0_os_trace_info_task_time_end                                */ 
+/* FUNTION NAME:core0_os_trace_info_task_time_end                           */ 
 /* DESCRIPTION: Trace logic that is set up before each task in thread       */
 /****************************************************************************/
 void core0_os_trace_task_time_end(osu32_t thread_id)
 { 
 	if(thread_id < TRACE_MAX_THREAD_NUM)
 	{
-	  /* <EVERY CORE> Record the timeslot after the task is executed */
+	  /* <CORE1> Record the timeslot after the task is executed */
       core0_os_trace_info[thread_id][REC_END_TIMESLOT] = core0_os_trace_time(); 
 
-      /* <EVERY CORE> Record the execution time of the current task, */
-	  /* unit: 0.1 us in the current software configuration          */
+      /* <CORE1> Record the execution time of the current task, */
+	  /* unit: 0.1 us in the current software configuration     */
       core0_os_trace_info[thread_id][REC_CURR_EXE_TIME] = 
         core0_os_trace_info[thread_id][REC_END_TIMESLOT] - 
           core0_os_trace_info[thread_id][REC_BEGIN_TIMESLOT];
 
-	  /* <EVERY CORE> Record the max execution time of task          */
+	  /* <CORE1> Record the max execution time of task          */
 	  if(core0_os_trace_info[thread_id][REC_CURR_EXE_TIME] > 
 		     core0_os_trace_info[thread_id][REC_MAX_EXE_TIME])
 	  {
@@ -125,14 +125,14 @@ void core0_os_trace_task_time_end(osu32_t thread_id)
 	 	  core0_os_trace_info[thread_id][REC_CURR_EXE_TIME];
 	  }
 	}
-}/* End of os_trace_task_time_end function  */
+}/* End of core0_os_trace_task_time_end function  */
 
 /****************************************************************************/
 /* Function Definitions of core1 trace                                      */
 /****************************************************************************/
 
 /****************************************************************************/
-/* FUNTION NAME:core1_os_trace_info_time                                         */
+/* FUNTION NAME:core1_os_trace_info_time                                    */
 /* DESCRIPTION: Get time slot by call lowdriver API                         */
 /****************************************************************************/
 static osu32_t core1_os_trace_time(void)
@@ -150,7 +150,7 @@ void core1_os_trace_task_time_begin(osu32_t thread_id)
 		
     if(thread_id < TRACE_MAX_THREAD_NUM)
 	{
-      /* <CORE 0> Record the timeslot before the task is executed */
+      /* <CORE0> Record the timeslot before the task is executed */
 	  last_begin_timeslot = core1_os_trace_info[thread_id][REC_BEGIN_TIMESLOT];
       core1_os_trace_info[thread_id][REC_BEGIN_TIMESLOT] = core1_os_trace_time();
 	  core1_os_trace_info[thread_id][REC_CURR_PERIODIC_TIME] = 
@@ -176,23 +176,23 @@ void core1_os_trace_task_time_begin(osu32_t thread_id)
 } /* End of core1_os_trace_task_time_begin function  */
 
 /****************************************************************************/
-/* FUNTION NAME:core1_os_trace_info_task_time_end                                */ 
+/* FUNTION NAME:core1_os_trace_info_task_time_end                           */ 
 /* DESCRIPTION: Trace logic that is set up before each task in thread       */
 /****************************************************************************/
 void core1_os_trace_task_time_end(osu32_t thread_id)
 { 
 	if(thread_id < TRACE_MAX_THREAD_NUM)
 	{
-	  /* <EVERY CORE> Record the timeslot after the task is executed */
+	  /* <CORE1> Record the timeslot after the task is executed */
       core1_os_trace_info[thread_id][REC_END_TIMESLOT] = core1_os_trace_time(); 
 
-      /* <EVERY CORE> Record the execution time of the current task, */
-	  /* unit: 0.1 us in the current software configuration          */
+      /* <CORE1> Record the execution time of the current task, */
+	  /* unit: 0.1 us in the current software configuration     */
       core1_os_trace_info[thread_id][REC_CURR_EXE_TIME] = 
         core1_os_trace_info[thread_id][REC_END_TIMESLOT] - 
           core1_os_trace_info[thread_id][REC_BEGIN_TIMESLOT];
 
-	  /* <EVERY CORE> Record the max execution time of task          */
+	  /* <CORE1> Record the max execution time of task          */
 	  if(core1_os_trace_info[thread_id][REC_CURR_EXE_TIME] > 
 		     core1_os_trace_info[thread_id][REC_MAX_EXE_TIME])
 	  {
@@ -200,20 +200,20 @@ void core1_os_trace_task_time_end(osu32_t thread_id)
 	 	  core1_os_trace_info[thread_id][REC_CURR_EXE_TIME];
 	  }
 	}
-}/* End of os_trace_task_time_end function  */
+}/* End of core1_os_trace_task_time_end function  */
 
 /****************************************************************************/
 /* Function Definitions of core2 trace                                      */
 /****************************************************************************/
 
 /****************************************************************************/
-/* FUNTION NAME:core2_os_trace_info_time                                         */
+/* FUNTION NAME:core2_os_trace_info_time                                    */
 /* DESCRIPTION: Get time slot by call lowdriver API                         */
 /****************************************************************************/
 static osu32_t core2_os_trace_time(void)
 {
     return (osu32_t)LowDriver_GetStm1_LowerCount();
-} /* End of os_trace_time function  */
+} /* End of core2_os_trace_time function  */
 
 /****************************************************************************/
 /* FUNTION NAME:core2_os_trace_info_task_time_begin                         */
@@ -225,7 +225,7 @@ void core2_os_trace_task_time_begin(osu32_t thread_id)
 		
     if(thread_id < TRACE_MAX_THREAD_NUM)
 	{
-      /* <CORE 0> Record the timeslot before the task is executed */
+      /* <CORE2> Record the timeslot before the task is executed */
 	  last_begin_timeslot = core2_os_trace_info[thread_id][REC_BEGIN_TIMESLOT];
       core2_os_trace_info[thread_id][REC_BEGIN_TIMESLOT] = core2_os_trace_time();
 	  core2_os_trace_info[thread_id][REC_CURR_PERIODIC_TIME] = 
@@ -251,23 +251,23 @@ void core2_os_trace_task_time_begin(osu32_t thread_id)
 } /* End of core2_os_trace_task_time_begin function  */
 
 /****************************************************************************/
-/* FUNTION NAME:core2_os_trace_info_task_time_end                                */ 
+/* FUNTION NAME:core2_os_trace_info_task_time_end                           */ 
 /* DESCRIPTION: Trace logic that is set up before each task in thread       */
 /****************************************************************************/
 void core2_os_trace_task_time_end(osu32_t thread_id)
 { 
 	if(thread_id < TRACE_MAX_THREAD_NUM)
 	{
-	  /* <EVERY CORE> Record the timeslot after the task is executed */
+	  /* <CORE2> Record the timeslot after the task is executed */
       core2_os_trace_info[thread_id][REC_END_TIMESLOT] = core2_os_trace_time(); 
 
-      /* <EVERY CORE> Record the execution time of the current task, */
-	  /* unit: 0.1 us in the current software configuration          */
+      /* <CORE2> Record the execution time of the current task, */
+	  /* unit: 0.1 us in the current software configuration     */
       core2_os_trace_info[thread_id][REC_CURR_EXE_TIME] = 
         core2_os_trace_info[thread_id][REC_END_TIMESLOT] - 
           core2_os_trace_info[thread_id][REC_BEGIN_TIMESLOT];
 
-	  /* <EVERY CORE> Record the max execution time of task          */
+	  /* <CORE2> Record the max execution time of task          */
 	  if(core2_os_trace_info[thread_id][REC_CURR_EXE_TIME] > 
 		     core2_os_trace_info[thread_id][REC_MAX_EXE_TIME])
 	  {
@@ -275,5 +275,5 @@ void core2_os_trace_task_time_end(osu32_t thread_id)
 	 	  core2_os_trace_info[thread_id][REC_CURR_EXE_TIME];
 	  }
 	}
-}/* End of os_trace_task_time_end function  */
+}/* End of core2_os_trace_task_time_end function  */
 
