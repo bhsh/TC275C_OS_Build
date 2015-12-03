@@ -261,7 +261,8 @@ os32_t core1_pthread_cond_wait(pthread_cond_t *cond)/* <*cond> condition pointer
 os32_t core1_pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition pointer */
 {
     assert(cond!=NULL);
-	osu32_t cond_core_id   = cond->core_id;
+	osu32_t cond_core_id;
+	cond_core_id = cond->core_id;
 
 #if (COND_SEMAPHORE_STATUS == ENABLE)
 	if(cond->semaphore == 0)
@@ -644,8 +645,10 @@ void __interrupt(CORE1_KERNEL_TICK_INT_LEVEL) __vector_table(VECTOR_TABLE0) core
 /*                       activation when the activation source is located   */
 /*                       in interrupt                                       */
 /****************************************************************************/
+static volatile osu32_t core0_trig_core1_int_count = 0;
 void __interrupt(CORE1_KERNEL_SOFT_INT_LEVEL) __vector_table(VECTOR_TABLE0) core1_kernel_soft_isr(void)
-{
+{  
+	core0_trig_core1_int_count++;
     __asm("; setup parameter and jump to os_kernel \n"
             " mov.aa a4,%0 \n"
             " mov.aa a5,%1 \n"

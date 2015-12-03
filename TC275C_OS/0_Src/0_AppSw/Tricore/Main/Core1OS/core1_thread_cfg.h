@@ -2446,6 +2446,7 @@ void core1_pthread_management_prolog(pthread_config_t *pthread_config)
 /* DESCRIPTION: The processing logic is called after task in each thread    */
 /*              in order to setup measurement and thread management         */
 /****************************************************************************/
+static volatile osu32_t core1_monitor_count = 0;
 void core1_pthread_management_epilog(pthread_config_t *pthread_config)
 { 	
   /* Trace */
@@ -2457,11 +2458,15 @@ void core1_pthread_management_epilog(pthread_config_t *pthread_config)
   if(pthread_config->actived_task_id != NO_ACTIVED_THREAD)
   { 
   	 if(pthread_config->actived_task_core_id == CORE_ID0)
-	 {
+	 {    
 		  core1_pthread_cond_broadcast(&core0_pthread_cond[pthread_config->actived_task_id]);
 	 }
 	 else if(pthread_config->actived_task_core_id == CORE_ID1)
-	 {
+	 {   
+	 	  if(pthread_config->curr_task_id == CORE1_TASK_ID8)
+		  {
+             core1_monitor_count++;
+		  }
 		  core1_pthread_cond_broadcast(&core1_pthread_cond[pthread_config->actived_task_id]);
 	 }
 	 else if(pthread_config->actived_task_core_id == CORE_ID2)

@@ -257,6 +257,10 @@ os32_t core0_pthread_cond_wait(pthread_cond_t *cond)/* <*cond> condition pointer
 /*              The thread and interrupt in one core can active the thread  */
 /*              of another core                                             */
 /****************************************************************************/
+static volatile osu32_t core0_trig_core0_trap_count = 0;
+static volatile osu32_t core0_trig_core0_int_count = 0;
+static volatile osu32_t core0_trig_core1_count = 0;
+static volatile osu32_t core0_trig_core2_count = 0;
 os32_t core0_pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition pointer */
 {
     assert(cond!=NULL);
@@ -273,12 +277,14 @@ os32_t core0_pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition p
 		  {
    		  	CORE0_PTHREAD_OBTAIN_TIMESLOT_CALLBACK
    			if(0 == cppn())
-   	        {		
+   	        {	
+			  core0_trig_core0_trap_count++;
    	          /* <EVERY CORE> _pthread_running on CCPN=0 */
    	          dispatch_signal(&cond->blocked_threads, cond->blocked_threads->prev);
    	        }
    	        else
-   			{ 
+   			{  
+				core0_trig_core0_int_count++;
    				while(0!=core_getMutex(&core0_os_mutex)){};
    				 
    	    	    core0_os_blocked_threads=NULL;
@@ -302,7 +308,7 @@ os32_t core0_pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition p
 		  else if(cond_core_id == CORE1_ID)
 		  {     
 		  	    CORE1_PTHREAD_OBTAIN_TIMESLOT_CALLBACK
-					
+				core0_trig_core1_count ++;	
 	            while(0!=core_getMutex(&core1_os_mutex)){};
 				
 	    	    core1_os_blocked_threads=NULL;
@@ -325,7 +331,7 @@ os32_t core0_pthread_cond_broadcast(pthread_cond_t *cond) /* <*cond> condition p
 	      else if(cond_core_id == CORE2_ID)
 		  { 
 		  	    CORE2_PTHREAD_OBTAIN_TIMESLOT_CALLBACK
-					
+				core0_trig_core2_count ++;	
 	            while(0!=core_getMutex(&core2_os_mutex)){};
 				 
 	    	    core2_os_blocked_threads=NULL;
@@ -688,7 +694,8 @@ void __interrupt(CORE0_KERNEL_TICK_INT_LEVEL) __vector_table(VECTOR_TABLE0) core
 /*                       in interrupt                                       */
 /****************************************************************************/
 void __interrupt(CORE0_KERNEL_SOFT_INT_LEVEL) __vector_table(VECTOR_TABLE0) core0_kernel_soft_isr(void)
-{
+{  
+	core0_trig_core0_int_count++;
     __asm("; setup parameter and jump to os_kernel \n"
             " mov.aa a4,%0 \n"
             " mov.aa a5,%1 \n"

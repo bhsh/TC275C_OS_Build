@@ -29,6 +29,12 @@ static volatile int core2_test0 = 0;
 static volatile int core2_test1 = 0;
 static volatile int core2_test2 = 0;
 static volatile int core2_test3 = 0;
+static volatile int core2_test4 = 0;
+static volatile int core2_test5 = 0;
+static volatile int core2_test6 = 0;
+static volatile int core2_test7 = 0;
+static volatile int core2_test8 = 0;
+
 OS_CORE2_TASK(0)
 {
   /* There is a counter associated with task and increasing in by one when the task is entered */
@@ -84,28 +90,33 @@ OS_CORE2_TASK(4)
 OS_CORE2_TASK(5)
 {
   App_priv2_func_task_test_count(CURR_TASK_ID);
+  core2_test3++;
 }
 OS_CORE2_TASK(6)
 {
   App_priv2_func_task_test_count(CURR_TASK_ID);
+  core2_test4++;
 }
 OS_CORE2_TASK(7)
 {
   App_priv2_func_task_test_count(CURR_TASK_ID);
+  core2_test5++;
 }
 OS_CORE2_TASK(8)
 {
   App_priv2_func_task_test_count(CURR_TASK_ID);
+  core2_test6++;
 }
 OS_CORE2_TASK(9)
 {
   App_priv2_func_task_test_count(CURR_TASK_ID);
+  core2_test7++;
   //App_shared_func_flash_led_3();
 }
 OS_CORE2_TASK(10)
 {
   App_priv2_func_task_test_count(CURR_TASK_ID);
-  core2_test3++;
+  core2_test8++;
   
 #if (MEASURE_MODE == CPULOAD_MEASURE)
   #if(CPULOAD_MEASURE_SWITCH == ON)

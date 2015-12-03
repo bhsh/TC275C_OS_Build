@@ -45,6 +45,17 @@ static volatile unsigned int App_priv0_var_CPU_Load_Backg_Count;
 static volatile unsigned int App_priv0_var_CPU_load;
 static APP_PRIV0_CPU_LOAD_LOGIC_STATUS_t App_priv0_var_state_machine_state = RUNNING;
 static volatile unsigned int App_priv0_var_context_usage_percent;
+static volatile unsigned int App_priv0_var_task_test_count0;
+static volatile unsigned int App_priv0_var_task_test_count1;
+static volatile unsigned int App_priv0_var_task_test_count2;
+static volatile unsigned int App_priv0_var_task_test_count3;
+static volatile unsigned int App_priv0_var_task_test_count4;
+static volatile unsigned int App_priv0_var_task_test_count5;
+static volatile unsigned int App_priv0_var_task_test_count6;
+static volatile unsigned int App_priv0_var_task_test_count7;
+static volatile unsigned int App_priv0_var_task_test_count8;
+static volatile unsigned int App_priv0_var_task_test_count9;
+static volatile unsigned int App_priv0_var_task_test_count10;
 
 /****************************************************************************/
 /* Private0 Function Definitions                                            */
@@ -87,7 +98,45 @@ void App_priv0_func_one_stack_measured(void)
 /****************************************************************************/
 void App_priv0_func_task_test_count(unsigned int channel)
 {
-  App_priv0_var_task_test_count[channel]++;
+ // App_priv0_var_task_test_count[channel]++;
+    switch(channel)
+  {
+   case 0:
+     App_priv0_var_task_test_count0++;
+	 break;
+   case 1:
+     App_priv0_var_task_test_count1++;
+	 break;
+   case 2:
+     App_priv0_var_task_test_count2++;
+	 break;
+   case 3:
+     App_priv0_var_task_test_count3++;
+	 break;
+   case 4:
+     App_priv0_var_task_test_count4++;
+	 break;
+   case 5:
+     App_priv0_var_task_test_count5++;
+	 break;
+   case 6:
+     App_priv0_var_task_test_count6++;
+	 break;
+   case 7:
+     App_priv0_var_task_test_count7++;
+	 break;
+   case 8:
+     App_priv0_var_task_test_count8++;
+	 break;
+   case 9:
+     App_priv0_var_task_test_count9++;
+	 break;
+   case 10:
+     App_priv0_var_task_test_count10++;
+	 break;
+   default:
+   	 break;
+  }
 }  /* End of function App_priv0_func_task_test_count */
 
 /****************************************************************************/
