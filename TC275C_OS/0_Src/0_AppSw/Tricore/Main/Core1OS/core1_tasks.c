@@ -119,27 +119,90 @@ OS_CORE1_TASK(10)
 
   //App_shared_func_flash_led_4();
 }
-OS_CORE1_TASK(11){}
-OS_CORE1_TASK(12){}
-OS_CORE1_TASK(13){}
-OS_CORE1_TASK(14){}
-OS_CORE1_TASK(15){}
-OS_CORE1_TASK(16){}
-OS_CORE1_TASK(17){}
-OS_CORE1_TASK(18){}
-OS_CORE1_TASK(19){}
-OS_CORE1_TASK(20){}
-OS_CORE1_TASK(21){}
-OS_CORE1_TASK(22){}
-OS_CORE1_TASK(23){}
-OS_CORE1_TASK(24){}
-OS_CORE1_TASK(25){}
-OS_CORE1_TASK(26){}
-OS_CORE1_TASK(27){}
-OS_CORE1_TASK(28){}
-OS_CORE1_TASK(29){}
-OS_CORE1_TASK(30){}
-OS_CORE1_TASK(31){}
+OS_CORE1_TASK(11)
+{
+  App_priv1_func_task_test_count(CURR_TASK_ID);
+}
+OS_CORE1_TASK(12)
+{
+  App_priv1_func_task_test_count(CURR_TASK_ID);
+}
+OS_CORE1_TASK(13)
+{
+  App_priv1_func_task_test_count(CURR_TASK_ID);
+}
+OS_CORE1_TASK(14)
+{
+  App_priv1_func_task_test_count(CURR_TASK_ID);
+}
+OS_CORE1_TASK(15)
+{
+  App_priv1_func_task_test_count(CURR_TASK_ID);
+}
+OS_CORE1_TASK(16)
+{
+  App_priv1_func_task_test_count(CURR_TASK_ID);
+}
+OS_CORE1_TASK(17)
+{
+  App_priv1_func_task_test_count(CURR_TASK_ID);
+}
+OS_CORE1_TASK(18)
+{
+  App_priv1_func_task_test_count(CURR_TASK_ID);
+}
+OS_CORE1_TASK(19)
+{
+  App_priv1_func_task_test_count(CURR_TASK_ID);
+}
+OS_CORE1_TASK(20)
+{
+  App_priv1_func_task_test_count(CURR_TASK_ID);
+}
+OS_CORE1_TASK(21)
+{
+  App_priv1_func_task_test_count(CURR_TASK_ID);
+}
+OS_CORE1_TASK(22)
+{
+  App_priv1_func_task_test_count(CURR_TASK_ID);
+}
+OS_CORE1_TASK(23)
+{
+  App_priv1_func_task_test_count(CURR_TASK_ID);
+}
+OS_CORE1_TASK(24)
+{
+  App_priv1_func_task_test_count(CURR_TASK_ID);
+}
+OS_CORE1_TASK(25)
+{
+  App_priv1_func_task_test_count(CURR_TASK_ID);
+}
+OS_CORE1_TASK(26)
+{
+  App_priv1_func_task_test_count(CURR_TASK_ID);
+}
+OS_CORE1_TASK(27)
+{
+  App_priv1_func_task_test_count(CURR_TASK_ID);
+}
+OS_CORE1_TASK(28)
+{
+  App_priv1_func_task_test_count(CURR_TASK_ID);
+}
+OS_CORE1_TASK(29)
+{
+  App_priv1_func_task_test_count(CURR_TASK_ID);
+}
+OS_CORE1_TASK(30)
+{
+  App_priv1_func_task_test_count(CURR_TASK_ID);
+}
+OS_CORE1_TASK(31)
+{
+  App_priv1_func_task_test_count(CURR_TASK_ID);
+}
 OS_CORE1_TASK(32){}
 OS_CORE1_TASK(33){}
 OS_CORE1_TASK(34){}

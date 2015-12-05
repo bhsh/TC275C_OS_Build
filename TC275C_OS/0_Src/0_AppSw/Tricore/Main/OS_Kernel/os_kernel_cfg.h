@@ -64,7 +64,7 @@
 /****************************************************************************/
 /* Stack size when one stack block                                          */
 /****************************************************************************/
-#define CORE0_STACK_SIZE     STACK_SIZE_KB(1)
+#define CORE0_STACK_SIZE     STACK_SIZE_KB(2)
 #define CORE1_STACK_SIZE     STACK_SIZE_KB(1)
 #define CORE2_STACK_SIZE     STACK_SIZE_KB(1)
 

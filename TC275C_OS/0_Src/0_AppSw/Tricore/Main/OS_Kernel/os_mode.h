@@ -33,8 +33,8 @@
 /****************************************************************************/
 /* MEASURE MODE SELECTION                                                   */
 /****************************************************************************/
-#define MEASURE_MODE     STACK_CONTEXT_MEASURE
-//#define MEASURE_MODE     CPULOAD_MEASURE
+//#define MEASURE_MODE     STACK_CONTEXT_MEASURE
+#define MEASURE_MODE     CPULOAD_MEASURE
 
 /****************************************************************************/
 /* MEASURE SWITCH                                                           */

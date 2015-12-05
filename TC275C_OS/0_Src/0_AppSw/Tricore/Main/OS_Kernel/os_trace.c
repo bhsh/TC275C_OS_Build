@@ -19,7 +19,7 @@
 /* Macro Definitions                                                        */
 /****************************************************************************/
 #define TRACE_MAX_CORE_NUM    (3)
-#define TRACE_MAX_THREAD_NUM  (11)
+#define TRACE_MAX_THREAD_NUM  (101)
 
 /****************************************************************************/
 /* Type Definitions                                                         */
