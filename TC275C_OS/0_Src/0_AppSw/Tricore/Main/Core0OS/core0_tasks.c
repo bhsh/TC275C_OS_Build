@@ -12,6 +12,7 @@
 #include "shared_appsw.h"
 #include "priv0_appsw.h"
 #include "os_task.h"
+//#include "low_driver_port.h"
 
 /****************************************************************************/
 /* <CORE0> Macro Definitions                                                */
@@ -168,7 +169,7 @@ OS_CORE0_TASK(0)
 /****************************************************************************/
 OS_CORE0_TASK(1)
 {
-  App_priv0_func_task_test_count(CURR_TASK_ID);
+ // App_priv0_func_task_test_count(CURR_TASK_ID);
  // App_shared_func_flash_led_1();
   core0_test1++;
 }
@@ -178,12 +179,6 @@ OS_CORE0_TASK(2)
   //App_shared_func_flash_led_2();
   core0_test2++;
   core0_init_count = Task_Obtain_OS_Tick(0);
-
-#if (MEASURE_MODE == CPULOAD_MEASURE)
-  #if(CPULOAD_MEASURE_SWITCH == ON)
-    App_priv0_func_cpuload_calculated();
-  #endif
-#endif
 }
 OS_CORE0_TASK(3)
 {
@@ -675,9 +670,26 @@ OS_CORE0_TASK(99)
   App_priv0_func_task_test_count(CURR_TASK_ID);
   core0_test99++;
 }
+//volatile unsigned int test_Begin_timeslot;
+//volatile unsigned int test_Deltatime;
+//volatile unsigned int test_priv0_var_CPU_Load_Backg_Count;
+//volatile unsigned int test_priv0_var_state_machine_state = 1;
 OS_CORE0_TASK(100)
 {
   App_priv0_func_task_test_count(CURR_TASK_ID);
+  //test_priv0_var_CPU_Load_Backg_Count = 0;
+  //test_Begin_timeslot = LowDriver_GetStm0_LowerCount();
+  // while((test_priv0_var_CPU_Load_Backg_Count < 1000000)&&(test_priv0_var_state_machine_state == 1 ))
+  //{
+  //   test_priv0_var_CPU_Load_Backg_Count++;
+  //}
+  //test_Deltatime = LowDriver_GetStm0_LowerCount() - test_Begin_timeslot;
+  //test_priv0_var_CPU_Load_Backg_Count = 0;
+#if (MEASURE_MODE == CPULOAD_MEASURE)
+  #if(CPULOAD_MEASURE_SWITCH == ON)
+    App_priv0_func_cpuload_calculated();
+  #endif
+#endif
   core0_test100++;
   core0_end_count   = Task_Obtain_OS_Tick(0);
   core0_delta_count = core0_end_count - core0_init_count;  

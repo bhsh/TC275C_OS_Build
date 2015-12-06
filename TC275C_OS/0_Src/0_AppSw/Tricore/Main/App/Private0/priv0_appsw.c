@@ -19,8 +19,8 @@
 /* Macro Definitions                                                        */
 /****************************************************************************/
 #define  CORE0_TASK_NUM                (101)
-#define  CORE0_TOTAL_COUNT             (0xFFFFFFFF)
-#define  CORE0_TIME_PER_COUNT_NS       (60)
+#define  CORE0_TOTAL_COUNT             (20000000)
+#define  CORE0_TIME_PER_COUNT_NS       (70)//(60)
 
 /****************************************************************************/
 /* Type Definitions                                                         */
@@ -42,6 +42,7 @@ static volatile unsigned int App_priv0_var_test_count;
 
 static volatile unsigned int App_priv0_var_task_test_count[CORE0_TASK_NUM];
 static volatile unsigned int App_priv0_var_CPU_Load_Backg_Count;
+static volatile unsigned int App_priv0_var_CPU_Load_Backg_Count_temp;
 static volatile unsigned int App_priv0_var_CPU_load;
 static APP_PRIV0_CPU_LOAD_LOGIC_STATUS_t App_priv0_var_state_machine_state = RUNNING;
 static volatile unsigned int App_priv0_var_context_usage_percent;
@@ -90,11 +91,17 @@ void App_priv0_func_task_test_count(unsigned int channel)
 {
   App_priv0_var_task_test_count[channel]++;
 
-  unsigned int i,j;
-  for(i = 0 ; i <3000; i++)
+  if((channel != 1)||
+  	 (channel != 2)||
+  	 (channel != 100))
   {
-      for(j = 0; j <100; j++)
-	  App_priv0_temp =j+i;
+    unsigned int i,j;
+    //for(i = 0 ; i <1000; i++)
+    for(i = 0 ; i <100; i++) // 1ms 500
+    {
+        for(j = 0; j <100; j++)
+  	    App_priv0_temp =j+i;
+    }
   }
 }  /* End of function App_priv0_func_task_test_count */
 
@@ -103,7 +110,7 @@ void App_priv0_func_task_test_count(unsigned int channel)
 /* DESCRIPTION: Update the cpuload count in background logic                */
 /****************************************************************************/
 void App_priv0_func_cpuload_bkg_count(void)
-{
+{ 
   while((App_priv0_var_CPU_Load_Backg_Count < CORE0_TOTAL_COUNT)&&(App_priv0_var_state_machine_state == RUNNING ))
   {
      App_priv0_var_CPU_Load_Backg_Count++;
@@ -115,7 +122,7 @@ void App_priv0_func_cpuload_bkg_count(void)
 /* DESCRIPTION: Calculate the current cpuload                               */
 /****************************************************************************/
 void App_priv0_func_cpuload_calculated(void)
-{
+{ 
   /*<CPU load> can be got here. <Section begins> */
   /* Core0_CPU_LOAD = (Core0_CPU_Load_Background_Count * 100)/(1000*1000); */
   if(App_priv0_var_CPU_Load_Backg_Count < CORE0_TOTAL_COUNT)
@@ -127,6 +134,7 @@ void App_priv0_func_cpuload_calculated(void)
     App_priv0_var_CPU_load = 0;
   }
   //App_priv0_var_state_machine_state = RUNNING;
+  App_priv0_var_CPU_Load_Backg_Count_temp = App_priv0_var_CPU_Load_Backg_Count;
   App_priv0_var_CPU_Load_Backg_Count = 0;
   /*<CPU load> can be got here. <Section ends> */
 }  /* End of function App_priv0_func_cpuload_calculated */
