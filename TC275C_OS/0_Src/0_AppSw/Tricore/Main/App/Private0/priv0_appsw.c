@@ -98,7 +98,7 @@ void App_priv0_func_one_stack_measured(void)
 /****************************************************************************/
 void App_priv0_func_task_test_count(unsigned int channel)
 {
- // App_priv0_var_task_test_count[channel]++;
+  App_priv0_var_task_test_count[channel]++;
     switch(channel)
   {
    case 0:
