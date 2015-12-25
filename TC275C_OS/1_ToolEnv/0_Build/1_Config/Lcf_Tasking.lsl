@@ -38,9 +38,16 @@
 #define LCF_ISTACK1_OFFSET	(LCF_CSA1_OFFSET - 256 - LCF_ISTACK1_SIZE)
 #define LCF_USTACK1_OFFSET	(LCF_ISTACK1_OFFSET - 256 - LCF_USTACK1_SIZE)
 
-#define LCF_CSA0_OFFSET		(LCF_DSPR0_SIZE - 1k - LCF_CSA0_SIZE)
-#define LCF_ISTACK0_OFFSET	(LCF_CSA0_OFFSET - 256 - LCF_ISTACK0_SIZE)
-#define LCF_USTACK0_OFFSET	(LCF_ISTACK0_OFFSET - 256 - LCF_USTACK0_SIZE)
+//#define LCF_CSA0_OFFSET		(LCF_DSPR0_SIZE - 1k - LCF_CSA0_SIZE)
+//#define LCF_ISTACK0_OFFSET	(LCF_CSA0_OFFSET - LCF_ISTACK0_SIZE)
+//#define LCF_USTACK0_OFFSET	(LCF_ISTACK0_OFFSET - LCF_USTACK0_SIZE)
+
+// changed by Yanpeng
+#define LCF_ISTACK0_OFFSET	(LCF_DSPR0_SIZE - 1k - LCF_ISTACK0_SIZE)
+#define LCF_USTACK0_OFFSET	(LCF_ISTACK0_OFFSET - LCF_USTACK0_SIZE)
+#define LCF_CSA0_OFFSET		(LCF_USTACK0_OFFSET - LCF_CSA0_SIZE)
+
+
 
 #define LCF_HEAP0_OFFSET	(LCF_USTACK0_OFFSET - LCF_HEAP_SIZE)
 #define LCF_HEAP1_OFFSET	(LCF_USTACK1_OFFSET - LCF_HEAP_SIZE)
@@ -441,14 +448,14 @@ derivative tc27A
 	    "__CSA1":=		"_lc_ub_csa_tc1";
 		"__CSA1_END":=	"_lc_ue_csa_tc1";
 
-		group (ordered, align = 8, run_addr = mem:dsram0[LCF_USTACK0_OFFSET])
+		group ustack_tc0_test(ordered, align = 8, run_addr = mem:dsram0[LCF_USTACK0_OFFSET])
 	    {
 	       	stack "ustack_tc0" (size = LCF_USTACK0_SIZE);
 	    }
 	    "__USTACK0":=	"_lc_ue_ustack_tc0";
 	    "__USTACK0_END":="_lc_ub_ustack_tc0";
 	        
-	    group (ordered, align = 8, run_addr = mem:dsram0[LCF_ISTACK0_OFFSET])
+	    group istack_tc0_test(ordered, align = 8, run_addr = mem:dsram0[LCF_ISTACK0_OFFSET])
 	    {
 	       	stack "istack_tc0" (size = LCF_ISTACK0_SIZE);
 	    }
