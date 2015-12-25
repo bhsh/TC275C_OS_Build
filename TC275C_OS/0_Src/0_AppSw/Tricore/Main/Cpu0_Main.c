@@ -40,17 +40,18 @@ App_Cpu0 g_AppCpu0; /**< \brief CPU 0 global data */
 unsigned long  lock=1; // 1 means available,
 unsigned long mask=1;
 
-
+//SYSCON
+//unsigned int CPU_SYSCON_Temp;
 int core0_main (void)
 {
-	unsigned int i=0;
-    unsigned int *p; 
-    p=(unsigned int*)0xc0000000;
-	*p++=0x000ccf85;
-	*p++=0xcfa51fc2;
-	*p++=0x9000000c;
-	*p=0x000c5f85;
-	
+
+
+	// Enable memory protection
+	//CPU_SYSCON_Temp = __mfcr(CPU_SYSCON);
+	//CPU_SYSCON_Temp = CPU_SYSCON_Temp|(1<<1);
+	//__mtcr(CPU_SYSCON,CPU_SYSCON_Temp);
+
+
     /*
      * !!WATCHDOG0 AND SAFETY WATCHDOG ARE DISABLED HERE!!
      * Enable the watchdog in the demo if it is required and also service the watchdog periodically
