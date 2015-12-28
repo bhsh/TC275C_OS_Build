@@ -91,7 +91,12 @@ void _Core0_start(void)
     IFX_CFG_CPU_CSTART_PRE_C_INIT_HOOK(0);  /*Test Stack, CSA and Cache */
 
     /* Load user stack pointer */
+#if 1
     __setareg(sp, __USTACK(0));
+#else
+    __setareg(sp, 0x70019880);
+#endif
+
     __dsync();
 
     /* Set the PSW to its reset value in case of a warm start,clear PSW.IS */
@@ -120,43 +125,6 @@ void _Core0_start(void)
     /* Load interupt stack pointer. */
     __mtcr(CPU_ISP, (uint32)__ISTACK(0));
 
-	
-	// Code Cache + Data Cache
-	//__mtcr (CPU_PCON0, 0);      // enable code cache
-	//__mtcr (CPU_DCON0, 0);      // enable data cache
-
-	// see errata sheet CPU_TC.H007, needed for TC1.6P (CPU1 and CPU2)
-	// enable memory protection to avoid SRI interrupt on speculative fetch in case we go to sleep
-	// we execute code only from flash (segment 8) and PSPRx (segment C)
-	__mtcr (CPU_CPR0_U, 0xC0006000);
-	__mtcr (CPU_CPR0_L, 0xC0000000);
-	__mtcr (CPU_CPR1_U, 0x80400000);
-	__mtcr (CPU_CPR1_L, 0x80000000);
-	__mtcr (CPU_CPXE0, 0x00000003);
-	// data access from/to pflash (segment 8 and A), data access from/to dflash0 (segment A), DSPRx (segment D), LMURAM/EDRAM (segment B)and peripherals (segment F)
-	__mtcr (CPU_DPR0_U, 0x80400000);
-	__mtcr (CPU_DPR0_L, 0x80000000);
-	__mtcr (CPU_DPR1_U, 0xA0400000);
-	__mtcr (CPU_DPR1_L, 0xA0000000);
-	__mtcr (CPU_DPR2_U, 0xAF104000);
-	__mtcr (CPU_DPR2_L, 0xAF000000);
-	__mtcr (CPU_DPR3_U, 0xD001F000);
-	__mtcr (CPU_DPR3_L, 0xD0000000);
-	__mtcr (CPU_DPR4_U, 0xBF100000);
-	__mtcr (CPU_DPR4_L, 0xB0000000);
-	__mtcr (CPU_DPR5_U, 0xFFFFFFFF);
-	__mtcr (CPU_DPR5_L, 0xF0000000);
-
-    // The csa section can't be entered by CPU after the csa is initialized
-	__mtcr (CPU_DPR6_U, 0x7001b7c0);
-	__mtcr (CPU_DPR6_L, 0x700197c0);
-	
-	__mtcr (CPU_DPRE0, 0x0000007F);
-	__mtcr (CPU_DPWE0, 0x0000003F);
-	//enable memory protection
-	__mtcr (CPU_SYSCON, 0x2);
-	__dsync ();
-
     IfxScuWdt_setCpuEndinitInline(&MODULE_SCU.WDTCPU[0], cpuWdtPassword);
 
     /* initialize SDA base pointers */
@@ -184,7 +152,7 @@ void _Core0_start(void)
 
     /*Initialize the clock system */
     IFXCPU_CSTART_CCU_INIT_HOOK();
-
+	
     /*Start remaining cores */
 #if (IFX_CFG_CPU_CSTART_ENABLE_TRICORE1 != 0)
     (void)IfxCpu_startCore(&MODULE_CPU1, (uint32)&_Core1_start);       /*The status returned by function call is ignored */

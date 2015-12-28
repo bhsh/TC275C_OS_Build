@@ -270,7 +270,12 @@ IFX_INLINE void* __getA11(void)
     __asm__ volatile ("mov.aa %0, a11": "=a" (res) : :"a11");
     return res;
 }
-
+IFX_INLINE void* __getUstack(void)
+{
+	uint32 *res;   
+	__asm__ volatile ("mov.aa %0, a10": "=a" (res) : :"a10");    
+	return res;
+}
 IFX_INLINE void __setStackPointer(void *stackAddr)
 {
     __asm__ volatile ("mov.aa a10, %0": : "a" (stackAddr) :"a10");

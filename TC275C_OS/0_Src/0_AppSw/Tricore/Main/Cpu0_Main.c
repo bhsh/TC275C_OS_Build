@@ -1,72 +1,46 @@
 #include "Cpu0_Main.h"
 #include "SysSe/Bsp/Bsp.h"
-//#include "DemoApp.h"
 #include "communication.h"
-
-
 
 #include "Compilers.h"
 #include "Cpu\Std\IfxCpu_Intrinsics.h"
 #include "Port\Io\IfxPort_Io.h"
 #include "Stm\Std\IfxStm.h"
 #include "Src\Std\IfxSrc.h"
-#include "Gtm\Std\IfxGtm.h"
-#include "Gtm\Std\IfxGtm_Atom.h"
-#include "Gtm\Std\IfxGtm_Tom.h"
-#include "Gtm\Std\IfxGtm_Tim.h"
-#include "Gtm\Tom\Timer\IfxGtm_Tom_Timer.h"
-#include "Gtm\Tom\PwmHl\IfxGtm_Tom_PwmHl.h"
-#include "Gtm\Trig\IfxGtm_Trig.h"
-#include "IfxGtm_PinMap.h"
-//#include "DemoApp.h
 
+void test_func(void);
+void STM_Demo_init(void);
+int math1(int a,int b,int c,int d,int e ,int f,int g);
+int math2(int a,int b,int c,int d,int e ,int f,int g);
+int math3(int a,int b,int c,int d,int e ,int f,int g);
 
 #define STM0_TICK_PERIOD_IN_MICROSECONDS 1000
 #define IFX_CFG_ISR_PRIORITY_STM0_COMPARE0	10 /**< \brief Stm0 Compare 0 interrupt priority.  */
-unsigned char Data_pointer = 0;
 uint32 stm0CompareValue;
-unsigned int Data_array[100];
-uint32 Update_flag = 0;
-uint32 Up_Down_flag = 0;
-float32 PwmFrequency;
-uint32 PwmPeriod;
-uint32 PwmDuty;
-IfxGtm_Cmu_Clk PwmGtmCmuClk = IfxGtm_Cmu_Clk_0;
-
-
-
-
 App_Cpu0 g_AppCpu0; /**< \brief CPU 0 global data */
 unsigned long  lock=1; // 1 means available,
 unsigned long mask=1;
 
-//SYSCON
-//unsigned int CPU_SYSCON_Temp;
-
-uint32 core0_switch_context_count_test;
-
 extern  uint32 _lc_ue_ustack_tc0[];  /* user stack end */
-
 volatile uint32 ustack_end_address=(uint32)(_lc_ue_ustack_tc0);
 volatile uint32 ustack_used_size_in_byte;
 volatile uint32 ustack_address;
-
 volatile uint32 tick_begin;
 volatile uint32 tick_end;
 volatile uint32 ticks_in_10ns;
+int math_test;
+
+#define NUM 5
+volatile unsigned int test_count[NUM];
 
  void test_ustack(void)
 {
    ustack_address            = (unsigned int)__getUstack();
    ustack_used_size_in_byte  = ustack_end_address - ustack_address;
 }
- int math_test;
-
- int math1(int a,int b,int c,int d,int e ,int f,int g);
- int math2(int a,int b,int c,int d,int e ,int f,int g);
- int math3(int a,int b,int c,int d,int e ,int f,int g);
- int math1(int a,int b,int c,int d,int e ,int f,int g)
- {
+ 
+int math1(int a,int b,int c,int d,int e ,int f,int g)
+{
 
     int a1=1;
     int b1=2;
@@ -88,7 +62,6 @@ volatile uint32 ticks_in_10ns;
     total=a1+b1*2+c1+d1*6+d1+f1+g1+e1*4+2;
 
     math_test=math2(7,6,5,4,3,2,1);
-    test_ustack();
 
     return total;
  }
@@ -116,8 +89,6 @@ volatile uint32 ticks_in_10ns;
     total=a1+b1*2+c1+d1*6+d1+f1+g1+e1*4+2;
 
     math_test=math3(7,6,5,4,3,2,1);
-    //test_ustack();
-
     return total;
  }
  int math3(int a,int b,int c,int d,int e ,int f,int g)
@@ -142,20 +113,95 @@ volatile uint32 ticks_in_10ns;
 
     total=a1+b1*2+c1+d1*6+d1+f1+g1+e1*4+2;
 
-    //math_test=math3(7,6,5,4,3,2,1);
-    test_ustack();
+    test_func();
 
     return total;
  }
+
+void test_func(void)
+{  
+   unsigned int temp_count1[NUM];
+   unsigned int temp_count2[NUM];
+   unsigned int i,j,k;
+
+   for(i=0;i<NUM;i++)
+   {
+     temp_count1[i] = 0;
+     temp_count2[i] = 0;
+   }
+   for(j=0;j<NUM;j++)
+   {
+     temp_count1[j] = 5+j;
+	 temp_count2[j] = 3+j;
+   }
+   for(k=0;k<NUM;k++)
+   {
+	 temp_count2[k] = 2*temp_count1[k] + temp_count2[k]-1;
+   }
+   for(k=0;k<NUM;k++)
+   {
+	 test_count[k] = 2*temp_count2[k]-1;
+   }
+   test_ustack();
+}
+
 int core0_main (void)
 {
+	uint16 endinitPw;
+    endinitPw = IfxScuWdt_getCpuWatchdogPassword ();
+	//IfxScuWdt_clearCpuEndinit(endinitPw);
+	// Code Cache + Data Cache
+	//__mtcr (CPU_PCON0, 0);      // enable code cache
+	//__mtcr (CPU_DCON0, 0);      // enable data cache
+
+	// see errata sheet CPU_TC.H007, needed for TC1.6P (CPU1 and CPU2)
+	// enable memory protection to avoid SRI interrupt on speculative fetch in case we go to sleep
+	// we execute code only from flash (segment 8) and PSPRx (segment C)
+	__mtcr (CPU_CPR0_U, 0xC0006000);
+	__mtcr (CPU_CPR0_L, 0xC0000000);
+	__mtcr (CPU_CPR0_U, 0xA0400000);
+    __mtcr (CPU_CPR0_L, 0xA0000000);
+	__mtcr (CPU_CPR1_U, 0x80400000);
+	__mtcr (CPU_CPR1_L, 0x80000000);
+
+	__mtcr (CPU_CPXE0, 0x00000007);
+	
+	// data access from/to pflash (segment 8 and A), data access from/to dflash0 (segment A), DSPRx (segment D), LMURAM/EDRAM (segment B)and peripherals (segment F)
+	__mtcr (CPU_DPR0_U, 0x80400000);
+	__mtcr (CPU_DPR0_L, 0x80000000);
+	__mtcr (CPU_DPR1_U, 0xA0400000);
+    __mtcr (CPU_DPR1_L, 0xA0000000);
+	__mtcr (CPU_DPR2_U, 0xAF104000);
+	__mtcr (CPU_DPR2_L, 0xAF000000);
+	__mtcr (CPU_DPR3_U, 0xD001F000);
+	__mtcr (CPU_DPR3_L, 0xD0000000);
+	__mtcr (CPU_DPR4_U, 0xBF100000);
+	__mtcr (CPU_DPR4_L, 0xB0000000);
+	__mtcr (CPU_DPR5_U, 0xFFFFFFFF);
+	__mtcr (CPU_DPR5_L, 0xF0000000);
+
+    // The csa section can't be entered by CPU after the csa is initialized
+	
+	__mtcr (CPU_DPR6_U, 0x6001F000);
+	__mtcr (CPU_DPR6_L, 0x60000000);
+	__mtcr (CPU_DPR7_U, 0x5001F000);
+	__mtcr (CPU_DPR7_L, 0x50000000);
 
 
-	// Enable memory protection
-	//CPU_SYSCON_Temp = __mfcr(CPU_SYSCON);
-	//CPU_SYSCON_Temp = CPU_SYSCON_Temp|(1<<1);
-	//__mtcr(CPU_SYSCON,CPU_SYSCON_Temp);
+	__mtcr (CPU_DPR8_U, 0x7001F000);
+	__mtcr (CPU_DPR8_L, 0x7001b7c0);	
+	__mtcr (CPU_DPR9_U, 0x7001b7c0);
+	__mtcr (CPU_DPR9_L, 0x700197c0);
+	__mtcr (CPU_DPR10_U, 0x700197c0);
+	__mtcr (CPU_DPR10_L, 0x70000000);
 
+	__mtcr (CPU_DPRE0, 0x000007FF);
+	__mtcr (CPU_DPWE0, 0x000005FF);
+	//enable memory protection
+	__mtcr (CPU_SYSCON, 0x2);
+	__dsync ();
+
+    //IfxScuWdt_setCpuEndinit(endinitPw);
 
     /*
      * !!WATCHDOG0 AND SAFETY WATCHDOG ARE DISABLED HERE!!
@@ -170,6 +216,8 @@ int core0_main (void)
     g_AppCpu0.info.sysFreq = IfxScuCcu_getSpbFrequency();
     g_AppCpu0.info.stmFreq = IfxStm_getFrequency(&MODULE_STM0);
 
+    STM_Demo_init();
+	
     /* Enable the global interrupts of this CPU */
     IfxCpu_enableInterrupts();
 
@@ -185,36 +233,13 @@ int core0_main (void)
 
     /* background endless loop */
 
-    //math1(7,6,5,4,3,2,1);
-    //while (1)
+    
+    while (1)
     {
-    	//synchronizeCore0Core1();
-    	//communicationCore0Core1_ptr->core0Ready = 1;
-    	//IfxPort_togglePin(&MODULE_P33, 8);
-    	//IfxPort_togglePin(&MODULE_P33, 9);
-    	//IfxPort_togglePin(&MODULE_P33, 10);
-    	//IfxPort_togglePin(&MODULE_P33, 11);
-    	//IfxStm_waitTicks(&MODULE_STM0, g_AppCpu0.info.stmFreq/1000000);
-    	//communicationCore0Core1_ptr->core0Ready = 0;
-    	//IfxStm_waitTicks(&MODULE_STM0, g_AppCpu0.info.stmFreq/100);
+		math3(7,6,5,4,3,2,1);
     }
-
-   // while(lock==0) requestLock(&lock, mask);
-   // for(i=0;i<1000;i++)
-    while(1)
-    {
-       //IfxPort_togglePin(&MODULE_P33, 8);
-       //IfxPort_togglePin(&MODULE_P33, 9);
-
-      // test_fun_share();
-      // IfxStm_waitTicks(&MODULE_STM0, g_AppCpu0.info.stmFreq/100);
-    }
-    //releaseLock(&lock, mask);
-
-    while(1);
     return (1);
 }
-//#pragma code_core_association  private1
 
 void STM_Demo_init(void)
 {
@@ -248,44 +273,10 @@ void STM_Demo_init(void)
 IFX_INTERRUPT(Ifx_STM0_Isr,0,IFX_CFG_ISR_PRIORITY_STM0_COMPARE0)
 {
     uint32 stmTicks;
-    stmTicks= (uint32)(stm0CompareValue * 1);
+    stmTicks= (uint32)(stm0CompareValue * 100);
     IfxStm_updateCompare (&MODULE_STM0, IfxStm_Comparator_0, IfxStm_getCompare (&MODULE_STM0, IfxStm_Comparator_0) + stmTicks);
     IfxPort_togglePin(&MODULE_P33, 8);
-    Data_pointer++;
-    if(Data_pointer == 100) Data_pointer = 0;
-    Data_array[Data_pointer] = MODULE_STM0.TIM0.U;
-    __enable ();
-    if(Update_flag==1){
-    	if(Up_Down_flag == 1){
-    		PwmFrequency-=10;
-    	}else{
-    		PwmFrequency+=10;
-    	}
-
-    	if(PwmFrequency != 0){
-    	    PwmPeriod = (uint32)(IfxGtm_Cmu_getClkFrequency(&MODULE_GTM, PwmGtmCmuClk, FALSE) / PwmFrequency);
-    	    PwmDuty = (PwmPeriod * 30) / 100;
-    	}else{
-    	    	PwmPeriod = 0x100;
-    	    	PwmDuty = 0x0;
-    	}
-
-    	/*
-    	if(Up_Down_flag == 1){
-    		PwmPeriod-=100;
-    	}else{
-    		PwmPeriod+=100;
-    	}
-    	*/
-    	//PwmDuty+=100;
-    	if(PwmFrequency >= 20000) Up_Down_flag = 1;
-    	if(PwmFrequency <= 50) Up_Down_flag = 0;
-
-    	//PwmPeriod+=100;
-    	//if(PwmFrequecncy>= 200000) PwmFrequency = 100000;
-    	//IfxGtm_Atom_Ch_setCompareShadow(PwmGTMATOM, PwmGtmAtomCh, PwmPeriod, PwmDuty);
-    }
-    //CounterTick(IFX_OSTASK_COUNTER);
+	math1(7,6,5,4,3,2,1);
 }
 
 

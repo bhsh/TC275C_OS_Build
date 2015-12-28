@@ -544,9 +544,10 @@ IFX_INLINE IfxCpu_ResourceCpu IfxCpu_getCoreId(void)
     return (IfxCpu_ResourceCpu)reg.B.CORE_ID;
 }
 
-
+//#define test_mode 1
 IFX_INLINE void IfxCpu_initCSA(uint32 *csaBegin, uint32 *csaEnd)
 {
+#if 1
     uint32  k;
     uint32  nxt_cxi_val = 0;
     uint32 *prvCsa      = 0U;
@@ -571,6 +572,44 @@ IFX_INLINE void IfxCpu_initCSA(uint32 *csaBegin, uint32 *csaEnd)
 
     *prvCsa = 0;
     __mtcr(CPU_LCX, nxt_cxi_val);   /* Last context save area is pointed in LCX to know if there is CSA depletion */
+
+#else
+
+    uint32  k;
+    uint32  nxt_cxi_val = 0;
+    uint32 *prvCsa      = 0U;
+    uint32 *nxtCsa      = csaBegin;
+
+    for (k = 0; k < (((uint32)csaEnd - (uint32)csaBegin) / 64); k++)
+    {
+        nxt_cxi_val = ((uint32)nxtCsa & (0XFU << 28)) >> 12 | ((uint32)nxtCsa & (0XFFFFU << 6)) >> 6;
+
+        if (k == 0)
+        {
+            __mtcr(CPU_FCX, nxt_cxi_val);   /* store the new pcxi value to LCX */
+        }
+        else
+        {
+            *prvCsa = nxt_cxi_val;  /* Store null pointer in last CSA (= very first time!) */
+        }
+
+        prvCsa  = (uint32 *)nxtCsa;
+		if(k == 1)
+		{
+          nxtCsa += 16;           /* next CSA */
+		  nxtCsa += 16;           /* next CSA */
+		  nxtCsa += 16;           /* next CSA */
+		}
+		else
+		{
+          nxtCsa += 16;           /* next CSA */
+	    }
+    }
+
+    *prvCsa = 0;
+    __mtcr(CPU_LCX, nxt_cxi_val);   /* Last context save area is pointed in LCX to know if there is CSA depletion */
+
+#endif
 }
 
 
