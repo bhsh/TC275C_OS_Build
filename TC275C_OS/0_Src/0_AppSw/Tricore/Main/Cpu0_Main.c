@@ -22,15 +22,24 @@ unsigned long  lock=1; // 1 means available,
 unsigned long mask=1;
 
 extern  uint32 _lc_ue_ustack_tc0[];  /* user stack end */
+#if 0
 volatile uint32 ustack_end_address=(uint32)(_lc_ue_ustack_tc0);
+#else
+volatile uint32 ustack_end_address = 0x70019880;
+#endif
 volatile uint32 ustack_used_size_in_byte;
 volatile uint32 ustack_address;
 volatile uint32 tick_begin;
 volatile uint32 tick_end;
 volatile uint32 ticks_in_10ns;
 int math_test;
+volatile unsigned int temp_read_buffer0;
+volatile unsigned int temp_write_buffer0 = 7;
 
-#define NUM 5
+volatile unsigned int temp_read_buffer1;
+volatile unsigned int temp_write_buffer1 = 7;
+
+#define NUM 10
 volatile unsigned int test_count[NUM];
 
  void test_ustack(void)
@@ -142,10 +151,12 @@ void test_func(void)
    }
    test_ustack();
 }
-
-volatile unsigned int temp_buffer;
 int core0_main (void)
 {
+    // Test before the MPU is configurated
+	//*((unsigned int *)(0x7001b7b0)) = temp_write_buffer1;
+	//temp_read_buffer1 = *((unsigned int *)(0x7001b7b0));
+	
 	// enable memory protection to avoid SRI interrupt on speculative fetch in case we go to sleep
 	// we execute code only from flash (segment 8) and PSPRx (segment C)
 	__mtcr (CPU_CPR0_U, 0xC0006000);
@@ -175,6 +186,7 @@ int core0_main (void)
 	__mtcr (CPU_DPR7_U, 0x5001F000);
 	__mtcr (CPU_DPR7_L, 0x50000000);
 
+#if 0
 	__mtcr (CPU_DPR8_U, 0x7001F000);
 	__mtcr (CPU_DPR8_L, 0x7001b7c0);
 	
@@ -187,6 +199,28 @@ int core0_main (void)
 
 	__mtcr (CPU_DPRE0, 0x000005FF);
 	__mtcr (CPU_DPWE0, 0x000005FF);
+#else
+	__mtcr (CPU_DPR8_U, 0x7001F000);  // upper that csa section
+	__mtcr (CPU_DPR8_L, 0x7001b7c0);
+	
+	// The csa section can't be entered by CPU after the csa is initialized
+	__mtcr (CPU_DPR9_U, 0x7001b7c0);  // csa section from 3 - ...
+	__mtcr (CPU_DPR9_L, 0x70019880);
+
+	__mtcr (CPU_DPR10_U, 0x70019880); // the user stack 64 bytes
+	__mtcr (CPU_DPR10_L, 0x70019840);
+
+	__mtcr (CPU_DPR11_U, 0x70019840); // csa section 0-1
+	__mtcr (CPU_DPR11_L, 0x700197c0);
+
+	__mtcr (CPU_DPR12_U, 0x700197c0); // lower that csa section
+	__mtcr (CPU_DPR12_L, 0x70000000);
+
+	__mtcr (CPU_DPRE0, 0x000015FF);
+	__mtcr (CPU_DPWE0, 0x000015FF);
+
+#endif
+
 	//enable memory protection
 	__mtcr (CPU_SYSCON, 0x2);
 	__dsync ();
@@ -218,11 +252,13 @@ int core0_main (void)
     IfxPort_setPinMode(&MODULE_P33, 10,  IfxPort_Mode_outputPushPullGeneral);
     // configure P33.9 as general output
     IfxPort_setPinMode(&MODULE_P33, 11,  IfxPort_Mode_outputPushPullGeneral);
+  
 
-    /* background endless loop */
-    //*((unsigned int *)(0x7001b7b0)) = 7;
-	temp_buffer = *((unsigned int *)(0x7001b7b0));
+	//Test after the MPU is configurated
+    //*((unsigned int *)(0x7001b7b0)) = temp_write_buffer0;
+	//temp_read_buffer0 = *((unsigned int *)(0x7001b7b0));
 	
+    /* background endless loop */
     while (1)
     {
 	  test_func();

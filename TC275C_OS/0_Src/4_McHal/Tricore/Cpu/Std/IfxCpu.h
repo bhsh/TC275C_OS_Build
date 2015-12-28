@@ -547,7 +547,7 @@ IFX_INLINE IfxCpu_ResourceCpu IfxCpu_getCoreId(void)
 //#define test_mode 1
 IFX_INLINE void IfxCpu_initCSA(uint32 *csaBegin, uint32 *csaEnd)
 {
-#if 1
+#if 0
     uint32  k;
     uint32  nxt_cxi_val = 0;
     uint32 *prvCsa      = 0U;
@@ -597,7 +597,6 @@ IFX_INLINE void IfxCpu_initCSA(uint32 *csaBegin, uint32 *csaEnd)
 		if(k == 1)
 		{
           nxtCsa += 16;           /* next CSA */
-		  nxtCsa += 16;           /* next CSA */
 		  nxtCsa += 16;           /* next CSA */
 		}
 		else

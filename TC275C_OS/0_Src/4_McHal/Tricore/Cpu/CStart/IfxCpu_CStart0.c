@@ -91,11 +91,8 @@ void _Core0_start(void)
     IFX_CFG_CPU_CSTART_PRE_C_INIT_HOOK(0);  /*Test Stack, CSA and Cache */
 
     /* Load user stack pointer */
-#if 1
     __setareg(sp, __USTACK(0));
-#else
     __setareg(sp, 0x70019880);
-#endif
 
     __dsync();
 
