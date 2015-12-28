@@ -113,8 +113,6 @@ int math1(int a,int b,int c,int d,int e ,int f,int g)
 
     total=a1+b1*2+c1+d1*6+d1+f1+g1+e1*4+2;
 
-    test_func();
-
     return total;
  }
 
@@ -145,16 +143,9 @@ void test_func(void)
    test_ustack();
 }
 
+volatile unsigned int temp_buffer;
 int core0_main (void)
 {
-	uint16 endinitPw;
-    endinitPw = IfxScuWdt_getCpuWatchdogPassword ();
-	//IfxScuWdt_clearCpuEndinit(endinitPw);
-	// Code Cache + Data Cache
-	//__mtcr (CPU_PCON0, 0);      // enable code cache
-	//__mtcr (CPU_DCON0, 0);      // enable data cache
-
-	// see errata sheet CPU_TC.H007, needed for TC1.6P (CPU1 and CPU2)
 	// enable memory protection to avoid SRI interrupt on speculative fetch in case we go to sleep
 	// we execute code only from flash (segment 8) and PSPRx (segment C)
 	__mtcr (CPU_CPR0_U, 0xC0006000);
@@ -179,29 +170,26 @@ int core0_main (void)
 	__mtcr (CPU_DPR4_L, 0xB0000000);
 	__mtcr (CPU_DPR5_U, 0xFFFFFFFF);
 	__mtcr (CPU_DPR5_L, 0xF0000000);
-
-    // The csa section can't be entered by CPU after the csa is initialized
-	
 	__mtcr (CPU_DPR6_U, 0x6001F000);
 	__mtcr (CPU_DPR6_L, 0x60000000);
 	__mtcr (CPU_DPR7_U, 0x5001F000);
 	__mtcr (CPU_DPR7_L, 0x50000000);
 
-
 	__mtcr (CPU_DPR8_U, 0x7001F000);
-	__mtcr (CPU_DPR8_L, 0x7001b7c0);	
+	__mtcr (CPU_DPR8_L, 0x7001b7c0);
+	
+	// The csa section can't be entered by CPU after the csa is initialized
 	__mtcr (CPU_DPR9_U, 0x7001b7c0);
 	__mtcr (CPU_DPR9_L, 0x700197c0);
+
 	__mtcr (CPU_DPR10_U, 0x700197c0);
 	__mtcr (CPU_DPR10_L, 0x70000000);
 
-	__mtcr (CPU_DPRE0, 0x000007FF);
+	__mtcr (CPU_DPRE0, 0x000005FF);
 	__mtcr (CPU_DPWE0, 0x000005FF);
 	//enable memory protection
 	__mtcr (CPU_SYSCON, 0x2);
 	__dsync ();
-
-    //IfxScuWdt_setCpuEndinit(endinitPw);
 
     /*
      * !!WATCHDOG0 AND SAFETY WATCHDOG ARE DISABLED HERE!!
@@ -232,11 +220,12 @@ int core0_main (void)
     IfxPort_setPinMode(&MODULE_P33, 11,  IfxPort_Mode_outputPushPullGeneral);
 
     /* background endless loop */
-
-    
+    //*((unsigned int *)(0x7001b7b0)) = 7;
+	temp_buffer = *((unsigned int *)(0x7001b7b0));
+	
     while (1)
     {
-		math3(7,6,5,4,3,2,1);
+	  test_func();
     }
     return (1);
 }
@@ -270,6 +259,10 @@ void STM_Demo_init(void)
 	IfxStm_initCompare(&MODULE_STM0, &stmCompareConfig);
 
 }
+
+
+
+
 IFX_INTERRUPT(Ifx_STM0_Isr,0,IFX_CFG_ISR_PRIORITY_STM0_COMPARE0)
 {
     uint32 stmTicks;
